@@ -1,0 +1,24 @@
+{
+  "presets": [
+    "es2015",
+    "react"
+  ],
+  "plugins": [
+    "dev-expression",
+    "transform-object-rest-spread",
+  ],
+  "env": {
+    "test": {
+      "plugins": [
+        [
+          "istanbul",
+          {
+            "include": [
+              "src/**/*.js"
+            ]
+          }
+        ]
+      ]
+    }
+  }
+}

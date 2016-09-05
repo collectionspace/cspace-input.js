@@ -1,0 +1,23 @@
+.common {
+  composes: defaults from './shared.css';
+  margin: 0;
+  outline: none;
+  border: 0;
+  border-radius: 3px;
+  padding: 6px;
+
+  color: #FFFFFF;
+  background-color: #73AA4F;
+}
+
+.common:hover {
+  background-color: #4A7F28;
+}
+
+.common:focus {
+  box-shadow: 0 0 0 2px #4A7F28;
+}
+
+.common::-moz-focus-inner {
+  border: 0;
+}

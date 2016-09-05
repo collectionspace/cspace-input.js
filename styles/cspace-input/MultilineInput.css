@@ -1,0 +1,5 @@
+.common {
+  composes: common from './TextInput.css';
+  height: 80px;
+  resize: none;
+}
