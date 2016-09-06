@@ -35,6 +35,7 @@ describe('ReadOnlyInput', function suite() {
     render(<ReadOnlyInput value={value} />, this.container);
 
     const measuringStick = createInvisible('div');
+    measuringStick.className = 'cspace-input-ReadOnlyInput--common cspace-input-shared--defaults';
     measuringStick.textContent = lines[0];
 
     this.container.firstElementChild.textContent.should.equal(value);
@@ -50,6 +51,7 @@ describe('ReadOnlyInput', function suite() {
     render(<ReadOnlyInput value={value} />, this.container);
 
     const measuringStick = createInvisible('div');
+    measuringStick.className = 'cspace-input-ReadOnlyInput--common cspace-input-shared--defaults';
     measuringStick.textContent = parts[0];
 
     this.container.firstElementChild.textContent.should.equal(value);
