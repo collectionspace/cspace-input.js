@@ -14,7 +14,7 @@
           "istanbul",
           {
             "include": [
-              "src/**/*.js"
+              "src/**/*.(js|jsx)"
             ]
           }
         ]
