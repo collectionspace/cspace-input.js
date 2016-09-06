@@ -9,6 +9,12 @@ Input components for CollectionSpace, built with [React](https://facebook.github
 
 ## Installation
 
+Using npm:
+
+```
+$ npm install cspace-input
+```
+
 Using git:
 
 ```
