@@ -11,8 +11,9 @@ const config = {
   entry: './src/index.js',
   output: {
     filename,
+    library,
+    libraryTarget: 'umd',
     path: 'dist',
-    publicPath: '',
   },
   module: {
     loaders: [
