@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 
 import bindCommonEvents from '../utils/bindCommonEvents';
 
@@ -20,16 +20,18 @@ export default function MultilineInput(props) {
 }
 
 MultilineInput.propTypes = {
+  name: PropTypes.string,
+
   /**
    * The value.
    */
-  value: React.PropTypes.string,
+  value: PropTypes.string,
 
   /**
    * If true, the input is not interactive. The onChangeRequest and onCommit callbacks will not be
    * executed.
    */
-  disabled: React.PropTypes.bool,
+  disabled: PropTypes.bool,
 
   /**
    * Callback to be executed when a change to the value is requested due to user interaction, such
@@ -39,7 +41,7 @@ MultilineInput.propTypes = {
    *
    * The callback is passed the requested new value.
    */
-  onChange: React.PropTypes.func,
+  onChange: PropTypes.func,
 
   /**
    * Callback to be executed when the value is committed due to user interaction. The value is
@@ -48,10 +50,11 @@ MultilineInput.propTypes = {
    *
    * The callback is passed the value to be committed.
    */
-  onCommit: React.PropTypes.func,
+  onCommit: PropTypes.func,
 };
 
 MultilineInput.defaultProps = {
+  name: '',
   value: '',
   disabled: false,
 };

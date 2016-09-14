@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import styles from '../../styles/cspace-input/ReadOnlyInput.css';
 
 /**
@@ -27,10 +27,12 @@ export default function ReadOnlyInput(props) {
 }
 
 ReadOnlyInput.propTypes = {
+  name: PropTypes.string,
+
   /**
    * The value.
    */
-  value: React.PropTypes.string,
+  value: PropTypes.string,
 };
 
 ReadOnlyInput.defaultProps = {
