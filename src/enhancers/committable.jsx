@@ -1,17 +1,10 @@
 import React, { Component, PropTypes } from 'react';
 
-const propTypes = {
-  value: PropTypes.string,
-  onChange: PropTypes.func,
-  onCommit: PropTypes.func,
-};
-
-export default function bindCommonEvents(Element) {
-  class InputEventHandler extends Component {
+export default function committable(BaseComponent) {
+  class Committable extends Component {
     constructor(props) {
       super(props);
 
-      this.handleChange = this.handleChange.bind(this);
       this.handleBlur = this.handleBlur.bind(this);
       this.handleKeyPress = this.handleKeyPress.bind(this);
       this.commit = this.commit.bind(this);
@@ -19,16 +12,6 @@ export default function bindCommonEvents(Element) {
 
     handleBlur(event) {
       this.commit(event.target.value);
-    }
-
-    handleChange(event) {
-      const {
-        onChange,
-      } = this.props;
-
-      if (onChange) {
-        onChange(event.target.value);
-      }
     }
 
     handleKeyPress(event) {
@@ -49,27 +32,23 @@ export default function bindCommonEvents(Element) {
 
     render() {
       const {
-        value,
-        onChange,
         onCommit, // eslint-disable-line no-unused-vars
         ...remainingProps,
       } = this.props;
 
-      const valueProp = onChange ? { value } : { defaultValue: value };
-
       return (
-        <Element
-          {...valueProp}
+        <BaseComponent
           {...remainingProps}
           onBlur={this.handleBlur}
-          onChange={this.handleChange}
           onKeyPress={this.handleKeyPress}
         />
       );
     }
   }
 
-  InputEventHandler.propTypes = propTypes;
+  Committable.propTypes = {
+    onCommit: PropTypes.func,
+  };
 
-  return InputEventHandler;
+  return Committable;
 }
