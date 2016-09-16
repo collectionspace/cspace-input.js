@@ -1,7 +1,7 @@
 /**
  * Composes higher-order components (enhancers) into a single higher-order component.
- * @param {...Function} enhancers - The enhancers to compose.
- * @returns {Function} A function that accepts a component, and returns a new component with all of
+ * @param {...function} enhancers - The enhancers to compose.
+ * @returns {function} A function that accepts a component, and returns a new component with all of
  * the supplied enhancers applied from right to left.
  */
 export default function compose(...enhancers) {
