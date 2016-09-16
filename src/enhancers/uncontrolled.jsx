@@ -3,7 +3,7 @@ import React, { PropTypes } from 'react';
 /**
  * Makes an input component uncontrolled. Returns an enhanced component that accepts a value prop,
  * and passes the value to the base component as its defaultValue.
- * @see {@link http://https://facebook.github.io/react/docs/forms.html#uncontrolled-components}
+ * @see {@link //https://facebook.github.io/react/docs/forms.html#uncontrolled-components}
  * @param {string|function} BaseComponent - The component to enhance.
  * @returns {function} The enhanced component.
  */
