@@ -6,9 +6,9 @@ Many of the patterns used are implemented in the (recompose)[https://github.com/
 
 For more information see:
 
-[Mixins Are Dead. Long Live Composition](https://medium.com/@dan_abramov/mixins-are-dead-long-live-higher-order-components-94a0d2f9e750)
-[React Higher Order Components in depth](https://medium.com/@franleplant/react-higher-order-components-in-depth-cf9032ee6c3e)
-[Andrew Clark - Recomposing your React application at react-europe 2016](https://www.youtube.com/watch?v=zD_judE-bXk)
+- [Mixins Are Dead. Long Live Composition](https://medium.com/@dan_abramov/mixins-are-dead-long-live-higher-order-components-94a0d2f9e750)
+- [React Higher Order Components in depth](https://medium.com/@franleplant/react-higher-order-components-in-depth-cf9032ee6c3e)
+- [Andrew Clark - Recomposing your React application at react-europe 2016](https://www.youtube.com/watch?v=zD_judE-bXk)
 
 ## Usage
 
