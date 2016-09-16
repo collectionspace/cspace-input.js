@@ -46,6 +46,6 @@ export default function changeable(BaseComponent) {
   Changeable.propTypes = {
     onChange: PropTypes.func,
   };
-  
+
   return Changeable;
 }
