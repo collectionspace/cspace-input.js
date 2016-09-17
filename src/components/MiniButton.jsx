@@ -1,8 +1,8 @@
 import React from 'react';
-import styles from '../../styles/cspace-input/Button.css';
+import styles from '../../styles/cspace-input/MiniButton.css';
 
 /**
- * A button.
+ * A small button attached to an input.
  */
 export default props => (
   <button

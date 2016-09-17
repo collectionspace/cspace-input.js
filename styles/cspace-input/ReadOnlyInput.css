@@ -1,3 +1,3 @@
 .common {
-  composes: defaults from './shared.css';
+  composes: common from './Input.css';
 }

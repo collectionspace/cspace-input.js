@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import enhanced from '../enhancers/enhanced';
 import styles from '../../styles/cspace-input/LineInput.css';
 
@@ -8,12 +8,29 @@ import styles from '../../styles/cspace-input/LineInput.css';
  * be stripped, replaced with other characters, or retained but not displayed. If this presents a
  * problem, use TextInput or MultilineInput.
  */
-const LineInput = props => (
-  <input
-    className={styles.common}
-    type="text"
-    {...props}
-  />
-);
+const LineInput = (props) => {
+  const {
+    embedded,
+    ...remainingProps,
+  } = props;
+
+  const className = embedded ? styles.embedded : styles.normal;
+
+  return (
+    <input
+      className={className}
+      type="text"
+      {...remainingProps}
+    />
+  );
+};
+
+LineInput.propTypes = {
+  embedded: PropTypes.bool,
+};
+
+LineInput.defaultProps = {
+  embedded: false,
+};
 
 export default enhanced(LineInput);

@@ -64,14 +64,9 @@ TextInput.propTypes = {
   disabled: PropTypes.bool,
 
   /**
-   * Callback to be executed when a change to the value is requested due to user interaction, such
-   * as typing or pasting. If this property is supplied, the input will become a controlled
-   * component: its displayed value will not update automatically as keys are pressed, but must
-   * instead be set via props.
-   *
-   * The callback is passed the requested new value.
+   * If true, the input is embedded in another. No visible border will be drawn.
    */
-  onChange: PropTypes.func,
+  embedded: PropTypes.bool,
 
   /**
    * Callback to be executed when the value is committed due to user interaction. The value is
@@ -88,4 +83,5 @@ TextInput.defaultProps = {
   value: '',
   multiline: null,
   disabled: false,
+  embedded: false,
 };

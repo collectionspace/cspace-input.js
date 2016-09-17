@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-import RepeatingInput from '../components/RepeatingInput';
+import RepeatingInput, { propTypes as repeatingPropTypes } from '../components/RepeatingInput';
 
 /**
  * Makes an input component possibly repeating. Returns an enhanced component that accepts a
@@ -31,14 +31,7 @@ export default function repeatable(BaseComponent) {
 
   Repeatable.propTypes = {
     repeating: PropTypes.bool,
-    value: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.object,
-      PropTypes.arrayOf(PropTypes.oneOfType([
-        PropTypes.string,
-        PropTypes.object,
-      ])),
-    ]),
+    value: repeatingPropTypes.value,
   };
 
   Repeatable.defaultProps = {

@@ -52,25 +52,6 @@ describe('MultilineInput', function suite() {
       .be.above(measuringStick.getBoundingClientRect().height);
   });
 
-  it('should call onChange when the value changes', function test() {
-    let handlerCalledValue = null;
-
-    const handleChange = value => {
-      handlerCalledValue = value;
-
-      render(<MultilineInput value="onChange called!" onChange={handleChange} />, this.container);
-    };
-
-    render(<MultilineInput onChange={handleChange} />, this.container);
-
-    const input = this.container.firstElementChild;
-    const newValue = input.value = 'New value line 1\nNew value line 2';
-
-    Simulate.change(input);
-
-    handlerCalledValue.should.equal(newValue);
-  });
-
   it('should call onCommit when enter is pressed', function test() {
     let handlerCalledValue = null;
 

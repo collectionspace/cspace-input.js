@@ -1,18 +1,27 @@
 .common {
-  composes: defaults from './shared.css';
+  composes: common from './Input.css';
   margin: 0;
   outline: none;
-  border: 1px solid rgb(220, 220, 220);
+  border: 1px solid;
   padding: 1px 2px;
-
   color: rgb(70, 70, 70);
-  
   width: 100%;
-  
   display: block;
 }
 
 .common:focus {
   outline: 2px solid rgb(70, 70, 70);
-  outline-offset: -1px;
+  outline-offset: 0;
+  position: relative;
+  z-index: 2;
+}
+
+.normal {
+  composes: common;
+  border-color: rgb(220, 220, 220);
+}
+
+.embedded {
+  composes: common;
+  border-color: transparent;
 }

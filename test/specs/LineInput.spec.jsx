@@ -56,25 +56,6 @@ describe('LineInput', function suite() {
       .equal(measuringStick.getBoundingClientRect().height);
   });
 
-  it('should call onChange when the value changes', function test() {
-    let handlerCalledValue = null;
-
-    const handleChange = value => {
-      handlerCalledValue = value;
-
-      render(<LineInput value="onChange called!" onChange={handleChange} />, this.container);
-    };
-
-    render(<LineInput onChange={handleChange} />, this.container);
-
-    const input = this.container.firstElementChild;
-    const newValue = input.value = 'New value';
-
-    Simulate.change(input);
-
-    handlerCalledValue.should.equal(newValue);
-  });
-
   it('should call onCommit when enter is pressed', function test() {
     let handlerCalledValue = null;
 

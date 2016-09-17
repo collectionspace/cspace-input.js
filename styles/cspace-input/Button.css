@@ -1,5 +1,5 @@
 .common {
-  composes: defaults from './shared.css';
+  composes: common from './Input.css';
   margin: 0;
   outline: none;
   border: 0;

@@ -3,3 +3,8 @@
   height: 80px;
   resize: none;
 }
+
+.embedded {
+  composes: common;
+  composes: embedded from './TextInput.css';
+}

@@ -1,0 +1,27 @@
+.common {
+  composes: common from './Input.css';
+}
+
+.common > ol {
+  width: 100%;
+  list-style: none;
+  display: table;
+  border-collapse: collapse;
+  padding: 0;
+  margin: 0;
+}
+
+.common > ol > li {
+  display: table-row;
+}
+
+.common > ol > li > * {
+  display: table-cell;
+  border: 1px solid #DDDDDD;
+  vertical-align: top;
+}
+
+.common > ol > li > *:first-child,
+.common > ol > li > *:last-child {
+  width: 22px;
+}

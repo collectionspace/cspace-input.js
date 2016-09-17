@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import { render } from 'react-dom';
 import chai from 'chai';
 
@@ -9,6 +9,19 @@ import TextInput from '../../src/components/TextInput';
 
 chai.should();
 
+const StubTemplateComponent = props => (
+  <div className="template">Value: {JSON.stringify(props.value)}</div>
+);
+
+StubTemplateComponent.propTypes = {
+  embedded: PropTypes.bool,
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+};
+
+StubTemplateComponent.defaultProps = {
+  value: 'Repeating input template',
+};
+
 describe('RepeatingInput', function suite() {
   beforeEach(function before() {
     this.container = createTestContainer(this);
@@ -17,7 +30,7 @@ describe('RepeatingInput', function suite() {
   it('should render as a div', function test() {
     render(
       <RepeatingInput>
-        <div className="template">Repeating input template</div>
+        <StubTemplateComponent />
       </RepeatingInput>, this.container);
 
     this.container.firstElementChild.nodeName.should.equal('DIV');
@@ -32,16 +45,16 @@ describe('RepeatingInput', function suite() {
 
     render(
       <RepeatingInput value={repeatingValue}>
-        <div className="template">Repeating input template</div>
+        <TextInput multiline />
       </RepeatingInput>, this.container);
 
-    this.container.querySelectorAll('div.template').length.should.equal(3);
+    this.container.querySelectorAll('textarea').length.should.equal(3);
   });
 
   it('should render the template once for a string value', function test() {
     render(
       <RepeatingInput value="A string">
-        <div className="template">Repeating input template</div>
+        <StubTemplateComponent />
       </RepeatingInput>, this.container);
 
     this.container.querySelectorAll('div.template').length.should.equal(1);
@@ -50,7 +63,7 @@ describe('RepeatingInput', function suite() {
   it('should render the template once for an object value', function test() {
     render(
       <RepeatingInput value={{}}>
-        <div className="template">Repeating input template</div>
+        <StubTemplateComponent />
       </RepeatingInput>, this.container);
 
     this.container.querySelectorAll('div.template').length.should.equal(1);
@@ -59,10 +72,10 @@ describe('RepeatingInput', function suite() {
   it('should render the template once for a string value', function test() {
     render(
       <RepeatingInput value="A string">
-        <div className="template">Repeating input template</div>
+        <TextInput multiline />
       </RepeatingInput>, this.container);
 
-    this.container.querySelectorAll('div.template').length.should.equal(1);
+    this.container.querySelectorAll('textarea').length.should.equal(1);
   });
 
   it('should distribute values to child inputs', function test() {

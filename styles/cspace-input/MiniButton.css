@@ -1,0 +1,35 @@
+.common {
+  composes: common from './Input.css';
+  border-radius: 0;
+  border: none;
+  padding: 0;
+  background: white;
+  width: 22px;
+  height: 22px;
+  display: block;
+  font-size: 12px;
+}
+
+.common:enabled:focus {
+  outline: 2px solid #4A7F28;
+  position: relative;
+  z-index: 2;
+  color: #FFFFFF;
+  background-color: #73AA4F;
+}
+
+.common:enabled:hover {
+  outline: 1px solid #4A7F28;
+  position: relative;
+  z-index: 1;
+  color: #FFFFFF;
+  background-color: #4A7F28;
+}
+
+.common:enabled:hover:focus {
+  outline: 2px solid #4A7F28;
+  position: relative;
+  z-index: 2;
+  color: #FFFFFF;
+  background-color: #4A7F28;
+}
