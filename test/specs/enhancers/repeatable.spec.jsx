@@ -11,6 +11,8 @@ import repeatable from '../../../src/enhancers/repeatable';
 import TextInput from '../../../src/components/TextInput';
 import RepeatingInput from '../../../src/components/RepeatingInput';
 
+const expect = chai.expect;
+
 chai.should();
 
 describe('repeatable', function suite() {
@@ -45,6 +47,14 @@ describe('repeatable', function suite() {
       render(<EnhancedComponent value="" repeating />, this.container);
 
       this.container.querySelector('ol').should.exist;
+    });
+
+    it('should not render a RepeatingInput when repeating is false', function test() {
+      const EnhancedComponent = repeatable(TextInput);
+
+      render(<EnhancedComponent value="" repeating={false} />, this.container);
+
+      expect(this.container.querySelector('ol')).to.be.null;
     });
 
     it('should lift the value prop to the RepeatingInput', function test() {

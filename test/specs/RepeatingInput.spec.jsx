@@ -47,7 +47,13 @@ describe('RepeatingInput', function suite() {
         <TextInput multiline />
       </RepeatingInput>, this.container);
 
-    this.container.querySelectorAll('textarea').length.should.equal(3);
+    const textareas = this.container.querySelectorAll('textarea');
+
+    textareas.length.should.equal(3);
+
+    textareas.forEach((textarea, index) => {
+      textarea.value.should.equal(repeatingValue[index]);
+    });
   });
 
   it('should render the template once for a string value', function test() {
@@ -68,13 +74,24 @@ describe('RepeatingInput', function suite() {
     this.container.querySelectorAll('div.template').length.should.equal(1);
   });
 
-  it('should render the template once for a string value', function test() {
+  it('should render the template once for an undefined value', function test() {
     render(
-      <RepeatingInput value="A string">
+      <RepeatingInput>
         <TextInput multiline />
       </RepeatingInput>, this.container);
 
     this.container.querySelectorAll('textarea').length.should.equal(1);
+    this.container.querySelector('textarea').value.should.equal('');
+  });
+
+  it('should render the template once for an empty array value', function test() {
+    render(
+      <RepeatingInput value={[]}>
+        <TextInput multiline />
+      </RepeatingInput>, this.container);
+
+    this.container.querySelectorAll('textarea').length.should.equal(1);
+    this.container.querySelector('textarea').value.should.equal('');
   });
 
   it('should distribute values to child inputs', function test() {
