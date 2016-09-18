@@ -1,27 +1,30 @@
+@value textDark, textLight from '../colors.css';
+@value activeEdgeWidth from '../dimensions.css';
+
 .common {
   composes: common from './Input.css';
   margin: 0;
   outline: none;
-  border: 1px solid;
   padding: 1px 2px;
-  color: rgb(70, 70, 70);
+  color: textDark;
   width: 100%;
   display: block;
 }
 
 .common:focus {
-  outline: 2px solid rgb(70, 70, 70);
-  outline-offset: 0;
+  outline: activeEdgeWidth solid textDark;
   position: relative;
   z-index: 2;
 }
 
 .normal {
   composes: common;
-  border-color: rgb(220, 220, 220);
+  border: 1px solid textLight;
+  outline-offset: -1px;
 }
 
 .embedded {
   composes: common;
-  border-color: transparent;
+  border: none;
+  outline-offset: 0;
 }

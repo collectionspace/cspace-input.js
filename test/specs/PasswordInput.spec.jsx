@@ -9,6 +9,8 @@ import PasswordInput from '../../src/components/PasswordInput';
 
 chai.should();
 
+const expectedClassName = 'cspace-input-LineInput--normal cspace-input-TextInput--normal cspace-input-TextInput--common cspace-input-Input--common';
+
 describe('PasswordInput', function suite() {
   beforeEach(function before() {
     this.container = createTestContainer(this);
@@ -24,10 +26,7 @@ describe('PasswordInput', function suite() {
   it('should render correct class', function test() {
     render(<PasswordInput value="Test" />, this.container);
 
-    this.container.firstElementChild.className.should.equal(
-      'cspace-input-LineInput--common ' +
-      'cspace-input-TextInput--common ' +
-      'cspace-input-shared--defaults');
+    this.container.firstElementChild.className.should.equal(expectedClassName);
   });
 
   it('should render the value prop as the value of the input', function test() {
@@ -41,7 +40,7 @@ describe('PasswordInput', function suite() {
   it('should call onCommit when enter is pressed', function test() {
     let handlerCalledValue = null;
 
-    const handleCommit = value => {
+    const handleCommit = (value) => {
       handlerCalledValue = value;
     };
 
@@ -74,7 +73,7 @@ describe('PasswordInput', function suite() {
   it('should call onCommit when focus is lost', function test() {
     let handlerCalledValue = null;
 
-    const handleCommit = value => {
+    const handleCommit = (value) => {
       handlerCalledValue = value;
     };
 

@@ -1,6 +1,7 @@
 /* eslint import/no-extraneous-dependencies: "off" */
 
 const webpack = require('webpack');
+const values = require('postcss-modules-values');
 
 const library = 'cspaceInput';
 const env = process.env.NODE_ENV;
@@ -24,7 +25,7 @@ const config = {
       },
       {
         test: /\.css$/,
-        loader: 'style-loader!css-loader?modules&localIdentName=[folder]-[name]--[local]',
+        loader: 'style-loader!css-loader?modules&importLoaders=1&localIdentName=[folder]-[name]--[local]!postcss-loader',
       },
       {
         test: /\.(png|jpg|svg)$/,
@@ -32,6 +33,9 @@ const config = {
       },
     ],
   },
+  postcss: [
+    values,
+  ],
   plugins: [
     new webpack.optimize.OccurrenceOrderPlugin(),
     new webpack.DefinePlugin({

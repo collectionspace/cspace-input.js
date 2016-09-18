@@ -1,9 +1,11 @@
-.common {
-  composes: common from './TextInput.css';
-  height: 22px;
+@value inputHeight from '../dimensions.css';
+
+.normal {
+  composes: normal from './TextInput.css';
+  height: inputHeight;
 }
 
 .embedded {
-  composes: common;
   composes: embedded from './TextInput.css';
+  height: calc(inputHeight - 2px);
 }

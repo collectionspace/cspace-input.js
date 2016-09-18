@@ -24,8 +24,7 @@ describe('ReadOnlyInput', function suite() {
     render(<ReadOnlyInput value="Test" />, this.container);
 
     this.container.firstElementChild.className.should.equal(
-      'cspace-input-ReadOnlyInput--common ' +
-      'cspace-input-shared--defaults');
+      'cspace-input-ReadOnlyInput--common cspace-input-Input--common');
   });
 
   it('should render newlines visibly', function test() {
@@ -35,7 +34,7 @@ describe('ReadOnlyInput', function suite() {
     render(<ReadOnlyInput value={value} />, this.container);
 
     const measuringStick = createInvisible('div');
-    measuringStick.className = 'cspace-input-ReadOnlyInput--common cspace-input-shared--defaults';
+    measuringStick.className = 'cspace-input-ReadOnlyInput--common cspace-input-Input--common';
     measuringStick.textContent = lines[0];
 
     this.container.firstElementChild.textContent.should.equal(value);
@@ -51,7 +50,7 @@ describe('ReadOnlyInput', function suite() {
     render(<ReadOnlyInput value={value} />, this.container);
 
     const measuringStick = createInvisible('div');
-    measuringStick.className = 'cspace-input-ReadOnlyInput--common cspace-input-shared--defaults';
+    measuringStick.className = 'cspace-input-ReadOnlyInput--common cspace-input-Input--common';
     measuringStick.textContent = parts[0];
 
     this.container.firstElementChild.textContent.should.equal(value);

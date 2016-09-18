@@ -1,7 +1,9 @@
+@value inputHeight from '../dimensions.css';
+
 .common {
   font-family: 'Open Sans', Arial, sans-serif;
   font-size: 14px;
   font-weight: 400;
-  line-height: 22px;
+  line-height: inputHeight;
   box-sizing: border-box;
 }

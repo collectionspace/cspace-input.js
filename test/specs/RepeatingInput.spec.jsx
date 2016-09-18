@@ -14,7 +14,6 @@ const StubTemplateComponent = props => (
 );
 
 StubTemplateComponent.propTypes = {
-  embedded: PropTypes.bool,
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
 };
 

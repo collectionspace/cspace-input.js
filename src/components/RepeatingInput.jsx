@@ -78,3 +78,4 @@ RepeatingInput.defaultProps = {
   value: [null],
 };
 
+RepeatingInput.isInput = true;

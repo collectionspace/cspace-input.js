@@ -2,6 +2,7 @@
 /* eslint no-console: "off" */
 
 const webpack = require('webpack');
+const values = require('postcss-modules-values');
 
 const sauceLaunchers = {
   'chrome-latest-osx': {
@@ -137,7 +138,7 @@ module.exports = function karma(config) {
           },
           {
             test: /\.css$/,
-            loader: 'style-loader!css-loader?modules&localIdentName=[folder]-[name]--[local]',
+            loader: 'style-loader!css-loader?modules&importLoaders=1&localIdentName=[folder]-[name]--[local]!postcss-loader',
           },
           {
             test: /\.(png|jpg|svg)$/,
@@ -145,6 +146,9 @@ module.exports = function karma(config) {
           },
         ],
       },
+      postcss: [
+        values,
+      ],
       plugins: [
         new webpack.DefinePlugin({
           'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),

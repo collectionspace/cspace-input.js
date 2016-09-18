@@ -44,44 +44,15 @@ export default function TextInput(props) {
 }
 
 TextInput.propTypes = {
-  name: PropTypes.string,
-
-  /**
-   * The value.
-   */
-  value: PropTypes.string,
-
-  /**
-   * A tri-state boolean specifying the mode of the input. If true, the input is set to multiline
-   * mode. If false, single line mode. If null or undefined, fallback mode.
-   */
   multiline: PropTypes.bool,
-
-  /**
-   * If true, the input is not interactive. The onChangeRequest and onCommit callbacks will not be
-   * executed.
-   */
-  disabled: PropTypes.bool,
-
-  /**
-   * If true, the input is embedded in another. No visible border will be drawn.
-   */
-  embedded: PropTypes.bool,
-
-  /**
-   * Callback to be executed when the value is committed due to user interaction. The value is
-   * committed when the enter key is pressed while  the input is focused, and when the component
-   * loses focus, such as by tabbing or clicking away.
-   *
-   * The callback is passed the value to be committed.
-   */
-  onCommit: PropTypes.func,
+  value: PropTypes.string,
+  ...LineInput.propTypes,
+  ...MultilineInput.propTypes,
 };
 
 TextInput.defaultProps = {
-  name: '',
-  value: '',
   multiline: null,
-  disabled: false,
-  embedded: false,
+  value: '',
 };
+
+TextInput.isInput = true;

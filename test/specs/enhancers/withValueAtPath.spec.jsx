@@ -4,18 +4,18 @@ import chai from 'chai';
 
 import createTestContainer from '../../helpers/createTestContainer';
 
-import named from '../../../src/enhancers/named';
+import withValueAtPath from '../../../src/enhancers/withValueAtPath';
 
 chai.should();
 
-describe('named', function suite() {
+describe('withValueAtPath', function suite() {
   beforeEach(function before() {
     this.container = createTestContainer(this);
   });
 
   context('enhanced component', function context() {
-    it('should accept name and path props', function test() {
-      named('input').propTypes.should.include.keys(['name', 'path']);
+    it('should accept path prop', function test() {
+      withValueAtPath('input').propTypes.should.include.keys(['path']);
     });
 
     it('should not pass the path prop to the base component', function test() {
@@ -27,7 +27,7 @@ describe('named', function suite() {
         return null;
       };
 
-      const EnhancedComponent = named(StubComponent);
+      const EnhancedComponent = withValueAtPath(StubComponent);
 
       render(<EnhancedComponent name="n" path="p" foo="f" />, this.container);
 

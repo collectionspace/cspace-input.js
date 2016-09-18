@@ -25,9 +25,7 @@ export default class CompoundInput extends Component {
         return child;
       }
 
-      const propTypes = child.type.propTypes;
-
-      if (propTypes && propTypes.value && propTypes.onCommit) {
+      if (child.type.isInput) {
         return React.cloneElement(child, {
           value: this.getValue(child.props.name, child.props.path),
           onCommit: this.handleCommit,
@@ -55,16 +53,13 @@ export default class CompoundInput extends Component {
 
 CompoundInput.propTypes = {
   children: PropTypes.node,
-  name: PropTypes.string,
-  value: PropTypes.object,
+  value: PropTypes.object, // eslint-disable-line react/forbid-prop-types
   defaultPath: PropTypes.string,
-  disabled: PropTypes.bool,
-  onCommit: PropTypes.func,
 };
 
 CompoundInput.defaultProps = {
-  name: '',
   value: {},
   defaultPath: '',
-  disabled: false,
 };
+
+CompoundInput.isInput = true;

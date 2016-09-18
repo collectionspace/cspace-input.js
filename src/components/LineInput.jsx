@@ -33,4 +33,6 @@ LineInput.defaultProps = {
   embedded: false,
 };
 
+LineInput.isInput = true;
+
 export default enhanced(LineInput);

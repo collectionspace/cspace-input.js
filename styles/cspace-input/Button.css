@@ -1,21 +1,24 @@
+@value buttonText, buttonBg, buttonBgActive from '../colors.css';
+@value roundedCornerRadius, activeEdgeWidth from '../dimensions.css';
+
 .common {
   composes: common from './Input.css';
   margin: 0;
   outline: none;
   border: 0;
-  border-radius: 3px;
+  border-radius: roundedCornerRadius;
   padding: 6px;
 
-  color: #FFFFFF;
-  background-color: #73AA4F;
+  color: buttonText;
+  background-color: buttonBg;
 }
 
 .common:hover {
-  background-color: #4A7F28;
+  background-color: buttonBgActive;
 }
 
 .common:focus {
-  box-shadow: 0 0 0 2px #4A7F28;
+  box-shadow: 0 0 0 activeEdgeWidth buttonBgActive;
 }
 
 .common::-moz-focus-inner {

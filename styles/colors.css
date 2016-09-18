@@ -1,0 +1,8 @@
+@value textDark: rgb(70, 70, 70);
+@value textLight: rgb(220, 220, 220);
+
+@value buttonText: rgb(255, 255, 255);
+@value buttonBg: #73AA4F;
+@value buttonBgActive: #4A7F28;
+
+@value inputBg: rgb(255, 255, 255);

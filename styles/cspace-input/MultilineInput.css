@@ -1,10 +1,18 @@
+@value inputHeight from '../dimensions.css';
+@value heightMultiplier: 4;
+
 .common {
-  composes: common from './TextInput.css';
-  height: 80px;
   resize: none;
+}
+
+.normal {
+  composes: common;
+  composes: normal from './TextInput.css';
+  height: calc(inputHeight * heightMultiplier);
 }
 
 .embedded {
   composes: common;
   composes: embedded from './TextInput.css';
+  height: calc(inputHeight * heightMultiplier - 2px);
 }

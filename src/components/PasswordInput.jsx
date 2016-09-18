@@ -10,10 +10,12 @@ import styles from '../../styles/cspace-input/LineInput.css';
  */
 const PasswordInput = props => (
   <input
-    className={styles.common}
+    className={styles.normal}
     type="password"
     {...props}
   />
 );
+
+PasswordInput.isInput = true;
 
 export default enhanced(PasswordInput);

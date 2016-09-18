@@ -1,3 +1,5 @@
+@value inputHeight from '../dimensions.css';
+
 .common {
   composes: common from './Input.css';
 }
@@ -23,5 +25,5 @@
 
 .common > ol > li > *:first-child,
 .common > ol > li > *:last-child {
-  width: 22px;
+  width: calc(inputHeight - 2px);
 }

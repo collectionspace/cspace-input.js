@@ -1,35 +1,38 @@
+@value inputBg, buttonText, buttonBg, buttonBgActive from '../colors.css';
+@value activeEdgeWidth, inputHeight from '../dimensions.css';
+
 .common {
   composes: common from './Input.css';
   border-radius: 0;
   border: none;
   padding: 0;
-  background: white;
-  width: 22px;
-  height: 22px;
+  background: inputBg;
+  width: calc(inputHeight - 2px);
+  height: calc(inputHeight - 2px);
   display: block;
   font-size: 12px;
 }
 
 .common:enabled:focus {
-  outline: 2px solid #4A7F28;
+  outline: activeEdgeWidth solid buttonBgActive;
   position: relative;
   z-index: 2;
-  color: #FFFFFF;
-  background-color: #73AA4F;
+  color: buttonText;
+  background-color: buttonBg;
 }
 
 .common:enabled:hover {
-  outline: 1px solid #4A7F28;
+  outline: 1px solid buttonBgActive;
   position: relative;
   z-index: 1;
-  color: #FFFFFF;
-  background-color: #4A7F28;
+  color:buttonText;
+  background-color: buttonBgActive;
 }
 
 .common:enabled:hover:focus {
-  outline: 2px solid #4A7F28;
+  outline: activeEdgeWidth solid buttonBgActive;
   position: relative;
   z-index: 2;
-  color: #FFFFFF;
-  background-color: #4A7F28;
+  color: buttonText;
+  background-color: buttonBgActive;
 }

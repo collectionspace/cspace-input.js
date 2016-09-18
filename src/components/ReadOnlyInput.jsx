@@ -29,3 +29,5 @@ export default function ReadOnlyInput(props) {
 ReadOnlyInput.propTypes = {
   value: PropTypes.string,
 };
+
+ReadOnlyInput.isInput = true;

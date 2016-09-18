@@ -10,6 +10,8 @@ import LineInput from '../../src/components/LineInput';
 
 chai.should();
 
+const expectedClassName = 'cspace-input-LineInput--normal cspace-input-TextInput--normal cspace-input-TextInput--common cspace-input-Input--common';
+
 describe('LineInput', function suite() {
   beforeEach(function before() {
     this.container = createTestContainer(this);
@@ -25,10 +27,7 @@ describe('LineInput', function suite() {
   it('should render with correct class', function test() {
     render(<LineInput value="Test" />, this.container);
 
-    this.container.firstElementChild.className.should.equal(
-      'cspace-input-LineInput--common ' +
-      'cspace-input-TextInput--common ' +
-      'cspace-input-shared--defaults');
+    this.container.firstElementChild.className.should.equal(expectedClassName);
   });
 
   it('should render the value prop as the value of the input', function test() {
@@ -46,10 +45,7 @@ describe('LineInput', function suite() {
     render(<LineInput value={value} />, this.container);
 
     const measuringStick = createInvisible('input');
-    measuringStick.className =
-      'cspace-input-LineInput--common ' +
-      'cspace-input-TextInput--common ' +
-      'cspace-input-shared--defaults';
+    measuringStick.className = expectedClassName;
     measuringStick.value = lines[0];
 
     this.container.firstElementChild.getBoundingClientRect().height.should
@@ -59,7 +55,7 @@ describe('LineInput', function suite() {
   it('should call onCommit when enter is pressed', function test() {
     let handlerCalledValue = null;
 
-    const handleCommit = value => {
+    const handleCommit = (value) => {
       handlerCalledValue = value;
     };
 
@@ -92,7 +88,7 @@ describe('LineInput', function suite() {
   it('should call onCommit when focus is lost', function test() {
     let handlerCalledValue = null;
 
-    const handleCommit = value => {
+    const handleCommit = (value) => {
       handlerCalledValue = value;
     };
 

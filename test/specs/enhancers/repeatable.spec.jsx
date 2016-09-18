@@ -8,6 +8,7 @@ import chai from 'chai';
 import createTestContainer from '../../helpers/createTestContainer';
 
 import repeatable from '../../../src/enhancers/repeatable';
+import TextInput from '../../../src/components/TextInput';
 import RepeatingInput from '../../../src/components/RepeatingInput';
 
 chai.should();
@@ -39,7 +40,7 @@ describe('repeatable', function suite() {
     });
 
     it('should render a RepeatingInput when repeating is true', function test() {
-      const EnhancedComponent = repeatable('input');
+      const EnhancedComponent = repeatable(TextInput);
 
       render(<EnhancedComponent value="" repeating />, this.container);
 

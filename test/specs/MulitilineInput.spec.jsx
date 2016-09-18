@@ -10,6 +10,8 @@ import MultilineInput from '../../src/components/MultilineInput';
 
 chai.should();
 
+const expectedClassName = 'cspace-input-MultilineInput--normal cspace-input-MultilineInput--common cspace-input-TextInput--normal cspace-input-TextInput--common cspace-input-Input--common';
+
 describe('MultilineInput', function suite() {
   beforeEach(function before() {
     this.container = createTestContainer(this);
@@ -24,10 +26,7 @@ describe('MultilineInput', function suite() {
   it('should render with correct class', function test() {
     render(<MultilineInput value="Test" />, this.container);
 
-    this.container.firstElementChild.className.should.equal(
-      'cspace-input-MultilineInput--common ' +
-      'cspace-input-TextInput--common ' +
-      'cspace-input-shared--defaults');
+    this.container.firstElementChild.className.should.equal(expectedClassName);
   });
 
   it('should render the value prop as the value of the input', function test() {
@@ -55,7 +54,7 @@ describe('MultilineInput', function suite() {
   it('should call onCommit when enter is pressed', function test() {
     let handlerCalledValue = null;
 
-    const handleCommit = value => {
+    const handleCommit = (value) => {
       handlerCalledValue = value;
     };
 
@@ -88,7 +87,7 @@ describe('MultilineInput', function suite() {
   it('should call onCommit when focus is lost', function test() {
     let handlerCalledValue = null;
 
-    const handleCommit = value => {
+    const handleCommit = (value) => {
       handlerCalledValue = value;
     };
 

@@ -24,6 +24,6 @@ describe('Button', function suite() {
 
     this.container.firstElementChild.className.should.equal(
       'cspace-input-Button--common ' +
-      'cspace-input-shared--defaults');
+      'cspace-input-Input--common');
   });
 });

@@ -30,4 +30,6 @@ MultilineInput.defaultProps = {
   embedded: false,
 };
 
+MultilineInput.isInput = true;
+
 export default enhanced(MultilineInput);
