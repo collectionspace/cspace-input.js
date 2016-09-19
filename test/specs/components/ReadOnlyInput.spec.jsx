@@ -2,10 +2,10 @@ import React from 'react';
 import { render } from 'react-dom';
 import chai from 'chai';
 
-import createTestContainer from '../helpers/createTestContainer';
-import createInvisible from '../helpers/createInvisible';
+import createTestContainer from '../../helpers/createTestContainer';
+import createInvisible from '../../helpers/createInvisible';
 
-import ReadOnlyInput from '../../src/components/ReadOnlyInput';
+import ReadOnlyInput from '../../../src/components/ReadOnlyInput';
 
 chai.should();
 

@@ -2,10 +2,10 @@ import React, { PropTypes } from 'react';
 import { render } from 'react-dom';
 import chai from 'chai';
 
-import createTestContainer from '../helpers/createTestContainer';
+import createTestContainer from '../../helpers/createTestContainer';
 
-import RepeatingInput from '../../src/components/RepeatingInput';
-import TextInput from '../../src/components/TextInput';
+import RepeatingInput from '../../../src/components/RepeatingInput';
+import TextInput from '../../../src/components/TextInput';
 
 chai.should();
 

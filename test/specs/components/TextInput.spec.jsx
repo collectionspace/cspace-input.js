@@ -2,9 +2,9 @@ import React from 'react';
 import { createRenderer } from 'react-addons-test-utils';
 import chai from 'chai';
 
-import LineInput from '../../src/components/LineInput';
-import MultilineInput from '../../src/components/MultilineInput';
-import TextInput from '../../src/components/TextInput';
+import LineInput from '../../../src/components/LineInput';
+import MultilineInput from '../../../src/components/MultilineInput';
+import TextInput from '../../../src/components/TextInput';
 
 chai.should();
 

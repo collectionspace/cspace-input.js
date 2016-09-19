@@ -3,10 +3,10 @@ import { Simulate } from 'react-addons-test-utils';
 import { render } from 'react-dom';
 import chai from 'chai';
 
-import createTestContainer from '../helpers/createTestContainer';
-import createInvisible from '../helpers/createInvisible';
+import createTestContainer from '../../helpers/createTestContainer';
+import createInvisible from '../../helpers/createInvisible';
 
-import MultilineInput from '../../src/components/MultilineInput';
+import MultilineInput from '../../../src/components/MultilineInput';
 
 chai.should();
 

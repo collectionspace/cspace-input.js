@@ -2,9 +2,9 @@ import React from 'react';
 import { render } from 'react-dom';
 import chai from 'chai';
 
-import createTestContainer from '../helpers/createTestContainer';
+import createTestContainer from '../../helpers/createTestContainer';
 
-import Button from '../../src/components/Button';
+import Button from '../../../src/components/Button';
 
 chai.should();
 

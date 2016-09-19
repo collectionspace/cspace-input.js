@@ -2,10 +2,10 @@ import React from 'react';
 import { render } from 'react-dom';
 import chai from 'chai';
 
-import createTestContainer from '../helpers/createTestContainer';
+import createTestContainer from '../../helpers/createTestContainer';
 
-import CompoundInput from '../../src/components/CompoundInput';
-import TextInput from '../../src/components/TextInput';
+import CompoundInput from '../../../src/components/CompoundInput';
+import TextInput from '../../../src/components/TextInput';
 
 chai.should();
 

@@ -3,29 +3,28 @@ import { Simulate } from 'react-addons-test-utils';
 import { render } from 'react-dom';
 import chai from 'chai';
 
-import createTestContainer from '../helpers/createTestContainer';
-import createInvisible from '../helpers/createInvisible';
+import createTestContainer from '../../helpers/createTestContainer';
 
-import LineInput from '../../src/components/LineInput';
+import PasswordInput from '../../../src/components/PasswordInput';
 
 chai.should();
 
 const expectedClassName = 'cspace-input-LineInput--normal cspace-input-TextInput--normal cspace-input-TextInput--common cspace-input-Input--common';
 
-describe('LineInput', function suite() {
+describe('PasswordInput', function suite() {
   beforeEach(function before() {
     this.container = createTestContainer(this);
   });
 
-  it('should render as an input with type \'text\'', function test() {
-    render(<LineInput value="Test" />, this.container);
+  it('should render as an input with type \'password\'', function test() {
+    render(<PasswordInput value="Test" />, this.container);
 
     this.container.firstElementChild.nodeName.should.equal('INPUT');
-    this.container.firstElementChild.type.should.equal('text');
+    this.container.firstElementChild.type.should.equal('password');
   });
 
-  it('should render with correct class', function test() {
-    render(<LineInput value="Test" />, this.container);
+  it('should render correct class', function test() {
+    render(<PasswordInput value="Test" />, this.container);
 
     this.container.firstElementChild.className.should.equal(expectedClassName);
   });
@@ -33,23 +32,9 @@ describe('LineInput', function suite() {
   it('should render the value prop as the value of the input', function test() {
     const value = 'Test';
 
-    render(<LineInput value={value} />, this.container);
+    render(<PasswordInput value={value} />, this.container);
 
     this.container.firstElementChild.value.should.equal(value);
-  });
-
-  it('should not show more than one line of input', function test() {
-    const lines = ['Line 1', 'Line 2'];
-    const value = lines.join('\n');
-
-    render(<LineInput value={value} />, this.container);
-
-    const measuringStick = createInvisible('input');
-    measuringStick.className = expectedClassName;
-    measuringStick.value = lines[0];
-
-    this.container.firstElementChild.getBoundingClientRect().height.should
-      .equal(measuringStick.getBoundingClientRect().height);
   });
 
   it('should call onCommit when enter is pressed', function test() {
@@ -59,7 +44,7 @@ describe('LineInput', function suite() {
       handlerCalledValue = value;
     };
 
-    render(<LineInput onCommit={handleCommit} />, this.container);
+    render(<PasswordInput onCommit={handleCommit} />, this.container);
 
     const input = this.container.firstElementChild;
     const newValue = input.value = 'New value';
@@ -76,7 +61,7 @@ describe('LineInput', function suite() {
       handlerCalled = true;
     };
 
-    render(<LineInput onCommit={handleCommit} />, this.container);
+    render(<PasswordInput onCommit={handleCommit} />, this.container);
 
     const input = this.container.firstElementChild;
 
@@ -92,7 +77,7 @@ describe('LineInput', function suite() {
       handlerCalledValue = value;
     };
 
-    render(<LineInput onCommit={handleCommit} />, this.container);
+    render(<PasswordInput onCommit={handleCommit} />, this.container);
 
     const input = this.container.firstElementChild;
     const newValue = 'New value';
