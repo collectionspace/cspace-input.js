@@ -37,19 +37,5 @@ describe('uncontrolled', function suite() {
         defaultValue: 'v',
       });
     });
-
-    it('should produce an input that responds to keyboard input', function test() {
-      const EnhancedComponent = uncontrolled('input');
-
-      render(<EnhancedComponent value="v" />, this.container);
-
-      const input = this.container.querySelector('input');
-
-      input.focus();
-
-      document.execCommand('insertText', false, 'new');
-
-      input.value.should.equal('vnew');
-    });
   });
 });
