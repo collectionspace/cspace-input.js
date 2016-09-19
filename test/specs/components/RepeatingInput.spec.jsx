@@ -50,11 +50,11 @@ describe('RepeatingInput', function suite() {
     const textareas = this.container.querySelectorAll('textarea');
 
     textareas.length.should.equal(3);
-    
-    for (let i=0; i<textareas.length; i++) {
+
+    for (let i = 0; i < textareas.length; i += 1) {
       const textarea = textareas[i];
       textarea.value.should.equal(repeatingValue[i]);
-    };
+    }
   });
 
   it('should render the template once for a string value', function test() {
