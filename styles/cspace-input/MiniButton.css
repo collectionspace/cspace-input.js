@@ -36,3 +36,7 @@
   color: buttonText;
   background-color: buttonBgActive;
 }
+
+.common::-moz-focus-inner {
+  border: 0;
+}
