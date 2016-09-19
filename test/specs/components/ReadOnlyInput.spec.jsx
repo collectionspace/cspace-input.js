@@ -56,6 +56,6 @@ describe('ReadOnlyInput', function suite() {
     this.container.firstElementChild.textContent.should.equal(value);
 
     this.container.firstElementChild.getBoundingClientRect().height.should
-      .equal(measuringStick.getBoundingClientRect().height);
+      .be.closeTo(measuringStick.getBoundingClientRect().height, 0.01);
   });
 });
