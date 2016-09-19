@@ -1,29 +1,24 @@
+@value textLight from '../colors.css';
 @value inputHeight from '../dimensions.css';
 
 .common {
   composes: common from './Input.css';
 }
 
-.common > ol {
+.common {
   width: 100%;
-  list-style: none;
-  display: table;
   border-collapse: collapse;
   padding: 0;
   margin: 0;
 }
 
-.common > ol > li {
-  display: table-row;
-}
-
-.common > ol > li > * {
-  display: table-cell;
-  border: 1px solid #DDDDDD;
+.common > * > tr > td {
+  border: 1px solid textLight;
+  padding: 0;
   vertical-align: top;
 }
 
-.common > ol > li > *:first-child,
-.common > ol > li > *:last-child {
+.common > * > tr > td:first-child,
+.common > * > tr > td:last-child {
   width: calc(inputHeight - 2px);
 }

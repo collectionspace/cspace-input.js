@@ -31,33 +31,37 @@ export default class RepeatingInput extends Component {
       });
 
       return (
-        <li key={index}>
-          <div className={styles.left}>
+        <tr key={index}>
+          <td className={styles.left}>
             <MiniButton disabled={index === 0}>{index + 1}</MiniButton>
-          </div>
-          <div className={styles.content}>
+          </td>
+          <td className={styles.content}>
             {instance}
-          </div>
-          <div className={styles.right}>
+          </td>
+          <td className={styles.right}>
             <MiniButton disabled={list.length < 2}>−</MiniButton>
-          </div>
-        </li>
+          </td>
+        </tr>
       );
     });
   }
 
   render() {
     return (
-      <div className={styles.common}>
-        <ol>
+      <table className={styles.common}>
+        <colgroup />
+        <thead />
+        <tbody>
           {this.renderInstances()}
-          <li>
-            <div className={styles.left}>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td className={styles.left}>
               <MiniButton>+</MiniButton>
-            </div>
-          </li>
-        </ol>
-      </div>
+            </td>
+          </tr>
+        </tfoot>
+      </table>
     );
   }
 }

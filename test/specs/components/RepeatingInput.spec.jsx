@@ -26,13 +26,13 @@ describe('RepeatingInput', function suite() {
     this.container = createTestContainer(this);
   });
 
-  it('should render as a div', function test() {
+  it('should render as a table', function test() {
     render(
       <RepeatingInput>
         <StubTemplateComponent />
       </RepeatingInput>, this.container);
 
-    this.container.firstElementChild.nodeName.should.equal('DIV');
+    this.container.firstElementChild.nodeName.should.equal('TABLE');
   });
 
   it('should render the template once for each element in an array value', function test() {
