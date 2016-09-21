@@ -33,5 +33,13 @@ describe('withValueAtPath', function suite() {
 
       propsReceived.should.not.include.keys('path');
     });
+
+    it('should lift the static isInput property from the base component', function test() {
+      const StubComponent = () => null;
+      StubComponent.isInput = true;
+
+      const EnhancedComponent = withValueAtPath(StubComponent);
+      EnhancedComponent.isInput.should.equal(true);
+    });
   });
 });

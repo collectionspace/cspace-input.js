@@ -4,6 +4,10 @@ import chai from 'chai';
 
 import createTestContainer from '../../helpers/createTestContainer';
 
+import CompoundInput from '../../../src/components/CompoundInput';
+import InputRow from '../../../src/components/InputRow';
+import Label from '../../../src/components/Label';
+import LabelRow from '../../../src/components/LabelRow';
 import RepeatingInput from '../../../src/components/RepeatingInput';
 import TextInput from '../../../src/components/TextInput';
 
@@ -26,13 +30,13 @@ describe('RepeatingInput', function suite() {
     this.container = createTestContainer(this);
   });
 
-  it('should render as a table', function test() {
+  it('should render as a div', function test() {
     render(
       <RepeatingInput>
         <StubTemplateComponent />
       </RepeatingInput>, this.container);
 
-    this.container.firstElementChild.nodeName.should.equal('TABLE');
+    this.container.firstElementChild.nodeName.should.equal('DIV');
   });
 
   it('should render the template once for each element in an array value', function test() {
@@ -103,13 +107,86 @@ describe('RepeatingInput', function suite() {
     ];
 
     render(
-      <RepeatingInput value={repeatingValue}>
-        <TextInput />
+      <RepeatingInput value={repeatingValue} label="Label">
+        <TextInput label="Inner label" />
       </RepeatingInput>, this.container);
 
     this.container.querySelector('input[name="0"]').value.should.equal(repeatingValue[0]);
     this.container.querySelector('input[name="1"]').value.should.equal(repeatingValue[1]);
     this.container.querySelector('input[name="2"]').value.should.equal(repeatingValue[2]);
+  });
+
+  it('should extract the label prop from the template and render it as a header', function test() {
+    render(
+      <RepeatingInput>
+        <TextInput label="Inner label" />
+      </RepeatingInput>, this.container);
+
+    this.container.querySelector('label').textContent.should.equal('Inner label');
+  });
+
+  it('should render a repeating CompoundInput', function test() {
+    const repeatingValue = [
+      {
+        title: 'Title 1',
+        type: 'Type 1',
+        language: 'Lang 1',
+      },
+      {
+        title: 'Title 2',
+        type: 'Type 2',
+        language: 'Lang 2',
+      },
+    ];
+
+    render(
+      <RepeatingInput value={repeatingValue}>
+        <CompoundInput>
+          <TextInput name="title" label="Title" />
+          <TextInput name="type" label="Type" />
+          <TextInput name="language" label="Language" />
+        </CompoundInput>
+      </RepeatingInput>, this.container);
+  });
+
+  it('should extract the label prop from the template and render it as a header', function test() {
+    const repeatingValue = [
+      {
+        title: 'Title 1',
+        type: 'Type 1',
+        language: 'Lang 1',
+      },
+      {
+        title: 'Title 2',
+        type: 'Type 2',
+        language: 'Lang 2',
+      },
+    ];
+
+    const labelRow = (
+      <LabelRow embedded>
+        <Label>Alternate title</Label>
+        <Label>Type</Label>
+        <Label>Language</Label>
+      </LabelRow>
+    );
+
+    render(
+      <RepeatingInput value={repeatingValue}>
+        <CompoundInput label={labelRow}>
+          <InputRow embedded>
+            <TextInput embedded name="title" />
+            <TextInput embedded name="type" />
+            <TextInput embedded name="language" />
+          </InputRow>
+        </CompoundInput>
+      </RepeatingInput>, this.container);
+
+    const labels = this.container.querySelectorAll('label');
+
+    labels[0].textContent.should.equal('Alternate title');
+    labels[1].textContent.should.equal('Type');
+    labels[2].textContent.should.equal('Language');
   });
 });
 

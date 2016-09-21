@@ -1,0 +1,26 @@
+@value textLight from '../colors.css';
+
+.common {
+  display: flex;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.common > div {
+  padding: 0 2px;
+  flex: 1;
+}
+
+.common > div + div {
+  flex: 1;
+}
+
+.normal {
+  composes: common;
+  border: 1px solid textLight;
+  border-bottom: none;
+}
+
+.embedded {
+  composes: common;
+}

@@ -23,5 +23,7 @@ export default function withValueAtPath(BaseComponent) {
     path: PropTypes.string,
   };
 
+  WithValueAtPath.isInput = BaseComponent.isInput;
+
   return WithValueAtPath;
 }

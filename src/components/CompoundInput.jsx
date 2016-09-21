@@ -1,7 +1,10 @@
 import React, { Component, PropTypes } from 'react';
 import get from 'lodash/get';
+import labelable from '../enhancers/labelable';
+import repeatable from '../enhancers/repeatable';
+import styles from '../../styles/cspace-input/CompoundInput.css';
 
-export default class CompoundInput extends Component {
+class CompoundInput extends Component {
   constructor(props) {
     super(props);
 
@@ -44,7 +47,7 @@ export default class CompoundInput extends Component {
     } = this.props;
 
     return (
-      <div>
+      <div className={styles.common}>
         {this.decorateInputs(children)}
       </div>
     );
@@ -53,13 +56,15 @@ export default class CompoundInput extends Component {
 
 CompoundInput.propTypes = {
   children: PropTypes.node,
-  value: PropTypes.object, // eslint-disable-line react/forbid-prop-types
   defaultPath: PropTypes.string,
+  value: PropTypes.object, // eslint-disable-line react/forbid-prop-types
 };
 
 CompoundInput.defaultProps = {
-  value: {},
   defaultPath: '',
+  value: {},
 };
 
 CompoundInput.isInput = true;
+
+export default repeatable(labelable(CompoundInput));

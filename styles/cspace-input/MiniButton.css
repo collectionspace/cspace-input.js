@@ -25,7 +25,7 @@
   outline: 1px solid buttonBgActive;
   position: relative;
   z-index: 1;
-  color:buttonText;
+  color: buttonText;
   background-color: buttonBgActive;
 }
 

@@ -46,7 +46,7 @@ describe('repeatable', function suite() {
 
       render(<EnhancedComponent value="" repeating />, this.container);
 
-      this.container.querySelector('table').should.exist;
+      this.container.querySelector('ol').should.exist;
     });
 
     it('should not render a RepeatingInput when repeating is false', function test() {
@@ -54,7 +54,7 @@ describe('repeatable', function suite() {
 
       render(<EnhancedComponent value="" repeating={false} />, this.container);
 
-      expect(this.container.querySelector('table')).to.be.null;
+      expect(this.container.querySelector('ol')).to.be.null;
     });
 
     it('should lift the value prop to the RepeatingInput', function test() {
@@ -74,6 +74,14 @@ describe('repeatable', function suite() {
 
       result.type.should.equal(RepeatingInput);
       result.props.should.include({ value });
+    });
+
+    it('should lift the static isInput property from the base component', function test() {
+      const StubComponent = () => null;
+      StubComponent.isInput = true;
+
+      const EnhancedComponent = repeatable(StubComponent);
+      EnhancedComponent.isInput.should.equal(true);
     });
   });
 });

@@ -5,6 +5,9 @@ import chai from 'chai';
 import createTestContainer from '../../helpers/createTestContainer';
 
 import CompoundInput from '../../../src/components/CompoundInput';
+import InputRow from '../../../src/components/InputRow';
+import Label from '../../../src/components/Label';
+import LabelRow from '../../../src/components/LabelRow';
 import TextInput from '../../../src/components/TextInput';
 
 chai.should();
@@ -61,7 +64,7 @@ describe('CompoundInput', function suite() {
               <TextInput name="nested" />
               <CompoundInput name="deepGroup">
                 <span>Deeply nested field</span>
-                <TextInput name="deeplyNested" />
+                <TextInput name="deeplyNested" label="Label" />
               </CompoundInput>
             </div>
           </CompoundInput>
@@ -124,9 +127,19 @@ describe('CompoundInput', function suite() {
 
     render(
       <CompoundInput value={compoundValue} defaultPath="collectionobjects_common">
-        <TextInput name="objectNumber" />
-        <TextInput name="comment" />
-        <TextInput name="comment" path="collectionobjects_extension" />
+        <TextInput
+          name="objectNumber"
+          label="collectionobjects_common:objectNumber"
+        />
+        <TextInput
+          name="comment"
+          label="collectionobjects_common:comment"
+        />
+        <TextInput
+          name="comment"
+          path="collectionobjects_extension"
+          label="collectionobjects_extension:comment"
+        />
       </CompoundInput>, this.container);
 
     this.container.querySelector('input[name="objectNumber"]').value.should
@@ -137,5 +150,27 @@ describe('CompoundInput', function suite() {
 
     this.container.querySelectorAll('input[name="comment"]')[1].value.should
       .equal(compoundValue.collectionobjects_extension.comment);
+  });
+
+  it('should render an InputRow template and a LabelRow label', function test() {
+    const labelRow = (
+      <LabelRow>
+        <Label>Alternate title</Label>
+        <Label>Type</Label>
+        <Label>Language</Label>
+      </LabelRow>
+    );
+
+    render(
+      <CompoundInput label={labelRow}>
+        <InputRow>
+          <TextInput embedded name="title" />
+          <TextInput embedded name="type" />
+          <TextInput embedded name="language" />
+        </InputRow>
+      </CompoundInput>, this.container);
+
+    this.container.querySelectorAll('label').length.should.equal(3);
+    this.container.querySelectorAll('input').length.should.equal(3);
   });
 });

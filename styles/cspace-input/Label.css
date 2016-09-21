@@ -1,0 +1,10 @@
+@value textDark from '../colors.css';
+
+.common {
+  display: block;
+  padding: 3px 0;
+  font-family: 'Open Sans', Arial, sans-serif;
+  font-size: 12px;
+  line-height: 14px;
+  color: textDark;
+}

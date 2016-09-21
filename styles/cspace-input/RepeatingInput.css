@@ -5,20 +5,39 @@
   composes: common from './Input.css';
 }
 
-.common {
+.common > header {
+  border: 1px solid textLight;
+  border-bottom: none;
+  padding: 0 calc(inputHeight - 2px);
+}
+
+.common > ol {
   width: 100%;
+  list-style: none;
+  display: table;
+  box-sizing: border-box;
   border-collapse: collapse;
   padding: 0;
   margin: 0;
 }
 
-.common > * > tr > td {
+.common > ol > li {
+  display: table-row;
+}
+
+.common > ol > li > * {
+  display: table-cell;
   border: 1px solid textLight;
-  padding: 0;
   vertical-align: top;
 }
 
-.common > * > tr > td:first-child,
-.common > * > tr > td:last-child {
+.common > ol > li > *:first-child,
+.common > ol > li > *:last-child,
+.common > footer > *:first-child {
   width: calc(inputHeight - 2px);
+}
+
+.common > footer > * {
+  border: 1px solid textLight;
+  border-top: none;
 }

@@ -47,5 +47,7 @@ export default function changeable(BaseComponent) {
     onChange: PropTypes.func,
   };
 
+  Changeable.isInput = BaseComponent.isInput;
+
   return Changeable;
 }
