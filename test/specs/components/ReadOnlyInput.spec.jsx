@@ -9,6 +9,8 @@ import ReadOnlyInput from '../../../src/components/ReadOnlyInput';
 
 chai.should();
 
+const expectedClassName = 'cspace-input-ReadOnlyInput--common cspace-input-Input--common';
+
 describe('ReadOnlyInput', function suite() {
   beforeEach(function before() {
     this.container = createTestContainer(this);
@@ -23,8 +25,7 @@ describe('ReadOnlyInput', function suite() {
   it('should render with correct class', function test() {
     render(<ReadOnlyInput value="Test" />, this.container);
 
-    this.container.firstElementChild.className.should.equal(
-      'cspace-input-ReadOnlyInput--common cspace-input-Input--common');
+    this.container.firstElementChild.className.should.equal(expectedClassName);
   });
 
   it('should render newlines visibly', function test() {
@@ -34,13 +35,15 @@ describe('ReadOnlyInput', function suite() {
     render(<ReadOnlyInput value={value} />, this.container);
 
     const measuringStick = createInvisible('div');
-    measuringStick.className = 'cspace-input-ReadOnlyInput--common cspace-input-Input--common';
+    measuringStick.className = expectedClassName;
     measuringStick.textContent = lines[0];
 
     this.container.firstElementChild.textContent.should.equal(value);
 
+    // IE measurements are sometimes slightly off. Fudge by .01 pixels.
+
     this.container.firstElementChild.getBoundingClientRect().height.should
-      .be.at.least(measuringStick.getBoundingClientRect().height * 2);
+      .be.at.least((measuringStick.getBoundingClientRect().height * 2) - 0.01);
   });
 
   it('should not interpret HTML tags as rendering instructions', function test() {
@@ -50,10 +53,12 @@ describe('ReadOnlyInput', function suite() {
     render(<ReadOnlyInput value={value} />, this.container);
 
     const measuringStick = createInvisible('div');
-    measuringStick.className = 'cspace-input-ReadOnlyInput--common cspace-input-Input--common';
+    measuringStick.className = expectedClassName;
     measuringStick.textContent = parts[0];
 
     this.container.firstElementChild.textContent.should.equal(value);
+
+    // IE measurements are sometimes slightly off. Fudge by .01 pixels.
 
     this.container.firstElementChild.getBoundingClientRect().height.should
       .be.closeTo(measuringStick.getBoundingClientRect().height, 0.01);
