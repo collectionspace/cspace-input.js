@@ -50,4 +50,15 @@ describe('TabularCompoundInput', function suite() {
     labels[0].textContent.should.equal('Compound input label');
     labels[1].textContent.should.equal('Inner label');
   });
+
+  it('should render when no labels are supplied', function test() {
+    render(
+      <TabularCompoundInput>
+        <TextInput name="objectNumber" />
+      </TabularCompoundInput>, this.container);
+
+    const labels = this.container.querySelectorAll('label');
+
+    labels.length.should.equal(0);
+  });
 });

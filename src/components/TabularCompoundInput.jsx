@@ -28,9 +28,17 @@ function TabularCompoundInput(props) {
 
   const inputs = extractInputs(children);
 
-  const modifiedLabels = inputs.map(input => React.cloneElement(normalizeLabel(input.props.label), {
-    key: input.props.name,
-  }));
+  const modifiedLabels = inputs.map((input) => {
+    const normalizedLabel = normalizeLabel(input.props.label);
+
+    if (!normalizedLabel) {
+      return null;
+    }
+
+    return React.cloneElement(normalizedLabel, {
+      key: input.props.name,
+    });
+  });
 
   const modifiedInputs = inputs.map(input => React.cloneElement(input, {
     key: input.props.name,
@@ -38,11 +46,15 @@ function TabularCompoundInput(props) {
     embedded: true,
   }));
 
-  const labelRow = (
-    <LabelRow embedded={repeating}>
-      {modifiedLabels}
-    </LabelRow>
-  );
+  let labelRow = null;
+
+  if (modifiedLabels.some(label => !!label)) {
+    labelRow = (
+      <LabelRow embedded={repeating}>
+        {modifiedLabels}
+      </LabelRow>
+    );
+  }
 
   return (
     <CompoundInput

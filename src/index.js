@@ -5,4 +5,6 @@ export { default as LineInput } from './components/LineInput';
 export { default as MultilineInput } from './components/MultilineInput';
 export { default as PasswordInput } from './components/PasswordInput';
 export { default as ReadOnlyInput } from './components/ReadOnlyInput';
+export { default as RepeatingInput } from './components/RepeatingInput';
+export { default as TabularCompoundInput } from './components/TabularCompoundInput';
 export { default as TextInput } from './components/TextInput';
