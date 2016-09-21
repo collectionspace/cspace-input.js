@@ -1,4 +1,6 @@
 export { default as Button } from './components/Button';
+export { default as CompoundInput } from './components/CompoundInput';
+export { default as InputGroup } from './components/InputGroup';
 export { default as LineInput } from './components/LineInput';
 export { default as MultilineInput } from './components/MultilineInput';
 export { default as PasswordInput } from './components/PasswordInput';

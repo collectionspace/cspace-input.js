@@ -27,7 +27,7 @@ describe('changeable', function suite() {
         changedToValue = value;
       };
 
-      render(<EnhancedComponent onChange={handleChange} defaultValue="hello" />, this.container);
+      render(<EnhancedComponent onChange={handleChange} value="hello" />, this.container);
 
       const input = this.container.querySelector('input');
       const newValue = input.value = 'new';
@@ -35,6 +35,20 @@ describe('changeable', function suite() {
       Simulate.change(input);
 
       changedToValue.should.equal(newValue);
+    });
+
+    it('should update the base component value when the value prop changes', function test() {
+      const EnhancedComponent = changeable('input');
+
+      render(<EnhancedComponent value="hello" />, this.container);
+
+      const input = this.container.querySelector('input');
+
+      input.value.should.equal('hello');
+
+      render(<EnhancedComponent value="new value" />, this.container);
+
+      input.value.should.equal('new value');
     });
 
     it('should lift the static isInput property from the base component', function test() {

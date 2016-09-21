@@ -13,30 +13,55 @@ export default function changeable(BaseComponent) {
     constructor(props) {
       super(props);
 
+      this.state = {
+        value: props.value,
+      };
+
       this.handleChange = this.handleChange.bind(this);
+    }
+
+    componentWillReceiveProps(nextProps) {
+      this.setState({
+        value: nextProps.value,
+      });
     }
 
     handleChange(event) {
       if (event && event.target) {
+        const value = event.target.value;
+
         const {
           onChange,
+          autoSyncValue,
         } = this.props;
 
+        if (autoSyncValue) {
+          this.setState({
+            value,
+          });
+        }
+
         if (onChange) {
-          onChange(event.target.value);
+          onChange(value);
         }
       }
     }
 
     render() {
       const {
+        autoSyncValue, // eslint-disable-line no-unused-vars
         onChange, // eslint-disable-line no-unused-vars
         ...remainingProps,
       } = this.props;
 
+      const {
+        value,
+      } = this.state;
+
       return (
         <BaseComponent
           {...remainingProps}
+          value={value}
           onChange={this.handleChange}
         />
       );
@@ -44,7 +69,14 @@ export default function changeable(BaseComponent) {
   }
 
   Changeable.propTypes = {
+    autoSyncValue: PropTypes.bool,
     onChange: PropTypes.func,
+    value: PropTypes.string,
+  };
+
+  Changeable.defaultProps = {
+    autoSyncValue: true,
+    value: '',
   };
 
   Changeable.isInput = BaseComponent.isInput;
