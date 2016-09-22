@@ -2,6 +2,7 @@ import React from 'react';
 import { createRenderer } from 'react-addons-test-utils';
 import chai from 'chai';
 
+import isInput from '../../../src/helpers/isInput';
 import LineInput from '../../../src/components/LineInput';
 import MultilineInput from '../../../src/components/MultilineInput';
 import TextInput from '../../../src/components/TextInput';
@@ -11,6 +12,10 @@ chai.should();
 const renderer = createRenderer();
 
 describe('TextInput', () => {
+  it('should be considered an input by isInput()', function test() {
+    isInput(<TextInput />).should.equal(true);
+  });
+
   context('when multiline is true', () => {
     it('should always render a MultilineInput', () => {
       renderer.render(<TextInput multiline value={undefined} />);

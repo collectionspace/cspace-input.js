@@ -74,11 +74,18 @@ class RepeatingInput extends Component {
   }
 
   render() {
+    const {
+      name,
+    } = this.props;
+
     const header = this.renderHeader();
     const instances = this.renderInstances();
 
     return (
-      <div className={styles.common}>
+      <div
+        className={styles.common}
+        data-name={name}
+      >
         {header}
         <ol>
           {instances}
@@ -95,6 +102,7 @@ class RepeatingInput extends Component {
 
 export const propTypes = RepeatingInput.propTypes = {
   children: PropTypes.node,
+  name: PropTypes.string,
   value: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.object,
@@ -108,7 +116,5 @@ export const propTypes = RepeatingInput.propTypes = {
 RepeatingInput.defaultProps = {
   value: [null],
 };
-
-RepeatingInput.isInput = true;
 
 export default labelable(RepeatingInput);

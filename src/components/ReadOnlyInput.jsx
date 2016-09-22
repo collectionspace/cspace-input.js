@@ -13,12 +13,14 @@ const preserveWhiteSpace = {
  */
 export default function ReadOnlyInput(props) {
   const {
+    name,
     value,
   } = props;
 
   return (
     <div
       className={styles.common}
+      data-name={name}
       style={preserveWhiteSpace}
     >
       {value}
@@ -27,7 +29,6 @@ export default function ReadOnlyInput(props) {
 }
 
 ReadOnlyInput.propTypes = {
+  name: PropTypes.string,
   value: PropTypes.string,
 };
-
-ReadOnlyInput.isInput = true;

@@ -5,6 +5,7 @@ import chai from 'chai';
 import createTestContainer from '../../helpers/createTestContainer';
 import createInvisible from '../../helpers/createInvisible';
 
+import isInput from '../../../src/helpers/isInput';
 import ReadOnlyInput from '../../../src/components/ReadOnlyInput';
 
 chai.should();
@@ -14,6 +15,10 @@ const expectedClassName = 'cspace-input-ReadOnlyInput--common cspace-input-Input
 describe('ReadOnlyInput', function suite() {
   beforeEach(function before() {
     this.container = createTestContainer(this);
+  });
+
+  it('should be considered an input by isInput()', function test() {
+    isInput(<ReadOnlyInput />).should.equal(true);
   });
 
   it('should render as a div', function test() {

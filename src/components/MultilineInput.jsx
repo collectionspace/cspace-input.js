@@ -9,6 +9,8 @@ import styles from '../../styles/cspace-input/MultilineInput.css';
 const MultilineInput = (props) => {
   const {
     embedded,
+    name,
+    value,
     ...remainingProps,
   } = props;
 
@@ -17,6 +19,8 @@ const MultilineInput = (props) => {
   return (
     <textarea
       className={className}
+      name={name}
+      value={value}
       {...remainingProps}
     />
   );
@@ -24,12 +28,12 @@ const MultilineInput = (props) => {
 
 MultilineInput.propTypes = {
   embedded: PropTypes.bool,
+  name: PropTypes.string,
+  value: PropTypes.string,
 };
 
 MultilineInput.defaultProps = {
   embedded: false,
 };
-
-MultilineInput.isInput = true;
 
 export default enhanced(MultilineInput);

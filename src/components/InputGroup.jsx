@@ -16,11 +16,11 @@ export default function InputGroup(props) {
 }
 
 InputGroup.propTypes = {
+  ...CompoundInput.propTypes,
+  ...TabularCompoundInput.propTypes,
   tabular: PropTypes.bool,
 };
 
 InputGroup.defaultProps = {
   tabular: false,
 };
-
-InputGroup.isInput = true;

@@ -5,6 +5,7 @@ import chai from 'chai';
 
 import createTestContainer from '../../helpers/createTestContainer';
 
+import isInput from '../../../src/helpers/isInput';
 import CompoundInput from '../../../src/components/CompoundInput';
 import TabularCompoundInput from '../../../src/components/TabularCompoundInput';
 import TextInput from '../../../src/components/TextInput';
@@ -15,6 +16,10 @@ chai.should();
 describe('InputGroup', function suite() {
   beforeEach(function before() {
     this.container = createTestContainer(this);
+  });
+
+  it('should be considered an input by isInput()', function test() {
+    isInput(<InputGroup />).should.equal(true);
   });
 
   context('when tabular prop is false', function context() {

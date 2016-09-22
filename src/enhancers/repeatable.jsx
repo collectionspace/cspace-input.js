@@ -39,7 +39,5 @@ export default function repeatable(BaseComponent) {
     repeating: false,
   };
 
-  Repeatable.isInput = BaseComponent.isInput;
-
   return Repeatable;
 }

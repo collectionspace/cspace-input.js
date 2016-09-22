@@ -4,6 +4,7 @@ import chai from 'chai';
 
 import createTestContainer from '../../helpers/createTestContainer';
 
+import isInput from '../../../src/helpers/isInput';
 import TabularCompoundInput from '../../../src/components/TabularCompoundInput';
 import Label from '../../../src/components/Label';
 import TextInput from '../../../src/components/TextInput';
@@ -13,6 +14,10 @@ chai.should();
 describe('TabularCompoundInput', function suite() {
   beforeEach(function before() {
     this.container = createTestContainer(this);
+  });
+
+  it('should be considered an input by isInput()', function test() {
+    isInput(<TabularCompoundInput />).should.equal(true);
   });
 
   it('should render as a div', function test() {

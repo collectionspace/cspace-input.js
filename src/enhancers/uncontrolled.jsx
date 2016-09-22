@@ -27,7 +27,5 @@ export default function uncontrolled(BaseComponent) {
     value: PropTypes.string,
   };
 
-  Uncontrolled.isInput = BaseComponent.isInput;
-
   return Uncontrolled;
 }

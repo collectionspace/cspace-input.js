@@ -60,7 +60,5 @@ export default function committable(BaseComponent) {
     onCommit: PropTypes.func,
   };
 
-  Committable.isInput = BaseComponent.isInput;
-
   return Committable;
 }

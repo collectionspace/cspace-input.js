@@ -4,6 +4,7 @@ import chai from 'chai';
 
 import createTestContainer from '../../helpers/createTestContainer';
 
+import isInput from '../../../src/helpers/isInput';
 import CompoundInput from '../../../src/components/CompoundInput';
 import InputRow from '../../../src/components/InputRow';
 import Label from '../../../src/components/Label';
@@ -28,6 +29,10 @@ StubTemplateComponent.defaultProps = {
 describe('RepeatingInput', function suite() {
   beforeEach(function before() {
     this.container = createTestContainer(this);
+  });
+
+  it('should be considered an input by isInput()', function test() {
+    isInput(<RepeatingInput />).should.equal(true);
   });
 
   it('should render as a div', function test() {

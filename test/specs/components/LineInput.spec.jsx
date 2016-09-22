@@ -6,6 +6,7 @@ import chai from 'chai';
 import createTestContainer from '../../helpers/createTestContainer';
 import createInvisible from '../../helpers/createInvisible';
 
+import isInput from '../../../src/helpers/isInput';
 import LineInput from '../../../src/components/LineInput';
 
 chai.should();
@@ -15,6 +16,10 @@ const expectedClassName = 'cspace-input-LineInput--normal cspace-input-TextInput
 describe('LineInput', function suite() {
   beforeEach(function before() {
     this.container = createTestContainer(this);
+  });
+
+  it('should be considered an input by isInput()', function test() {
+    isInput(<LineInput />).should.equal(true);
   });
 
   it('should render as an input with type \'text\'', function test() {

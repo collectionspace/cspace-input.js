@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import enhanced from '../enhancers/enhanced';
 import styles from '../../styles/cspace-input/LineInput.css';
 
@@ -16,6 +16,9 @@ const PasswordInput = props => (
   />
 );
 
-PasswordInput.isInput = true;
+PasswordInput.propTypes = {
+  name: PropTypes.string,
+  value: PropTypes.string,
+};
 
 export default enhanced(PasswordInput);

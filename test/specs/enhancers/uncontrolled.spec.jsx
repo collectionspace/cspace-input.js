@@ -38,12 +38,17 @@ describe('uncontrolled', function suite() {
       });
     });
 
-    it('should lift the static isInput property from the base component', function test() {
+    it('should lift propTypes from the base component', function test() {
       const StubComponent = () => null;
-      StubComponent.isInput = true;
+
+      StubComponent.propTypes = {
+        name: null,
+        value: null,
+      };
 
       const EnhancedComponent = uncontrolled(StubComponent);
-      EnhancedComponent.isInput.should.equal(true);
+
+      EnhancedComponent.propTypes.should.include.keys(Object.keys(StubComponent.propTypes));
     });
   });
 });

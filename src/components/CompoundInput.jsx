@@ -25,14 +25,25 @@ class CompoundInput extends Component {
   decorateInputs(children) {
     return React.Children.map(children, (child) => {
       if (!child.type) {
+        // Text node. Just return it.
         return child;
       }
 
-      if (child.type.isInput) {
-        return React.cloneElement(child, {
-          value: this.getValue(child.props.name, child.props.path),
-          onCommit: this.handleCommit,
-        });
+      const childPropTypes = child.type.propTypes;
+      const overrideProps = {};
+
+      if (childPropTypes) {
+        if (childPropTypes.value) {
+          overrideProps.value = this.getValue(child.props.name, child.props.path);
+        }
+
+        if (childPropTypes.onCommit) {
+          overrideProps.onCommit = this.handlecommit;
+        }
+
+        if (Object.keys(overrideProps).length > 0) {
+          return React.cloneElement(child, overrideProps);
+        }
       }
 
       return React.cloneElement(child, {
@@ -44,10 +55,14 @@ class CompoundInput extends Component {
   render() {
     const {
       children,
+      name,
     } = this.props;
 
     return (
-      <div className={styles.common}>
+      <div
+        className={styles.common}
+        data-name={name}
+      >
         {this.decorateInputs(children)}
       </div>
     );
@@ -57,6 +72,7 @@ class CompoundInput extends Component {
 CompoundInput.propTypes = {
   children: PropTypes.node,
   defaultPath: PropTypes.string,
+  name: PropTypes.string,
   value: PropTypes.object, // eslint-disable-line react/forbid-prop-types
 };
 
@@ -64,7 +80,5 @@ CompoundInput.defaultProps = {
   defaultPath: '',
   value: {},
 };
-
-CompoundInput.isInput = true;
 
 export default repeatable(labelable(CompoundInput));

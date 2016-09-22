@@ -9,7 +9,7 @@ import { normalizeLabel } from '../components/Label';
  * @param {string|function} BaseComponent - The component to enhance.
  * @returns {function} The enhanced component.
  */
-export default function repeatable(BaseComponent) {
+export default function labelable(BaseComponent) {
   const Labelable = (props) => {
     const {
       label,
@@ -37,9 +37,8 @@ export default function repeatable(BaseComponent) {
   Labelable.propTypes = {
     ...BaseComponent.propTypes,
     label: PropTypes.node,
+    onLabelWillChange: PropTypes.func,
   };
-
-  Labelable.isInput = BaseComponent.isInput;
 
   return Labelable;
 }

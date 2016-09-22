@@ -11,6 +11,8 @@ import styles from '../../styles/cspace-input/LineInput.css';
 const LineInput = (props) => {
   const {
     embedded,
+    name,
+    value,
     ...remainingProps,
   } = props;
 
@@ -19,6 +21,8 @@ const LineInput = (props) => {
   return (
     <input
       className={className}
+      name={name}
+      value={value}
       type="text"
       {...remainingProps}
     />
@@ -27,12 +31,12 @@ const LineInput = (props) => {
 
 LineInput.propTypes = {
   embedded: PropTypes.bool,
+  name: PropTypes.string,
+  value: PropTypes.string,
 };
 
 LineInput.defaultProps = {
   embedded: false,
 };
-
-LineInput.isInput = true;
 
 export default enhanced(LineInput);

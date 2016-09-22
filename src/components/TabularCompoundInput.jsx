@@ -4,12 +4,13 @@ import { normalizeLabel } from './Label';
 import InputRow from './InputRow';
 import LabelRow from './LabelRow';
 import labelable from '../enhancers/labelable';
+import isInput from '../helpers/isInput';
 
 function extractInputs(children) {
   const inputs = [];
 
   React.Children.forEach(children, (child) => {
-    if (child.type.isInput) {
+    if (isInput(child)) {
       inputs.push(child);
     } else {
       Array.prototype.push.apply(inputs, extractInputs(child.props.children));
@@ -70,10 +71,9 @@ function TabularCompoundInput(props) {
 }
 
 TabularCompoundInput.propTypes = {
+  ...CompoundInput.propTypes,
   children: PropTypes.node,
   repeating: PropTypes.bool,
 };
-
-TabularCompoundInput.isInput = true;
 
 export default labelable(TabularCompoundInput);

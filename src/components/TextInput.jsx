@@ -44,15 +44,13 @@ export default function TextInput(props) {
 }
 
 TextInput.propTypes = {
-  multiline: PropTypes.bool,
-  value: PropTypes.string,
   ...LineInput.propTypes,
   ...MultilineInput.propTypes,
+  multiline: PropTypes.bool,
+  value: PropTypes.string,
 };
 
 TextInput.defaultProps = {
   multiline: null,
   value: '',
 };
-
-TextInput.isInput = true;

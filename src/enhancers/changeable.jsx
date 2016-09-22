@@ -80,7 +80,5 @@ export default function changeable(BaseComponent) {
     value: '',
   };
 
-  Changeable.isInput = BaseComponent.isInput;
-
   return Changeable;
 }
