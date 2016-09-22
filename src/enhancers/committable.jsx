@@ -56,6 +56,7 @@ export default function committable(BaseComponent) {
   }
 
   Committable.propTypes = {
+    ...BaseComponent.propTypes,
     onCommit: PropTypes.func,
   };
 

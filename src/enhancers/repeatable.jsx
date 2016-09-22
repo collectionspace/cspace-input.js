@@ -30,6 +30,7 @@ export default function repeatable(BaseComponent) {
   };
 
   Repeatable.propTypes = {
+    ...BaseComponent.propTypes,
     repeating: PropTypes.bool,
     value: repeatingPropTypes.value,
   };

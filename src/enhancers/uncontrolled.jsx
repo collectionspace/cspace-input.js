@@ -23,6 +23,7 @@ export default function uncontrolled(BaseComponent) {
   };
 
   Uncontrolled.propTypes = {
+    ...BaseComponent.propTypes,
     value: PropTypes.string,
   };
 

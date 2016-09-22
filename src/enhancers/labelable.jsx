@@ -35,6 +35,7 @@ export default function repeatable(BaseComponent) {
   };
 
   Labelable.propTypes = {
+    ...BaseComponent.propTypes,
     label: PropTypes.node,
   };
 
