@@ -37,6 +37,7 @@ LineInput.propTypes = {
 
 LineInput.defaultProps = {
   embedded: false,
+  value: '',
 };
 
 export default enhanced(LineInput);

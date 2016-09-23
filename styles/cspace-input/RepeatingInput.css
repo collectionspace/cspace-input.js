@@ -1,8 +1,9 @@
-@value textLight from '../colors.css';
-@value inputHeight from '../dimensions.css';
+@value textLight, inputBg from '../colors.css';
+@value inputHeight, inputMargin from '../dimensions.css';
 
 .common {
   composes: common from './Input.css';
+  margin-bottom: inputMargin;
 }
 
 .common > header {
@@ -35,6 +36,7 @@
 .common > ol > li > *:last-child,
 .common > footer > *:first-child {
   width: calc(inputHeight - 2px);
+  background-color: inputBg;
 }
 
 .common > footer > * {

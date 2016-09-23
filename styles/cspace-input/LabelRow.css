@@ -11,10 +11,6 @@
   flex: 1;
 }
 
-.common > div + div {
-  flex: 1;
-}
-
 .normal {
   composes: common;
   border: 1px solid textLight;

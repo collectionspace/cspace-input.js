@@ -10,7 +10,7 @@ function normalizeValue(value) {
   }
 
   if (value.length === 0) {
-    return [null];
+    return [undefined];
   }
 
   return value;
@@ -100,7 +100,7 @@ class RepeatingInput extends Component {
   }
 }
 
-export const propTypes = RepeatingInput.propTypes = {
+RepeatingInput.propTypes = {
   children: PropTypes.node,
   name: PropTypes.string,
   value: PropTypes.oneOfType([
@@ -114,7 +114,7 @@ export const propTypes = RepeatingInput.propTypes = {
 };
 
 RepeatingInput.defaultProps = {
-  value: [null],
+  value: [undefined],
 };
 
 export default labelable(RepeatingInput);

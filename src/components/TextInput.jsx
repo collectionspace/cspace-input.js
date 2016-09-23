@@ -47,10 +47,8 @@ TextInput.propTypes = {
   ...LineInput.propTypes,
   ...MultilineInput.propTypes,
   multiline: PropTypes.bool,
-  value: PropTypes.string,
 };
 
 TextInput.defaultProps = {
   multiline: null,
-  value: '',
 };

@@ -34,6 +34,7 @@ MultilineInput.propTypes = {
 
 MultilineInput.defaultProps = {
   embedded: false,
+  value: '',
 };
 
 export default enhanced(MultilineInput);

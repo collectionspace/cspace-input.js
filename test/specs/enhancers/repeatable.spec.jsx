@@ -57,7 +57,7 @@ describe('repeatable', function suite() {
       expect(this.container.querySelector('ol')).to.be.null;
     });
 
-    it('should lift the value prop to the RepeatingInput', function test() {
+    it('should lift the value prop to the RepeatingInput when repeating is true', function test() {
       const EnhancedComponent = repeatable('input');
 
       const value = [

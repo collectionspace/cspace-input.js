@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react';
-import enhanced from '../enhancers/enhanced';
+import changeable from '../enhancers/changeable';
+import committable from '../enhancers/committable';
 import styles from '../../styles/cspace-input/LineInput.css';
 
 /**
@@ -21,4 +22,8 @@ PasswordInput.propTypes = {
   value: PropTypes.string,
 };
 
-export default enhanced(PasswordInput);
+PasswordInput.defaultProps = {
+  value: '',
+};
+
+export default committable(changeable(PasswordInput));

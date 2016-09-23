@@ -37,7 +37,6 @@ export default function labelable(BaseComponent) {
   Labelable.propTypes = {
     ...BaseComponent.propTypes,
     label: PropTypes.node,
-    onLabelWillChange: PropTypes.func,
   };
 
   return Labelable;

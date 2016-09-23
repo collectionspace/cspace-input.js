@@ -1,5 +1,5 @@
 @value textDark, textLight from '../colors.css';
-@value activeEdgeWidth from '../dimensions.css';
+@value activeEdgeWidth, inputMargin from '../dimensions.css';
 
 .common {
   composes: common from './Input.css';
@@ -21,6 +21,7 @@
   composes: common;
   border: 1px solid textLight;
   outline-offset: -1px;
+  margin-bottom: inputMargin;
 }
 
 .embedded {
