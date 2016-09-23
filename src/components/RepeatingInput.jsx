@@ -36,7 +36,11 @@ class RepeatingInput extends Component {
 
     return (
       <header>
-        {normalizedLabel}
+        <div />
+        <div>
+          {normalizedLabel}
+        </div>
+        <div />
       </header>
     );
   }
@@ -58,7 +62,7 @@ class RepeatingInput extends Component {
       });
 
       return (
-        <li key={index}>
+        <div key={index}>
           <div>
             <MiniButton disabled={index === 0}>{index + 1}</MiniButton>
           </div>
@@ -68,7 +72,7 @@ class RepeatingInput extends Component {
           <div>
             <MiniButton disabled={list.length < 2}>−</MiniButton>
           </div>
-        </li>
+        </div>
       );
     });
   }
@@ -82,20 +86,20 @@ class RepeatingInput extends Component {
     const instances = this.renderInstances();
 
     return (
-      <div
+      <fieldset
         className={styles.common}
-        data-name={name}
+        name={name}
       >
-        {header}
-        <ol>
+        <div>
+          {header}
           {instances}
-        </ol>
+        </div>
         <footer>
           <div>
             <MiniButton>+</MiniButton>
           </div>
         </footer>
-      </div>
+      </fieldset>
     );
   }
 }

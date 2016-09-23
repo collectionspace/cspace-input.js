@@ -35,13 +35,13 @@ describe('RepeatingInput', function suite() {
     isInput(<RepeatingInput />).should.equal(true);
   });
 
-  it('should render as a div', function test() {
+  it('should render as a fieldset', function test() {
     render(
       <RepeatingInput>
         <StubTemplateComponent />
       </RepeatingInput>, this.container);
 
-    this.container.firstElementChild.nodeName.should.equal('DIV');
+    this.container.firstElementChild.nodeName.should.equal('FIELDSET');
   });
 
   it('should render the template once for each element in an array value', function test() {

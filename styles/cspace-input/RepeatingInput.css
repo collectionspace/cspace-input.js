@@ -3,37 +3,39 @@
 
 .common {
   composes: common from './Input.css';
-  margin-bottom: inputMargin;
+  margin: 0 0 inputMargin 0;
+  border: none;
+  padding: 0;
 }
 
-.common > header {
-  border: 1px solid textLight;
-  border-bottom: none;
-  padding: 0 calc(inputHeight - 2px);
-}
-
-.common > ol {
+.common > div {
   width: 100%;
-  list-style: none;
   display: table;
+  border: 1px solid textLight;
   box-sizing: border-box;
   border-collapse: collapse;
-  padding: 0;
-  margin: 0;
 }
 
-.common > ol > li {
+.common > div > * {
   display: table-row;
 }
 
-.common > ol > li > * {
+.common > div > header {
+  padding: 0 calc(inputHeight - 2px);
+}
+
+.common > div > header > * {
+  display: table-cell;
+}
+
+.common > div > div > * {
   display: table-cell;
   border: 1px solid textLight;
   vertical-align: top;
 }
 
-.common > ol > li > *:first-child,
-.common > ol > li > *:last-child,
+.common > div > div > *:first-child,
+.common > div > div > *:last-child,
 .common > footer > *:first-child {
   width: calc(inputHeight - 2px);
   background-color: inputBg;
