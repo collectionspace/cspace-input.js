@@ -1,4 +1,5 @@
 import React, { PropTypes } from 'react';
+import { Simulate } from 'react-addons-test-utils';
 import { render } from 'react-dom';
 import chai from 'chai';
 
@@ -119,6 +120,36 @@ describe('RepeatingInput', function suite() {
     this.container.querySelector('input[name="0"]').value.should.equal(repeatingValue[0]);
     this.container.querySelector('input[name="1"]').value.should.equal(repeatingValue[1]);
     this.container.querySelector('input[name="2"]').value.should.equal(repeatingValue[2]);
+  });
+
+  it('should call the onCommit callback when an instance is committed', function test() {
+    let committedName = null;
+    let committedValue = null;
+
+    const handleCommit = (name, value) => {
+      committedName = name;
+      committedValue = value;
+    };
+
+    const repeatingValue = [
+      'Value 1',
+      'Value 2',
+      'Value 3',
+    ];
+
+    render(
+      <RepeatingInput name="rpt" value={repeatingValue} onCommit={handleCommit}>
+        <TextInput />
+      </RepeatingInput>, this.container);
+
+    const input = this.container.querySelectorAll('input')[1];
+
+    input.value = 'New value';
+
+    Simulate.keyPress(input, { key: 'Enter' });
+
+    committedName.should.equal('rpt[1]');
+    committedValue.should.equal('New value');
   });
 
   it('should extract the label prop from the template and render it as a header', function test() {

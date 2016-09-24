@@ -17,6 +17,23 @@ function normalizeValue(value) {
 }
 
 class RepeatingInput extends Component {
+  constructor(props) {
+    super(props);
+
+    this.handleCommit = this.handleCommit.bind(this);
+  }
+
+  handleCommit(instanceName, value) {
+    const {
+      name,
+      onCommit,
+    } = this.props;
+
+    if (onCommit) {
+      onCommit(`${name}[${instanceName}]`, value);
+    }
+  }
+
   renderHeader() {
     const {
       children,
@@ -54,12 +71,18 @@ class RepeatingInput extends Component {
     const template = React.Children.only(children);
 
     return normalizeValue(value).map((instanceValue, index, list) => {
-      const instance = React.cloneElement(template, {
+      const overrideProps = {
         embedded: true,
         label: undefined,
         name: `${index}`,
         value: instanceValue,
-      });
+      };
+
+      if (template.type.propTypes.onCommit) {
+        overrideProps.onCommit = this.handleCommit;
+      }
+
+      const instance = React.cloneElement(template, overrideProps);
 
       return (
         <div key={index}>
@@ -115,6 +138,7 @@ RepeatingInput.propTypes = {
       PropTypes.object,
     ])),
   ]),
+  onCommit: PropTypes.func,
 };
 
 RepeatingInput.defaultProps = {
