@@ -65,14 +65,19 @@ describe('MultilineInput', function suite() {
       committedValue = value;
     };
 
-    render(<MultilineInput name="input" onCommit={handleCommit} />, this.container);
+    render(
+      <MultilineInput
+        name="input"
+        onCommit={handleCommit}
+        path="schema_name"
+      />, this.container);
 
     const input = this.container.firstElementChild;
     const newValue = input.value = 'New value line 1\nNew value line 2';
 
     Simulate.keyPress(input, { key: 'Enter' });
 
-    committedPath.should.deep.equal(['input']);
+    committedPath.should.deep.equal(['schema_name', 'input']);
     committedValue.should.equal(newValue);
   });
 

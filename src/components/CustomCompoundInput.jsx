@@ -42,6 +42,10 @@ class CustomCompoundInput extends Component {
           overrideProps.onCommit = this.handleCommit;
         }
 
+        if (childPropTypes.path && !child.props.path && this.props.defaultPath) {
+          overrideProps.path = this.props.defaultPath;
+        }
+
         if (Object.keys(overrideProps).length > 0) {
           return React.cloneElement(child, overrideProps);
         }
@@ -56,11 +60,12 @@ class CustomCompoundInput extends Component {
   handleCommit(childPath, value) {
     const {
       name,
+      path,
       onCommit,
     } = this.props;
 
     if (onCommit) {
-      onCommit([name, ...childPath], value);
+      onCommit(path ? [path, name, ...childPath] : [name, ...childPath], value);
     }
   }
 
@@ -85,6 +90,7 @@ CustomCompoundInput.propTypes = {
   children: PropTypes.node,
   defaultPath: PropTypes.string,
   name: PropTypes.string,
+  path: PropTypes.string,
   value: PropTypes.object, // eslint-disable-line react/forbid-prop-types
   onCommit: PropTypes.func,
 };

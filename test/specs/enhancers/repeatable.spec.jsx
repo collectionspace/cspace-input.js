@@ -57,7 +57,7 @@ describe('repeatable', function suite() {
       expect(this.container.querySelector('fieldset')).to.be.null;
     });
 
-    it('should lift the value prop to the RepeatingInput when repeating is true', function test() {
+    it('should lift value to the RepeatingInput when repeating is true', function test() {
       const EnhancedComponent = repeatable('input');
 
       const value = [
@@ -76,7 +76,20 @@ describe('repeatable', function suite() {
       result.props.should.include({ value });
     });
 
-    it('should lift the name prop to the RepeatingInput when repeating is true', function test() {
+    it('should lift path to the RepeatingInput when repeating is true', function test() {
+      const StubComponent = () => null;
+      const EnhancedComponent = repeatable(StubComponent);
+      const shallowRenderer = createRenderer();
+
+      shallowRenderer.render(<EnhancedComponent path="schema_name" repeating />);
+
+      const result = shallowRenderer.getRenderOutput();
+
+      result.type.should.equal(RepeatingInput);
+      result.props.should.include({ path: 'schema_name' });
+    });
+
+    it('should lift name to the RepeatingInput when repeating is true', function test() {
       const StubComponent = () => null;
       const EnhancedComponent = repeatable(StubComponent);
       const shallowRenderer = createRenderer();
@@ -89,7 +102,7 @@ describe('repeatable', function suite() {
       result.props.should.include({ name: 'rpt' });
     });
 
-    it('should lift the onCommit to the RepeatingInput when repeating is true', function test() {
+    it('should lift onCommit to the RepeatingInput when repeating is true', function test() {
       const handleCommit = () => null;
 
       const StubComponent = () => null;

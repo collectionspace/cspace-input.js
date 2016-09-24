@@ -11,8 +11,9 @@ import RepeatingInput from '../components/RepeatingInput';
 export default function repeatable(BaseComponent) {
   const Repeatable = (props) => {
     const {
-      repeating,
       name,
+      path,
+      repeating,
       value,
       onCommit,
       ...remainingProps,
@@ -22,6 +23,7 @@ export default function repeatable(BaseComponent) {
       return (
         <BaseComponent
           name={name}
+          path={path}
           value={value}
           onCommit={onCommit}
           {...remainingProps}
@@ -32,6 +34,7 @@ export default function repeatable(BaseComponent) {
     return (
       <RepeatingInput
         name={name}
+        path={path}
         value={value}
         onCommit={onCommit}
       >

@@ -51,7 +51,8 @@ describe('PasswordInput', function suite() {
       committedValue = value;
     };
 
-    render(<PasswordInput name="input" onCommit={handleCommit} />, this.container);
+    render(
+      <PasswordInput name="input" onCommit={handleCommit} />, this.container);
 
     const input = this.container.firstElementChild;
     const newValue = input.value = 'New value';

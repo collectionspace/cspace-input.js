@@ -66,14 +66,14 @@ describe('LineInput', function suite() {
       committedValue = value;
     };
 
-    render(<LineInput name="input" onCommit={handleCommit} />, this.container);
+    render(<LineInput name="input" onCommit={handleCommit} path="schema_name" />, this.container);
 
     const input = this.container.firstElementChild;
     const newValue = input.value = 'New value';
 
     Simulate.keyPress(input, { key: 'Enter' });
 
-    committedPath.should.deep.equal(['input']);
+    committedPath.should.deep.equal(['schema_name', 'input']);
     committedValue.should.equal(newValue);
   });
 

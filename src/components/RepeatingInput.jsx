@@ -26,11 +26,12 @@ class RepeatingInput extends Component {
   handleCommit(instancePath, value) {
     const {
       name,
+      path,
       onCommit,
     } = this.props;
 
     if (onCommit) {
-      onCommit([name, ...instancePath], value);
+      onCommit(path ? [path, name, ...instancePath] : [name, ...instancePath], value);
     }
   }
 
@@ -133,6 +134,7 @@ class RepeatingInput extends Component {
 RepeatingInput.propTypes = {
   children: PropTypes.node,
   name: PropTypes.string,
+  path: PropTypes.string,
   value: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.object,

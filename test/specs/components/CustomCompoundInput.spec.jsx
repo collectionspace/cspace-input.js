@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import { Simulate } from 'react-addons-test-utils';
 import { render } from 'react-dom';
 import chai from 'chai';
@@ -159,6 +159,25 @@ describe('CustomCompoundInput', function suite() {
       .equal(compoundValue.collectionobjects_extension.comment);
   });
 
+  it('should set the path of children to the defaultPath if not specified', function test() {
+    const StubComponent = props => (
+      <p>{props.path}</p>
+    );
+
+    StubComponent.propTypes = {
+      path: PropTypes.string,
+    };
+
+    render(
+      <CustomCompoundInput defaultPath="schema_name">
+        <StubComponent />
+        <StubComponent path="mypath" />
+      </CustomCompoundInput>, this.container);
+
+    this.container.querySelectorAll('p')[0].textContent.should.equal('schema_name');
+    this.container.querySelectorAll('p')[1].textContent.should.equal('mypath');
+  });
+
   it('should render an InputRow template and a LabelRow label', function test() {
     const labelRow = (
       <LabelRow>
@@ -202,7 +221,12 @@ describe('CustomCompoundInput', function suite() {
     };
 
     render(
-      <CustomCompoundInput name="compound" value={compoundValue} onCommit={handleCommit}>
+      <CustomCompoundInput
+        name="compound"
+        path="schema_name"
+        value={compoundValue}
+        onCommit={handleCommit}
+      >
         <TextInput name="objectNumber" />
         <div>
           <TextInput name="comment" multiline />
@@ -225,7 +249,7 @@ describe('CustomCompoundInput', function suite() {
 
     Simulate.keyPress(input, { key: 'Enter' });
 
-    committedPath.should.deep.equal(['compound', 'group', 'deepGroup', 'deepRpt', '0']);
+    committedPath.should.deep.equal(['schema_name', 'compound', 'group', 'deepGroup', 'deepRpt', '0']);
     committedValue.should.equal('New value');
   });
 });

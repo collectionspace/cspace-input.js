@@ -138,7 +138,12 @@ describe('RepeatingInput', function suite() {
     ];
 
     render(
-      <RepeatingInput name="rpt" value={repeatingValue} onCommit={handleCommit}>
+      <RepeatingInput
+        name="rpt"
+        path="schema_name"
+        value={repeatingValue}
+        onCommit={handleCommit}
+      >
         <TextInput />
       </RepeatingInput>, this.container);
 
@@ -148,7 +153,7 @@ describe('RepeatingInput', function suite() {
 
     Simulate.keyPress(input, { key: 'Enter' });
 
-    committedPath.should.deep.equal(['rpt', '1']);
+    committedPath.should.deep.equal(['schema_name', 'rpt', '1']);
     committedValue.should.equal('New value');
   });
 

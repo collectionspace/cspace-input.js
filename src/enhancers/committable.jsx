@@ -32,11 +32,12 @@ export default function committable(BaseComponent) {
     commit(value) {
       const {
         name,
+        path,
         onCommit,
       } = this.props;
 
       if (onCommit) {
-        onCommit([name], value);
+        onCommit(path ? [path, name] : [name], value);
       }
     }
 

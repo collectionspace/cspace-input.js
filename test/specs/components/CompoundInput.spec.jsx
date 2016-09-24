@@ -174,7 +174,14 @@ describe('CompoundInput', function suite() {
       };
 
       render(
-        <CompoundInput name="person" value={value} tabular label="Person" onCommit={handleCommit}>
+        <CompoundInput
+          name="person"
+          path="schema_name"
+          value={value}
+          tabular
+          label="Person"
+          onCommit={handleCommit}
+        >
           <TextInput name="firstName" label="First name" />
           <TextInput name="lastName" label="Last name" />
         </CompoundInput>, this.container);
@@ -185,7 +192,7 @@ describe('CompoundInput', function suite() {
 
       Simulate.keyPress(input, { key: 'Enter' });
 
-      committedPath.should.deep.equal(['person', 'firstName']);
+      committedPath.should.deep.equal(['schema_name', 'person', 'firstName']);
       committedValue.should.equal('New value');
     });
   });
