@@ -1,5 +1,5 @@
 export { default as Button } from './components/Button';
-export { default as CompoundInput } from './components/CompoundInput';
+export { default as CustomCompoundInput } from './components/CustomCompoundInput';
 export { default as InputGroup } from './components/InputGroup';
 export { default as Label } from './components/Label';
 export { default as LineInput } from './components/LineInput';

@@ -6,7 +6,7 @@ import chai from 'chai';
 import createTestContainer from '../../helpers/createTestContainer';
 
 import isInput from '../../../src/helpers/isInput';
-import CompoundInput from '../../../src/components/CompoundInput';
+import CustomCompoundInput from '../../../src/components/CustomCompoundInput';
 import InputRow from '../../../src/components/InputRow';
 import Label from '../../../src/components/Label';
 import LabelRow from '../../../src/components/LabelRow';
@@ -161,7 +161,7 @@ describe('RepeatingInput', function suite() {
     this.container.querySelector('label').textContent.should.equal('Inner label');
   });
 
-  it('should render a repeating CompoundInput', function test() {
+  it('should render a repeating CustomCompoundInput', function test() {
     const repeatingValue = [
       {
         title: 'Title 1',
@@ -177,11 +177,11 @@ describe('RepeatingInput', function suite() {
 
     render(
       <RepeatingInput value={repeatingValue}>
-        <CompoundInput>
+        <CustomCompoundInput>
           <TextInput name="title" label="Title" />
           <TextInput name="type" label="Type" />
           <TextInput name="language" label="Language" />
-        </CompoundInput>
+        </CustomCompoundInput>
       </RepeatingInput>, this.container);
   });
 
@@ -209,13 +209,13 @@ describe('RepeatingInput', function suite() {
 
     render(
       <RepeatingInput value={repeatingValue}>
-        <CompoundInput label={labelRow}>
+        <CustomCompoundInput label={labelRow}>
           <InputRow embedded>
             <TextInput embedded name="title" />
             <TextInput embedded name="type" />
             <TextInput embedded name="language" />
           </InputRow>
-        </CompoundInput>
+        </CustomCompoundInput>
       </RepeatingInput>, this.container);
 
     const labels = this.container.querySelectorAll('label');

@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-import CompoundInput from './CompoundInput';
+import CustomCompoundInput from './CustomCompoundInput';
 import { normalizeLabel } from './Label';
 import InputRow from './InputRow';
 import LabelRow from './LabelRow';
@@ -58,7 +58,7 @@ function TabularCompoundInput(props) {
   }
 
   return (
-    <CompoundInput
+    <CustomCompoundInput
       label={labelRow}
       repeating={repeating}
       {...remainingProps}
@@ -66,12 +66,12 @@ function TabularCompoundInput(props) {
       <InputRow embedded={repeating}>
         {modifiedInputs}
       </InputRow>
-    </CompoundInput>
+    </CustomCompoundInput>
   );
 }
 
 TabularCompoundInput.propTypes = {
-  ...CompoundInput.propTypes,
+  ...CustomCompoundInput.propTypes,
   children: PropTypes.node,
   repeating: PropTypes.bool,
 };

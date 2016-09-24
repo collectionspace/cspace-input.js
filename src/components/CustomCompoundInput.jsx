@@ -4,7 +4,7 @@ import labelable from '../enhancers/labelable';
 import repeatable from '../enhancers/repeatable';
 import styles from '../../styles/cspace-input/CompoundInput.css';
 
-class CompoundInput extends Component {
+class CustomCompoundInput extends Component {
   constructor(props) {
     super(props);
 
@@ -81,7 +81,7 @@ class CompoundInput extends Component {
   }
 }
 
-CompoundInput.propTypes = {
+CustomCompoundInput.propTypes = {
   children: PropTypes.node,
   defaultPath: PropTypes.string,
   name: PropTypes.string,
@@ -89,9 +89,9 @@ CompoundInput.propTypes = {
   onCommit: PropTypes.func,
 };
 
-CompoundInput.defaultProps = {
+CustomCompoundInput.defaultProps = {
   defaultPath: '',
   value: {},
 };
 
-export default repeatable(labelable(CompoundInput));
+export default repeatable(labelable(CustomCompoundInput));

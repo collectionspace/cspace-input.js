@@ -6,7 +6,7 @@ import chai from 'chai';
 import createTestContainer from '../../helpers/createTestContainer';
 
 import isInput from '../../../src/helpers/isInput';
-import CompoundInput from '../../../src/components/CompoundInput';
+import CustomCompoundInput from '../../../src/components/CustomCompoundInput';
 import InputRow from '../../../src/components/InputRow';
 import Label from '../../../src/components/Label';
 import LabelRow from '../../../src/components/LabelRow';
@@ -15,17 +15,17 @@ import RepeatingInput from '../../../src/components/RepeatingInput';
 
 chai.should();
 
-describe('CompoundInput', function suite() {
+describe('CustomCompoundInput', function suite() {
   beforeEach(function before() {
     this.container = createTestContainer(this);
   });
 
   it('should be considered an input by isInput()', function test() {
-    isInput(<CompoundInput />).should.equal(true);
+    isInput(<CustomCompoundInput />).should.equal(true);
   });
 
   it('should render as a fieldset', function test() {
-    render(<CompoundInput />, this.container);
+    render(<CustomCompoundInput />, this.container);
 
     this.container.firstElementChild.nodeName.should.equal('FIELDSET');
   });
@@ -37,12 +37,12 @@ describe('CompoundInput', function suite() {
     };
 
     render(
-      <CompoundInput value={compoundValue}>
+      <CustomCompoundInput value={compoundValue}>
         <TextInput name="objectNumber" />
         <div>
           <TextInput name="comment" multiline />
         </div>
-      </CompoundInput>, this.container);
+      </CustomCompoundInput>, this.container);
 
     this.container.querySelector('input').value.should.equal(compoundValue.objectNumber);
     this.container.querySelector('textarea').value.should.equal(compoundValue.comment);
@@ -61,22 +61,22 @@ describe('CompoundInput', function suite() {
     };
 
     render(
-      <CompoundInput value={compoundValue}>
+      <CustomCompoundInput value={compoundValue}>
         <TextInput name="objectNumber" />
         <div>
           <TextInput name="comment" multiline />
-          <CompoundInput name="group">
+          <CustomCompoundInput name="group">
             <p>Interspersed nodes of other types<br />should have no effect</p>
             <div>
               <TextInput name="nested" />
-              <CompoundInput name="deepGroup">
+              <CustomCompoundInput name="deepGroup">
                 <span>Deeply nested field</span>
                 <TextInput name="deeplyNested" label="Label" />
-              </CompoundInput>
+              </CustomCompoundInput>
             </div>
-          </CompoundInput>
+          </CustomCompoundInput>
         </div>
-      </CompoundInput>, this.container);
+      </CustomCompoundInput>, this.container);
 
     this.container.querySelector('input[name="objectNumber"]').value.should
       .equal(compoundValue.objectNumber);
@@ -104,11 +104,11 @@ describe('CompoundInput', function suite() {
     };
 
     render(
-      <CompoundInput value={compoundValue}>
+      <CustomCompoundInput value={compoundValue}>
         <TextInput name="objectNumber" path="collectionobjects_common" />
         <TextInput name="color" path="collectionobjects_extension" />
         <TextInput name="comment" path="collectionobjects_extension" />
-      </CompoundInput>, this.container);
+      </CustomCompoundInput>, this.container);
 
     this.container.querySelector('input[name="objectNumber"]').value.should
       .equal(compoundValue.collectionobjects_common.objectNumber);
@@ -133,7 +133,7 @@ describe('CompoundInput', function suite() {
     };
 
     render(
-      <CompoundInput value={compoundValue} defaultPath="collectionobjects_common">
+      <CustomCompoundInput value={compoundValue} defaultPath="collectionobjects_common">
         <TextInput
           name="objectNumber"
           label="collectionobjects_common:objectNumber"
@@ -147,7 +147,7 @@ describe('CompoundInput', function suite() {
           path="collectionobjects_extension"
           label="collectionobjects_extension:comment"
         />
-      </CompoundInput>, this.container);
+      </CustomCompoundInput>, this.container);
 
     this.container.querySelector('input[name="objectNumber"]').value.should
       .equal(compoundValue.collectionobjects_common.objectNumber);
@@ -169,13 +169,13 @@ describe('CompoundInput', function suite() {
     );
 
     render(
-      <CompoundInput label={labelRow}>
+      <CustomCompoundInput label={labelRow}>
         <InputRow>
           <TextInput embedded name="title" />
           <TextInput embedded name="type" />
           <TextInput embedded name="language" />
         </InputRow>
-      </CompoundInput>, this.container);
+      </CustomCompoundInput>, this.container);
 
     this.container.querySelectorAll('label').length.should.equal(3);
     this.container.querySelectorAll('input').length.should.equal(3);
@@ -202,22 +202,22 @@ describe('CompoundInput', function suite() {
     };
 
     render(
-      <CompoundInput name="compound" value={compoundValue} onCommit={handleCommit}>
+      <CustomCompoundInput name="compound" value={compoundValue} onCommit={handleCommit}>
         <TextInput name="objectNumber" />
         <div>
           <TextInput name="comment" multiline />
-          <CompoundInput name="group">
+          <CustomCompoundInput name="group">
             <TextInput name="nested" />
             <RepeatingInput name="rpt">
               <TextInput />
             </RepeatingInput>
-            <CompoundInput name="deepGroup">
+            <CustomCompoundInput name="deepGroup">
               <TextInput name="deeplyNested" />
               <TextInput name="deepRpt" repeating />
-            </CompoundInput>
-          </CompoundInput>
+            </CustomCompoundInput>
+          </CustomCompoundInput>
         </div>
-      </CompoundInput>, this.container);
+      </CustomCompoundInput>, this.container);
 
     const input = this.container.querySelectorAll('input')[4];
 

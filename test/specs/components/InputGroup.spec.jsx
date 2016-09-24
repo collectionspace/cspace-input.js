@@ -6,7 +6,7 @@ import chai from 'chai';
 import createTestContainer from '../../helpers/createTestContainer';
 
 import isInput from '../../../src/helpers/isInput';
-import CompoundInput from '../../../src/components/CompoundInput';
+import CustomCompoundInput from '../../../src/components/CustomCompoundInput';
 import TabularCompoundInput from '../../../src/components/TabularCompoundInput';
 import TextInput from '../../../src/components/TextInput';
 import InputGroup from '../../../src/components/InputGroup';
@@ -23,14 +23,14 @@ describe('InputGroup', function suite() {
   });
 
   context('when tabular prop is false', function context() {
-    it('should render as a CompoundInput', function test() {
+    it('should render as a CustomCompoundInput', function test() {
       const shallowRenderer = createRenderer();
 
       shallowRenderer.render(<InputGroup />);
 
       const result = shallowRenderer.getRenderOutput();
 
-      result.type.should.equal(CompoundInput);
+      result.type.should.equal(CustomCompoundInput);
     });
 
     it('should render labels and values properly', function test() {
