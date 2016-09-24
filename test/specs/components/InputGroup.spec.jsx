@@ -1,5 +1,5 @@
 import React from 'react';
-import { createRenderer } from 'react-addons-test-utils';
+import { createRenderer, Simulate } from 'react-addons-test-utils';
 import { render } from 'react-dom';
 import chai from 'chai';
 
@@ -74,6 +74,36 @@ describe('InputGroup', function suite() {
       inputs[3].value.should.equal(value.address.city);
       inputs[4].value.should.equal(value.address.state);
     });
+
+    it('should call the onCommit callback when a child input is committed', function test() {
+      let committedName = null;
+      let committedValue = null;
+
+      const handleCommit = (name, value) => {
+        committedName = name;
+        committedValue = value;
+      };
+
+      const value = {
+        objectNumber: '1-200',
+        comment: 'Hello world!',
+      };
+
+      render(
+        <InputGroup name="person" value={value} label="Person" onCommit={handleCommit}>
+          <TextInput name="firstName" label="First name" />
+          <TextInput name="lastName" label="Last name" />
+        </InputGroup>, this.container);
+
+      const input = this.container.querySelectorAll('input')[0];
+
+      input.value = 'New value';
+
+      Simulate.keyPress(input, { key: 'Enter' });
+
+      committedName.should.equal('person.firstName');
+      committedValue.should.equal('New value');
+    });
   });
 
   context('when tabular prop is true', function context() {
@@ -127,6 +157,36 @@ describe('InputGroup', function suite() {
       inputs[2].value.should.equal(value.address.street);
       inputs[3].value.should.equal(value.address.city);
       inputs[4].value.should.equal(value.address.state);
+    });
+
+    it('should call the onCommit callback when a child input is committed', function test() {
+      let committedName = null;
+      let committedValue = null;
+
+      const handleCommit = (name, value) => {
+        committedName = name;
+        committedValue = value;
+      };
+
+      const value = {
+        objectNumber: '1-200',
+        comment: 'Hello world!',
+      };
+
+      render(
+        <InputGroup name="person" value={value} tabular label="Person" onCommit={handleCommit}>
+          <TextInput name="firstName" label="First name" />
+          <TextInput name="lastName" label="Last name" />
+        </InputGroup>, this.container);
+
+      const input = this.container.querySelectorAll('input')[0];
+
+      input.value = 'New value';
+
+      Simulate.keyPress(input, { key: 'Enter' });
+
+      committedName.should.equal('person.firstName');
+      committedValue.should.equal('New value');
     });
   });
 });
