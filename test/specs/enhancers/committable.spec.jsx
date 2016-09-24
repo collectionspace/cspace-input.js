@@ -21,37 +21,55 @@ describe('committable', function suite() {
 
     it('should call onCommit when the base component loses focus', function test() {
       const EnhancedComponent = committable('input');
+
+      let committedName = null;
       let committedValue = null;
 
-      const handleCommit = (value) => {
+      const handleCommit = (name, value) => {
+        committedName = name;
         committedValue = value;
       };
 
-      render(<EnhancedComponent onCommit={handleCommit} defaultValue="hello" />, this.container);
+      render(
+        <EnhancedComponent
+          name="input"
+          onCommit={handleCommit}
+          defaultValue="hello"
+        />, this.container);
 
       const input = this.container.querySelector('input');
       const newValue = input.value = 'new';
 
       Simulate.blur(input);
 
+      committedName.should.equal('input');
       committedValue.should.equal(newValue);
     });
 
     it('should call onCommit when enter is pressed in the base component', function test() {
       const EnhancedComponent = committable('input');
+
+      let committedName = null;
       let committedValue = null;
 
-      const handleCommit = (value) => {
+      const handleCommit = (name, value) => {
+        committedName = name;
         committedValue = value;
       };
 
-      render(<EnhancedComponent onCommit={handleCommit} defaultValue="hello" />, this.container);
+      render(
+        <EnhancedComponent
+          name="input"
+          onCommit={handleCommit}
+          defaultValue="hello"
+        />, this.container);
 
       const input = this.container.querySelector('input');
       const newValue = input.value = 'new';
 
       Simulate.keyPress(input, { key: 'Enter' });
 
+      committedName.should.equal('input');
       committedValue.should.equal(newValue);
     });
 

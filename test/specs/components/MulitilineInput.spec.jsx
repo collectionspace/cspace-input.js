@@ -57,20 +57,23 @@ describe('MultilineInput', function suite() {
   });
 
   it('should call onCommit when enter is pressed', function test() {
-    let handlerCalledValue = null;
+    let committedName = null;
+    let committedValue = null;
 
-    const handleCommit = (value) => {
-      handlerCalledValue = value;
+    const handleCommit = (name, value) => {
+      committedName = name;
+      committedValue = value;
     };
 
-    render(<MultilineInput onCommit={handleCommit} />, this.container);
+    render(<MultilineInput name="input" onCommit={handleCommit} />, this.container);
 
     const input = this.container.firstElementChild;
     const newValue = input.value = 'New value line 1\nNew value line 2';
 
     Simulate.keyPress(input, { key: 'Enter' });
 
-    handlerCalledValue.should.equal(newValue);
+    committedName.should.equal('input');
+    committedValue.should.equal(newValue);
   });
 
   it('should not call onCommit when other keys are pressed', function test() {
@@ -90,13 +93,15 @@ describe('MultilineInput', function suite() {
   });
 
   it('should call onCommit when focus is lost', function test() {
-    let handlerCalledValue = null;
+    let committedName = null;
+    let committedValue = null;
 
-    const handleCommit = (value) => {
-      handlerCalledValue = value;
+    const handleCommit = (name, value) => {
+      committedName = name;
+      committedValue = value;
     };
 
-    render(<MultilineInput onCommit={handleCommit} />, this.container);
+    render(<MultilineInput name="input" onCommit={handleCommit} />, this.container);
 
     const input = this.container.firstElementChild;
     const newValue = 'New value line 1\nNew value line 2';
@@ -105,6 +110,7 @@ describe('MultilineInput', function suite() {
 
     Simulate.blur(input);
 
-    handlerCalledValue.should.equal(newValue);
+    committedName.should.equal('input');
+    committedValue.should.equal(newValue);
   });
 });

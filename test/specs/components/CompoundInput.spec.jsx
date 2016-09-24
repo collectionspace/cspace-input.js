@@ -1,4 +1,5 @@
 import React from 'react';
+import { Simulate } from 'react-addons-test-utils';
 import { render } from 'react-dom';
 import chai from 'chai';
 
@@ -10,6 +11,7 @@ import InputRow from '../../../src/components/InputRow';
 import Label from '../../../src/components/Label';
 import LabelRow from '../../../src/components/LabelRow';
 import TextInput from '../../../src/components/TextInput';
+import RepeatingInput from '../../../src/components/RepeatingInput';
 
 chai.should();
 
@@ -177,5 +179,53 @@ describe('CompoundInput', function suite() {
 
     this.container.querySelectorAll('label').length.should.equal(3);
     this.container.querySelectorAll('input').length.should.equal(3);
+  });
+
+  it('should call the onCommit callback when a child input is committed', function test() {
+    let committedName = null;
+    let committedValue = null;
+
+    const handleCommit = (name, value) => {
+      committedName = name;
+      committedValue = value;
+    };
+
+    const compoundValue = {
+      objectNumber: '1-200',
+      comment: 'Hello world!',
+      group: {
+        nested: 'Nested 1',
+        deepGroup: {
+          deeplyNested: 'Nested 2',
+        },
+      },
+    };
+
+    render(
+      <CompoundInput name="compound" value={compoundValue} onCommit={handleCommit}>
+        <TextInput name="objectNumber" />
+        <div>
+          <TextInput name="comment" multiline />
+          <CompoundInput name="group">
+            <TextInput name="nested" />
+            <RepeatingInput name="rpt">
+              <TextInput />
+            </RepeatingInput>
+            <CompoundInput name="deepGroup">
+              <TextInput name="deeplyNested" />
+              <TextInput name="deepRpt" repeating />
+            </CompoundInput>
+          </CompoundInput>
+        </div>
+      </CompoundInput>, this.container);
+
+    const input = this.container.querySelectorAll('input')[4];
+
+    input.value = 'New value';
+
+    Simulate.keyPress(input, { key: 'Enter' });
+
+    committedName.should.equal('compound.group.deepGroup.deepRpt[0]');
+    committedValue.should.equal('New value');
   });
 });

@@ -12,18 +12,29 @@ export default function repeatable(BaseComponent) {
   const Repeatable = (props) => {
     const {
       repeating,
+      name,
       value,
+      onCommit,
       ...remainingProps,
     } = props;
 
     if (!repeating) {
       return (
-        <BaseComponent value={value} {...remainingProps} />
+        <BaseComponent
+          name={name}
+          value={value}
+          onCommit={onCommit}
+          {...remainingProps}
+        />
       );
     }
 
     return (
-      <RepeatingInput value={value}>
+      <RepeatingInput
+        name={name}
+        value={value}
+        onCommit={onCommit}
+      >
         <BaseComponent {...remainingProps} />
       </RepeatingInput>
     );

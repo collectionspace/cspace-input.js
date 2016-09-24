@@ -69,6 +69,7 @@ class RepeatingInput extends Component {
     } = this.props;
 
     const template = React.Children.only(children);
+    const childPropTypes = template.type.propTypes;
 
     return normalizeValue(value).map((instanceValue, index, list) => {
       const overrideProps = {
@@ -78,8 +79,10 @@ class RepeatingInput extends Component {
         value: instanceValue,
       };
 
-      if (template.type.propTypes.onCommit) {
-        overrideProps.onCommit = this.handleCommit;
+      if (childPropTypes) {
+        if (childPropTypes.onCommit) {
+          overrideProps.onCommit = this.handleCommit;
+        }
       }
 
       const instance = React.cloneElement(template, overrideProps);

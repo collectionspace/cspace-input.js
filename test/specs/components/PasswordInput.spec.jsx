@@ -43,20 +43,23 @@ describe('PasswordInput', function suite() {
   });
 
   it('should call onCommit when enter is pressed', function test() {
-    let handlerCalledValue = null;
+    let committedName = null;
+    let committedValue = null;
 
-    const handleCommit = (value) => {
-      handlerCalledValue = value;
+    const handleCommit = (name, value) => {
+      committedName = name;
+      committedValue = value;
     };
 
-    render(<PasswordInput onCommit={handleCommit} />, this.container);
+    render(<PasswordInput name="input" onCommit={handleCommit} />, this.container);
 
     const input = this.container.firstElementChild;
     const newValue = input.value = 'New value';
 
     Simulate.keyPress(input, { key: 'Enter' });
 
-    handlerCalledValue.should.equal(newValue);
+    committedName.should.equal('input');
+    committedValue.should.equal(newValue);
   });
 
   it('should not call onCommit when other keys are pressed', function test() {
@@ -76,13 +79,15 @@ describe('PasswordInput', function suite() {
   });
 
   it('should call onCommit when focus is lost', function test() {
-    let handlerCalledValue = null;
+    let committedName = null;
+    let committedValue = null;
 
-    const handleCommit = (value) => {
-      handlerCalledValue = value;
+    const handleCommit = (name, value) => {
+      committedName = name;
+      committedValue = value;
     };
 
-    render(<PasswordInput onCommit={handleCommit} />, this.container);
+    render(<PasswordInput name="input" onCommit={handleCommit} />, this.container);
 
     const input = this.container.firstElementChild;
     const newValue = 'New value';
@@ -91,6 +96,7 @@ describe('PasswordInput', function suite() {
 
     Simulate.blur(input);
 
-    handlerCalledValue.should.equal(newValue);
+    committedName.should.equal('input');
+    committedValue.should.equal(newValue);
   });
 });

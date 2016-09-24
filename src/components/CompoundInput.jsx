@@ -8,6 +8,7 @@ class CompoundInput extends Component {
   constructor(props) {
     super(props);
 
+    this.handleCommit = this.handleCommit.bind(this);
     this.getValue = this.getValue.bind(this);
     this.decorateInputs = this.decorateInputs.bind(this);
   }
@@ -38,7 +39,7 @@ class CompoundInput extends Component {
         }
 
         if (childPropTypes.onCommit) {
-          overrideProps.onCommit = this.handlecommit;
+          overrideProps.onCommit = this.handleCommit;
         }
 
         if (Object.keys(overrideProps).length > 0) {
@@ -50,6 +51,17 @@ class CompoundInput extends Component {
         children: this.decorateInputs(child.props.children),
       });
     }, this);
+  }
+
+  handleCommit(childName, value) {
+    const {
+      name,
+      onCommit,
+    } = this.props;
+
+    if (onCommit) {
+      onCommit(`${name}.${childName}`, value);
+    }
   }
 
   render() {
@@ -74,6 +86,7 @@ CompoundInput.propTypes = {
   defaultPath: PropTypes.string,
   name: PropTypes.string,
   value: PropTypes.object, // eslint-disable-line react/forbid-prop-types
+  onCommit: PropTypes.func,
 };
 
 CompoundInput.defaultProps = {

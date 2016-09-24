@@ -76,6 +76,34 @@ describe('repeatable', function suite() {
       result.props.should.include({ value });
     });
 
+    it('should lift the name prop to the RepeatingInput when repeating is true', function test() {
+      const StubComponent = () => null;
+      const EnhancedComponent = repeatable(StubComponent);
+      const shallowRenderer = createRenderer();
+
+      shallowRenderer.render(<EnhancedComponent name="rpt" repeating />);
+
+      const result = shallowRenderer.getRenderOutput();
+
+      result.type.should.equal(RepeatingInput);
+      result.props.should.include({ name: 'rpt' });
+    });
+
+    it('should lift the onCommit to the RepeatingInput when repeating is true', function test() {
+      const handleCommit = () => null;
+
+      const StubComponent = () => null;
+      const EnhancedComponent = repeatable(StubComponent);
+      const shallowRenderer = createRenderer();
+
+      shallowRenderer.render(<EnhancedComponent name="rpt" repeating onCommit={handleCommit} />);
+
+      const result = shallowRenderer.getRenderOutput();
+
+      result.type.should.equal(RepeatingInput);
+      result.props.should.include({ onCommit: handleCommit });
+    });
+
     it('should lift propTypes from the base component', function test() {
       const StubComponent = () => null;
 
