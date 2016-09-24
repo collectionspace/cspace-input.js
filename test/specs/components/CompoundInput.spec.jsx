@@ -9,24 +9,24 @@ import isInput from '../../../src/helpers/isInput';
 import CustomCompoundInput from '../../../src/components/CustomCompoundInput';
 import TabularCompoundInput from '../../../src/components/TabularCompoundInput';
 import TextInput from '../../../src/components/TextInput';
-import InputGroup from '../../../src/components/InputGroup';
+import CompoundInput from '../../../src/components/CompoundInput';
 
 chai.should();
 
-describe('InputGroup', function suite() {
+describe('CompoundInput', function suite() {
   beforeEach(function before() {
     this.container = createTestContainer(this);
   });
 
   it('should be considered an input by isInput()', function test() {
-    isInput(<InputGroup />).should.equal(true);
+    isInput(<CompoundInput />).should.equal(true);
   });
 
   context('when tabular prop is false', function context() {
     it('should render as a CustomCompoundInput', function test() {
       const shallowRenderer = createRenderer();
 
-      shallowRenderer.render(<InputGroup />);
+      shallowRenderer.render(<CompoundInput />);
 
       const result = shallowRenderer.getRenderOutput();
 
@@ -45,16 +45,16 @@ describe('InputGroup', function suite() {
       };
 
       render(
-        <InputGroup value={value} label="Person">
+        <CompoundInput value={value} label="Person">
           <TextInput name="firstName" label="First name" />
           <TextInput name="lastName" label="Last name" />
 
-          <InputGroup name="address" label="Address">
+          <CompoundInput name="address" label="Address">
             <TextInput name="street" label="Street" />
             <TextInput name="city" label="City" />
             <TextInput name="state" label="State" />
-          </InputGroup>
-        </InputGroup>, this.container);
+          </CompoundInput>
+        </CompoundInput>, this.container);
 
       const labels = this.container.querySelectorAll('label');
 
@@ -90,10 +90,10 @@ describe('InputGroup', function suite() {
       };
 
       render(
-        <InputGroup name="person" value={value} label="Person" onCommit={handleCommit}>
+        <CompoundInput name="person" value={value} label="Person" onCommit={handleCommit}>
           <TextInput name="firstName" label="First name" />
           <TextInput name="lastName" label="Last name" />
-        </InputGroup>, this.container);
+        </CompoundInput>, this.container);
 
       const input = this.container.querySelectorAll('input')[0];
 
@@ -110,7 +110,7 @@ describe('InputGroup', function suite() {
     it('should render as a TabularCompoundInput', function test() {
       const shallowRenderer = createRenderer();
 
-      shallowRenderer.render(<InputGroup tabular />);
+      shallowRenderer.render(<CompoundInput tabular />);
 
       const result = shallowRenderer.getRenderOutput();
 
@@ -129,16 +129,16 @@ describe('InputGroup', function suite() {
       };
 
       render(
-        <InputGroup value={value} tabular label="Person">
+        <CompoundInput value={value} tabular label="Person">
           <TextInput name="firstName" label="First name" />
           <TextInput name="lastName" label="Last name" />
 
-          <InputGroup name="address" label="Address" tabular>
+          <CompoundInput name="address" label="Address" tabular>
             <TextInput name="street" label="Street" />
             <TextInput name="city" label="City" />
             <TextInput name="state" label="State" />
-          </InputGroup>
-        </InputGroup>, this.container);
+          </CompoundInput>
+        </CompoundInput>, this.container);
 
       const labels = this.container.querySelectorAll('label');
 
@@ -174,10 +174,10 @@ describe('InputGroup', function suite() {
       };
 
       render(
-        <InputGroup name="person" value={value} tabular label="Person" onCommit={handleCommit}>
+        <CompoundInput name="person" value={value} tabular label="Person" onCommit={handleCommit}>
           <TextInput name="firstName" label="First name" />
           <TextInput name="lastName" label="Last name" />
-        </InputGroup>, this.container);
+        </CompoundInput>, this.container);
 
       const input = this.container.querySelectorAll('input')[0];
 

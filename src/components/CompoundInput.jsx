@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react';
 import CustomCompoundInput from './CustomCompoundInput';
 import TabularCompoundInput from './TabularCompoundInput';
 
-export default function InputGroup(props) {
+export default function CompoundInput(props) {
   const {
     tabular,
     ...remainingProps,
@@ -15,12 +15,12 @@ export default function InputGroup(props) {
   );
 }
 
-InputGroup.propTypes = {
+CompoundInput.propTypes = {
   ...CustomCompoundInput.propTypes,
   ...TabularCompoundInput.propTypes,
   tabular: PropTypes.bool,
 };
 
-InputGroup.defaultProps = {
+CompoundInput.defaultProps = {
   tabular: false,
 };
