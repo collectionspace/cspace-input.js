@@ -59,12 +59,12 @@ class CompoundInput extends Component {
     } = this.props;
 
     return (
-      <div
+      <fieldset
         className={styles.common}
-        data-name={name}
+        name={name}
       >
         {this.decorateInputs(children)}
-      </div>
+      </fieldset>
     );
   }
 }

@@ -22,10 +22,10 @@ describe('CompoundInput', function suite() {
     isInput(<CompoundInput />).should.equal(true);
   });
 
-  it('should render as a div', function test() {
+  it('should render as a fieldset', function test() {
     render(<CompoundInput />, this.container);
 
-    this.container.firstElementChild.nodeName.should.equal('DIV');
+    this.container.firstElementChild.nodeName.should.equal('FIELDSET');
   });
 
   it('should distribute values to child inputs', function test() {

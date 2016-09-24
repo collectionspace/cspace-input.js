@@ -1,4 +1,7 @@
 @value textLight from '../colors.css';
 
 .common {
+  margin: 0;
+  border: none;
+  padding: 0;
 }
