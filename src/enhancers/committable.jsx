@@ -7,7 +7,7 @@ import React, { Component, PropTypes } from 'react';
  * @param {string|function} BaseComponent - The component to enhance. This component must accept
  * onBlur and onKeyPress props.
  * @returns {function} The enhanced component, which accepts an onCommit prop containing a function
- * to be called with the name of the input, and its new value.
+ * to be called with the path to the input, and its new value.
  */
 export default function committable(BaseComponent) {
   class Committable extends Component {
@@ -36,7 +36,7 @@ export default function committable(BaseComponent) {
       } = this.props;
 
       if (onCommit) {
-        onCommit(name, value);
+        onCommit([name], value);
       }
     }
 

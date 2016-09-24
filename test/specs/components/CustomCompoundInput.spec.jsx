@@ -182,11 +182,11 @@ describe('CustomCompoundInput', function suite() {
   });
 
   it('should call the onCommit callback when a child input is committed', function test() {
-    let committedName = null;
+    let committedPath = null;
     let committedValue = null;
 
-    const handleCommit = (name, value) => {
-      committedName = name;
+    const handleCommit = (path, value) => {
+      committedPath = path;
       committedValue = value;
     };
 
@@ -225,7 +225,7 @@ describe('CustomCompoundInput', function suite() {
 
     Simulate.keyPress(input, { key: 'Enter' });
 
-    committedName.should.equal('compound.group.deepGroup.deepRpt[0]');
+    committedPath.should.deep.equal(['compound', 'group', 'deepGroup', 'deepRpt', '0']);
     committedValue.should.equal('New value');
   });
 });

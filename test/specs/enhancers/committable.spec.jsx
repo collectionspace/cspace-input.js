@@ -22,11 +22,11 @@ describe('committable', function suite() {
     it('should call onCommit when the base component loses focus', function test() {
       const EnhancedComponent = committable('input');
 
-      let committedName = null;
+      let committedPath = null;
       let committedValue = null;
 
-      const handleCommit = (name, value) => {
-        committedName = name;
+      const handleCommit = (path, value) => {
+        committedPath = path;
         committedValue = value;
       };
 
@@ -42,18 +42,18 @@ describe('committable', function suite() {
 
       Simulate.blur(input);
 
-      committedName.should.equal('input');
+      committedPath.should.deep.equal(['input']);
       committedValue.should.equal(newValue);
     });
 
     it('should call onCommit when enter is pressed in the base component', function test() {
       const EnhancedComponent = committable('input');
 
-      let committedName = null;
+      let committedPath = null;
       let committedValue = null;
 
-      const handleCommit = (name, value) => {
-        committedName = name;
+      const handleCommit = (path, value) => {
+        committedPath = path;
         committedValue = value;
       };
 
@@ -69,7 +69,7 @@ describe('committable', function suite() {
 
       Simulate.keyPress(input, { key: 'Enter' });
 
-      committedName.should.equal('input');
+      committedPath.should.deep.equal(['input']);
       committedValue.should.equal(newValue);
     });
 

@@ -23,14 +23,14 @@ class RepeatingInput extends Component {
     this.handleCommit = this.handleCommit.bind(this);
   }
 
-  handleCommit(instanceName, value) {
+  handleCommit(instancePath, value) {
     const {
       name,
       onCommit,
     } = this.props;
 
     if (onCommit) {
-      onCommit(`${name}[${instanceName}]`, value);
+      onCommit([name, ...instancePath], value);
     }
   }
 

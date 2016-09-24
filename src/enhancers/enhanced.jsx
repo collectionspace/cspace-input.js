@@ -8,4 +8,4 @@ import withValueAtPath from '../enhancers/withValueAtPath';
 /**
  * Applies a common set of enhancers used by all cspace-input components.
  */
-export default compose(repeatable, labelable, withValueAtPath, committable, changeable);
+export default compose(repeatable, labelable, committable, changeable, withValueAtPath);

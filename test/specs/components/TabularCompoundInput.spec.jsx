@@ -69,11 +69,11 @@ describe('TabularCompoundInput', function suite() {
   });
 
   it('should call the onCommit callback when a child input is committed', function test() {
-    let committedName = null;
+    let committedPath = null;
     let committedValue = null;
 
-    const handleCommit = (name, value) => {
-      committedName = name;
+    const handleCommit = (path, value) => {
+      committedPath = path;
       committedValue = value;
     };
 
@@ -100,7 +100,7 @@ describe('TabularCompoundInput', function suite() {
 
     Simulate.keyPress(input, { key: 'Enter' });
 
-    committedName.should.equal('compound.objectNumber');
+    committedPath.should.deep.equal(['compound', 'objectNumber']);
     committedValue.should.equal('New value');
   });
 });

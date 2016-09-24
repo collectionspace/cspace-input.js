@@ -76,11 +76,11 @@ describe('CompoundInput', function suite() {
     });
 
     it('should call the onCommit callback when a child input is committed', function test() {
-      let committedName = null;
+      let committedPath = null;
       let committedValue = null;
 
-      const handleCommit = (name, value) => {
-        committedName = name;
+      const handleCommit = (path, value) => {
+        committedPath = path;
         committedValue = value;
       };
 
@@ -101,7 +101,7 @@ describe('CompoundInput', function suite() {
 
       Simulate.keyPress(input, { key: 'Enter' });
 
-      committedName.should.equal('person.firstName');
+      committedPath.should.deep.equal(['person', 'firstName']);
       committedValue.should.equal('New value');
     });
   });
@@ -160,11 +160,11 @@ describe('CompoundInput', function suite() {
     });
 
     it('should call the onCommit callback when a child input is committed', function test() {
-      let committedName = null;
+      let committedPath = null;
       let committedValue = null;
 
-      const handleCommit = (name, value) => {
-        committedName = name;
+      const handleCommit = (path, value) => {
+        committedPath = path;
         committedValue = value;
       };
 
@@ -185,7 +185,7 @@ describe('CompoundInput', function suite() {
 
       Simulate.keyPress(input, { key: 'Enter' });
 
-      committedName.should.equal('person.firstName');
+      committedPath.should.deep.equal(['person', 'firstName']);
       committedValue.should.equal('New value');
     });
   });

@@ -53,14 +53,14 @@ class CustomCompoundInput extends Component {
     }, this);
   }
 
-  handleCommit(childName, value) {
+  handleCommit(childPath, value) {
     const {
       name,
       onCommit,
     } = this.props;
 
     if (onCommit) {
-      onCommit(`${name}.${childName}`, value);
+      onCommit([name, ...childPath], value);
     }
   }
 

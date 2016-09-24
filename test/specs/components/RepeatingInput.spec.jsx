@@ -123,11 +123,11 @@ describe('RepeatingInput', function suite() {
   });
 
   it('should call the onCommit callback when an instance is committed', function test() {
-    let committedName = null;
+    let committedPath = null;
     let committedValue = null;
 
-    const handleCommit = (name, value) => {
-      committedName = name;
+    const handleCommit = (path, value) => {
+      committedPath = path;
       committedValue = value;
     };
 
@@ -148,7 +148,7 @@ describe('RepeatingInput', function suite() {
 
     Simulate.keyPress(input, { key: 'Enter' });
 
-    committedName.should.equal('rpt[1]');
+    committedPath.should.deep.equal(['rpt', '1']);
     committedValue.should.equal('New value');
   });
 
