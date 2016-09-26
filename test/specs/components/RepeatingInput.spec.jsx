@@ -297,5 +297,35 @@ describe('RepeatingInput', function suite() {
 
     addInstancePath.should.deep.equal(['schema_name', 'rpt']);
   });
+
+  it('should call the onRemoveInstance callback when the remove button is clicked', function test() {
+    let removeInstancePath = null;
+
+    const handleRemoveInstance = (path) => {
+      removeInstancePath = path;
+    };
+
+    const repeatingValue = [
+      'Value 1',
+      'Value 2',
+      'Value 3',
+    ];
+
+    render(
+      <RepeatingInput
+        name="rpt"
+        path="schema_name"
+        value={repeatingValue}
+        onRemoveInstance={handleRemoveInstance}
+      >
+        <TextInput />
+      </RepeatingInput>, this.container);
+
+    const removeButton = this.container.querySelectorAll('button[name="remove"]')[1];
+
+    Simulate.click(removeButton);
+
+    removeInstancePath.should.deep.equal(['schema_name', 'rpt', '1']);
+  });
 });
 

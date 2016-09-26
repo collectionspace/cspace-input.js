@@ -35,6 +35,7 @@ class RepeatingInput extends Component {
 
     this.handleInstanceCommit = this.handleInstanceCommit.bind(this);
     this.handleAddButtonClick = this.handleAddButtonClick.bind(this);
+    this.handleRemoveButtonClick = this.handleRemoveButtonClick.bind(this);
 
     this.componentWillReceiveProps(props);
   }
@@ -82,6 +83,18 @@ class RepeatingInput extends Component {
     }
   }
 
+  handleRemoveButtonClick(event) {
+    const {
+      onRemoveInstance,
+    } = this.props;
+
+    if (onRemoveInstance) {
+      const instanceName = event.target.dataset.instancename;
+
+      onRemoveInstance([...this.getPath(), instanceName]);
+    }
+  }
+
   renderHeader() {
     const {
       children,
@@ -120,10 +133,12 @@ class RepeatingInput extends Component {
     const childPropTypes = template.type.propTypes;
 
     return normalizeValue(value).map((instanceValue, index, list) => {
+      const instanceName = `${index}`;
+
       const overrideProps = {
         embedded: true,
         label: undefined,
-        name: `${index}`,
+        name: instanceName,
         value: instanceValue,
       };
 
@@ -138,13 +153,24 @@ class RepeatingInput extends Component {
       return (
         <div key={index}>
           <div>
-            <MiniButton disabled={index === 0}>{index + 1}</MiniButton>
+            <MiniButton
+              disabled={index === 0}
+            >
+              {index + 1}
+            </MiniButton>
           </div>
           <div>
             {instance}
           </div>
           <div>
-            <MiniButton disabled={list.length < 2}>−</MiniButton>
+            <MiniButton
+              data-instancename={instanceName}
+              disabled={list.length < 2}
+              name="remove"
+              onClick={this.handleRemoveButtonClick}
+            >
+              −
+            </MiniButton>
           </div>
         </div>
       );
@@ -198,6 +224,7 @@ RepeatingInput.propTypes = {
   ]),
   onAddInstance: PropTypes.func,
   onCommit: PropTypes.func,
+  onRemoveInstance: PropTypes.func,
   onSingleValueReceived: PropTypes.func,
 };
 
