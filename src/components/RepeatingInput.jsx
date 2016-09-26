@@ -1,29 +1,51 @@
 import React, { Component, PropTypes } from 'react';
+import Immutable from 'immutable';
 import { normalizeLabel } from './Label';
 import MiniButton from './MiniButton';
 import labelable from '../enhancers/labelable';
 import styles from '../../styles/cspace-input/RepeatingInput.css';
 
 function normalizeValue(value) {
-  if (!Array.isArray(value)) {
-    return [value];
+  const defaultValue = [undefined];
+
+  if (!value) {
+    return defaultValue;
   }
 
-  if (value.length === 0) {
-    return [undefined];
+  let normalized;
+
+  if (Array.isArray(value)) {
+    normalized = value;
+  } else if (Immutable.List.isList(value)) {
+    normalized = value.toArray();
+  } else {
+    normalized = [value];
   }
 
-  return value;
+  if (normalized.length === 0) {
+    return defaultValue;
+  }
+
+  return normalized;
 }
 
 class RepeatingInput extends Component {
   constructor(props) {
     super(props);
 
-    this.handleCommit = this.handleCommit.bind(this);
+    this.handleInstanceCommit = this.handleInstanceCommit.bind(this);
   }
 
-  handleCommit(instancePath, value) {
+  getPath() {
+    const {
+      name,
+      path,
+    } = this.props;
+
+    return (path ? [path, name] : [name]);
+  }
+
+  handleInstanceCommit(instancePath, value) {
     const {
       name,
       path,
@@ -31,7 +53,7 @@ class RepeatingInput extends Component {
     } = this.props;
 
     if (onCommit) {
-      onCommit(path ? [path, name, ...instancePath] : [name, ...instancePath], value);
+      onCommit([...getPath(), ...instancePath], value);
     }
   }
 
@@ -82,7 +104,7 @@ class RepeatingInput extends Component {
 
       if (childPropTypes) {
         if (childPropTypes.onCommit) {
-          overrideProps.onCommit = this.handleCommit;
+          overrideProps.onCommit = this.handleInstanceCommit;
         }
       }
 
@@ -138,16 +160,13 @@ RepeatingInput.propTypes = {
   value: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.object,
+    PropTypes.instanceOf(Immutable.List),
     PropTypes.arrayOf(PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.object,
     ])),
   ]),
   onCommit: PropTypes.func,
-};
-
-RepeatingInput.defaultProps = {
-  value: [undefined],
 };
 
 export default labelable(RepeatingInput);

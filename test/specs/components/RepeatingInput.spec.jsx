@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react';
 import { Simulate } from 'react-addons-test-utils';
+import Immutable from 'immutable';
 import { render } from 'react-dom';
 import chai from 'chai';
 
@@ -64,6 +65,29 @@ describe('RepeatingInput', function suite() {
     for (let i = 0; i < textareas.length; i += 1) {
       const textarea = textareas[i];
       textarea.value.should.equal(repeatingValue[i]);
+    }
+  });
+
+
+  it('should render the template once for each element in an Immutable.List value', function test() {
+    const repeatingValue = Immutable.List([ // eslint-disable-line new-cap
+      '1',
+      '2',
+      '3',
+    ]);
+
+    render(
+      <RepeatingInput value={repeatingValue}>
+        <TextInput />
+      </RepeatingInput>, this.container);
+
+    const inputs = this.container.querySelectorAll('input');
+
+    inputs.length.should.equal(3);
+
+    for (let i = 0; i < inputs.length; i += 1) {
+      const input = inputs[i];
+      input.value.should.equal(repeatingValue.get(i));
     }
   });
 

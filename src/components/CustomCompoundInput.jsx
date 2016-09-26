@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import Immutable from 'immutable';
 import get from 'lodash/get';
 import labelable from '../enhancers/labelable';
 import repeatable from '../enhancers/repeatable';
@@ -18,9 +19,13 @@ class CustomCompoundInput extends Component {
       value,
     } = this.props;
 
-    const context = path ? get(value, path) : value;
+    const keyPath = path ? [path, name] : [name];
 
-    return (context ? context[name] : undefined);
+    if (Immutable.Map.isMap(value)) {
+      return value.getIn(keyPath);
+    }
+
+    return get(value, keyPath);
   }
 
   decorateInputs(children) {
@@ -91,7 +96,10 @@ CustomCompoundInput.propTypes = {
   defaultPath: PropTypes.string,
   name: PropTypes.string,
   path: PropTypes.string,
-  value: PropTypes.object, // eslint-disable-line react/forbid-prop-types
+  value: PropTypes.oneOfType([
+    PropTypes.object, // eslint-disable-line react/forbid-prop-types
+    PropTypes.instanceOf(Immutable.Map),
+  ]),
   onCommit: PropTypes.func,
 };
 

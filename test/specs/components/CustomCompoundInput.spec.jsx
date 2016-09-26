@@ -1,4 +1,5 @@
 import React, { PropTypes } from 'react';
+import Immutable from 'immutable';
 import { Simulate } from 'react-addons-test-utils';
 import { render } from 'react-dom';
 import chai from 'chai';
@@ -89,6 +90,24 @@ describe('CustomCompoundInput', function suite() {
 
     this.container.querySelector('input[name="deeplyNested"]').value.should
       .equal(compoundValue.group.deepGroup.deeplyNested);
+  });
+
+  it('should accept an Immutable.Map value', function test() {
+    const compoundValue = Immutable.Map({ // eslint-disable-line new-cap
+      objectNumber: '1-200',
+      comment: 'Hello world!',
+    });
+
+    render(
+      <CustomCompoundInput value={compoundValue}>
+        <TextInput name="objectNumber" />
+        <div>
+          <TextInput name="comment" multiline />
+        </div>
+      </CustomCompoundInput>, this.container);
+
+    this.container.querySelector('input').value.should.equal(compoundValue.get('objectNumber'));
+    this.container.querySelector('textarea').value.should.equal(compoundValue.get('comment'));
   });
 
   it('should use the path prop of child inputs to locate values', function test() {

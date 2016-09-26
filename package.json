@@ -41,6 +41,7 @@
     "test-browser-integration": "cross-env NODE_ENV=test karma start --singleRun=true --dir=integration"
   },
   "dependencies": {
+    "immutable": "^3.8.1",
     "lodash": "^4.15.0",
     "react": "^15.3.1",
     "react-dom": "^15.3.1"
