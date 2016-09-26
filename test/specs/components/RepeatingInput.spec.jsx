@@ -273,5 +273,29 @@ describe('RepeatingInput', function suite() {
 
     singleValueReceivedPath.should.deep.equal(['schema_name', 'rpt']);
   });
+
+  it('should call the onAddInstance callback when the add button is clicked', function test() {
+    let addInstancePath = null;
+
+    const handleAddInstance = (path) => {
+      addInstancePath = path;
+    };
+
+    render(
+      <RepeatingInput
+        name="rpt"
+        path="schema_name"
+        value="Value"
+        onAddInstance={handleAddInstance}
+      >
+        <TextInput />
+      </RepeatingInput>, this.container);
+
+    const addButton = this.container.querySelector('button[name="add"]');
+
+    Simulate.click(addButton);
+
+    addInstancePath.should.deep.equal(['schema_name', 'rpt']);
+  });
 });
 

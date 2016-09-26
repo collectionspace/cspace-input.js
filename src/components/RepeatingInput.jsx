@@ -34,7 +34,8 @@ class RepeatingInput extends Component {
     super(props);
 
     this.handleInstanceCommit = this.handleInstanceCommit.bind(this);
-    
+    this.handleAddButtonClick = this.handleAddButtonClick.bind(this);
+
     this.componentWillReceiveProps(props);
   }
 
@@ -59,6 +60,16 @@ class RepeatingInput extends Component {
     } = this.props;
 
     return (path ? [path, name] : [name]);
+  }
+
+  handleAddButtonClick() {
+    const {
+      onAddInstance,
+    } = this.props;
+
+    if (onAddInstance) {
+      onAddInstance(this.getPath());
+    }
   }
 
   handleInstanceCommit(instancePath, value) {
@@ -159,7 +170,12 @@ class RepeatingInput extends Component {
         </div>
         <footer>
           <div>
-            <MiniButton>+</MiniButton>
+            <MiniButton
+              name="add"
+              onClick={this.handleAddButtonClick}
+            >
+              +
+            </MiniButton>
           </div>
         </footer>
       </fieldset>
@@ -180,6 +196,7 @@ RepeatingInput.propTypes = {
       PropTypes.object,
     ])),
   ]),
+  onAddInstance: PropTypes.func,
   onCommit: PropTypes.func,
   onSingleValueReceived: PropTypes.func,
 };
