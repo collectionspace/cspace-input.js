@@ -34,6 +34,22 @@ class RepeatingInput extends Component {
     super(props);
 
     this.handleInstanceCommit = this.handleInstanceCommit.bind(this);
+    
+    this.componentWillReceiveProps(props);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const {
+      value,
+    } = nextProps;
+
+    const {
+      onSingleValueReceived,
+    } = this.props;
+
+    if (onSingleValueReceived && !Immutable.List.isList(value) && !Array.isArray(value)) {
+      onSingleValueReceived(this.getPath());
+    }
   }
 
   getPath() {
@@ -47,13 +63,11 @@ class RepeatingInput extends Component {
 
   handleInstanceCommit(instancePath, value) {
     const {
-      name,
-      path,
       onCommit,
     } = this.props;
 
     if (onCommit) {
-      onCommit([...getPath(), ...instancePath], value);
+      onCommit([...this.getPath(), ...instancePath], value);
     }
   }
 
@@ -167,6 +181,7 @@ RepeatingInput.propTypes = {
     ])),
   ]),
   onCommit: PropTypes.func,
+  onSingleValueReceived: PropTypes.func,
 };
 
 export default labelable(RepeatingInput);

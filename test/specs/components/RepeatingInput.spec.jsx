@@ -253,5 +253,25 @@ describe('RepeatingInput', function suite() {
     labels[1].textContent.should.equal('Type');
     labels[2].textContent.should.equal('Language');
   });
+
+  it('should call the onSingleValueReceived callback when a single (not Array or List) value prop is supplied', function test() {
+    let singleValueReceivedPath = null;
+
+    const handleSingleValueReceived = (path) => {
+      singleValueReceivedPath = path;
+    };
+
+    render(
+      <RepeatingInput
+        name="rpt"
+        path="schema_name"
+        value="Single value"
+        onSingleValueReceived={handleSingleValueReceived}
+      >
+        <TextInput />
+      </RepeatingInput>, this.container);
+
+    singleValueReceivedPath.should.deep.equal(['schema_name', 'rpt']);
+  });
 });
 
