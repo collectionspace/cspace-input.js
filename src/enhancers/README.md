@@ -16,31 +16,31 @@ For more information, see:
 Call the enhancer, passing in a base component. Use the returned component as you would any other:
 
 ```
-import uncontrolled from './uncontrolled';
+import labelable from './labelable';
 
-const EnhancedInput = uncontrolled('input');
+const LabelableInput = labelable('input');
 
-render(<EnhancedInput value="I'm enhanced" />, document.getElementById("container"));
+render(<LabelableInput value="I'm enhanced" label="Now I can have a label" />, document.getElementById("container"));
 ```
 
 Apply as many enhancers as you like:
 
 ```
-import named from './named';
+import changeable from './changeable';
 import repeatable from './repeatable';
-import uncontrolled from './uncontrolled';
+import labelable from './labelable';
 
-const EnhancedInput = repeatable(uncontrolled(named('input')));
+const EnhancedInput = repeatable(labelable(changeable('input')));
 ```
 
 Compose any number of enhancers into a single enhancer:
 
 ```
-import compose from '../helpers';
-import named from './named';
+import compose from '../helpers/compose';
+import changeable from './changeable';
+import labelable from './labelable';
 import repeatable from './repeatable';
-import uncontrolled from './uncontrolled';
 
-const enhanced = compose(repeatable, uncontrolled, named);
+const enhanced = compose(repeatable, labelable, changeable);
 const EnhancedInput = enhanced('input');
 ```
