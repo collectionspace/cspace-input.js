@@ -15,6 +15,19 @@ describe('committable', function suite() {
   });
 
   context('enhanced component', function context() {
+    it('should lift propTypes from the base component', function test() {
+      const StubComponent = () => null;
+
+      StubComponent.propTypes = {
+        name: null,
+        value: null,
+      };
+
+      const EnhancedComponent = committable(StubComponent);
+
+      EnhancedComponent.propTypes.should.include.keys(Object.keys(StubComponent.propTypes));
+    });
+
     it('should accept an onCommit prop', function test() {
       committable('input').propTypes.should.include.keys(['onCommit']);
     });
@@ -71,19 +84,6 @@ describe('committable', function suite() {
 
       committedPath.should.deep.equal(['input']);
       committedValue.should.equal(newValue);
-    });
-
-    it('should lift propTypes from the base component', function test() {
-      const StubComponent = () => null;
-
-      StubComponent.propTypes = {
-        name: null,
-        value: null,
-      };
-
-      const EnhancedComponent = committable(StubComponent);
-
-      EnhancedComponent.propTypes.should.include.keys(Object.keys(StubComponent.propTypes));
     });
   });
 });

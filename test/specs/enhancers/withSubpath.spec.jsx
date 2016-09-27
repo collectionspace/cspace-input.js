@@ -14,6 +14,19 @@ describe('withSubpath', function suite() {
   });
 
   context('enhanced component', function context() {
+    it('should lift propTypes from the base component', function test() {
+      const StubComponent = () => null;
+
+      StubComponent.propTypes = {
+        name: null,
+        value: null,
+      };
+
+      const EnhancedComponent = withSubpath(StubComponent);
+
+      EnhancedComponent.propTypes.should.include.keys(Object.keys(StubComponent.propTypes));
+    });
+
     it('should accept a subpath prop', function test() {
       withSubpath('input').propTypes.should.include.keys(['subpath']);
     });
@@ -32,19 +45,6 @@ describe('withSubpath', function suite() {
       render(<EnhancedComponent name="n" subpath="p" foo="f" />, this.container);
 
       propsReceived.should.not.include.keys('subpath');
-    });
-
-    it('should lift propTypes from the base component', function test() {
-      const StubComponent = () => null;
-
-      StubComponent.propTypes = {
-        name: null,
-        value: null,
-      };
-
-      const EnhancedComponent = withSubpath(StubComponent);
-
-      EnhancedComponent.propTypes.should.include.keys(Object.keys(StubComponent.propTypes));
     });
   });
 });

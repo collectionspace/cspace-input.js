@@ -15,8 +15,21 @@ describe('changeable', function suite() {
   });
 
   context('enhanced component', function context() {
-    it('should accept an onChange prop', function test() {
-      changeable('input').propTypes.should.include.keys(['onChange']);
+    it('should lift propTypes from the base component', function test() {
+      const StubComponent = () => null;
+
+      StubComponent.propTypes = {
+        name: null,
+        value: null,
+      };
+
+      const EnhancedComponent = changeable(StubComponent);
+
+      EnhancedComponent.propTypes.should.include.keys(Object.keys(StubComponent.propTypes));
+    });
+
+    it('should accept onChange and autoSyncValue props', function test() {
+      changeable('input').propTypes.should.include.keys(['onChange', 'autoSyncValue']);
     });
 
     it('should call onChange when the base component changes', function test() {
@@ -49,19 +62,6 @@ describe('changeable', function suite() {
       render(<EnhancedComponent value="new value" />, this.container);
 
       input.value.should.equal('new value');
-    });
-
-    it('should lift propTypes from the base component', function test() {
-      const StubComponent = () => null;
-
-      StubComponent.propTypes = {
-        name: null,
-        value: null,
-      };
-
-      const EnhancedComponent = changeable(StubComponent);
-
-      EnhancedComponent.propTypes.should.include.keys(Object.keys(StubComponent.propTypes));
     });
   });
 });

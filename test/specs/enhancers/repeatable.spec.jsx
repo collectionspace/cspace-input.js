@@ -21,6 +21,19 @@ describe('repeatable', function suite() {
   });
 
   context('enhanced component', function context() {
+    it('should lift propTypes from the base component', function test() {
+      const StubComponent = () => null;
+
+      StubComponent.propTypes = {
+        name: null,
+        value: null,
+      };
+
+      const EnhancedComponent = repeatable(StubComponent);
+
+      EnhancedComponent.propTypes.should.include.keys(Object.keys(StubComponent.propTypes));
+    });
+
     it('should accept repeating and value props', function test() {
       repeatable('input').propTypes.should.include.keys(['repeating', 'value']);
     });
@@ -115,19 +128,6 @@ describe('repeatable', function suite() {
 
       result.type.should.equal(RepeatingInput);
       result.props.should.include({ onCommit: handleCommit });
-    });
-
-    it('should lift propTypes from the base component', function test() {
-      const StubComponent = () => null;
-
-      StubComponent.propTypes = {
-        name: null,
-        value: null,
-      };
-
-      const EnhancedComponent = repeatable(StubComponent);
-
-      EnhancedComponent.propTypes.should.include.keys(Object.keys(StubComponent.propTypes));
     });
   });
 });

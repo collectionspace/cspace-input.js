@@ -1,3 +1,5 @@
+/* global window */
+
 import React, { PropTypes } from 'react';
 import { Simulate } from 'react-addons-test-utils';
 import Immutable from 'immutable';
@@ -127,6 +129,35 @@ describe('RepeatingInput', function suite() {
 
     this.container.querySelectorAll('textarea').length.should.equal(1);
     this.container.querySelector('textarea').value.should.equal('');
+  });
+
+  it('should call the onSingleValueReceived callback when a single (not Array or List) value is supplied after the initial render', function test(done) {
+    let singleValueReceivedPath = null;
+
+    const handleSingleValueReceived = (path) => {
+      singleValueReceivedPath = path;
+    };
+
+    // Initial render.
+
+    render(
+      <RepeatingInput name="rpt" onSingleValueReceived={handleSingleValueReceived}>
+        <StubTemplateComponent />
+      </RepeatingInput>, this.container);
+
+    // Now update with a string value.
+
+    render(
+      <RepeatingInput name="rpt" value="A string" onSingleValueReceived={handleSingleValueReceived}>
+        <StubTemplateComponent />
+      </RepeatingInput>, this.container);
+
+    // The callback won't necessarily be synchronous.
+
+    window.setTimeout(() => {
+      singleValueReceivedPath.should.deep.equal(['rpt']);
+      done();
+    }, 0);
   });
 
   it('should distribute values to child inputs', function test() {

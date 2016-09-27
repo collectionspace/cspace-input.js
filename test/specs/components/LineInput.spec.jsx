@@ -43,6 +43,12 @@ describe('LineInput', function suite() {
     this.container.firstElementChild.value.should.equal(value);
   });
 
+  it('should normalize a null value to empty string', function test() {
+    render(<LineInput value={null} />, this.container);
+
+    this.container.firstElementChild.value.should.equal('');
+  });
+
   it('should not show more than one line of input', function test() {
     const lines = ['Line 1', 'Line 2'];
     const value = lines.join('\n');

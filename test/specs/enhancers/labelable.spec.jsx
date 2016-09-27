@@ -15,6 +15,19 @@ describe('labelable', function suite() {
   });
 
   context('enhanced component', function context() {
+    it('should lift propTypes from the base component', function test() {
+      const StubComponent = () => null;
+
+      StubComponent.propTypes = {
+        name: null,
+        value: null,
+      };
+
+      const EnhancedComponent = labelable(StubComponent);
+
+      EnhancedComponent.propTypes.should.include.keys(Object.keys(StubComponent.propTypes));
+    });
+
     it('should accept label prop', function test() {
       labelable('input').propTypes.should.include.keys(['label']);
     });
@@ -68,19 +81,6 @@ describe('labelable', function suite() {
       labels[0].textContent.should.equal('Label 1');
       labels[1].textContent.should.equal('Label 2');
       labels[2].textContent.should.equal('Label 3');
-    });
-
-    it('should lift propTypes from the base component', function test() {
-      const StubComponent = () => null;
-
-      StubComponent.propTypes = {
-        name: null,
-        value: null,
-      };
-
-      const EnhancedComponent = labelable(StubComponent);
-
-      EnhancedComponent.propTypes.should.include.keys(Object.keys(StubComponent.propTypes));
     });
   });
 });

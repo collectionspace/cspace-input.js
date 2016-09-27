@@ -123,7 +123,7 @@ describe('CustomCompoundInput', function suite() {
     render(
       <CustomCompoundInput value={compoundValue}>
         <TextInput name="objectNumber" subpath="collectionobjects_common" />
-        <TextInput name="color" subpath="collectionobjects_extension" />
+        <TextInput name="color" subpath={['collectionobjects_extension']} />
         <TextInput name="comment" subpath="collectionobjects_extension" />
       </CustomCompoundInput>, this.container);
 
