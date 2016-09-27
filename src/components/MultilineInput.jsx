@@ -14,13 +14,14 @@ const MultilineInput = (props) => {
     ...remainingProps,
   } = props;
 
+  const normalizedValue = (value === null ? '' : value);
   const className = embedded ? styles.embedded : styles.normal;
 
   return (
     <textarea
       className={className}
       name={name}
-      value={value}
+      value={normalizedValue}
       {...remainingProps}
     />
   );

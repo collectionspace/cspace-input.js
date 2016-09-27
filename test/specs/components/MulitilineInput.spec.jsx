@@ -69,7 +69,7 @@ describe('MultilineInput', function suite() {
       <MultilineInput
         name="input"
         onCommit={handleCommit}
-        path="schema_name"
+        subpath="schema_name"
       />, this.container);
 
     const input = this.container.firstElementChild;

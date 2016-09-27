@@ -1,5 +1,5 @@
 import React from 'react';
-import { createRenderer, Simulate } from 'react-addons-test-utils';
+import { createRenderer } from 'react-addons-test-utils';
 import { render } from 'react-dom';
 import chai from 'chai';
 
@@ -74,36 +74,6 @@ describe('CompoundInput', function suite() {
       inputs[3].value.should.equal(value.address.city);
       inputs[4].value.should.equal(value.address.state);
     });
-
-    it('should call the onCommit callback when a child input is committed', function test() {
-      let committedPath = null;
-      let committedValue = null;
-
-      const handleCommit = (path, value) => {
-        committedPath = path;
-        committedValue = value;
-      };
-
-      const value = {
-        objectNumber: '1-200',
-        comment: 'Hello world!',
-      };
-
-      render(
-        <CompoundInput name="person" value={value} label="Person" onCommit={handleCommit}>
-          <TextInput name="firstName" label="First name" />
-          <TextInput name="lastName" label="Last name" />
-        </CompoundInput>, this.container);
-
-      const input = this.container.querySelectorAll('input')[0];
-
-      input.value = 'New value';
-
-      Simulate.keyPress(input, { key: 'Enter' });
-
-      committedPath.should.deep.equal(['person', 'firstName']);
-      committedValue.should.equal('New value');
-    });
   });
 
   context('when tabular prop is true', function context() {
@@ -157,43 +127,6 @@ describe('CompoundInput', function suite() {
       inputs[2].value.should.equal(value.address.street);
       inputs[3].value.should.equal(value.address.city);
       inputs[4].value.should.equal(value.address.state);
-    });
-
-    it('should call the onCommit callback when a child input is committed', function test() {
-      let committedPath = null;
-      let committedValue = null;
-
-      const handleCommit = (path, value) => {
-        committedPath = path;
-        committedValue = value;
-      };
-
-      const value = {
-        objectNumber: '1-200',
-        comment: 'Hello world!',
-      };
-
-      render(
-        <CompoundInput
-          name="person"
-          path="schema_name"
-          value={value}
-          tabular
-          label="Person"
-          onCommit={handleCommit}
-        >
-          <TextInput name="firstName" label="First name" />
-          <TextInput name="lastName" label="Last name" />
-        </CompoundInput>, this.container);
-
-      const input = this.container.querySelectorAll('input')[0];
-
-      input.value = 'New value';
-
-      Simulate.keyPress(input, { key: 'Enter' });
-
-      committedPath.should.deep.equal(['schema_name', 'person', 'firstName']);
-      committedValue.should.equal('New value');
     });
   });
 });

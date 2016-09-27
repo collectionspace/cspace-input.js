@@ -16,13 +16,14 @@ const LineInput = (props) => {
     ...remainingProps,
   } = props;
 
+  const normalizedValue = (value === null ? '' : value);
   const className = embedded ? styles.embedded : styles.normal;
 
   return (
     <input
       className={className}
       name={name}
-      value={value}
+      value={normalizedValue}
       type="text"
       {...remainingProps}
     />

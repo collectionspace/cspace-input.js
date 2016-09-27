@@ -1,6 +1,5 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
 import Immutable from 'immutable';
-import { Simulate } from 'react-addons-test-utils';
 import { render } from 'react-dom';
 import chai from 'chai';
 
@@ -12,7 +11,6 @@ import InputRow from '../../../src/components/InputRow';
 import Label from '../../../src/components/Label';
 import LabelRow from '../../../src/components/LabelRow';
 import TextInput from '../../../src/components/TextInput';
-import RepeatingInput from '../../../src/components/RepeatingInput';
 
 chai.should();
 
@@ -110,7 +108,7 @@ describe('CustomCompoundInput', function suite() {
     this.container.querySelector('textarea').value.should.equal(compoundValue.get('comment'));
   });
 
-  it('should use the path prop of child inputs to locate values', function test() {
+  it('should use the subpath prop of child inputs to locate values', function test() {
     const compoundValue = {
       collectionobjects_common: {
         objectNumber: '1-200',
@@ -124,9 +122,9 @@ describe('CustomCompoundInput', function suite() {
 
     render(
       <CustomCompoundInput value={compoundValue}>
-        <TextInput name="objectNumber" path="collectionobjects_common" />
-        <TextInput name="color" path="collectionobjects_extension" />
-        <TextInput name="comment" path="collectionobjects_extension" />
+        <TextInput name="objectNumber" subpath="collectionobjects_common" />
+        <TextInput name="color" subpath="collectionobjects_extension" />
+        <TextInput name="comment" subpath="collectionobjects_extension" />
       </CustomCompoundInput>, this.container);
 
     this.container.querySelector('input[name="objectNumber"]').value.should
@@ -139,7 +137,7 @@ describe('CustomCompoundInput', function suite() {
       .equal(compoundValue.collectionobjects_extension.comment);
   });
 
-  it('should use the default path if specified', function test() {
+  it('should use the default child subpath if specified', function test() {
     const compoundValue = {
       collectionobjects_common: {
         objectNumber: '1-200',
@@ -152,7 +150,7 @@ describe('CustomCompoundInput', function suite() {
     };
 
     render(
-      <CustomCompoundInput value={compoundValue} defaultPath="collectionobjects_common">
+      <CustomCompoundInput value={compoundValue} defaultChildSubpath="collectionobjects_common">
         <TextInput
           name="objectNumber"
           label="collectionobjects_common:objectNumber"
@@ -163,7 +161,7 @@ describe('CustomCompoundInput', function suite() {
         />
         <TextInput
           name="comment"
-          path="collectionobjects_extension"
+          subpath="collectionobjects_extension"
           label="collectionobjects_extension:comment"
         />
       </CustomCompoundInput>, this.container);
@@ -176,25 +174,6 @@ describe('CustomCompoundInput', function suite() {
 
     this.container.querySelectorAll('input[name="comment"]')[1].value.should
       .equal(compoundValue.collectionobjects_extension.comment);
-  });
-
-  it('should set the path of children to the defaultPath if not specified', function test() {
-    const StubComponent = props => (
-      <p>{props.path}</p>
-    );
-
-    StubComponent.propTypes = {
-      path: PropTypes.string,
-    };
-
-    render(
-      <CustomCompoundInput defaultPath="schema_name">
-        <StubComponent />
-        <StubComponent path="mypath" />
-      </CustomCompoundInput>, this.container);
-
-    this.container.querySelectorAll('p')[0].textContent.should.equal('schema_name');
-    this.container.querySelectorAll('p')[1].textContent.should.equal('mypath');
   });
 
   it('should render an InputRow template and a LabelRow label', function test() {
@@ -217,58 +196,5 @@ describe('CustomCompoundInput', function suite() {
 
     this.container.querySelectorAll('label').length.should.equal(3);
     this.container.querySelectorAll('input').length.should.equal(3);
-  });
-
-  it('should call the onCommit callback when a child input is committed', function test() {
-    let committedPath = null;
-    let committedValue = null;
-
-    const handleCommit = (path, value) => {
-      committedPath = path;
-      committedValue = value;
-    };
-
-    const compoundValue = {
-      objectNumber: '1-200',
-      comment: 'Hello world!',
-      group: {
-        nested: 'Nested 1',
-        deepGroup: {
-          deeplyNested: 'Nested 2',
-        },
-      },
-    };
-
-    render(
-      <CustomCompoundInput
-        name="compound"
-        path="schema_name"
-        value={compoundValue}
-        onCommit={handleCommit}
-      >
-        <TextInput name="objectNumber" />
-        <div>
-          <TextInput name="comment" multiline />
-          <CustomCompoundInput name="group">
-            <TextInput name="nested" />
-            <RepeatingInput name="rpt">
-              <TextInput />
-            </RepeatingInput>
-            <CustomCompoundInput name="deepGroup">
-              <TextInput name="deeplyNested" />
-              <TextInput name="deepRpt" repeating />
-            </CustomCompoundInput>
-          </CustomCompoundInput>
-        </div>
-      </CustomCompoundInput>, this.container);
-
-    const input = this.container.querySelectorAll('input')[4];
-
-    input.value = 'New value';
-
-    Simulate.keyPress(input, { key: 'Enter' });
-
-    committedPath.should.deep.equal(['schema_name', 'compound', 'group', 'deepGroup', 'deepRpt', '0']);
-    committedValue.should.equal('New value');
   });
 });

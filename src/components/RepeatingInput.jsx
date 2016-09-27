@@ -3,6 +3,7 @@ import Immutable from 'immutable';
 import { normalizeLabel } from './Label';
 import MiniButton from './MiniButton';
 import labelable from '../enhancers/labelable';
+import getPath from '../helpers/getPath';
 import styles from '../../styles/cspace-input/RepeatingInput.css';
 
 function normalizeValue(value) {
@@ -36,31 +37,23 @@ class RepeatingInput extends Component {
     this.handleInstanceCommit = this.handleInstanceCommit.bind(this);
     this.handleAddButtonClick = this.handleAddButtonClick.bind(this);
     this.handleRemoveButtonClick = this.handleRemoveButtonClick.bind(this);
-
-    this.componentWillReceiveProps(props);
   }
 
-  componentWillReceiveProps(nextProps) {
+  getChildContext() {
+    return {
+      parentPath: getPath(this.props, this.context),
+    };
+  }
+
+  componentDidUpdate() {
     const {
       value,
-    } = nextProps;
-
-    const {
       onSingleValueReceived,
     } = this.props;
 
     if (onSingleValueReceived && !Immutable.List.isList(value) && !Array.isArray(value)) {
-      onSingleValueReceived(this.getPath());
+      onSingleValueReceived(getPath(this.props, this.context));
     }
-  }
-
-  getPath() {
-    const {
-      name,
-      path,
-    } = this.props;
-
-    return (path ? [path, name] : [name]);
   }
 
   handleAddButtonClick() {
@@ -69,7 +62,7 @@ class RepeatingInput extends Component {
     } = this.props;
 
     if (onAddInstance) {
-      onAddInstance(this.getPath());
+      onAddInstance(getPath(this.props, this.context));
     }
   }
 
@@ -79,7 +72,7 @@ class RepeatingInput extends Component {
     } = this.props;
 
     if (onCommit) {
-      onCommit([...this.getPath(), ...instancePath], value);
+      onCommit(instancePath, value);
     }
   }
 
@@ -91,7 +84,7 @@ class RepeatingInput extends Component {
     if (onRemoveInstance) {
       const instanceName = event.target.dataset.instancename;
 
-      onRemoveInstance([...this.getPath(), instanceName]);
+      onRemoveInstance([...getPath(this.props, this.context), instanceName]);
     }
   }
 
@@ -212,7 +205,6 @@ class RepeatingInput extends Component {
 RepeatingInput.propTypes = {
   children: PropTypes.node,
   name: PropTypes.string,
-  path: PropTypes.string,
   value: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.object,
@@ -226,6 +218,18 @@ RepeatingInput.propTypes = {
   onCommit: PropTypes.func,
   onRemoveInstance: PropTypes.func,
   onSingleValueReceived: PropTypes.func,
+};
+
+RepeatingInput.contextTypes = {
+  defaultSubpath: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.string),
+    PropTypes.string,
+  ]),
+  parentPath: PropTypes.arrayOf(PropTypes.string),
+};
+
+RepeatingInput.childContextTypes = {
+  parentPath: PropTypes.arrayOf(PropTypes.string),
 };
 
 export default labelable(RepeatingInput);

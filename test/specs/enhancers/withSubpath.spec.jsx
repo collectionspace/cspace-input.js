@@ -4,21 +4,21 @@ import chai from 'chai';
 
 import createTestContainer from '../../helpers/createTestContainer';
 
-import withValueAtPath from '../../../src/enhancers/withValueAtPath';
+import withSubpath from '../../../src/enhancers/withSubpath';
 
 chai.should();
 
-describe('withValueAtPath', function suite() {
+describe('withSubpath', function suite() {
   beforeEach(function before() {
     this.container = createTestContainer(this);
   });
 
   context('enhanced component', function context() {
-    it('should accept path prop', function test() {
-      withValueAtPath('input').propTypes.should.include.keys(['path']);
+    it('should accept a subpath prop', function test() {
+      withSubpath('input').propTypes.should.include.keys(['subpath']);
     });
 
-    it('should not pass the path prop to the base component', function test() {
+    it('should not pass the subpath prop to the base component', function test() {
       let propsReceived = null;
 
       const StubComponent = (props) => {
@@ -27,11 +27,11 @@ describe('withValueAtPath', function suite() {
         return null;
       };
 
-      const EnhancedComponent = withValueAtPath(StubComponent);
+      const EnhancedComponent = withSubpath(StubComponent);
 
-      render(<EnhancedComponent name="n" path="p" foo="f" />, this.container);
+      render(<EnhancedComponent name="n" subpath="p" foo="f" />, this.container);
 
-      propsReceived.should.not.include.keys('path');
+      propsReceived.should.not.include.keys('subpath');
     });
 
     it('should lift propTypes from the base component', function test() {
@@ -42,7 +42,7 @@ describe('withValueAtPath', function suite() {
         value: null,
       };
 
-      const EnhancedComponent = withValueAtPath(StubComponent);
+      const EnhancedComponent = withSubpath(StubComponent);
 
       EnhancedComponent.propTypes.should.include.keys(Object.keys(StubComponent.propTypes));
     });

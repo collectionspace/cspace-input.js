@@ -1,5 +1,4 @@
 import React from 'react';
-import { Simulate } from 'react-addons-test-utils';
 import { render } from 'react-dom';
 import chai from 'chai';
 
@@ -66,41 +65,5 @@ describe('TabularCompoundInput', function suite() {
     const labels = this.container.querySelectorAll('label');
 
     labels.length.should.equal(0);
-  });
-
-  it('should call the onCommit callback when a child input is committed', function test() {
-    let committedPath = null;
-    let committedValue = null;
-
-    const handleCommit = (path, value) => {
-      committedPath = path;
-      committedValue = value;
-    };
-
-    const compoundValue = {
-      objectNumber: '1-200',
-      comment: 'Hello world!',
-      group: {
-        nested: 'Nested 1',
-        deepGroup: {
-          deeplyNested: 'Nested 2',
-        },
-      },
-    };
-
-    render(
-      <TabularCompoundInput name="compound" value={compoundValue} onCommit={handleCommit}>
-        <TextInput name="objectNumber" label="Object number" />
-        <TextInput name="comment" multiline label={<Label>Comment</Label>} />
-      </TabularCompoundInput>, this.container);
-
-    const input = this.container.querySelectorAll('input')[0];
-
-    input.value = 'New value';
-
-    Simulate.keyPress(input, { key: 'Enter' });
-
-    committedPath.should.deep.equal(['compound', 'objectNumber']);
-    committedValue.should.equal('New value');
   });
 });

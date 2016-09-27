@@ -9,3 +9,4 @@ export { default as ReadOnlyInput } from './components/ReadOnlyInput';
 export { default as RepeatingInput } from './components/RepeatingInput';
 export { default as TabularCompoundInput } from './components/TabularCompoundInput';
 export { default as TextInput } from './components/TextInput';
+export { default as getPath } from './helpers/getPath';

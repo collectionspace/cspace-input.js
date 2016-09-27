@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import getPath from '../helpers/getPath';
 
 /**
  * Returns an enhanced component that detects that a change to the value of the base component has
@@ -16,7 +17,6 @@ export default function committable(BaseComponent) {
 
       this.handleBlur = this.handleBlur.bind(this);
       this.handleKeyPress = this.handleKeyPress.bind(this);
-      this.commit = this.commit.bind(this);
     }
 
     handleBlur(event) {
@@ -31,13 +31,11 @@ export default function committable(BaseComponent) {
 
     commit(value) {
       const {
-        name,
-        path,
         onCommit,
       } = this.props;
 
       if (onCommit) {
-        onCommit(path ? [path, name] : [name], value);
+        onCommit(getPath(this.props, this.context), value);
       }
     }
 
@@ -60,6 +58,14 @@ export default function committable(BaseComponent) {
   Committable.propTypes = {
     ...BaseComponent.propTypes,
     onCommit: PropTypes.func,
+  };
+
+  Committable.contextTypes = {
+    defaultSubpath: PropTypes.oneOfType([
+      PropTypes.arrayOf(PropTypes.string),
+      PropTypes.string,
+    ]),
+    parentPath: PropTypes.arrayOf(PropTypes.string),
   };
 
   return Committable;

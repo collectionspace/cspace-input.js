@@ -1,9 +1,9 @@
-export default function isInput(Component) {
-  if (!Component) {
+export default function isInput(candidateComponent) {
+  if (!candidateComponent) {
     return false;
   }
 
-  const type = Component.type;
+  const type = candidateComponent.type;
 
   if (!type) {
     return false;

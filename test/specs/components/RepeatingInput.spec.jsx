@@ -164,7 +164,7 @@ describe('RepeatingInput', function suite() {
     render(
       <RepeatingInput
         name="rpt"
-        path="schema_name"
+        subpath="schema_name"
         value={repeatingValue}
         onCommit={handleCommit}
       >
@@ -254,26 +254,6 @@ describe('RepeatingInput', function suite() {
     labels[2].textContent.should.equal('Language');
   });
 
-  it('should call the onSingleValueReceived callback when a single (not Array or List) value prop is supplied', function test() {
-    let singleValueReceivedPath = null;
-
-    const handleSingleValueReceived = (path) => {
-      singleValueReceivedPath = path;
-    };
-
-    render(
-      <RepeatingInput
-        name="rpt"
-        path="schema_name"
-        value="Single value"
-        onSingleValueReceived={handleSingleValueReceived}
-      >
-        <TextInput />
-      </RepeatingInput>, this.container);
-
-    singleValueReceivedPath.should.deep.equal(['schema_name', 'rpt']);
-  });
-
   it('should call the onAddInstance callback when the add button is clicked', function test() {
     let addInstancePath = null;
 
@@ -284,7 +264,7 @@ describe('RepeatingInput', function suite() {
     render(
       <RepeatingInput
         name="rpt"
-        path="schema_name"
+        subpath="schema_name"
         value="Value"
         onAddInstance={handleAddInstance}
       >
@@ -314,7 +294,7 @@ describe('RepeatingInput', function suite() {
     render(
       <RepeatingInput
         name="rpt"
-        path="schema_name"
+        subpath="schema_name"
         value={repeatingValue}
         onRemoveInstance={handleRemoveInstance}
       >

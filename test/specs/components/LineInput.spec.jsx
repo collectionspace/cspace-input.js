@@ -66,7 +66,12 @@ describe('LineInput', function suite() {
       committedValue = value;
     };
 
-    render(<LineInput name="input" onCommit={handleCommit} path="schema_name" />, this.container);
+    render(
+      <LineInput
+        name="input"
+        onCommit={handleCommit}
+        subpath="schema_name"
+      />, this.container);
 
     const input = this.container.firstElementChild;
     const newValue = input.value = 'New value';

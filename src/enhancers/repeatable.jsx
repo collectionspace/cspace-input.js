@@ -12,10 +12,13 @@ export default function repeatable(BaseComponent) {
   const Repeatable = (props) => {
     const {
       name,
-      path,
       repeating,
+      subpath,
       value,
+      onAddInstance,
       onCommit,
+      onRemoveInstance,
+      onSingleValueReceived,
       ...remainingProps,
     } = props;
 
@@ -23,7 +26,7 @@ export default function repeatable(BaseComponent) {
       return (
         <BaseComponent
           name={name}
-          path={path}
+          subpath={subpath}
           value={value}
           onCommit={onCommit}
           {...remainingProps}
@@ -34,9 +37,12 @@ export default function repeatable(BaseComponent) {
     return (
       <RepeatingInput
         name={name}
-        path={path}
+        subpath={subpath}
         value={value}
+        onAddInstance={onAddInstance}
         onCommit={onCommit}
+        onRemoveInstance={onRemoveInstance}
+        onSingleValueReceived={onSingleValueReceived}
       >
         <BaseComponent {...remainingProps} />
       </RepeatingInput>

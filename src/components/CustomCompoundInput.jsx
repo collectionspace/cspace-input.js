@@ -3,23 +3,35 @@ import Immutable from 'immutable';
 import get from 'lodash/get';
 import labelable from '../enhancers/labelable';
 import repeatable from '../enhancers/repeatable';
+import getPath from '../helpers/getPath';
 import styles from '../../styles/cspace-input/CompoundInput.css';
 
 class CustomCompoundInput extends Component {
-  constructor(props) {
-    super(props);
-
-    this.handleCommit = this.handleCommit.bind(this);
-    this.getValue = this.getValue.bind(this);
-    this.decorateInputs = this.decorateInputs.bind(this);
+  getChildContext() {
+    return {
+      defaultSubpath: this.props.defaultChildSubpath,
+      parentPath: getPath(this.props, this.context),
+    };
   }
 
-  getValue(name, path = this.props.defaultPath) {
+  getValue(name, subpath = this.props.defaultChildSubpath) {
     const {
       value,
     } = this.props;
 
-    const keyPath = path ? [path, name] : [name];
+    let keyPath;
+
+    if (subpath) {
+      if (Array.isArray(subpath)) {
+        keyPath = [...subpath];
+      } else {
+        keyPath = [subpath];
+      }
+    } else {
+      keyPath = [];
+    }
+
+    keyPath.push(name);
 
     if (Immutable.Map.isMap(value)) {
       return value.getIn(keyPath);
@@ -40,17 +52,8 @@ class CustomCompoundInput extends Component {
 
       if (childPropTypes) {
         if (childPropTypes.value) {
-          overrideProps.value = this.getValue(child.props.name, child.props.path);
+          overrideProps.value = this.getValue(child.props.name, child.props.subpath);
         }
-
-        if (childPropTypes.onCommit) {
-          overrideProps.onCommit = this.handleCommit;
-        }
-
-        if (childPropTypes.path && !child.props.path && this.props.defaultPath) {
-          overrideProps.path = this.props.defaultPath;
-        }
-
         if (Object.keys(overrideProps).length > 0) {
           return React.cloneElement(child, overrideProps);
         }
@@ -60,18 +63,6 @@ class CustomCompoundInput extends Component {
         children: this.decorateInputs(child.props.children),
       });
     }, this);
-  }
-
-  handleCommit(childPath, value) {
-    const {
-      name,
-      path,
-      onCommit,
-    } = this.props;
-
-    if (onCommit) {
-      onCommit(path ? [path, name, ...childPath] : [name, ...childPath], value);
-    }
   }
 
   render() {
@@ -93,19 +84,35 @@ class CustomCompoundInput extends Component {
 
 CustomCompoundInput.propTypes = {
   children: PropTypes.node,
-  defaultPath: PropTypes.string,
+  defaultChildSubpath: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.string),
+    PropTypes.string,
+  ]),
   name: PropTypes.string,
-  path: PropTypes.string,
   value: PropTypes.oneOfType([
     PropTypes.object, // eslint-disable-line react/forbid-prop-types
     PropTypes.instanceOf(Immutable.Map),
   ]),
-  onCommit: PropTypes.func,
 };
 
 CustomCompoundInput.defaultProps = {
-  defaultPath: '',
   value: {},
+};
+
+CustomCompoundInput.contextTypes = {
+  defaultSubpath: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.string),
+    PropTypes.string,
+  ]),
+  parentPath: PropTypes.arrayOf(PropTypes.string),
+};
+
+CustomCompoundInput.childContextTypes = {
+  defaultSubpath: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.string),
+    PropTypes.string,
+  ]),
+  parentPath: PropTypes.arrayOf(PropTypes.string),
 };
 
 export default repeatable(labelable(CustomCompoundInput));
