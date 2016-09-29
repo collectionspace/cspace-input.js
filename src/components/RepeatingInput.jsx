@@ -45,17 +45,6 @@ class RepeatingInput extends Component {
     };
   }
 
-  componentDidUpdate() {
-    const {
-      value,
-      onSingleValueReceived,
-    } = this.props;
-
-    if (onSingleValueReceived && !Immutable.List.isList(value) && !Array.isArray(value)) {
-      onSingleValueReceived(getPath(this.props, this.context));
-    }
-  }
-
   handleAddButtonClick() {
     const {
       onAddInstance,
@@ -217,7 +206,6 @@ RepeatingInput.propTypes = {
   onAddInstance: PropTypes.func,
   onCommit: PropTypes.func,
   onRemoveInstance: PropTypes.func,
-  onSingleValueReceived: PropTypes.func,
 };
 
 RepeatingInput.contextTypes = {

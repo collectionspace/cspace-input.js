@@ -18,7 +18,6 @@ export default function repeatable(BaseComponent) {
       onAddInstance,
       onCommit,
       onRemoveInstance,
-      onSingleValueReceived,
       ...remainingProps,
     } = props;
 
@@ -42,7 +41,6 @@ export default function repeatable(BaseComponent) {
         onAddInstance={onAddInstance}
         onCommit={onCommit}
         onRemoveInstance={onRemoveInstance}
-        onSingleValueReceived={onSingleValueReceived}
       >
         <BaseComponent {...remainingProps} />
       </RepeatingInput>
