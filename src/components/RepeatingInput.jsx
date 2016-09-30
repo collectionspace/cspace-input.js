@@ -4,7 +4,8 @@ import { normalizeLabel } from './Label';
 import MiniButton from './MiniButton';
 import labelable from '../enhancers/labelable';
 import getPath from '../helpers/getPath';
-import styles from '../../styles/cspace-input/RepeatingInput.css';
+import repeatingInputStyles from '../../styles/cspace-input/RepeatingInput.css';
+import moveToTopButtonStyles from '../../styles/cspace-input/MoveToTopButton.css';
 
 function normalizeValue(value) {
   const defaultValue = [undefined];
@@ -36,6 +37,7 @@ class RepeatingInput extends Component {
 
     this.handleInstanceCommit = this.handleInstanceCommit.bind(this);
     this.handleAddButtonClick = this.handleAddButtonClick.bind(this);
+    this.handleMoveToTopButtonClick = this.handleMoveToTopButtonClick.bind(this);
     this.handleRemoveButtonClick = this.handleRemoveButtonClick.bind(this);
   }
 
@@ -62,6 +64,19 @@ class RepeatingInput extends Component {
 
     if (onCommit) {
       onCommit(instancePath, value);
+    }
+  }
+
+  handleMoveToTopButtonClick(event) {
+    const {
+      onMoveInstance,
+    } = this.props;
+
+    if (onMoveInstance) {
+      const instanceName = event.target.dataset.instancename;
+      const newPosition = 0;
+
+      onMoveInstance([...getPath(this.props, this.context), instanceName], newPosition);
     }
   }
 
@@ -136,7 +151,11 @@ class RepeatingInput extends Component {
         <div key={index}>
           <div>
             <MiniButton
+              className={moveToTopButtonStyles.common}
+              data-instancename={instanceName}
               disabled={index === 0}
+              name="moveToTop"
+              onClick={this.handleMoveToTopButtonClick}
             >
               {index + 1}
             </MiniButton>
@@ -169,7 +188,7 @@ class RepeatingInput extends Component {
 
     return (
       <fieldset
-        className={styles.common}
+        className={repeatingInputStyles.common}
         name={name}
       >
         <div>
@@ -205,6 +224,7 @@ RepeatingInput.propTypes = {
   ]),
   onAddInstance: PropTypes.func,
   onCommit: PropTypes.func,
+  onMoveInstance: PropTypes.func,
   onRemoveInstance: PropTypes.func,
 };
 

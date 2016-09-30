@@ -1,0 +1,11 @@
+.common {
+  composes: common from './MiniButton.css';
+}
+
+.common:enabled:focus, .common:enabled:hover, .common:enabled:hover:focus {
+  color: transparent;
+  background-image: url(../../images/moveToTop.svg);
+  background-repeat: no-repeat;
+  background-size: 18px 18px;
+  background-position: center;
+}

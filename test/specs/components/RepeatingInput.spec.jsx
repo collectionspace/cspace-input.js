@@ -309,5 +309,37 @@ describe('RepeatingInput', function suite() {
 
     removeInstancePath.should.deep.equal(['schema_name', 'rpt', '1']);
   });
-});
 
+  it('should call the onMoveInstance callback when the move to top button is clicked', function test() {
+    let moveInstancePath = null;
+    let moveInstanceNewPosition = null;
+
+    const handleMoveInstance = (path, newPosition) => {
+      moveInstancePath = path;
+      moveInstanceNewPosition = newPosition;
+    };
+
+    const repeatingValue = [
+      'Value 1',
+      'Value 2',
+      'Value 3',
+    ];
+
+    render(
+      <RepeatingInput
+        name="rpt"
+        subpath="schema_name"
+        value={repeatingValue}
+        onMoveInstance={handleMoveInstance}
+      >
+        <TextInput />
+      </RepeatingInput>, this.container);
+
+    const moveButton = this.container.querySelectorAll('button[name="moveToTop"]')[1];
+
+    Simulate.click(moveButton);
+
+    moveInstancePath.should.deep.equal(['schema_name', 'rpt', '1']);
+    moveInstanceNewPosition.should.equal(0);
+  });
+});
