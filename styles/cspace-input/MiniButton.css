@@ -14,7 +14,8 @@
 }
 
 .common:enabled:focus {
-  outline: activeEdgeWidth solid buttonBgActive;
+  outline: solid buttonBgActive;
+  outline-width: activeEdgeWidth;
   position: relative;
   z-index: 2;
   color: buttonText;

@@ -3,16 +3,19 @@
 
 .common {
   composes: common from './Input.css';
+  -webkit-appearance: none;
+  display: block;
+  width: 100%;
   margin: 0;
   outline: none;
+  border-radius: 0;
   padding: 1px 2px;
   color: textDark;
-  width: 100%;
-  display: block;
 }
 
 .common:focus {
-  outline: activeEdgeWidth solid textDark;
+  outline: solid textDark;
+  outline-width: activeEdgeWidth;
   position: relative;
   z-index: 2;
 }
