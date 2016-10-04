@@ -31,7 +31,13 @@ class CustomCompoundInput extends Component {
       keyPath = [];
     }
 
-    keyPath.push(name);
+    if (name) {
+      keyPath.push(name);
+    }
+
+    if (keyPath.length === 0) {
+      return value;
+    }
 
     if (Immutable.Map.isMap(value)) {
       return value.getIn(keyPath);
@@ -54,6 +60,7 @@ class CustomCompoundInput extends Component {
         if (childPropTypes.value) {
           overrideProps.value = this.getValue(child.props.name, child.props.subpath);
         }
+
         if (Object.keys(overrideProps).length > 0) {
           return React.cloneElement(child, overrideProps);
         }

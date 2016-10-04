@@ -137,6 +137,26 @@ describe('CustomCompoundInput', function suite() {
       .equal(compoundValue.collectionobjects_extension.comment);
   });
 
+  it('should pass the received value down to nested groups with no name', function test() {
+    const compoundValue = {
+      objectNumber: '1-200',
+      comment: 'Hello world!',
+    };
+
+    render(
+      <CustomCompoundInput value={compoundValue}>
+        <TextInput name="objectNumber" />
+        <div>
+          <CustomCompoundInput>
+            <TextInput name="comment" multiline />
+          </CustomCompoundInput>
+        </div>
+      </CustomCompoundInput>, this.container);
+
+    this.container.querySelector('input').value.should.equal(compoundValue.objectNumber);
+    this.container.querySelector('textarea').value.should.equal(compoundValue.comment);
+  });
+
   it('should use the default child subpath if specified', function test() {
     const compoundValue = {
       collectionobjects_common: {
