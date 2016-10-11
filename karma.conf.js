@@ -53,7 +53,7 @@ const sauceLaunchers = {
 
 const getTestFiles = (config) => {
   if (config.file) {
-    return config.file.split(',');
+    return config.file.split(',').map(file => `test/${file}`);
   }
 
   const defaultTestDirs = [
@@ -184,43 +184,5 @@ module.exports = function karma(config) {
     browserDisconnectTolerance: 1,
     browserNoActivityTimeout: 4 * 60 * 1000,
     captureTimeout: 4 * 60 * 1000,
-
-    // Add middleware to fall back to the base path.
-    // This allows running React Router with browser history.
-
-    beforeMiddleware: ['fallbackMiddleware'],
-
-    plugins: [
-      ...config.plugins,
-
-      {
-        'middleware:fallbackMiddleware': ['factory', function create() {
-          const contextPath = '/context.html';
-          const debugPath = '/debug.html';
-
-          return function fallback(req, res, next) {
-            let basePath = null;
-
-            if (req.url.startsWith(contextPath)) {
-              basePath = contextPath;
-            } else if (req.url.startsWith(debugPath)) {
-              basePath = debugPath;
-            }
-
-            if (basePath) {
-              const rest = req.url.substring(basePath.length);
-
-              if (rest.indexOf('.') >= 0) {
-                req.url = rest; // eslint-disable-line no-param-reassign
-              } else {
-                req.url = basePath; // eslint-disable-line no-param-reassign
-              }
-            }
-
-            next();
-          };
-        }],
-      },
-    ],
   });
 };
