@@ -32,6 +32,10 @@ describe('labelable', function suite() {
       labelable('input').propTypes.should.include.keys(['label']);
     });
 
+    it('should accept msgkey prop', function test() {
+      labelable('input').propTypes.should.include.keys(['msgkey']);
+    });
+
     it('should not pass the label prop to the base component', function test() {
       let propsReceived = null;
 
@@ -46,6 +50,22 @@ describe('labelable', function suite() {
       render(<EnhancedComponent name="n" label="Test label" foo="f" />, this.container);
 
       propsReceived.should.not.include.keys('label');
+    });
+
+    it('should not pass the msgkey prop to the base component', function test() {
+      let propsReceived = null;
+
+      const StubComponent = (props) => {
+        propsReceived = props;
+
+        return null;
+      };
+
+      const EnhancedComponent = labelable(StubComponent);
+
+      render(<EnhancedComponent name="n" msgkey="key" />, this.container);
+
+      propsReceived.should.not.include.keys('msgkey');
     });
 
     it('should render the supplied Label component label', function test() {

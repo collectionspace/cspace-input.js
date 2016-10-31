@@ -5,7 +5,8 @@ import { normalizeLabel } from '../components/Label';
  * Makes an input component labelable. Returns an enhanced component that accepts a label prop. If
  * a label is supplied, the base component is wrapped, and rendered in the wrapper along with the
  * label. If the label is a string, it is wrapped in a Label; otherwise, it is rendered as given.
- * If no label is supplied, the base component is returned unchanged.
+ * If no label is supplied, the base component is returned unchanged. A msgkey prop is also
+ * accepted, but has no effect. It may be used by preprocessors to generate a label.
  * @param {string|function} BaseComponent - The component to enhance.
  * @returns {function} The enhanced component.
  */
@@ -13,6 +14,7 @@ export default function labelable(BaseComponent) {
   const Labelable = (props) => {
     const {
       label,
+      msgkey, // eslint-disable-line no-unused-vars
       ...remainingProps,
     } = props;
 
@@ -37,6 +39,7 @@ export default function labelable(BaseComponent) {
   Labelable.propTypes = {
     ...BaseComponent.propTypes,
     label: PropTypes.node,
+    msgkey: PropTypes.string,
   };
 
   return Labelable;
