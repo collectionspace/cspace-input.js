@@ -32,6 +32,10 @@ describe('committable', function suite() {
       committable('input').propTypes.should.include.keys(['onCommit']);
     });
 
+    it('should accept an onBlur prop', function test() {
+      committable('input').propTypes.should.include.keys(['onBlur']);
+    });
+
     it('should call onCommit when the base component loses focus', function test() {
       const EnhancedComponent = committable('input');
 
@@ -57,6 +61,29 @@ describe('committable', function suite() {
 
       committedPath.should.deep.equal(['input']);
       committedValue.should.equal(newValue);
+    });
+
+    it('should call onBlur when the base component loses focus', function test() {
+      const EnhancedComponent = committable('input');
+
+      let handlerCalled = false;
+
+      const handleBlur = () => {
+        handlerCalled = true;
+      };
+
+      render(
+        <EnhancedComponent
+          name="input"
+          onBlur={handleBlur}
+          defaultValue="hello"
+        />, this.container);
+
+      const input = this.container.querySelector('input');
+
+      Simulate.blur(input);
+
+      handlerCalled.should.equal(true);
     });
 
     it('should call onCommit when enter is pressed in the base component', function test() {

@@ -5,7 +5,7 @@ import TabularCompoundInput from './TabularCompoundInput';
 export default function CompoundInput(props) {
   const {
     tabular,
-    ...remainingProps,
+    ...remainingProps
   } = props;
 
   const Component = tabular ? TabularCompoundInput : CustomCompoundInput;

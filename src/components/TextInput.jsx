@@ -30,7 +30,7 @@ export default function TextInput(props) {
   const {
     multiline,
     value,
-    ...remainingProps,
+    ...remainingProps
   } = props;
 
   const InputComponent = getInputComponent(multiline, value);

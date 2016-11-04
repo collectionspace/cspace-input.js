@@ -13,7 +13,7 @@ const LineInput = (props) => {
     embedded,
     name,
     value,
-    ...remainingProps,
+    ...remainingProps
   } = props;
 
   const normalizedValue = (value === null ? '' : value);

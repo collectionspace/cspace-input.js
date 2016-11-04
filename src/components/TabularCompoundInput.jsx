@@ -24,7 +24,7 @@ function TabularCompoundInput(props) {
   const {
     children,
     repeating,
-    ...remainingProps,
+    ...remainingProps
   } = props;
 
   const inputs = extractInputs(children);

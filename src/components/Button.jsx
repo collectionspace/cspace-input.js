@@ -7,7 +7,7 @@ import styles from '../../styles/cspace-input/Button.css';
 export default function Button(props) {
   const {
     type,
-    ...remainingProps,
+    ...remainingProps
   } = props;
 
   return (

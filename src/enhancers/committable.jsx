@@ -20,7 +20,17 @@ export default function committable(BaseComponent) {
     }
 
     handleBlur(event) {
-      this.commit(event.target.value);
+      const {
+        onBlur,
+      } = this.props;
+
+      const value = event.target.value;
+
+      if (onBlur) {
+        onBlur(event);
+      }
+
+      this.commit(value);
     }
 
     handleKeyPress(event) {
@@ -42,7 +52,7 @@ export default function committable(BaseComponent) {
     render() {
       const {
         onCommit, // eslint-disable-line no-unused-vars
-        ...remainingProps,
+        ...remainingProps
       } = this.props;
 
       return (
@@ -57,6 +67,7 @@ export default function committable(BaseComponent) {
 
   Committable.propTypes = {
     ...BaseComponent.propTypes,
+    onBlur: PropTypes.func,
     onCommit: PropTypes.func,
   };
 
