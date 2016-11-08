@@ -15,7 +15,7 @@ export default function labelable(BaseComponent) {
     const {
       label,
       msgkey, // eslint-disable-line no-unused-vars
-      ...remainingProps,
+      ...remainingProps
     } = props;
 
     const normalizedLabel = normalizeLabel(label);

@@ -1,0 +1,9 @@
+li.selected {
+  background: url(../../images/check.svg) no-repeat;
+  background-position: 2px center;
+  background-size: 14px 14px;
+}
+
+li.focused {
+  border: 1px dotted black;
+}

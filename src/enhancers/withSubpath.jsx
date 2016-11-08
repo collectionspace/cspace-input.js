@@ -9,7 +9,7 @@ export default function withSubpath(BaseComponent) {
   const WithSubpath = (props) => {
     const {
       subpath, // eslint-disable-line no-unused-vars
-      ...remainingProps,
+      ...remainingProps
     } = props;
 
     return (

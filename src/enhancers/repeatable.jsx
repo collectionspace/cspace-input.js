@@ -19,7 +19,7 @@ export default function repeatable(BaseComponent) {
       onCommit,
       onMoveInstance,
       onRemoveInstance,
-      ...remainingProps,
+      ...remainingProps
     } = props;
 
     if (!repeating) {

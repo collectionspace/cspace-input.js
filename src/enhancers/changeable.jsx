@@ -51,7 +51,7 @@ export default function changeable(BaseComponent) {
       const {
         autoSyncValue, // eslint-disable-line no-unused-vars
         onChange, // eslint-disable-line no-unused-vars
-        ...remainingProps,
+        ...remainingProps
       } = this.props;
 
       const {

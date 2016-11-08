@@ -1,0 +1,34 @@
+@value inputHeight, activeEdgeWidth from '../dimensions.css';
+@value textMedium from '../colors.css';
+
+.common {
+  composes: common from './Input.css';
+}
+
+.common input, .common textarea {
+  padding-right: 24px;
+  background: url(../../images/dropdown.svg) no-repeat;
+  background-position: right;
+}
+
+.common > div {
+  padding: 4px 0;
+  top: calc(inputHeight + activeEdgeWidth - 1px);
+}
+
+.common > div > header {
+  padding: 0 4px;
+  font-style: italic;
+}
+
+.common > div > header:not(:last-child) {
+  padding-bottom: 4px;
+}
+
+.filtering input, .filtering textarea {
+  color: textMedium;
+}
+
+.open input, .open textarea {
+  outline: 2px solid;
+}
