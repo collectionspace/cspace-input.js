@@ -345,6 +345,14 @@ describe('Menu', function suite() {
     document.activeElement.should.equal(list);
   });
 
+  it('should do nothing when focus() is called and there are no options', function test() {
+    const menu = render(<Menu />, this.container);
+
+    menu.focus();
+
+    this.container.contains(document.activeElement).should.equal(false);
+  });
+
   it('should update options with new options supplied via props', function test() {
     const options = [
       ['value1', 'Label 1'],

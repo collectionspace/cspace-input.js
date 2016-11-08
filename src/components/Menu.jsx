@@ -68,8 +68,10 @@ export default class Menu extends Component {
   }
 
   focus() {
-    this.domNode.focus();
-    this.scrollFocusedItemIntoView();
+    if (this.domNode) {
+      this.domNode.focus();
+      this.scrollFocusedItemIntoView();
+    }
   }
 
   handleRef(ref) {

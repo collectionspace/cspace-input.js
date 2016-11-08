@@ -14,7 +14,7 @@ import {
 
 import styles from '../../styles/cspace-input/DropdownMenuInput.css';
 
-export class DropdownMenuInput extends Component {
+class DropdownMenuInput extends Component {
   constructor(props) {
     super(props);
 
@@ -146,12 +146,14 @@ export class DropdownMenuInput extends Component {
       value,
       valueLabel,
     } = this.state;
-    
+
     const {
+      /* eslint-disable no-unused-vars */
       blankable,
       options: optionsProp,
       formatFilterMessage,
       ...remainingProps
+      /* eslint-enable no-unused-vars */
     } = this.props;
 
     const classes = classNames({
@@ -206,4 +208,5 @@ DropdownMenuInput.defaultProps = {
   options: [],
 };
 
+export const BaseDropdownMenuInput = DropdownMenuInput;
 export default repeatable(labelable(DropdownMenuInput));
