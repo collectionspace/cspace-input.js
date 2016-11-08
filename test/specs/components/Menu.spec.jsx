@@ -406,7 +406,7 @@ describe('Menu', function suite() {
 
     const list = this.container.querySelector('ul');
 
-    list.getBoundingClientRect().height.should.be.closeTo(120, 0.5);
+    list.getBoundingClientRect().height.should.be.closeTo(120, 1);
   });
 
   it('should scroll the focused item into view when focus is received', function test() {
@@ -444,7 +444,7 @@ describe('Menu', function suite() {
     Simulate.blur(menu);
     Simulate.focus(menu);
 
-    menu.scrollTop.should.be.closeTo(itemOffsetTop, 0.5);
+    menu.scrollTop.should.be.closeTo(itemOffsetTop, 1);
   });
 
   it('should scroll the newly focused item into view when up and down arrows are depressed', function test() {
