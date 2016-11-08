@@ -35,20 +35,20 @@ const sauceLaunchers = {
     version: 'latest',
     platform: 'OS X 10.11',
   },
-  'edge-latest-win10': {
-    base: 'SauceLabs',
-    browserName: 'microsoftedge',
-    version: 'latest',
-    platform: 'Windows 10',
-  },
-  'safari-ios-10.0': {
-    base: 'SauceLabs',
-    browserName: 'safari',
-    platformName: 'iOS',
-    platformVersion: '10.0',
-    deviceName: 'iPad Air 2 Simulator',
-    appiumVersion: '1.6.0',
-  },
+  // 'edge-latest-win10': {
+  //   base: 'SauceLabs',
+  //   browserName: 'microsoftedge',
+  //   version: 'latest',
+  //   platform: 'Windows 10',
+  // },
+  // 'safari-ios-10.0': {
+  //   base: 'SauceLabs',
+  //   browserName: 'safari',
+  //   platformName: 'iOS',
+  //   platformVersion: '10.0',
+  //   deviceName: 'iPad Air 2 Simulator',
+  //   appiumVersion: '1.6.0',
+  // },
 };
 
 const getTestFiles = (config) => {
