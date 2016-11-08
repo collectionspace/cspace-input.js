@@ -9,7 +9,7 @@ export { default as MultilineInput } from './components/MultilineInput';
 export { default as PasswordInput } from './components/PasswordInput';
 export { default as ReadOnlyInput } from './components/ReadOnlyInput';
 export { default as RepeatingInput } from './components/RepeatingInput';
-export { default as StaticControlledInput } from './components/StaticControlledInput';
+export { default as DropdownMenuInput } from './components/DropdownMenuInput';
 export { default as TabularCompoundInput } from './components/TabularCompoundInput';
 export { default as TextInput } from './components/TextInput';
 export { default as getPath } from './helpers/getPath';

@@ -9,27 +9,27 @@ import createTestContainer from '../../helpers/createTestContainer';
 
 import isInput from '../../../src/helpers/isInput';
 import DropdownInput from '../../../src/components/DropdownInput';
-import StaticControlledInput from '../../../src/components/StaticControlledInput';
+import DropdownMenuInput from '../../../src/components/DropdownMenuInput';
 
 const expect = chai.expect;
 
 chai.should();
 
-const expectedClassName = 'cspace-input-DropdownInput--common cspace-input-StaticControlledInput--common cspace-input-Input--common';
+const expectedClassName = 'cspace-input-DropdownInput--common cspace-input-DropdownMenuInput--common cspace-input-Input--common';
 
-describe('StaticControlledInput', function suite() {
+describe('DropdownMenuInput', function suite() {
   beforeEach(function before() {
     this.container = createTestContainer(this);
   });
 
   it('should be considered an input by isInput()', function test() {
-    isInput(<StaticControlledInput />).should.equal(true);
+    isInput(<DropdownMenuInput />).should.equal(true);
   });
 
   it('should render as a DropdownInput', function test() {
     const shallowRenderer = createRenderer();
 
-    shallowRenderer.render(<StaticControlledInput />);
+    shallowRenderer.render(<DropdownMenuInput />);
 
     const result = shallowRenderer.getRenderOutput();
 
@@ -43,7 +43,7 @@ describe('StaticControlledInput', function suite() {
       ['value3', 'Value 3'],
     ];
 
-    render(<StaticControlledInput options={options} />, this.container);
+    render(<DropdownMenuInput options={options} />, this.container);
 
     this.container.firstElementChild.className.should.equal(expectedClassName);
   });
@@ -55,7 +55,7 @@ describe('StaticControlledInput', function suite() {
       ['value3', 'Value 3'],
     ];
 
-    const component = render(<StaticControlledInput options={options} />, this.container);
+    const component = render(<DropdownMenuInput options={options} />, this.container);
     const input = this.container.querySelector('input');
 
     Simulate.click(input);
@@ -76,7 +76,7 @@ describe('StaticControlledInput', function suite() {
       ['value3', 'Value 3'],
     ];
 
-    const component = render(<StaticControlledInput options={options} />, this.container);
+    const component = render(<DropdownMenuInput options={options} />, this.container);
 
     component.focusMenu();
 
@@ -91,7 +91,7 @@ describe('StaticControlledInput', function suite() {
     ];
 
     render(
-      <StaticControlledInput
+      <DropdownMenuInput
         options={options}
         value="value2"
       />, this.container);
@@ -109,7 +109,7 @@ describe('StaticControlledInput', function suite() {
     ];
 
     render(
-      <StaticControlledInput
+      <DropdownMenuInput
         options={options}
         value="value2"
       />, this.container);
@@ -119,7 +119,7 @@ describe('StaticControlledInput', function suite() {
     input.value.should.equal('Value 2');
 
     render(
-      <StaticControlledInput
+      <DropdownMenuInput
         options={options}
         value="value1"
       />, this.container);
@@ -135,7 +135,7 @@ describe('StaticControlledInput', function suite() {
     ];
 
     render(
-      <StaticControlledInput
+      <DropdownMenuInput
         options={options}
         blankable
       />, this.container);
@@ -158,7 +158,7 @@ describe('StaticControlledInput', function suite() {
     ];
 
     render(
-      <StaticControlledInput
+      <DropdownMenuInput
         options={options}
         blankable={false}
       />, this.container);
@@ -180,7 +180,7 @@ describe('StaticControlledInput', function suite() {
     ];
 
     render(
-      <StaticControlledInput
+      <DropdownMenuInput
         options={options}
         value="value2"
         blankable={false}
@@ -205,7 +205,7 @@ describe('StaticControlledInput', function suite() {
     ];
 
     render(
-      <StaticControlledInput
+      <DropdownMenuInput
         options={options}
         value="value2"
       />, this.container);
@@ -223,7 +223,7 @@ describe('StaticControlledInput', function suite() {
     ];
 
     render(
-      <StaticControlledInput
+      <DropdownMenuInput
         options={options}
         value="value2"
       />, this.container);
@@ -243,7 +243,7 @@ describe('StaticControlledInput', function suite() {
     ];
 
     render(
-      <StaticControlledInput
+      <DropdownMenuInput
         options={options}
         value="value2"
       />, this.container);
@@ -264,7 +264,7 @@ describe('StaticControlledInput', function suite() {
     ];
 
     render(
-      <StaticControlledInput
+      <DropdownMenuInput
         options={options}
         value="value2"
       />, this.container);
@@ -285,7 +285,7 @@ describe('StaticControlledInput', function suite() {
     ];
 
     render(
-      <StaticControlledInput
+      <DropdownMenuInput
         options={options}
         value="value2"
       />, this.container);
@@ -309,7 +309,7 @@ describe('StaticControlledInput', function suite() {
     ];
 
     render(
-      <StaticControlledInput
+      <DropdownMenuInput
         options={options}
         value="value2"
       />, this.container);
@@ -336,7 +336,7 @@ describe('StaticControlledInput', function suite() {
     ];
 
     render(
-      <StaticControlledInput
+      <DropdownMenuInput
         options={options}
         value="value2"
       />, this.container);
@@ -360,7 +360,7 @@ describe('StaticControlledInput', function suite() {
     ];
 
     render(
-      <StaticControlledInput
+      <DropdownMenuInput
         options={options}
         value="value2"
       />, this.container);
@@ -384,7 +384,7 @@ describe('StaticControlledInput', function suite() {
     ];
 
     render(
-      <StaticControlledInput
+      <DropdownMenuInput
         options={options}
       />, this.container);
 
@@ -428,7 +428,7 @@ describe('StaticControlledInput', function suite() {
     ];
 
     render(
-      <StaticControlledInput
+      <DropdownMenuInput
         options={options}
       />, this.container);
 
@@ -460,7 +460,7 @@ describe('StaticControlledInput', function suite() {
     ];
 
     render(
-      <StaticControlledInput
+      <DropdownMenuInput
         options={options}
       />, this.container);
 
@@ -492,7 +492,7 @@ describe('StaticControlledInput', function suite() {
     ];
 
     render(
-      <StaticControlledInput
+      <DropdownMenuInput
         options={options}
         value="value3"
       />, this.container);
@@ -520,7 +520,7 @@ describe('StaticControlledInput', function suite() {
     ];
 
     render(
-      <StaticControlledInput
+      <DropdownMenuInput
         options={options}
         value="value3"
       />, this.container);
@@ -556,7 +556,7 @@ describe('StaticControlledInput', function suite() {
     ];
 
     render(
-      <StaticControlledInput
+      <DropdownMenuInput
         options={options}
         value="value3"
         formatFilterMessage={formatFilterMessage}

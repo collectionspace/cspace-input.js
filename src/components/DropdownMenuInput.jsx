@@ -10,9 +10,9 @@ import {
   normalizeOptions,
 } from '../helpers/optionHelpers';
 
-import styles from '../../styles/cspace-input/StaticControlledInput.css';
+import styles from '../../styles/cspace-input/DropdownMenuInput.css';
 
-export default class StaticControlledInput extends Component {
+export default class DropdownMenuInput extends Component {
   constructor(props) {
     super(props);
 
@@ -182,7 +182,7 @@ export default class StaticControlledInput extends Component {
   }
 }
 
-StaticControlledInput.propTypes = {
+DropdownMenuInput.propTypes = {
   ...DropdownInput.propTypes,
   blankable: PropTypes.bool,
   options: PropTypes.arrayOf(
@@ -191,7 +191,7 @@ StaticControlledInput.propTypes = {
   formatFilterMessage: PropTypes.func,
 };
 
-StaticControlledInput.defaultProps = {
+DropdownMenuInput.defaultProps = {
   blankable: true,
   options: [],
 };
