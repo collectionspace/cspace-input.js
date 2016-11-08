@@ -29,12 +29,12 @@ const sauceLaunchers = {
     version: 'latest-1',
     platform: 'OS X 10.11',
   },
-  'safari-latest-osx': {
-    base: 'SauceLabs',
-    browserName: 'safari',
-    version: 'latest',
-    platform: 'OS X 10.11',
-  },
+  // 'safari-latest-osx': {
+  //   base: 'SauceLabs',
+  //   browserName: 'safari',
+  //   version: 'latest',
+  //   platform: 'OS X 10.11',
+  // },
   // 'edge-latest-win10': {
   //   base: 'SauceLabs',
   //   browserName: 'microsoftedge',
