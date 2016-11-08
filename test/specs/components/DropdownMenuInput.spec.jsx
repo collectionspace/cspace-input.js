@@ -1,7 +1,7 @@
 /* global window, document */
 
 import React from 'react';
-import { createRenderer, Simulate } from 'react-addons-test-utils';
+import { createRenderer, findRenderedComponentWithType, Simulate } from 'react-addons-test-utils';
 import { render } from 'react-dom';
 import chai from 'chai';
 
@@ -9,6 +9,7 @@ import createTestContainer from '../../helpers/createTestContainer';
 
 import isInput from '../../../src/helpers/isInput';
 import DropdownInput from '../../../src/components/DropdownInput';
+import { DropdownMenuInput as BaseDropdownMenuInput} from '../../../src/components/DropdownMenuInput';
 import DropdownMenuInput from '../../../src/components/DropdownMenuInput';
 
 const expect = chai.expect;
@@ -27,13 +28,10 @@ describe('DropdownMenuInput', function suite() {
   });
 
   it('should render as a DropdownInput', function test() {
-    const shallowRenderer = createRenderer();
+    render(<DropdownMenuInput />, this.container);
 
-    shallowRenderer.render(<DropdownMenuInput />);
-
-    const result = shallowRenderer.getRenderOutput();
-
-    result.type.should.equal(DropdownInput);
+    this.container.firstElementChild.should
+      .equal(this.container.querySelector('div.cspace-input-DropdownInput--common'));
   });
 
   it('should render with correct class', function test() {
@@ -55,7 +53,7 @@ describe('DropdownMenuInput', function suite() {
       ['value3', 'Value 3'],
     ];
 
-    const component = render(<DropdownMenuInput options={options} />, this.container);
+    const component = render(<BaseDropdownMenuInput options={options} />, this.container);
     const input = this.container.querySelector('input');
 
     Simulate.click(input);
@@ -76,7 +74,7 @@ describe('DropdownMenuInput', function suite() {
       ['value3', 'Value 3'],
     ];
 
-    const component = render(<DropdownMenuInput options={options} />, this.container);
+    const component = render(<BaseDropdownMenuInput options={options} />, this.container);
 
     component.focusMenu();
 

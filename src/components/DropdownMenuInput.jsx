@@ -2,6 +2,8 @@ import React, { Component, PropTypes } from 'react';
 import classNames from 'classnames';
 import DropdownInput from './DropdownInput';
 import Menu from './Menu';
+import labelable from '../enhancers/labelable';
+import repeatable from '../enhancers/repeatable';
 
 import {
   getLabelForValue,
@@ -12,7 +14,7 @@ import {
 
 import styles from '../../styles/cspace-input/DropdownMenuInput.css';
 
-export default class DropdownMenuInput extends Component {
+export class DropdownMenuInput extends Component {
   constructor(props) {
     super(props);
 
@@ -144,6 +146,13 @@ export default class DropdownMenuInput extends Component {
       value,
       valueLabel,
     } = this.state;
+    
+    const {
+      blankable,
+      options: optionsProp,
+      formatFilterMessage,
+      ...remainingProps
+    } = this.props;
 
     const classes = classNames({
       [styles.common]: true,
@@ -160,6 +169,7 @@ export default class DropdownMenuInput extends Component {
 
     return (
       <DropdownInput
+        {...remainingProps}
         className={classes}
         focusPopup={this.focusMenu}
         ref={this.handleDropdownInputRef}
@@ -195,3 +205,5 @@ DropdownMenuInput.defaultProps = {
   blankable: true,
   options: [],
 };
+
+export default repeatable(labelable(DropdownMenuInput));
