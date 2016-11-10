@@ -61,9 +61,11 @@ export const filterOptions = (options, filter) => {
     return options;
   }
 
+  const normalizedFilter = filter.toLowerCase();
+
   // TODO: Use String.startsWith when it is supported in all browsers.
 
-  return options.filter(option => (option.label.indexOf(filter, 0) === 0));
+  return options.filter(option => (option.label.toLowerCase().indexOf(normalizedFilter, 0) === 0));
 };
 
 /**
