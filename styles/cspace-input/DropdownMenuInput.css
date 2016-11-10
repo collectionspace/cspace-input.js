@@ -1,5 +1,5 @@
 @value inputHeight, activeEdgeWidth from '../dimensions.css';
-@value textMedium from '../colors.css';
+@value textLight, textMedium from '../colors.css';
 
 .common {
   composes: common from './Input.css';
@@ -13,18 +13,20 @@
 }
 
 .common > div {
-  padding: 4px 0;
   top: calc(inputHeight + activeEdgeWidth - 1px);
 }
 
 .common > div > header {
-  padding: 0 4px;
+  padding: 4px;
   font-size: 12px;
   font-style: italic;
+  border-bottom: 1px solid textLight;
 }
 
-.common > div > header:not(:last-child) {
-  padding-bottom: 4px;
+.embedded > div {
+  left: -1px;
+  top: calc(inputHeight + activeEdgeWidth - 2px);
+  width: calc(100% + 2px);
 }
 
 .filtering input, .filtering textarea {

@@ -170,6 +170,7 @@ class DropdownMenuInput extends Component {
     const {
       /* eslint-disable no-unused-vars */
       blankable,
+      embedded,
       options: optionsProp,
       formatFilterMessage,
       onCommit,
@@ -179,6 +180,7 @@ class DropdownMenuInput extends Component {
 
     const classes = classNames({
       [styles.common]: true,
+      [styles.embedded]: embedded,
       [styles.filtering]: filter !== null,
       [styles.open]: open,
     });
@@ -194,6 +196,7 @@ class DropdownMenuInput extends Component {
       <DropdownInput
         {...remainingProps}
         className={classes}
+        embedded={embedded}
         focusPopup={this.focusMenu}
         open={open}
         ref={this.handleDropdownInputRef}
@@ -219,11 +222,12 @@ class DropdownMenuInput extends Component {
 DropdownMenuInput.propTypes = {
   ...DropdownInput.propTypes,
   blankable: PropTypes.bool,
+  embedded: PropTypes.bool,
+  formatFilterMessage: PropTypes.func,
   options: PropTypes.arrayOf(PropTypes.shape({
     value: PropTypes.string,
     label: PropTypes.string,
   })),
-  formatFilterMessage: PropTypes.func,
   onCommit: PropTypes.func,
 };
 
