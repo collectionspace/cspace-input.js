@@ -145,7 +145,7 @@ export default class Menu extends Component {
 
   selectItem(index) {
     const selectedOption = this.props.options[index];
-    const value = selectedOption[0];
+    const value = selectedOption.value;
 
     this.setState({
       value,
@@ -172,10 +172,10 @@ export default class Menu extends Component {
     } = this.props;
 
     return options.map((option, index) => {
-      const [
-        optionValue,
-        optionLabel,
-      ] = option;
+      const {
+        value: optionValue,
+        label: optionLabel,
+      } = option;
 
       const className = classNames({
         [itemStyles.selected]: optionValue === value,
@@ -248,9 +248,9 @@ export default class Menu extends Component {
 }
 
 Menu.propTypes = {
-  options: PropTypes.arrayOf(
-    PropTypes.arrayOf(PropTypes.string)
-  ),
+  options: PropTypes.arrayOf(PropTypes.shape({
+    value: PropTypes.string,
+  })),
   tabIndex: PropTypes.string,
   value: PropTypes.string,
   onSelect: PropTypes.func,

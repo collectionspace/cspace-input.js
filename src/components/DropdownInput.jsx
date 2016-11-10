@@ -18,12 +18,18 @@ export default class DropdownInput extends Component {
     this.handleRef = this.handleRef.bind(this);
 
     this.state = {
-      open: false,
+      open: props.open,
     };
   }
 
-  close() {
-    if (this.state.open) {
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      open: nextProps.open,
+    });
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.open && !this.state.open) {
       const {
         onClose,
       } = this.props;
@@ -31,7 +37,11 @@ export default class DropdownInput extends Component {
       if (onClose) {
         onClose();
       }
+    }
+  }
 
+  close() {
+    if (this.state.open) {
       this.setState({
         open: false,
       });
@@ -215,6 +225,7 @@ DropdownInput.propTypes = {
   ...TextInput.propTypes,
   children: PropTypes.node,
   className: PropTypes.string,
+  open: PropTypes.bool,
 
   /*
    * A function that may be called to give focus to the contents of the popup. This is supplied as

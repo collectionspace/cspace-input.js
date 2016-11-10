@@ -22,9 +22,9 @@ describe('Menu', function suite() {
 
   it('should render as a ul', function test() {
     const options = [
-      ['value1', 'Label 1'],
-      ['value2', 'Label 2'],
-      ['value3', 'Label 3'],
+      { value: 'value1', label: 'Label 1' },
+      { value: 'value2', label: 'Label 2' },
+      { value: 'value3', label: 'Label 3' },
     ];
 
     render(<Menu options={options} />, this.container);
@@ -34,9 +34,9 @@ describe('Menu', function suite() {
 
   it('should render with correct class', function test() {
     const options = [
-      ['value1', 'Label 1'],
-      ['value2', 'Label 2'],
-      ['value3', 'Label 3'],
+      { value: 'value1', label: 'Label 1' },
+      { value: 'value2', label: 'Label 2' },
+      { value: 'value3', label: 'Label 3' },
     ];
 
     render(<Menu options={options} />, this.container);
@@ -56,9 +56,9 @@ describe('Menu', function suite() {
 
   it('should render options', function test() {
     const options = [
-      ['value1', 'Label 1'],
-      ['value2', 'Label 2'],
-      ['value3', 'Label 3'],
+      { value: 'value1', label: 'Label 1' },
+      { value: 'value2', label: 'Label 2' },
+      { value: 'value3', label: 'Label 3' },
     ];
 
     render(<Menu options={options} />, this.container);
@@ -74,9 +74,9 @@ describe('Menu', function suite() {
 
   it('should render empty labels as a no break space', function test() {
     const options = [
-      ['value1', null],
-      ['value2', ''],
-      ['value3'],
+      { value: 'value1', label: null },
+      { value: 'value2', label: '' },
+      { value: 'value3' },
     ];
 
     render(<Menu options={options} />, this.container);
@@ -90,9 +90,9 @@ describe('Menu', function suite() {
 
   it('should render the selected option with the correct class', function test() {
     const options = [
-      ['value1', 'Label 1'],
-      ['value2', 'Label 2'],
-      ['value3', 'Label 3'],
+      { value: 'value1', label: 'Label 1' },
+      { value: 'value2', label: 'Label 2' },
+      { value: 'value3', label: 'Label 3' },
     ];
 
     render(
@@ -108,9 +108,9 @@ describe('Menu', function suite() {
 
   it('should focus and select an option when clicked', function test() {
     const options = [
-      ['value1', 'Label 1'],
-      ['value2', 'Label 2'],
-      ['value3', 'Label 3'],
+      { value: 'value1', label: 'Label 1' },
+      { value: 'value2', label: 'Label 2' },
+      { value: 'value3', label: 'Label 3' },
     ];
 
     render(
@@ -128,9 +128,9 @@ describe('Menu', function suite() {
 
   it('should unfocus all items when losing focus', function test() {
     const options = [
-      ['value1', 'Label 1'],
-      ['value2', 'Label 2'],
-      ['value3', 'Label 3'],
+      { value: 'value1', label: 'Label 1' },
+      { value: 'value2', label: 'Label 2' },
+      { value: 'value3', label: 'Label 3' },
     ];
 
     render(
@@ -153,9 +153,9 @@ describe('Menu', function suite() {
 
   it('should focus the selected item when gaining focus', function test() {
     const options = [
-      ['value1', 'Label 1'],
-      ['value2', 'Label 2'],
-      ['value3', 'Label 3'],
+      { value: 'value1', label: 'Label 1' },
+      { value: 'value2', label: 'Label 2' },
+      { value: 'value3', label: 'Label 3' },
     ];
 
     render(
@@ -182,9 +182,9 @@ describe('Menu', function suite() {
     };
 
     const options = [
-      ['value1', 'Label 1'],
-      ['value2', 'Label 2'],
-      ['value3', 'Label 3'],
+      { value: 'value1', label: 'Label 1' },
+      { value: 'value2', label: 'Label 2' },
+      { value: 'value3', label: 'Label 3' },
     ];
 
     render(
@@ -211,9 +211,9 @@ describe('Menu', function suite() {
     };
 
     const options = [
-      ['value1', 'Label 1'],
-      ['value2', 'Label 2'],
-      ['value3', 'Label 3'],
+      { value: 'value1', label: 'Label 1' },
+      { value: 'value2', label: 'Label 2' },
+      { value: 'value3', label: 'Label 3' },
     ];
 
     render(
@@ -227,14 +227,14 @@ describe('Menu', function suite() {
 
     Simulate.click(item3);
 
-    selectedOption.should.deep.equal(['value3', 'Label 3']);
+    selectedOption.should.deep.equal({ value: 'value3', label: 'Label 3' });
   });
 
   it('should cycle focus through items when down arrow is depressed', function test() {
     const options = [
-      ['value1', 'Label 1'],
-      ['value2', 'Label 2'],
-      ['value3', 'Label 3'],
+      { value: 'value1', label: 'Label 1' },
+      { value: 'value2', label: 'Label 2' },
+      { value: 'value3', label: 'Label 3' },
     ];
 
     render(
@@ -267,9 +267,9 @@ describe('Menu', function suite() {
 
   it('should cycle focus through items when up arrow is depressed', function test() {
     const options = [
-      ['value1', 'Label 1'],
-      ['value2', 'Label 2'],
-      ['value3', 'Label 3'],
+      { value: 'value1', label: 'Label 1' },
+      { value: 'value2', label: 'Label 2' },
+      { value: 'value3', label: 'Label 3' },
     ];
 
     render(
@@ -308,9 +308,9 @@ describe('Menu', function suite() {
     };
 
     const options = [
-      ['value1', 'Label 1'],
-      ['value2', 'Label 2'],
-      ['value3', 'Label 3'],
+      { value: 'value1', label: 'Label 1' },
+      { value: 'value2', label: 'Label 2' },
+      { value: 'value3', label: 'Label 3' },
     ];
 
     render(
@@ -326,14 +326,14 @@ describe('Menu', function suite() {
     Simulate.keyDown(menu, { key: 'ArrowUp' });
     Simulate.keyPress(menu, { key: 'Enter' });
 
-    selectedOption.should.deep.equal(['value1', 'Label 1']);
+    selectedOption.should.deep.equal({ value: 'value1', label: 'Label 1' });
   });
 
   it('should become focused when focus() is called', function test() {
     const options = [
-      ['value1', 'Label 1'],
-      ['value2', 'Label 2'],
-      ['value3', 'Label 3'],
+      { value: 'value1', label: 'Label 1' },
+      { value: 'value2', label: 'Label 2' },
+      { value: 'value3', label: 'Label 3' },
     ];
 
     const menu = render(<Menu options={options} />, this.container);
@@ -355,9 +355,9 @@ describe('Menu', function suite() {
 
   it('should update options with new options supplied via props', function test() {
     const options = [
-      ['value1', 'Label 1'],
-      ['value2', 'Label 2'],
-      ['value3', 'Label 3'],
+      { value: 'value1', label: 'Label 1' },
+      { value: 'value2', label: 'Label 2' },
+      { value: 'value3', label: 'Label 3' },
     ];
 
     render(
@@ -373,7 +373,7 @@ describe('Menu', function suite() {
     listItems.item(1).textContent.should.equal('Label 2');
     listItems.item(2).textContent.should.equal('Label 3');
 
-    options[1] = ['newvalue', 'New Option Label'];
+    options[1] = { value: 'newvalue', label: 'New Option Label' };
 
     render(
       <Menu
@@ -391,20 +391,20 @@ describe('Menu', function suite() {
 
   it('should have max height of 120px', function test() {
     const options = [
-      ['value1', 'Label 1'],
-      ['value2', 'Label 2'],
-      ['value3', 'Label 3'],
-      ['value4', 'Label 4'],
-      ['value5', 'Label 5'],
-      ['value6', 'Label 6'],
-      ['value7', 'Label 7'],
-      ['value8', 'Label 8'],
-      ['value9', 'Label 9'],
-      ['value10', 'Label 10'],
-      ['value11', 'Label 11'],
-      ['value12', 'Label 12'],
-      ['value13', 'Label 13'],
-      ['value14', 'Label 14'],
+      { value: 'value1', label: 'Label 1' },
+      { value: 'value2', label: 'Label 2' },
+      { value: 'value3', label: 'Label 3' },
+      { value: 'value4', label: 'Label 4' },
+      { value: 'value5', label: 'Label 5' },
+      { value: 'value6', label: 'Label 6' },
+      { value: 'value7', label: 'Label 7' },
+      { value: 'value8', label: 'Label 8' },
+      { value: 'value9', label: 'Label 9' },
+      { value: 'value10', label: 'Label 10' },
+      { value: 'value11', label: 'Label 11' },
+      { value: 'value12', label: 'Label 12' },
+      { value: 'value13', label: 'Label 13' },
+      { value: 'value14', label: 'Label 14' },
     ];
 
     render(
@@ -419,20 +419,20 @@ describe('Menu', function suite() {
 
   it('should scroll the focused item into view when focus is received', function test() {
     const options = [
-      ['value1', 'Label 1'],
-      ['value2', 'Label 2'],
-      ['value3', 'Label 3'],
-      ['value4', 'Label 4'],
-      ['value5', 'Label 5'],
-      ['value6', 'Label 6'],
-      ['value7', 'Label 7'],
-      ['value8', 'Label 8'],
-      ['value9', 'Label 9'],
-      ['value10', 'Label 10'],
-      ['value11', 'Label 11'],
-      ['value12', 'Label 12'],
-      ['value13', 'Label 13'],
-      ['value14', 'Label 14'],
+      { value: 'value1', label: 'Label 1' },
+      { value: 'value2', label: 'Label 2' },
+      { value: 'value3', label: 'Label 3' },
+      { value: 'value4', label: 'Label 4' },
+      { value: 'value5', label: 'Label 5' },
+      { value: 'value6', label: 'Label 6' },
+      { value: 'value7', label: 'Label 7' },
+      { value: 'value8', label: 'Label 8' },
+      { value: 'value9', label: 'Label 9' },
+      { value: 'value10', label: 'Label 10' },
+      { value: 'value11', label: 'Label 11' },
+      { value: 'value12', label: 'Label 12' },
+      { value: 'value13', label: 'Label 13' },
+      { value: 'value14', label: 'Label 14' },
     ];
 
     render(
@@ -457,20 +457,20 @@ describe('Menu', function suite() {
 
   it('should scroll the newly focused item into view when up and down arrows are depressed', function test() {
     const options = [
-      ['value1', 'Label 1'],
-      ['value2', 'Label 2'],
-      ['value3', 'Label 3'],
-      ['value4', 'Label 4'],
-      ['value5', 'Label 5'],
-      ['value6', 'Label 6'],
-      ['value7', 'Label 7'],
-      ['value8', 'Label 8'],
-      ['value9', 'Label 9'],
-      ['value10', 'Label 10'],
-      ['value11', 'Label 11'],
-      ['value12', 'Label 12'],
-      ['value13', 'Label 13'],
-      ['value14', 'Label 14'],
+      { value: 'value1', label: 'Label 1' },
+      { value: 'value2', label: 'Label 2' },
+      { value: 'value3', label: 'Label 3' },
+      { value: 'value4', label: 'Label 4' },
+      { value: 'value5', label: 'Label 5' },
+      { value: 'value6', label: 'Label 6' },
+      { value: 'value7', label: 'Label 7' },
+      { value: 'value8', label: 'Label 8' },
+      { value: 'value9', label: 'Label 9' },
+      { value: 'value10', label: 'Label 10' },
+      { value: 'value11', label: 'Label 11' },
+      { value: 'value12', label: 'Label 12' },
+      { value: 'value13', label: 'Label 13' },
+      { value: 'value14', label: 'Label 14' },
     ];
 
     render(

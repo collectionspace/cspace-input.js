@@ -5,43 +5,52 @@
  */
 
 /**
- * Retrieve the label for a given value in an option list.
+ * Retrieve the option for a given value in an option list.
  */
-export const getLabelForValue = (options, value) => {
-  let label = '';
+export const getOptionForValue = (options, value) => {
+  let option = null;
 
   // TODO: Use Array.find when it is supported in all browsers.
 
   for (let i = 0; i < options.length; i += 1) {
-    const option = options[i];
+    const candidateOption = options[i];
 
-    if (option[0] === value) {
-      label = option[1];
+    if (candidateOption.value === value) {
+      option = candidateOption;
       break;
     }
   }
 
-  return label;
+  return option;
 };
 
 /**
- * Retrieve the value for a given label in an option list.
+ * Retrieve the label for a given value in an option list.
  */
-export const getValueForLabel = (options, label) => {
-  let value = null;
+export const getLabelForValue = (options, value) => {
+  const option = getOptionForValue(options, value);
+
+  return (option ? option.label : null);
+};
+
+/**
+ * Retrieve the option for a given label in an option list.
+ */
+export const getOptionForLabel = (options, label) => {
+  let option = null;
 
   // TODO: Use Array.find when it is supported in all browsers.
 
   for (let i = 0; i < options.length; i += 1) {
-    const option = options[i];
+    const candidateOption = options[i];
 
-    if (option[1] === label) {
-      value = option[0];
+    if (candidateOption.label === label) {
+      option = candidateOption;
       break;
     }
   }
 
-  return value;
+  return option;
 };
 
 /**
@@ -54,7 +63,7 @@ export const filterOptions = (options, filter) => {
 
   // TODO: Use String.startsWith when it is supported in all browsers.
 
-  return options.filter(option => (option[1].indexOf(filter, 0) === 0));
+  return options.filter(option => (option.label.indexOf(filter, 0) === 0));
 };
 
 /**
@@ -65,18 +74,18 @@ export const normalizeOptions = (options, blankable) => {
   const normalizedOptions = [];
 
   if (blankable) {
-    normalizedOptions.push(['', '']);
+    normalizedOptions.push({ value: '', label: '' });
   }
 
   options.forEach((option) => {
-    const value = option[0];
-    let label = option[1];
+    const value = option.value;
+    let label = option.label;
 
     if (label === null || typeof label === 'undefined') {
       label = value;
     }
 
-    normalizedOptions.push([value, label]);
+    normalizedOptions.push({ value, label });
   });
 
   return normalizedOptions;

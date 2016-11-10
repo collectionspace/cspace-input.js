@@ -4,10 +4,11 @@ import DropdownInput from './DropdownInput';
 import Menu from './Menu';
 import labelable from '../enhancers/labelable';
 import repeatable from '../enhancers/repeatable';
+import getPath from '../helpers/getPath';
 
 import {
   getLabelForValue,
-  getValueForLabel,
+  getOptionForLabel,
   filterOptions,
   normalizeOptions,
 } from '../helpers/optionHelpers';
@@ -48,10 +49,13 @@ class DropdownMenuInput extends Component {
     });
   }
 
-  closeDropdown() {
-    if (this.dropdownInput) {
-      this.dropdownInput.close();
-      this.dropdownInput.focusInput();
+  commit(value) {
+    const {
+      onCommit,
+    } = this.props;
+
+    if (onCommit) {
+      onCommit(getPath(this.props, this.context), value);
     }
   }
 
@@ -96,15 +100,28 @@ class DropdownMenuInput extends Component {
         options,
       } = this.state;
 
-      const value = getValueForLabel(options, filter);
+      let matchingOption = null;
 
-      if (value !== null) {
+      const matchingOptions = filterOptions(options, filter);
+
+      if (matchingOptions.length === 1) {
+        // The filter matches only one option. Select it.
+        matchingOption = matchingOptions[0];
+      } else if (matchingOptions.length > 1) {
+        // The filter matches more than one option. If it matches one of them exactly, select that
+        // one.
+        matchingOption = getOptionForLabel(matchingOptions, filter);
+      }
+
+      if (matchingOption) {
         this.setState({
-          value,
-          valueLabel: filter,
+          filter: null,
+          open: false,
+          value: matchingOption.value,
+          valueLabel: matchingOption.label,
         });
 
-        this.closeDropdown();
+        this.commit(matchingOption.value);
       }
     }
   }
@@ -125,17 +142,20 @@ class DropdownMenuInput extends Component {
   }
 
   handleMenuSelect(option) {
-    const [
+    const {
       value,
-      valueLabel,
-    ] = option;
+      label: valueLabel,
+    } = option;
 
     this.setState({
       value,
       valueLabel,
+      filter: null,
+      open: false,
     });
 
-    this.closeDropdown();
+    this.commit(value);
+    this.dropdownInput.focusInput();
   }
 
   render() {
@@ -152,6 +172,7 @@ class DropdownMenuInput extends Component {
       blankable,
       options: optionsProp,
       formatFilterMessage,
+      onCommit,
       ...remainingProps
       /* eslint-enable no-unused-vars */
     } = this.props;
@@ -174,6 +195,7 @@ class DropdownMenuInput extends Component {
         {...remainingProps}
         className={classes}
         focusPopup={this.focusMenu}
+        open={open}
         ref={this.handleDropdownInputRef}
         value={inputValue}
         onChange={this.handleDropdownInputChange}
@@ -197,15 +219,25 @@ class DropdownMenuInput extends Component {
 DropdownMenuInput.propTypes = {
   ...DropdownInput.propTypes,
   blankable: PropTypes.bool,
-  options: PropTypes.arrayOf(
-    PropTypes.arrayOf(PropTypes.string)
-  ),
+  options: PropTypes.arrayOf(PropTypes.shape({
+    value: PropTypes.string,
+    label: PropTypes.string,
+  })),
   formatFilterMessage: PropTypes.func,
+  onCommit: PropTypes.func,
 };
 
 DropdownMenuInput.defaultProps = {
   blankable: true,
   options: [],
+};
+
+DropdownMenuInput.contextTypes = {
+  defaultSubpath: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.string),
+    PropTypes.string,
+  ]),
+  parentPath: PropTypes.arrayOf(PropTypes.string),
 };
 
 export const BaseDropdownMenuInput = DropdownMenuInput;

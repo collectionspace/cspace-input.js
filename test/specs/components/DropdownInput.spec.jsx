@@ -37,6 +37,29 @@ describe('DropdownInput', function suite() {
     this.container.firstElementChild.className.should.equal(expectedClassName);
   });
 
+  it('should open and close depending on the open prop', function test() {
+    render(
+      <DropdownInput open>
+        <p>content</p>
+      </DropdownInput>, this.container);
+
+    this.container.querySelector('p').textContent.should.equal('content');
+
+    render(
+      <DropdownInput open={false}>
+        <p>content</p>
+      </DropdownInput>, this.container);
+
+    expect(this.container.querySelector('p')).to.equal(null);
+
+    render(
+      <DropdownInput open>
+        <p>content</p>
+      </DropdownInput>, this.container);
+
+    this.container.querySelector('p').textContent.should.equal('content');
+  });
+
   it('should open when clicked', function test() {
     render(
       <DropdownInput>

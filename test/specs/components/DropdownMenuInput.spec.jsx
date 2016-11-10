@@ -34,9 +34,9 @@ describe('DropdownMenuInput', function suite() {
 
   it('should render with correct class', function test() {
     const options = [
-      ['value1', 'Value 1'],
-      ['value2', 'Value 2'],
-      ['value3', 'Value 3'],
+      { value: 'value1', label: 'Value 1' },
+      { value: 'value2', label: 'Value 2' },
+      { value: 'value3', label: 'Value 3' },
     ];
 
     render(<DropdownMenuInput options={options} />, this.container);
@@ -46,9 +46,9 @@ describe('DropdownMenuInput', function suite() {
 
   it('should focus the menu when focusMenu is called', function test() {
     const options = [
-      ['value1', 'Value 1'],
-      ['value2', 'Value 2'],
-      ['value3', 'Value 3'],
+      { value: 'value1', label: 'Value 1' },
+      { value: 'value2', label: 'Value 2' },
+      { value: 'value3', label: 'Value 3' },
     ];
 
     const component = render(<BaseDropdownMenuInput options={options} />, this.container);
@@ -67,9 +67,9 @@ describe('DropdownMenuInput', function suite() {
 
   it('should do nothing if focusMenu is called when the menu is not open', function test() {
     const options = [
-      ['value1', 'Value 1'],
-      ['value2', 'Value 2'],
-      ['value3', 'Value 3'],
+      { value: 'value1', label: 'Value 1' },
+      { value: 'value2', label: 'Value 2' },
+      { value: 'value3', label: 'Value 3' },
     ];
 
     const component = render(<BaseDropdownMenuInput options={options} />, this.container);
@@ -81,9 +81,9 @@ describe('DropdownMenuInput', function suite() {
 
   it('should show the selected option\'s label in the input', function test() {
     const options = [
-      ['value1', 'Value 1'],
-      ['value2', 'Value 2'],
-      ['value3', 'Value 3'],
+      { value: 'value1', label: 'Value 1' },
+      { value: 'value2', label: 'Value 2' },
+      { value: 'value3', label: 'Value 3' },
     ];
 
     render(
@@ -99,9 +99,9 @@ describe('DropdownMenuInput', function suite() {
 
   it('should update the input when a new value is passed via props', function test() {
     const options = [
-      ['value1', 'Value 1'],
-      ['value2', 'Value 2'],
-      ['value3', 'Value 3'],
+      { value: 'value1', label: 'Value 1' },
+      { value: 'value2', label: 'Value 2' },
+      { value: 'value3', label: 'Value 3' },
     ];
 
     render(
@@ -125,9 +125,9 @@ describe('DropdownMenuInput', function suite() {
 
   it('should add a blank option when blankable is true', function test() {
     const options = [
-      ['value1', 'Value 1'],
-      ['value2', 'Value 2'],
-      ['value3', 'Value 3'],
+      { value: 'value1', label: 'Value 1' },
+      { value: 'value2', label: 'Value 2' },
+      { value: 'value3', label: 'Value 3' },
     ];
 
     render(
@@ -148,9 +148,9 @@ describe('DropdownMenuInput', function suite() {
 
   it('should not add a blank option when blankable is false', function test() {
     const options = [
-      ['value1', 'Value 1'],
-      ['value2', 'Value 2'],
-      ['value3', 'Value 3'],
+      { value: 'value1', label: 'Value 1' },
+      { value: 'value2', label: 'Value 2' },
+      { value: 'value3', label: 'Value 3' },
     ];
 
     render(
@@ -170,9 +170,9 @@ describe('DropdownMenuInput', function suite() {
 
   it('should use the option value as the label when a label is not supplied', function test() {
     const options = [
-      ['value1', 'Value 1'],
-      ['value2'],
-      ['value3', 'Value 3'],
+      { value: 'value1', label: 'Value 1' },
+      { value: 'value2' },
+      { value: 'value3', label: 'Value 3' },
     ];
 
     render(
@@ -195,9 +195,9 @@ describe('DropdownMenuInput', function suite() {
 
   it('should allow an empty label', function test() {
     const options = [
-      ['value1', 'Value 1'],
-      ['value2', ''],
-      ['value3', 'Value 3'],
+      { value: 'value1', label: 'Value 1' },
+      { value: 'value2', label: '' },
+      { value: 'value3', label: 'Value 3' },
     ];
 
     render(
@@ -213,9 +213,9 @@ describe('DropdownMenuInput', function suite() {
 
   it('should open the popup when the input is clicked', function test() {
     const options = [
-      ['value1', 'Value 1'],
-      ['value2', 'Value 2'],
-      ['value3', 'Value 3'],
+      { value: 'value1', label: 'Value 1' },
+      { value: 'value2', label: 'Value 2' },
+      { value: 'value3', label: 'Value 3' },
     ];
 
     render(
@@ -233,9 +233,9 @@ describe('DropdownMenuInput', function suite() {
 
   it('should open the popup when the input value changes', function test() {
     const options = [
-      ['value1', 'Value 1'],
-      ['value2', 'Value 2'],
-      ['value3', 'Value 3'],
+      { value: 'value1', label: 'Value 1' },
+      { value: 'value2', label: 'Value 2' },
+      { value: 'value3', label: 'Value 3' },
     ];
 
     render(
@@ -254,9 +254,9 @@ describe('DropdownMenuInput', function suite() {
 
   it('should open the popup when the down arrow is depressed', function test() {
     const options = [
-      ['value1', 'Value 1'],
-      ['value2', 'Value 2'],
-      ['value3', 'Value 3'],
+      { value: 'value1', label: 'Value 1' },
+      { value: 'value2', label: 'Value 2' },
+      { value: 'value3', label: 'Value 3' },
     ];
 
     render(
@@ -275,9 +275,9 @@ describe('DropdownMenuInput', function suite() {
 
   it('should close the popup when escape is depressed in the input', function test() {
     const options = [
-      ['value1', 'Value 1'],
-      ['value2', 'Value 2'],
-      ['value3', 'Value 3'],
+      { value: 'value1', label: 'Value 1' },
+      { value: 'value2', label: 'Value 2' },
+      { value: 'value3', label: 'Value 3' },
     ];
 
     render(
@@ -299,9 +299,9 @@ describe('DropdownMenuInput', function suite() {
 
   it('should close the popup when escape is depressed in the popup', function test() {
     const options = [
-      ['value1', 'Value 1'],
-      ['value2', 'Value 2'],
-      ['value3', 'Value 3'],
+      { value: 'value1', label: 'Value 1' },
+      { value: 'value2', label: 'Value 2' },
+      { value: 'value3', label: 'Value 3' },
     ];
 
     render(
@@ -326,9 +326,9 @@ describe('DropdownMenuInput', function suite() {
 
   it('should close the popup when a menu item is selected', function test() {
     const options = [
-      ['value1', 'Value 1'],
-      ['value2', 'Value 2'],
-      ['value3', 'Value 3'],
+      { value: 'value1', label: 'Value 1' },
+      { value: 'value2', label: 'Value 2' },
+      { value: 'value3', label: 'Value 3' },
     ];
 
     render(
@@ -350,9 +350,9 @@ describe('DropdownMenuInput', function suite() {
 
   it('should update the input value when a menu item is selected', function test() {
     const options = [
-      ['value1', 'Value 1'],
-      ['value2', 'Value 2'],
-      ['value3', 'Value 3'],
+      { value: 'value1', label: 'Value 1' },
+      { value: 'value2', label: 'Value 2' },
+      { value: 'value3', label: 'Value 3' },
     ];
 
     render(
@@ -372,11 +372,46 @@ describe('DropdownMenuInput', function suite() {
     input.value.should.equal('Value 3');
   });
 
+  it('should call onCommit when a menu item is selected', function test() {
+    let committedPath = null;
+    let committedValue = null;
+
+    const handleCommit = (path, value) => {
+      committedPath = path;
+      committedValue = value;
+    };
+
+    const options = [
+      { value: 'value1', label: 'Value 1' },
+      { value: 'value2', label: 'Value 2' },
+      { value: 'value3', label: 'Value 3' },
+    ];
+
+    render(
+      <DropdownMenuInput
+        name="color"
+        options={options}
+        value="value2"
+        onCommit={handleCommit}
+      />, this.container);
+
+    const input = this.container.querySelector('input');
+
+    Simulate.click(input);
+
+    const items = this.container.querySelectorAll('li');
+
+    Simulate.click(items.item(3));
+
+    committedPath.should.deep.equal(['color']);
+    committedValue.should.equal('value3');
+  });
+
   it('should filter the menu options when the input value changes', function test() {
     const options = [
-      ['abcd', 'ABCD'],
-      ['abc1', 'ABC1'],
-      ['defg', 'DEFG'],
+      { value: 'abcd', label: 'ABCD' },
+      { value: 'abc1', label: 'ABC1' },
+      { value: 'defg', label: 'DEFG' },
     ];
 
     render(
@@ -417,22 +452,29 @@ describe('DropdownMenuInput', function suite() {
   });
 
   it('should set the value and close the popup when enter is depressed in the input and the input value is a valid option', function test() {
+    let committedValue = null;
+
+    const handleCommit = (path, value) => {
+      committedValue = value;
+    };
+
     const options = [
-      ['value1', 'Value 1'],
-      ['value2', 'Value 2'],
-      ['value3', 'Value 3'],
+      { value: 'value1', label: 'abcd' },
+      { value: 'value2', label: 'abcde' },
+      { value: 'value3', label: 'ab1234' },
     ];
 
     render(
       <DropdownMenuInput
         options={options}
+        onCommit={handleCommit}
       />, this.container);
 
     const input = this.container.querySelector('input');
 
     Simulate.click(input);
 
-    input.value = 'Value 3';
+    input.value = 'abcd';
 
     Simulate.change(input);
     Simulate.keyDown(input, { key: 'Enter' });
@@ -443,16 +485,59 @@ describe('DropdownMenuInput', function suite() {
       }, 0);
     })
     .then(() => {
-      input.value.should.equal('Value 3');
+      input.value.should.equal('abcd');
       this.container.querySelectorAll('li').length.should.equal(0);
+
+      committedValue.should.equal('value1');
+    });
+  });
+
+  it('should set the value and close the popup when enter is depressed in the input and the input value matches only one option', function test() {
+    let committedValue = null;
+
+    const handleCommit = (path, value) => {
+      committedValue = value;
+    };
+
+    const options = [
+      { value: 'value1', label: 'abcd' },
+      { value: 'value2', label: 'abcde' },
+      { value: 'value3', label: 'ab1234' },
+    ];
+
+    render(
+      <DropdownMenuInput
+        options={options}
+        onCommit={handleCommit}
+      />, this.container);
+
+    const input = this.container.querySelector('input');
+
+    Simulate.click(input);
+
+    input.value = 'ab1';
+
+    Simulate.change(input);
+    Simulate.keyDown(input, { key: 'Enter' });
+
+    return new Promise((resolve) => {
+      window.setTimeout(() => {
+        resolve();
+      }, 0);
+    })
+    .then(() => {
+      input.value.should.equal('ab1234');
+      this.container.querySelectorAll('li').length.should.equal(0);
+
+      committedValue.should.equal('value3');
     });
   });
 
   it('should do nothing when enter is depressed in the input and the input value is not a valid option', function test() {
     const options = [
-      ['value1', 'Value 1'],
-      ['value2', 'Value 2'],
-      ['value3', 'Value 3'],
+      { value: 'value1', label: 'Value 1' },
+      { value: 'value2', label: 'Value 2' },
+      { value: 'value3', label: 'Value 3' },
     ];
 
     render(
@@ -482,9 +567,9 @@ describe('DropdownMenuInput', function suite() {
 
   it('should revert to the last value when escape is depressed in the input and the input value is not a valid option', function test() {
     const options = [
-      ['value1', 'Value 1'],
-      ['value2', 'Value 2'],
-      ['value3', 'Value 3'],
+      { value: 'value1', label: 'Value 1' },
+      { value: 'value2', label: 'Value 2' },
+      { value: 'value3', label: 'Value 3' },
     ];
 
     render(
@@ -510,9 +595,9 @@ describe('DropdownMenuInput', function suite() {
 
   it('should revert to the last value when the input loses focus and the input value is not a valid option', function test() {
     const options = [
-      ['value1', 'Value 1'],
-      ['value2', 'Value 2'],
-      ['value3', 'Value 3'],
+      { value: 'value1', label: 'Value 1' },
+      { value: 'value2', label: 'Value 2' },
+      { value: 'value3', label: 'Value 3' },
     ];
 
     render(
@@ -546,9 +631,9 @@ describe('DropdownMenuInput', function suite() {
     };
 
     const options = [
-      ['value1', 'Value 1'],
-      ['value2', 'Value 2'],
-      ['value3', 'Value 3'],
+      { value: 'value1', label: 'Value 1' },
+      { value: 'value2', label: 'Value 2' },
+      { value: 'value3', label: 'Value 3' },
     ];
 
     render(
