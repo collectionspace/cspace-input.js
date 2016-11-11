@@ -1,11 +1,13 @@
 /**
- * Helper functions for working with options and option lists. An option is a pair of
- * [value, label], where value is the underlying data, and label is a human readable string.
- * An option list is an array of option pairs.
+ * Helper functions for working with options and option lists.
  */
 
 /**
  * Retrieve the option for a given value in an option list.
+ * @param {Object[]} options - The options
+ * @param {string} value - The value
+ * @returns {Object} The option whose value exactly equals the given value. If more than one option
+ * has the value, the first is returned. If no option has the value, null is returned.
  */
 export const getOptionForValue = (options, value) => {
   let option = null;
@@ -26,6 +28,11 @@ export const getOptionForValue = (options, value) => {
 
 /**
  * Retrieve the label for a given value in an option list.
+ * @param {Object[]} options - The options
+ * @param {string} value - The value
+ * @returns {string} The label of the option whose value exactly equals the given value. If more
+ * than one option has the value, the first is returned. If no option has the value, null is
+ * returned.
  */
 export const getLabelForValue = (options, value) => {
   const option = getOptionForValue(options, value);
@@ -35,6 +42,10 @@ export const getLabelForValue = (options, value) => {
 
 /**
  * Retrieve the option for a given label in an option list.
+ * @param {Object[]} options - The options
+ * @param {string} label - The label
+ * @returns {Object} The option whose label exactly equals the given label. If more than one option
+ * has the label, the first is returned. If no option has the label, null is returned.
  */
 export const getOptionForLabel = (options, label) => {
   let option = null;
@@ -54,7 +65,11 @@ export const getOptionForLabel = (options, label) => {
 };
 
 /**
- * Filter an option list.
+ * Filter an option list using a supplied filter string. An option is retained by the filter if its
+ * label begins with the string, case-insensitively.
+ * @param {Object[]} options - The options to filter
+ * @param {string} filter - The filter string
+ * @returns {Object[]} An array of options whose labels begin with the filter string
  */
 export const filterOptions = (options, filter) => {
   if (!filter) {
@@ -65,18 +80,25 @@ export const filterOptions = (options, filter) => {
 
   // TODO: Use String.startsWith when it is supported in all browsers.
 
-  return options.filter(option => (option.label.toLowerCase().indexOf(normalizedFilter, 0) === 0));
+  return options.filter(option => option.label.toLowerCase().indexOf(normalizedFilter, 0) === 0);
 };
 
 /**
- * Normalize an option list.
- *
+ * Normalize an option list. In options where the label is null or undefined, the label is set to
+ * the option value. If the list is blankable, an option with empty value and label is added as the
+ * first option. This function does not mutate the passed options.
+ * @param {Object[]} options - The options to normalize
+ * @param {boolean} blankable - If true, add a blank option to the beginning of the list
+ * @returns {Object[]} A new array of normalized options
  */
 export const normalizeOptions = (options, blankable) => {
   const normalizedOptions = [];
 
   if (blankable) {
-    normalizedOptions.push({ value: '', label: '' });
+    normalizedOptions.push({
+      value: '',
+      label: '',
+    });
   }
 
   options.forEach((option) => {
@@ -87,7 +109,10 @@ export const normalizeOptions = (options, blankable) => {
       label = value;
     }
 
-    normalizedOptions.push({ value, label });
+    normalizedOptions.push({
+      value,
+      label,
+    });
   });
 
   return normalizedOptions;
