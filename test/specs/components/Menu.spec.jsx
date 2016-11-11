@@ -497,4 +497,47 @@ describe('Menu', function suite() {
     menu.scrollTop.should.be.below(scrollTop);
     menu.scrollTop.should.be.above(0);
   });
+
+  it('should not scroll to the selected item when focus is received via mouse down on another item', function test() {
+    const options = [
+      { value: 'value1', label: 'Label 1' },
+      { value: 'value2', label: 'Label 2' },
+      { value: 'value3', label: 'Label 3' },
+      { value: 'value4', label: 'Label 4' },
+      { value: 'value5', label: 'Label 5' },
+      { value: 'value6', label: 'Label 6' },
+      { value: 'value7', label: 'Label 7' },
+      { value: 'value8', label: 'Label 8' },
+      { value: 'value9', label: 'Label 9' },
+      { value: 'value10', label: 'Label 10' },
+      { value: 'value11', label: 'Label 11' },
+      { value: 'value12', label: 'Label 12' },
+      { value: 'value13', label: 'Label 13' },
+      { value: 'value14', label: 'Label 14' },
+    ];
+
+    render(
+      <Menu
+        options={options}
+      />, this.container);
+
+    const menu = this.container.firstElementChild;
+    const listItems = menu.querySelectorAll('li');
+    const item = listItems.item(2);
+    const itemOffsetTop = item.getBoundingClientRect().top - menu.getBoundingClientRect().top;
+
+    Simulate.click(item);
+    Simulate.blur(menu);
+
+    menu.scrollTop = 200;
+
+    const scrolledPosition = menu.scrollTop;
+    const newItem = listItems.item(13);
+
+    Simulate.mouseDown(newItem);
+    Simulate.focus(menu);
+
+    menu.scrollTop.should.not.be.closeTo(itemOffsetTop, 1);
+    menu.scrollTop.should.equal(scrolledPosition);
+  });
 });

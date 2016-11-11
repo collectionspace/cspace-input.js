@@ -14,6 +14,7 @@ export default class Menu extends Component {
     this.handleBlur = this.handleBlur.bind(this);
     this.handleFocus = this.handleFocus.bind(this);
     this.handleItemClick = this.handleItemClick.bind(this);
+    this.handleItemMouseDownCapture = this.handleItemMouseDownCapture.bind(this);
     this.handleKeyDown = this.handleKeyDown.bind(this);
     this.handleKeyPress = this.handleKeyPress.bind(this);
     this.handleRef = this.handleRef.bind(this);
@@ -31,8 +32,10 @@ export default class Menu extends Component {
     });
   }
 
-  componentDidUpdate() {
-    this.scrollFocusedItemIntoView();
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.focusedIndex !== this.state.focusedIndex && !this.isItemMouseDown) {
+      this.scrollFocusedItemIntoView();
+    }
   }
 
   scrollFocusedItemIntoView() {
@@ -70,7 +73,6 @@ export default class Menu extends Component {
   focus() {
     if (this.domNode) {
       this.domNode.focus();
-      this.scrollFocusedItemIntoView();
     }
   }
 
@@ -91,17 +93,20 @@ export default class Menu extends Component {
   }
 
   handleFocus() {
-    const focusedIndex = this.selectedIndex || 0;
-
     this.setState({
-      focusedIndex,
+      focusedIndex: this.selectedIndex || 0,
     });
   }
 
   handleItemClick(event) {
     const index = parseInt(event.target.dataset.index, 10);
 
+    this.isItemMouseDown = false;
     this.selectItem(index);
+  }
+
+  handleItemMouseDownCapture() {
+    this.isItemMouseDown = true;
   }
 
   handleKeyDown(event) {
@@ -206,6 +211,10 @@ export default class Menu extends Component {
           // Prevent flash of incorrectly focused item when clicking on an item in an unfocused
           // menu.
           onMouseDown={stopPropagation}
+
+          // Track if the mouse is down on an item, using the capture phase so that the state
+          // of the mouse may be updated before onFocus fires.
+          onMouseDownCapture={this.handleItemMouseDownCapture}
         >
           {label}
         </li>
