@@ -13,8 +13,9 @@
 }
 
 .common > li {
-  padding: 0 2px 0 18px;
+  padding: 0 18px 0 18px;
   border: 1px solid white;
+  white-space: nowrap;
 }
 
 .common > li:hover {
