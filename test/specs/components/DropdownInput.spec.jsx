@@ -60,7 +60,7 @@ describe('DropdownInput', function suite() {
     this.container.querySelector('p').textContent.should.equal('content');
   });
 
-  it('should open when clicked', function test() {
+  it('should open on mouse down', function test() {
     render(
       <DropdownInput>
         <p>content</p>
@@ -68,7 +68,7 @@ describe('DropdownInput', function suite() {
 
     const input = this.container.querySelector('input');
 
-    Simulate.click(input);
+    Simulate.mouseDown(input);
 
     this.container.querySelector('p').textContent.should.equal('content');
   });
@@ -119,7 +119,7 @@ describe('DropdownInput', function suite() {
 
     const input = this.container.querySelector('input');
 
-    Simulate.click(input);
+    Simulate.mouseDown(input);
 
     this.container.querySelector('p').textContent.should.equal('content');
     focusPopupCalled.should.equal(false);

@@ -10,7 +10,7 @@ export default class DropdownInput extends Component {
 
     this.handleInputBlur = this.handleInputBlur.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
-    this.handleInputClick = this.handleInputClick.bind(this);
+    this.handleInputMouseDown = this.handleInputMouseDown.bind(this);
     this.handleInputKeyDown = this.handleInputKeyDown.bind(this);
     this.handlePopupBlur = this.handlePopupBlur.bind(this);
     this.handlePopupKeyDown = this.handlePopupKeyDown.bind(this);
@@ -103,12 +103,15 @@ export default class DropdownInput extends Component {
     }
   }
 
-  handleInputClick() {
+  handleInputMouseDown() {
     this.open();
   }
 
   handleInputKeyDown(event) {
     if (event.key === 'ArrowDown') {
+      // Prevent the page from scrolling.
+      event.preventDefault();
+
       if (this.state.open) {
         this.focusPopup();
       } else {
@@ -162,8 +165,8 @@ export default class DropdownInput extends Component {
       onClose,
       onKeyDown,
       onOpen,
-      ...remainingProps
       /* eslint-enable no-unused-vars */
+      ...remainingProps
     } = this.props;
 
     return (
@@ -172,8 +175,8 @@ export default class DropdownInput extends Component {
         autoSyncValue={false}
         onBlur={this.handleInputBlur}
         onChange={this.handleInputChange}
-        onClick={this.handleInputClick}
         onKeyDown={this.handleInputKeyDown}
+        onMouseDown={this.handleInputMouseDown}
       />
     );
   }

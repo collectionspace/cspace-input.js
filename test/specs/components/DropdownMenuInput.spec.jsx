@@ -54,7 +54,7 @@ describe('DropdownMenuInput', function suite() {
     const component = render(<BaseDropdownMenuInput options={options} />, this.container);
     const input = this.container.querySelector('input');
 
-    Simulate.click(input);
+    Simulate.mouseDown(input);
 
     const ul = this.container.querySelector('ul');
 
@@ -138,7 +138,7 @@ describe('DropdownMenuInput', function suite() {
 
     const input = this.container.querySelector('input');
 
-    Simulate.click(input);
+    Simulate.mouseDown(input);
 
     const items = this.container.querySelectorAll('li');
 
@@ -161,7 +161,7 @@ describe('DropdownMenuInput', function suite() {
 
     const input = this.container.querySelector('input');
 
-    Simulate.click(input);
+    Simulate.mouseDown(input);
 
     const items = this.container.querySelectorAll('li');
 
@@ -186,7 +186,7 @@ describe('DropdownMenuInput', function suite() {
 
     input.value.should.equal('value2');
 
-    Simulate.click(input);
+    Simulate.mouseDown(input);
 
     const items = this.container.querySelectorAll('li');
 
@@ -211,7 +211,7 @@ describe('DropdownMenuInput', function suite() {
     input.value.should.equal('');
   });
 
-  it('should open the popup when the input is clicked', function test() {
+  it('should open the popup on mouse down on the the input', function test() {
     const options = [
       { value: 'value1', label: 'Value 1' },
       { value: 'value2', label: 'Value 2' },
@@ -226,7 +226,7 @@ describe('DropdownMenuInput', function suite() {
 
     const input = this.container.querySelector('input');
 
-    Simulate.click(input);
+    Simulate.mouseDown(input);
 
     this.container.querySelector('li').should.not.equal(null);
   });
@@ -288,7 +288,7 @@ describe('DropdownMenuInput', function suite() {
 
     const input = this.container.querySelector('input');
 
-    Simulate.click(input);
+    Simulate.mouseDown(input);
 
     this.container.querySelector('li').should.not.equal(null);
 
@@ -312,7 +312,7 @@ describe('DropdownMenuInput', function suite() {
 
     const input = this.container.querySelector('input');
 
-    Simulate.click(input);
+    Simulate.mouseDown(input);
 
     const popup = this.container.querySelector('.cspace-input-Popup--common');
 
@@ -329,6 +329,9 @@ describe('DropdownMenuInput', function suite() {
       { value: 'value1', label: 'Value 1' },
       { value: 'value2', label: 'Value 2' },
       { value: 'value3', label: 'Value 3' },
+      { value: 'value4', label: 'Value 4' },
+      { value: 'value5', label: 'Value 5' },
+      { value: 'value6', label: 'Value 6' },
     ];
 
     render(
@@ -339,7 +342,7 @@ describe('DropdownMenuInput', function suite() {
 
     const input = this.container.querySelector('input');
 
-    Simulate.click(input);
+    Simulate.mouseDown(input);
 
     const items = this.container.querySelectorAll('li');
 
@@ -363,7 +366,7 @@ describe('DropdownMenuInput', function suite() {
 
     const input = this.container.querySelector('input');
 
-    Simulate.click(input);
+    Simulate.mouseDown(input);
 
     const items = this.container.querySelectorAll('li');
 
@@ -397,7 +400,7 @@ describe('DropdownMenuInput', function suite() {
 
     const input = this.container.querySelector('input');
 
-    Simulate.click(input);
+    Simulate.mouseDown(input);
 
     const items = this.container.querySelectorAll('li');
 
@@ -421,7 +424,7 @@ describe('DropdownMenuInput', function suite() {
 
     const input = this.container.querySelector('input');
 
-    Simulate.click(input);
+    Simulate.mouseDown(input);
 
     this.container.querySelectorAll('li').length.should.equal(4);
 
@@ -472,7 +475,7 @@ describe('DropdownMenuInput', function suite() {
 
     const input = this.container.querySelector('input');
 
-    Simulate.click(input);
+    Simulate.mouseDown(input);
 
     input.value = 'abcd';
 
@@ -513,7 +516,7 @@ describe('DropdownMenuInput', function suite() {
 
     const input = this.container.querySelector('input');
 
-    Simulate.click(input);
+    Simulate.mouseDown(input);
 
     input.value = 'ab1';
 
@@ -547,7 +550,7 @@ describe('DropdownMenuInput', function suite() {
 
     const input = this.container.querySelector('input');
 
-    Simulate.click(input);
+    Simulate.mouseDown(input);
 
     input.value = 'Valu';
 
@@ -580,7 +583,7 @@ describe('DropdownMenuInput', function suite() {
 
     const input = this.container.querySelector('input');
 
-    Simulate.click(input);
+    Simulate.mouseDown(input);
 
     input.value = 'Valu';
 
@@ -608,7 +611,7 @@ describe('DropdownMenuInput', function suite() {
 
     const input = this.container.querySelector('input');
 
-    Simulate.click(input);
+    Simulate.mouseDown(input);
 
     input.value = 'Valu';
 
@@ -645,7 +648,7 @@ describe('DropdownMenuInput', function suite() {
 
     const input = this.container.querySelector('input');
 
-    Simulate.click(input);
+    Simulate.mouseDown(input);
 
     input.value = 'Valu';
 
