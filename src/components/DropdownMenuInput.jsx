@@ -80,6 +80,18 @@ class DropdownMenuInput extends Component {
     return `${num} ${matches} found`;
   }
 
+  formatLoadingMessage() {
+    const {
+      formatLoadingMessage,
+    } = this.props;
+
+    if (formatLoadingMessage) {
+      return formatLoadingMessage();
+    }
+
+    return 'Loading...';
+  }
+
   handleDropdownInputChange(value) {
     this.setState({
       filter: value,
@@ -158,6 +170,30 @@ class DropdownMenuInput extends Component {
     this.dropdownInput.focusInput();
   }
 
+  renderMenuHeader(filteredOptions) {
+    const {
+      filter,
+    } = this.state;
+
+    const {
+      isLoading,
+    } = this.props;
+
+    if (isLoading) {
+      return (
+        <header>{this.formatLoadingMessage()}</header>
+      );
+    }
+
+    if (filter === null) {
+      return null;
+    }
+
+    return (
+      <header>{this.formatFilterMessage(filteredOptions.length)}</header>
+    );
+  }
+
   render() {
     const {
       filter,
@@ -168,14 +204,16 @@ class DropdownMenuInput extends Component {
     } = this.state;
 
     const {
+      embedded,
       /* eslint-disable no-unused-vars */
       blankable,
-      embedded,
+      isLoading,
       options: optionsProp,
       formatFilterMessage,
+      formatLoadingMessage,
       onCommit,
-      ...remainingProps
       /* eslint-enable no-unused-vars */
+      ...remainingProps
     } = this.props;
 
     const classes = classNames({
@@ -187,10 +225,7 @@ class DropdownMenuInput extends Component {
 
     const inputValue = (filter === null) ? valueLabel : filter;
     const filteredOptions = filterOptions(options, filter);
-
-    const menuHeader = (filter === null)
-      ? null
-      : <header>{this.formatFilterMessage(filteredOptions.length)}</header>;
+    const menuHeader = this.renderMenuHeader(filteredOptions);
 
     return (
       <DropdownInput
@@ -224,6 +259,8 @@ DropdownMenuInput.propTypes = {
   blankable: PropTypes.bool,
   embedded: PropTypes.bool,
   formatFilterMessage: PropTypes.func,
+  formatLoadingMesasge: PropTypes.func,
+  isLoading: PropTypes.bool,
   options: PropTypes.arrayOf(PropTypes.shape({
     value: PropTypes.string,
     label: PropTypes.string,

@@ -156,6 +156,7 @@ describe('DropdownMenuInput', function suite() {
     render(
       <DropdownMenuInput
         options={options}
+        value="value2"
         blankable={false}
       />, this.container);
 
@@ -624,6 +625,30 @@ describe('DropdownMenuInput', function suite() {
     input.value.should.equal('Value 3');
   });
 
+  it('should display a message showing the current number of matching items', function test() {
+    const options = [
+      { value: 'value1', label: 'Value 1' },
+      { value: 'value2', label: 'Value 2' },
+      { value: 'value3', label: 'Value 3' },
+    ];
+
+    render(
+      <DropdownMenuInput
+        options={options}
+        value="value3"
+      />, this.container);
+
+    const input = this.container.querySelector('input');
+
+    Simulate.mouseDown(input);
+
+    input.value = 'Valu';
+
+    Simulate.change(input);
+
+    this.container.querySelector('header').textContent.should.equal('3 matches found');
+  });
+
   it('should call formatFilterMessage prop to format the filter message', function test() {
     let formatFilterMessageCount = null;
 
@@ -657,5 +682,57 @@ describe('DropdownMenuInput', function suite() {
     formatFilterMessageCount.should.equal(3);
 
     this.container.querySelector('header').textContent.should.equal('formatFilterMessage called');
+  });
+
+  it('should display a loading message when isLoading is true', function test() {
+    const options = [
+      { value: 'value1', label: 'Value 1' },
+      { value: 'value2', label: 'Value 2' },
+      { value: 'value3', label: 'Value 3' },
+    ];
+
+    render(
+      <DropdownMenuInput
+        options={options}
+        isLoading
+      />, this.container);
+
+    const input = this.container.querySelector('input');
+
+    Simulate.mouseDown(input);
+
+    this.container.querySelector('header').textContent.should.equal('Loading...');
+  });
+
+  it('should call formatLoadingMessage prop to format the loading message', function test() {
+    let formatLoadingMessageCalled = false;
+
+    const formatLoadingMessage = () => {
+      formatLoadingMessageCalled = true;
+
+      return 'formatLoadingMessage called';
+    };
+
+    const options = [
+      { value: 'value1', label: 'Value 1' },
+      { value: 'value2', label: 'Value 2' },
+      { value: 'value3', label: 'Value 3' },
+    ];
+
+    render(
+      <DropdownMenuInput
+        options={options}
+        value="value3"
+        formatLoadingMessage={formatLoadingMessage}
+        isLoading
+      />, this.container);
+
+    const input = this.container.querySelector('input');
+
+    Simulate.mouseDown(input);
+
+    formatLoadingMessageCalled.should.equal(true);
+
+    this.container.querySelector('header').textContent.should.equal('formatLoadingMessage called');
   });
 });
