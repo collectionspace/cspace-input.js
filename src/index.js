@@ -21,5 +21,6 @@ export { LineInput };
 export const IDGeneratorInput = LineInput;
 export const DateInput = LineInput;
 export const StructuredDateInput = LineInput;
-export const VocabularyControlledInput = LineInput;
 export const AuthorityControlledInput = LineInput;
+
+export { default as repeatable } from './enhancers/repeatable';

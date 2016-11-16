@@ -29,23 +29,25 @@ class DropdownMenuInput extends Component {
     this.focusMenu = this.focusMenu.bind(this);
 
     const options = normalizeOptions(props.options, props.blankable);
+    const canonicalValueLabel = getLabelForValue(options, props.value);
 
     this.state = {
       options,
       filter: null,
       open: false,
       value: props.value,
-      valueLabel: getLabelForValue(options, props.value),
+      valueLabel: (canonicalValueLabel === null) ? props.valueLabel : canonicalValueLabel,
     };
   }
 
   componentWillReceiveProps(nextProps) {
     const options = normalizeOptions(nextProps.options, nextProps.blankable);
+    const canonicalValueLabel = getLabelForValue(options, nextProps.value);
 
     this.setState({
       options,
       value: nextProps.value,
-      valueLabel: getLabelForValue(options, nextProps.value),
+      valueLabel: (canonicalValueLabel === null) ? nextProps.valueLabel : canonicalValueLabel,
     });
   }
 
@@ -211,6 +213,7 @@ class DropdownMenuInput extends Component {
       options: optionsProp,
       formatFilterMessage,
       formatLoadingMessage,
+      valueLabel: valueLabelProp,
       onCommit,
       /* eslint-enable no-unused-vars */
       ...remainingProps
@@ -235,6 +238,7 @@ class DropdownMenuInput extends Component {
         focusPopup={this.focusMenu}
         open={open}
         ref={this.handleDropdownInputRef}
+        spellCheck={false}
         value={inputValue}
         onChange={this.handleDropdownInputChange}
         onClose={this.handleDropdownInputClose}
@@ -265,6 +269,7 @@ DropdownMenuInput.propTypes = {
     value: PropTypes.string,
     label: PropTypes.string,
   })),
+  valueLabel: PropTypes.string,
   onCommit: PropTypes.func,
 };
 

@@ -212,6 +212,46 @@ describe('DropdownMenuInput', function suite() {
     input.value.should.equal('');
   });
 
+  it('should display the valueLabel prop in the input when no option has the value', function test() {
+    const options = [
+      { value: 'value1', label: 'Value 1' },
+      { value: 'value2', label: 'Value 2' },
+      { value: 'value3', label: 'Value 3' },
+    ];
+
+    render(
+      <DropdownMenuInput
+        options={options}
+        value="value99"
+        valueLabel="Value 99"
+        blankable={false}
+      />, this.container);
+
+    const input = this.container.querySelector('input');
+
+    input.value.should.equal('Value 99');
+  });
+
+  it('should prefer the option label if a valueLabel prop is supplied, but an option has the value', function test() {
+    const options = [
+      { value: 'value1', label: 'Value 1' },
+      { value: 'value2', label: 'Value 2' },
+      { value: 'value3', label: 'Value 3' },
+    ];
+
+    render(
+      <DropdownMenuInput
+        options={options}
+        value="value3"
+        valueLabel="Some other label"
+        blankable={false}
+      />, this.container);
+
+    const input = this.container.querySelector('input');
+
+    input.value.should.equal('Value 3');
+  });
+
   it('should open the popup on mouse down on the the input', function test() {
     const options = [
       { value: 'value1', label: 'Value 1' },
