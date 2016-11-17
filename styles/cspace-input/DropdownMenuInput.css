@@ -33,6 +33,10 @@
   color: textMedium;
 }
 
+.open {
+  z-index: 2;
+}
+
 .open input, .open textarea {
   outline: 2px solid;
 }
