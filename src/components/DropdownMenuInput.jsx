@@ -2,8 +2,6 @@ import React, { Component, PropTypes } from 'react';
 import classNames from 'classnames';
 import DropdownInput from './DropdownInput';
 import Menu from './Menu';
-import labelable from '../enhancers/labelable';
-import repeatable from '../enhancers/repeatable';
 import getPath from '../helpers/getPath';
 
 import {
@@ -15,7 +13,35 @@ import {
 
 import styles from '../../styles/cspace-input/DropdownMenuInput.css';
 
-class DropdownMenuInput extends Component {
+const propTypes = {
+  ...DropdownInput.propTypes,
+  blankable: PropTypes.bool,
+  embedded: PropTypes.bool,
+  formatFilterMessage: PropTypes.func,
+  formatLoadingMesasge: PropTypes.func,
+  isLoading: PropTypes.bool,
+  options: PropTypes.arrayOf(PropTypes.shape({
+    value: PropTypes.string,
+    label: PropTypes.string,
+  })),
+  valueLabel: PropTypes.string,
+  onCommit: PropTypes.func,
+};
+
+const defaultProps = {
+  blankable: true,
+  options: [],
+};
+
+const contextTypes = {
+  defaultSubpath: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.string),
+    PropTypes.string,
+  ]),
+  parentPath: PropTypes.arrayOf(PropTypes.string),
+};
+
+export default class DropdownMenuInput extends Component {
   constructor(props) {
     super(props);
 
@@ -55,6 +81,9 @@ class DropdownMenuInput extends Component {
     const {
       onCommit,
     } = this.props;
+
+    console.log("DropdownMenuInput commit: " + value);
+    console.log(getPath(this.props, this.context));
 
     if (onCommit) {
       onCommit(getPath(this.props, this.context), value);
@@ -258,33 +287,6 @@ class DropdownMenuInput extends Component {
   }
 }
 
-DropdownMenuInput.propTypes = {
-  ...DropdownInput.propTypes,
-  blankable: PropTypes.bool,
-  embedded: PropTypes.bool,
-  formatFilterMessage: PropTypes.func,
-  formatLoadingMesasge: PropTypes.func,
-  isLoading: PropTypes.bool,
-  options: PropTypes.arrayOf(PropTypes.shape({
-    value: PropTypes.string,
-    label: PropTypes.string,
-  })),
-  valueLabel: PropTypes.string,
-  onCommit: PropTypes.func,
-};
-
-DropdownMenuInput.defaultProps = {
-  blankable: true,
-  options: [],
-};
-
-DropdownMenuInput.contextTypes = {
-  defaultSubpath: PropTypes.oneOfType([
-    PropTypes.arrayOf(PropTypes.string),
-    PropTypes.string,
-  ]),
-  parentPath: PropTypes.arrayOf(PropTypes.string),
-};
-
-export const BaseDropdownMenuInput = DropdownMenuInput;
-export default repeatable(labelable(DropdownMenuInput));
+DropdownMenuInput.propTypes = propTypes;
+DropdownMenuInput.defaultProps = defaultProps;
+DropdownMenuInput.contextTypes = contextTypes;

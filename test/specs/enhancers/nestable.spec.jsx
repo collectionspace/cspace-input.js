@@ -4,11 +4,11 @@ import chai from 'chai';
 
 import createTestContainer from '../../helpers/createTestContainer';
 
-import withSubpath from '../../../src/enhancers/withSubpath';
+import nestable from '../../../src/enhancers/nestable';
 
 chai.should();
 
-describe('withSubpath', function suite() {
+describe('nestable', function suite() {
   beforeEach(function before() {
     this.container = createTestContainer(this);
   });
@@ -22,13 +22,13 @@ describe('withSubpath', function suite() {
         value: null,
       };
 
-      const EnhancedComponent = withSubpath(StubComponent);
+      const EnhancedComponent = nestable(StubComponent);
 
       EnhancedComponent.propTypes.should.include.keys(Object.keys(StubComponent.propTypes));
     });
 
     it('should accept a subpath prop', function test() {
-      withSubpath('input').propTypes.should.include.keys(['subpath']);
+      nestable('input').propTypes.should.include.keys(['subpath']);
     });
 
     it('should not pass the subpath prop to the base component', function test() {
@@ -40,7 +40,7 @@ describe('withSubpath', function suite() {
         return null;
       };
 
-      const EnhancedComponent = withSubpath(StubComponent);
+      const EnhancedComponent = nestable(StubComponent);
 
       render(<EnhancedComponent name="n" subpath="p" foo="f" />, this.container);
 

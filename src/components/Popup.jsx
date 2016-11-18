@@ -1,6 +1,17 @@
 import React, { Component, PropTypes } from 'react';
 import styles from '../../styles/cspace-input/Popup.css';
 
+const propTypes = {
+  children: PropTypes.node,
+  onBlur: PropTypes.func,
+  onKeyDown: PropTypes.func,
+
+  /**
+   * Callback to be executed after the Popup has mounted.
+   */
+  onMounted: PropTypes.func,
+};
+
 export default class Popup extends Component {
   constructor() {
     super();
@@ -61,13 +72,4 @@ export default class Popup extends Component {
   }
 }
 
-Popup.propTypes = {
-  children: PropTypes.node,
-  onBlur: PropTypes.func,
-  onKeyDown: PropTypes.func,
-
-  /*
-   * Callback to be executed after the Popup has mounted.
-   */
-  onMounted: PropTypes.func,
-};
+Popup.propTypes = propTypes;

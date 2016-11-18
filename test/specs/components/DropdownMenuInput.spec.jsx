@@ -8,7 +8,7 @@ import chai from 'chai';
 import createTestContainer from '../../helpers/createTestContainer';
 
 import isInput from '../../../src/helpers/isInput';
-import DropdownMenuInput, { BaseDropdownMenuInput } from '../../../src/components/DropdownMenuInput';
+import DropdownMenuInput from '../../../src/components/DropdownMenuInput';
 
 const expect = chai.expect;
 
@@ -51,7 +51,7 @@ describe('DropdownMenuInput', function suite() {
       { value: 'value3', label: 'Value 3' },
     ];
 
-    const component = render(<BaseDropdownMenuInput options={options} />, this.container);
+    const component = render(<DropdownMenuInput options={options} />, this.container);
     const input = this.container.querySelector('input');
 
     Simulate.mouseDown(input);
@@ -72,7 +72,7 @@ describe('DropdownMenuInput', function suite() {
       { value: 'value3', label: 'Value 3' },
     ];
 
-    const component = render(<BaseDropdownMenuInput options={options} />, this.container);
+    const component = render(<DropdownMenuInput options={options} />, this.container);
 
     component.focusMenu();
 

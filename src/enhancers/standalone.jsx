@@ -2,10 +2,10 @@ import compose from '../helpers/compose';
 import changeable from '../enhancers/changeable';
 import committable from '../enhancers/committable';
 import labelable from '../enhancers/labelable';
+import nestable from '../enhancers/nestable';
 import repeatable from '../enhancers/repeatable';
-import withSubpath from '../enhancers/withSubpath';
 
 /**
- * Applies a common set of enhancers used by all cspace-input components.
+ * Applies a set of enhancers to make an input usable as a standalone component in a form.
  */
-export default compose(repeatable, labelable, committable, changeable, withSubpath);
+export default compose(repeatable, labelable, committable, changeable, nestable);

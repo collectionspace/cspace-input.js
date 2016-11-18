@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-import { normalizeLabel } from '../components/Label';
+import normalizeLabel from '../helpers/normalizeLabel';
 
 /**
  * Makes an input component labelable. Returns an enhanced component that accepts a label prop. If
@@ -11,7 +11,19 @@ import { normalizeLabel } from '../components/Label';
  * @returns {function} The enhanced component.
  */
 export default function labelable(BaseComponent) {
-  const Labelable = (props) => {
+  const baseComponentName = BaseComponent.displayName
+    || BaseComponent.name
+    || 'Component';
+
+  const propTypes = {
+    ...BaseComponent.propTypes,
+    label: PropTypes.node,
+    msgkey: PropTypes.string,
+  };
+
+  const contextTypes = BaseComponent.contextTypes;
+
+  function Labelable(props) {
     const {
       label,
       msgkey, // eslint-disable-line no-unused-vars
@@ -34,13 +46,11 @@ export default function labelable(BaseComponent) {
         {baseComponent}
       </div>
     );
-  };
+  }
 
-  Labelable.propTypes = {
-    ...BaseComponent.propTypes,
-    label: PropTypes.node,
-    msgkey: PropTypes.string,
-  };
+  Labelable.propTypes = propTypes;
+  Labelable.contextTypes = contextTypes;
+  Labelable.displayName = `labelable(${baseComponentName})`;
 
   return Labelable;
 }

@@ -1,9 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 import Immutable from 'immutable';
-import { normalizeLabel } from './Label';
 import MiniButton from './MiniButton';
-import labelable from '../enhancers/labelable';
 import getPath from '../helpers/getPath';
+import normalizeLabel from '../helpers/normalizeLabel';
 import repeatingInputStyles from '../../styles/cspace-input/RepeatingInput.css';
 import moveToTopButtonStyles from '../../styles/cspace-input/MoveToTopButton.css';
 
@@ -31,7 +30,37 @@ function normalizeValue(value) {
   return normalized;
 }
 
-class RepeatingInput extends Component {
+const propTypes = {
+  children: PropTypes.node,
+  name: PropTypes.string,
+  value: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.object,
+    PropTypes.instanceOf(Immutable.List),
+    PropTypes.arrayOf(PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.object,
+    ])),
+  ]),
+  onAddInstance: PropTypes.func,
+  onCommit: PropTypes.func,
+  onMoveInstance: PropTypes.func,
+  onRemoveInstance: PropTypes.func,
+};
+
+const contextTypes = {
+  defaultSubpath: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.string),
+    PropTypes.string,
+  ]),
+  parentPath: PropTypes.arrayOf(PropTypes.string),
+};
+
+const childContextTypes = {
+  parentPath: PropTypes.arrayOf(PropTypes.string),
+};
+
+export default class RepeatingInput extends Component {
   constructor(props) {
     super(props);
 
@@ -210,34 +239,7 @@ class RepeatingInput extends Component {
   }
 }
 
-RepeatingInput.propTypes = {
-  children: PropTypes.node,
-  name: PropTypes.string,
-  value: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.object,
-    PropTypes.instanceOf(Immutable.List),
-    PropTypes.arrayOf(PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.object,
-    ])),
-  ]),
-  onAddInstance: PropTypes.func,
-  onCommit: PropTypes.func,
-  onMoveInstance: PropTypes.func,
-  onRemoveInstance: PropTypes.func,
-};
+RepeatingInput.propTypes = propTypes;
+RepeatingInput.contextTypes = contextTypes;
+RepeatingInput.childContextTypes = childContextTypes;
 
-RepeatingInput.contextTypes = {
-  defaultSubpath: PropTypes.oneOfType([
-    PropTypes.arrayOf(PropTypes.string),
-    PropTypes.string,
-  ]),
-  parentPath: PropTypes.arrayOf(PropTypes.string),
-};
-
-RepeatingInput.childContextTypes = {
-  parentPath: PropTypes.arrayOf(PropTypes.string),
-};
-
-export default labelable(RepeatingInput);

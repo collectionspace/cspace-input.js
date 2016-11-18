@@ -1,29 +1,36 @@
 import React, { PropTypes } from 'react';
-import changeable from '../enhancers/changeable';
-import committable from '../enhancers/committable';
 import styles from '../../styles/cspace-input/LineInput.css';
 
-/**
- * A text input that accepts and is able to display only a single line of text. If a value prop is
- * supplied that contains a newline character, the behavior is unspecified; newline characters may
- * be stripped, replaced with other characters, or retained but not displayed. If this presents a
- * problem, use TextInput or MultilineInput.
- */
-const PasswordInput = props => (
-  <input
-    className={styles.normal}
-    type="password"
-    {...props}
-  />
-);
-
-PasswordInput.propTypes = {
+const propTypes = {
   name: PropTypes.string,
   value: PropTypes.string,
 };
 
-PasswordInput.defaultProps = {
+const defaultProps = {
   value: '',
 };
 
-export default committable(changeable(PasswordInput));
+export default function PasswordInput(props) {
+  const {
+    name,
+    value,
+    ...remainingProps
+  } = props;
+
+  const normalizedValue = (value === null || typeof value === 'undefined') ? '' : value;
+  const readOnly = !remainingProps.onChange;
+
+  return (
+    <input
+      {...remainingProps}
+      className={styles.normal}
+      name={name}
+      readOnly={readOnly}
+      type="password"
+      value={normalizedValue}
+    />
+  );
+}
+
+PasswordInput.propTypes = propTypes;
+PasswordInput.defaultProps = defaultProps;

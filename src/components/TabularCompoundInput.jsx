@@ -1,10 +1,19 @@
 import React, { PropTypes } from 'react';
 import CustomCompoundInput from './CustomCompoundInput';
-import { normalizeLabel } from './Label';
 import InputRow from './InputRow';
 import LabelRow from './LabelRow';
 import labelable from '../enhancers/labelable';
+import repeatable from '../enhancers/repeatable';
 import isInput from '../helpers/isInput';
+import normalizeLabel from '../helpers/normalizeLabel';
+
+const BaseComponent = repeatable(labelable(CustomCompoundInput));
+
+const propTypes = {
+  ...BaseComponent.propTypes,
+  children: PropTypes.node,
+  repeating: PropTypes.bool,
+};
 
 function extractInputs(children) {
   const inputs = [];
@@ -20,7 +29,7 @@ function extractInputs(children) {
   return inputs;
 }
 
-function TabularCompoundInput(props) {
+export default function TabularCompoundInput(props) {
   const {
     children,
     repeating,
@@ -58,22 +67,16 @@ function TabularCompoundInput(props) {
   }
 
   return (
-    <CustomCompoundInput
+    <BaseComponent
+      {...remainingProps}
       label={labelRow}
       repeating={repeating}
-      {...remainingProps}
     >
       <InputRow embedded={repeating}>
         {modifiedInputs}
       </InputRow>
-    </CustomCompoundInput>
+    </BaseComponent>
   );
 }
 
-TabularCompoundInput.propTypes = {
-  ...CustomCompoundInput.propTypes,
-  children: PropTypes.node,
-  repeating: PropTypes.bool,
-};
-
-export default labelable(TabularCompoundInput);
+TabularCompoundInput.propTypes = propTypes;

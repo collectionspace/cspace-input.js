@@ -1,6 +1,11 @@
 import React, { PropTypes } from 'react';
-import enhanced from '../enhancers/enhanced';
 import styles from '../../styles/cspace-input/LineInput.css';
+
+const propTypes = {
+  embedded: PropTypes.bool,
+  name: PropTypes.string,
+  value: PropTypes.string,
+};
 
 /**
  * A text input that accepts and is able to display only a single line of text. If a value prop is
@@ -8,7 +13,7 @@ import styles from '../../styles/cspace-input/LineInput.css';
  * be stripped, replaced with other characters, or retained but not displayed. If this presents a
  * problem, use TextInput or MultilineInput.
  */
-const LineInput = (props) => {
+export default function LineInput(props) {
   const {
     embedded,
     name,
@@ -16,29 +21,20 @@ const LineInput = (props) => {
     ...remainingProps
   } = props;
 
-  const normalizedValue = (value === null ? '' : value);
   const className = embedded ? styles.embedded : styles.normal;
+  const normalizedValue = (value === null || typeof value === 'undefined') ? '' : value;
+  const readOnly = !remainingProps.onChange;
 
   return (
     <input
+      {...remainingProps}
       className={className}
       name={name}
-      value={normalizedValue}
+      readOnly={readOnly}
       type="text"
-      {...remainingProps}
+      value={normalizedValue}
     />
   );
-};
+}
 
-LineInput.propTypes = {
-  embedded: PropTypes.bool,
-  name: PropTypes.string,
-  value: PropTypes.string,
-};
-
-LineInput.defaultProps = {
-  embedded: false,
-  value: '',
-};
-
-export default enhanced(LineInput);
+LineInput.propTypes = propTypes;

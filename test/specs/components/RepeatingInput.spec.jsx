@@ -15,6 +15,8 @@ import Label from '../../../src/components/Label';
 import LabelRow from '../../../src/components/LabelRow';
 import RepeatingInput from '../../../src/components/RepeatingInput';
 import TextInput from '../../../src/components/TextInput';
+import committable from '../../../src/enhancers/committable';
+import nestable from '../../../src/enhancers/nestable';
 
 chai.should();
 
@@ -148,7 +150,9 @@ describe('RepeatingInput', function suite() {
     this.container.querySelector('input[name="2"]').value.should.equal(repeatingValue[2]);
   });
 
-  it('should call the onCommit callback when an instance is committed', function test() {
+  it('should call the onCommit callback when a committable instance is committed', function test() {
+    const CommittableTextInput = committable(nestable(TextInput));
+
     let committedPath = null;
     let committedValue = null;
 
@@ -170,7 +174,7 @@ describe('RepeatingInput', function suite() {
         value={repeatingValue}
         onCommit={handleCommit}
       >
-        <TextInput />
+        <CommittableTextInput />
       </RepeatingInput>, this.container);
 
     const input = this.container.querySelectorAll('input')[1];

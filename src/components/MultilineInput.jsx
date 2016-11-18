@@ -1,12 +1,17 @@
 import React, { PropTypes } from 'react';
-import enhanced from '../enhancers/enhanced';
 import styles from '../../styles/cspace-input/MultilineInput.css';
+
+const propTypes = {
+  embedded: PropTypes.bool,
+  name: PropTypes.string,
+  value: PropTypes.string,
+};
 
 /**
  * A text input that accepts and is able to display multiple lines of text. This component takes up
  * more screen space when rendered than LineInput.
  */
-const MultilineInput = (props) => {
+export default function MultilineInput(props) {
   const {
     embedded,
     name,
@@ -14,28 +19,19 @@ const MultilineInput = (props) => {
     ...remainingProps
   } = props;
 
-  const normalizedValue = (value === null ? '' : value);
   const className = embedded ? styles.embedded : styles.normal;
+  const normalizedValue = (value === null || typeof value === 'undefined') ? '' : value;
+  const readOnly = !remainingProps.onChange;
 
   return (
     <textarea
+      {...remainingProps}
       className={className}
       name={name}
+      readOnly={readOnly}
       value={normalizedValue}
-      {...remainingProps}
     />
   );
-};
+}
 
-MultilineInput.propTypes = {
-  embedded: PropTypes.bool,
-  name: PropTypes.string,
-  value: PropTypes.string,
-};
-
-MultilineInput.defaultProps = {
-  embedded: false,
-  value: '',
-};
-
-export default enhanced(MultilineInput);
+MultilineInput.propTypes = propTypes;

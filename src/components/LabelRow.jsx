@@ -1,6 +1,11 @@
 import React, { PropTypes } from 'react';
 import styles from '../../styles/cspace-input/LabelRow.css';
 
+const propTypes = {
+  children: PropTypes.node,
+  embedded: PropTypes.bool,
+};
+
 export default function LabelRow(props) {
   const {
     children,
@@ -20,11 +25,4 @@ export default function LabelRow(props) {
   );
 }
 
-LabelRow.propTypes = {
-  children: PropTypes.node,
-  embedded: PropTypes.bool,
-};
-
-LabelRow.defaultProps = {
-  embedded: false,
-};
+LabelRow.propTypes = propTypes;

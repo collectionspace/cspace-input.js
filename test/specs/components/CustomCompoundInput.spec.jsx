@@ -7,10 +7,8 @@ import createTestContainer from '../../helpers/createTestContainer';
 
 import isInput from '../../../src/helpers/isInput';
 import CustomCompoundInput from '../../../src/components/CustomCompoundInput';
-import InputRow from '../../../src/components/InputRow';
-import Label from '../../../src/components/Label';
-import LabelRow from '../../../src/components/LabelRow';
 import TextInput from '../../../src/components/TextInput';
+import nestable from '../../../src/enhancers/nestable';
 
 chai.should();
 
@@ -109,6 +107,8 @@ describe('CustomCompoundInput', function suite() {
   });
 
   it('should use the subpath prop of child inputs to locate values', function test() {
+    const NestableTextInput = nestable(TextInput);
+
     const compoundValue = {
       collectionobjects_common: {
         objectNumber: '1-200',
@@ -122,9 +122,9 @@ describe('CustomCompoundInput', function suite() {
 
     render(
       <CustomCompoundInput value={compoundValue}>
-        <TextInput name="objectNumber" subpath="collectionobjects_common" />
-        <TextInput name="color" subpath={['collectionobjects_extension']} />
-        <TextInput name="comment" subpath="collectionobjects_extension" />
+        <NestableTextInput name="objectNumber" subpath="collectionobjects_common" />
+        <NestableTextInput name="color" subpath={['collectionobjects_extension']} />
+        <NestableTextInput name="comment" subpath="collectionobjects_extension" />
       </CustomCompoundInput>, this.container);
 
     this.container.querySelector('input[name="objectNumber"]').value.should
@@ -138,6 +138,8 @@ describe('CustomCompoundInput', function suite() {
   });
 
   it('should pass the received value down to nested groups with no name', function test() {
+    const NestableTextInput = nestable(TextInput);
+
     const compoundValue = {
       objectNumber: '1-200',
       comment: 'Hello world!',
@@ -148,7 +150,7 @@ describe('CustomCompoundInput', function suite() {
         <TextInput name="objectNumber" />
         <div>
           <CustomCompoundInput>
-            <TextInput name="comment" multiline />
+            <NestableTextInput name="comment" multiline />
           </CustomCompoundInput>
         </div>
       </CustomCompoundInput>, this.container);
@@ -158,6 +160,8 @@ describe('CustomCompoundInput', function suite() {
   });
 
   it('should use the default child subpath if specified', function test() {
+    const NestableTextInput = nestable(TextInput);
+
     const compoundValue = {
       collectionobjects_common: {
         objectNumber: '1-200',
@@ -171,15 +175,15 @@ describe('CustomCompoundInput', function suite() {
 
     render(
       <CustomCompoundInput value={compoundValue} defaultChildSubpath="collectionobjects_common">
-        <TextInput
+        <NestableTextInput
           name="objectNumber"
           label="collectionobjects_common:objectNumber"
         />
-        <TextInput
+        <NestableTextInput
           name="comment"
           label="collectionobjects_common:comment"
         />
-        <TextInput
+        <NestableTextInput
           name="comment"
           subpath="collectionobjects_extension"
           label="collectionobjects_extension:comment"
@@ -194,27 +198,5 @@ describe('CustomCompoundInput', function suite() {
 
     this.container.querySelectorAll('input[name="comment"]')[1].value.should
       .equal(compoundValue.collectionobjects_extension.comment);
-  });
-
-  it('should render an InputRow template and a LabelRow label', function test() {
-    const labelRow = (
-      <LabelRow>
-        <Label>Alternate title</Label>
-        <Label>Type</Label>
-        <Label>Language</Label>
-      </LabelRow>
-    );
-
-    render(
-      <CustomCompoundInput label={labelRow}>
-        <InputRow>
-          <TextInput embedded name="title" />
-          <TextInput embedded name="type" />
-          <TextInput embedded name="language" />
-        </InputRow>
-      </CustomCompoundInput>, this.container);
-
-    this.container.querySelectorAll('label').length.should.equal(3);
-    this.container.querySelectorAll('input').length.should.equal(3);
   });
 });

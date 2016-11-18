@@ -11,6 +11,19 @@ import getPath from '../helpers/getPath';
  * to be called with the path to the input, and its new value.
  */
 export default function committable(BaseComponent) {
+  const baseComponentName = BaseComponent.displayName
+    || BaseComponent.name
+    || 'Component';
+
+  const propTypes = {
+    ...BaseComponent.propTypes,
+    onBlur: PropTypes.func,
+    onCommit: PropTypes.func,
+    onKeyPress: PropTypes.func,
+  };
+
+  const contextTypes = BaseComponent.contextTypes;
+
   class Committable extends Component {
     constructor(props) {
       super(props);
@@ -34,6 +47,14 @@ export default function committable(BaseComponent) {
     }
 
     handleKeyPress(event) {
+      const {
+        onKeyPress,
+      } = this.props;
+
+      if (onKeyPress) {
+        onKeyPress(event);
+      }
+
       if (event.key === 'Enter') {
         this.commit(event.target.value);
       }
@@ -43,7 +64,8 @@ export default function committable(BaseComponent) {
       const {
         onCommit,
       } = this.props;
-
+      console.log("committable commit: " + value);
+      console.log(getPath(this.props, this.context));
       if (onCommit) {
         onCommit(getPath(this.props, this.context), value);
       }
@@ -65,19 +87,9 @@ export default function committable(BaseComponent) {
     }
   }
 
-  Committable.propTypes = {
-    ...BaseComponent.propTypes,
-    onBlur: PropTypes.func,
-    onCommit: PropTypes.func,
-  };
-
-  Committable.contextTypes = {
-    defaultSubpath: PropTypes.oneOfType([
-      PropTypes.arrayOf(PropTypes.string),
-      PropTypes.string,
-    ]),
-    parentPath: PropTypes.arrayOf(PropTypes.string),
-  };
+  Committable.propTypes = propTypes;
+  Committable.displayName = `committable(${baseComponentName})`;
+  Committable.contextTypes = contextTypes;
 
   return Committable;
 }

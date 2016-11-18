@@ -1,26 +1,74 @@
+import Button from './components/Button';
+import CompoundInput from './components/CompoundInput';
+import CustomCompoundInput from './components/CustomCompoundInput';
+import DropdownMenuInput from './components/DropdownMenuInput';
+import Label from './components/Label';
 import LineInput from './components/LineInput';
+import MultilineInput from './components/MultilineInput';
+import PasswordInput from './components/PasswordInput';
+import ReadOnlyInput from './components/ReadOnlyInput';
+import RepeatingInput from './components/RepeatingInput';
+import TabularCompoundInput from './components/TabularCompoundInput';
+import TextInput from './components/TextInput';
 
-export { default as Button } from './components/Button';
-export { default as CustomCompoundInput } from './components/CustomCompoundInput';
-export { default as CompoundInput } from './components/CompoundInput';
-export { default as Label } from './components/Label';
-// export { default as LineInput } from './components/LineInput';
-export { default as MultilineInput } from './components/MultilineInput';
-export { default as PasswordInput } from './components/PasswordInput';
-export { default as ReadOnlyInput } from './components/ReadOnlyInput';
-export { default as RepeatingInput } from './components/RepeatingInput';
-export { default as DropdownMenuInput } from './components/DropdownMenuInput';
-export { default as TabularCompoundInput } from './components/TabularCompoundInput';
-export { default as TextInput } from './components/TextInput';
-export { default as getPath } from './helpers/getPath';
+import changeable from './enhancers/changeable';
+import committable from './enhancers/committable';
+import labelable from './enhancers/labelable';
+import nestable from './enhancers/nestable';
+import repeatable from './enhancers/repeatable';
+import standalone from './enhancers/standalone';
 
-export { LineInput };
+import getPath from './helpers/getPath';
 
-// Stubs
+export const baseComponents = {
+  Button,
+  CompoundInput,
+  CustomCompoundInput,
+  DropdownMenuInput,
+  Label,
+  LineInput,
+  MultilineInput,
+  PasswordInput,
+  ReadOnlyInput,
+  RepeatingInput,
+  TabularCompoundInput,
+  TextInput,
+  // Stubs
+  AuthorityControlledInput: LineInput,
+  IDGeneratorInput: LineInput,
+  DateInput: LineInput,
+  StructuredDateInput: LineInput,
+};
 
-export const IDGeneratorInput = LineInput;
-export const DateInput = LineInput;
-export const StructuredDateInput = LineInput;
-export const AuthorityControlledInput = LineInput;
+export const components = {
+  Button,
+  CompoundInput,
+  Label,
+  ReadOnlyInput,
+  RepeatingInput,
+  CustomCompoundInput: repeatable(labelable(CustomCompoundInput)),
+  DropdownMenuInput: repeatable(labelable(DropdownMenuInput)),
+  LineInput: standalone(LineInput),
+  MultilineInput: standalone(MultilineInput),
+  PasswordInput: standalone(PasswordInput),
+  TabularCompoundInput: labelable(TabularCompoundInput),
+  TextInput: standalone(TextInput),
+  // Stubs
+  AuthorityControlledInput: standalone(LineInput),
+  IDGeneratorInput: standalone(LineInput),
+  DateInput: standalone(LineInput),
+  StructuredDateInput: standalone(LineInput),
+};
 
-export { default as repeatable } from './enhancers/repeatable';
+export const enhancers = {
+  changeable,
+  committable,
+  labelable,
+  nestable,
+  repeatable,
+  standalone,
+};
+
+export const helpers = {
+  getPath,
+};

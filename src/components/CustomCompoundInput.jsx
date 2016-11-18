@@ -1,12 +1,43 @@
 import React, { Component, PropTypes } from 'react';
 import Immutable from 'immutable';
 import get from 'lodash/get';
-import labelable from '../enhancers/labelable';
-import repeatable from '../enhancers/repeatable';
 import getPath from '../helpers/getPath';
 import styles from '../../styles/cspace-input/CompoundInput.css';
 
-class CustomCompoundInput extends Component {
+const propTypes = {
+  children: PropTypes.node,
+  defaultChildSubpath: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.string),
+    PropTypes.string,
+  ]),
+  name: PropTypes.string,
+  value: PropTypes.oneOfType([
+    PropTypes.object, // eslint-disable-line react/forbid-prop-types
+    PropTypes.instanceOf(Immutable.Map),
+  ]),
+};
+
+const defaultProps = {
+  value: {},
+};
+
+const contextTypes = {
+  defaultSubpath: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.string),
+    PropTypes.string,
+  ]),
+  parentPath: PropTypes.arrayOf(PropTypes.string),
+};
+
+const childContextTypes = {
+  defaultSubpath: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.string),
+    PropTypes.string,
+  ]),
+  parentPath: PropTypes.arrayOf(PropTypes.string),
+};
+
+export default class CustomCompoundInput extends Component {
   getChildContext() {
     return {
       defaultSubpath: this.props.defaultChildSubpath,
@@ -89,37 +120,7 @@ class CustomCompoundInput extends Component {
   }
 }
 
-CustomCompoundInput.propTypes = {
-  children: PropTypes.node,
-  defaultChildSubpath: PropTypes.oneOfType([
-    PropTypes.arrayOf(PropTypes.string),
-    PropTypes.string,
-  ]),
-  name: PropTypes.string,
-  value: PropTypes.oneOfType([
-    PropTypes.object, // eslint-disable-line react/forbid-prop-types
-    PropTypes.instanceOf(Immutable.Map),
-  ]),
-};
-
-CustomCompoundInput.defaultProps = {
-  value: {},
-};
-
-CustomCompoundInput.contextTypes = {
-  defaultSubpath: PropTypes.oneOfType([
-    PropTypes.arrayOf(PropTypes.string),
-    PropTypes.string,
-  ]),
-  parentPath: PropTypes.arrayOf(PropTypes.string),
-};
-
-CustomCompoundInput.childContextTypes = {
-  defaultSubpath: PropTypes.oneOfType([
-    PropTypes.arrayOf(PropTypes.string),
-    PropTypes.string,
-  ]),
-  parentPath: PropTypes.arrayOf(PropTypes.string),
-};
-
-export default repeatable(labelable(CustomCompoundInput));
+CustomCompoundInput.propTypes = propTypes;
+CustomCompoundInput.defaultProps = defaultProps;
+CustomCompoundInput.contextTypes = contextTypes;
+CustomCompoundInput.childContextTypes = childContextTypes;

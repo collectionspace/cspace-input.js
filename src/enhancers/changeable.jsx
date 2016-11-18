@@ -9,6 +9,24 @@ import React, { Component, PropTypes } from 'react';
  * to be called with the new value.
  */
 export default function changeable(BaseComponent) {
+  const baseComponentName = BaseComponent.displayName
+    || BaseComponent.name
+    || 'Component';
+
+  const propTypes = {
+    ...BaseComponent.propTypes,
+    autoSyncValue: PropTypes.bool,
+    onChange: PropTypes.func,
+    value: PropTypes.string,
+  };
+
+  const defaultProps = {
+    autoSyncValue: true,
+    value: '',
+  };
+
+  const contextTypes = BaseComponent.contextTypes;
+
   class Changeable extends Component {
     constructor(props) {
       super(props);
@@ -49,8 +67,10 @@ export default function changeable(BaseComponent) {
 
     render() {
       const {
-        autoSyncValue, // eslint-disable-line no-unused-vars
-        onChange, // eslint-disable-line no-unused-vars
+        /* eslint-disable no-unused-vars */
+        autoSyncValue,
+        onChange,
+        /* eslint-enable no-unused-vars */
         ...remainingProps
       } = this.props;
 
@@ -68,17 +88,10 @@ export default function changeable(BaseComponent) {
     }
   }
 
-  Changeable.propTypes = {
-    ...BaseComponent.propTypes,
-    autoSyncValue: PropTypes.bool,
-    onChange: PropTypes.func,
-    value: PropTypes.string,
-  };
-
-  Changeable.defaultProps = {
-    autoSyncValue: true,
-    value: '',
-  };
+  Changeable.propTypes = propTypes;
+  Changeable.defaultProps = defaultProps;
+  Changeable.contextTypes = contextTypes;
+  Changeable.displayName = `changeable(${baseComponentName})`;
 
   return Changeable;
 }

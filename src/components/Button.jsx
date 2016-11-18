@@ -1,6 +1,14 @@
 import React, { PropTypes } from 'react';
 import styles from '../../styles/cspace-input/Button.css';
 
+const propTypes = {
+  type: PropTypes.string,
+};
+
+const defaultProps = {
+  type: 'button',
+};
+
 /**
  * A button.
  */
@@ -19,10 +27,5 @@ export default function Button(props) {
   );
 }
 
-Button.propTypes = {
-  type: PropTypes.string,
-};
-
-Button.defaultProps = {
-  type: 'button',
-};
+Button.propTypes = propTypes;
+Button.defaultProps = defaultProps;

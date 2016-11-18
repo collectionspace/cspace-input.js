@@ -1,6 +1,11 @@
 import React, { PropTypes } from 'react';
 import styles from '../../styles/cspace-input/InputRow.css';
 
+const propTypes = {
+  children: PropTypes.node,
+  embedded: PropTypes.bool,
+};
+
 export default function InputRow(props) {
   const {
     children,
@@ -20,11 +25,4 @@ export default function InputRow(props) {
   );
 }
 
-InputRow.propTypes = {
-  children: PropTypes.node,
-  embedded: PropTypes.bool,
-};
-
-InputRow.defaultProps = {
-  embedded: false,
-};
+InputRow.propTypes = propTypes;

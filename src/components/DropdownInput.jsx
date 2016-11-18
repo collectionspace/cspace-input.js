@@ -1,8 +1,36 @@
 import React, { Component, PropTypes } from 'react';
 import classNames from 'classnames';
-import TextInput from './TextInput';
+import BaseTextInput from './TextInput';
 import Popup from './Popup';
+import changeable from '../enhancers/changeable';
+import committable from '../enhancers/committable';
+import nestable from '../enhancers/nestable';
 import styles from '../../styles/cspace-input/DropdownInput.css';
+
+const TextInput = changeable(BaseTextInput);
+
+const propTypes = {
+  ...TextInput.propTypes,
+  children: PropTypes.node,
+  className: PropTypes.string,
+  open: PropTypes.bool,
+
+  /*
+   * A function that may be called to give focus to the contents of the popup. This is supplied as
+   * a prop because DropdownInput does not know the contents of the popup. Only the caller knows
+   * which element in the popup should receive focus.
+   */
+  focusPopup: PropTypes.func,
+
+  onChange: PropTypes.func,
+  onClose: PropTypes.func,
+  onKeyDown: PropTypes.func,
+  onOpen: PropTypes.func,
+};
+
+const defaultProps = {
+  className: '',
+};
 
 export default class DropdownInput extends Component {
   constructor(props) {
@@ -224,25 +252,5 @@ export default class DropdownInput extends Component {
   }
 }
 
-DropdownInput.propTypes = {
-  ...TextInput.propTypes,
-  children: PropTypes.node,
-  className: PropTypes.string,
-  open: PropTypes.bool,
-
-  /*
-   * A function that may be called to give focus to the contents of the popup. This is supplied as
-   * a prop because DropdownInput does not know the contents of the popup. Only the caller knows
-   * which element in the popup should receive focus.
-   */
-  focusPopup: PropTypes.func,
-
-  onChange: PropTypes.func,
-  onClose: PropTypes.func,
-  onKeyDown: PropTypes.func,
-  onOpen: PropTypes.func,
-};
-
-DropdownInput.defaultProps = {
-  className: '',
-};
+DropdownInput.propTypes = propTypes;
+DropdownInput.defaultProps = defaultProps;

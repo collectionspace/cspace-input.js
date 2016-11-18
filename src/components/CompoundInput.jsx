@@ -1,6 +1,16 @@
 import React, { PropTypes } from 'react';
-import CustomCompoundInput from './CustomCompoundInput';
-import TabularCompoundInput from './TabularCompoundInput';
+import BaseCustomCompoundInput from './CustomCompoundInput';
+import BaseTabularCompoundInput from './TabularCompoundInput';
+import labelable from '../enhancers/labelable';
+import repeatable from '../enhancers/repeatable';
+
+const CustomCompoundInput = repeatable(labelable(BaseCustomCompoundInput));
+const TabularCompoundInput = labelable(BaseTabularCompoundInput);
+
+const propTypes = {
+  ...TabularCompoundInput.propTypes,
+  tabular: PropTypes.bool,
+};
 
 export default function CompoundInput(props) {
   const {
@@ -8,19 +18,11 @@ export default function CompoundInput(props) {
     ...remainingProps
   } = props;
 
-  const Component = tabular ? TabularCompoundInput : CustomCompoundInput;
+  const BaseComponent = tabular ? TabularCompoundInput : CustomCompoundInput;
 
   return (
-    <Component {...remainingProps} />
+    <BaseComponent {...remainingProps} />
   );
 }
 
-CompoundInput.propTypes = {
-  ...CustomCompoundInput.propTypes,
-  ...TabularCompoundInput.propTypes,
-  tabular: PropTypes.bool,
-};
-
-CompoundInput.defaultProps = {
-  tabular: false,
-};
+CompoundInput.propTypes = propTypes;

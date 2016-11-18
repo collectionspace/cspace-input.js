@@ -3,6 +3,20 @@ import classNames from 'classnames';
 import styles from '../../styles/cspace-input/Menu.css';
 import itemStyles from '../../styles/cspace-input/MenuItem.css';
 
+const propTypes = {
+  options: PropTypes.arrayOf(PropTypes.shape({
+    value: PropTypes.string,
+  })),
+  tabIndex: PropTypes.string,
+  value: PropTypes.string,
+  onSelect: PropTypes.func,
+};
+
+const defaultProps = {
+  options: [],
+  tabIndex: '0',
+};
+
 const stopPropagation = (event) => {
   event.stopPropagation();
 };
@@ -198,8 +212,8 @@ export default class Menu extends Component {
       // TODO: ARIA
       // https://www.w3.org/WAI/GL/wiki/index.php?title=Using_aria-activedescendant&oldid=2629
 
-      /* eslint-disable jsx-a11y/no-static-element-interactions */
       return (
+        /* eslint-disable jsx-a11y/no-static-element-interactions */
         <li
           className={className}
           data-index={index}
@@ -218,8 +232,8 @@ export default class Menu extends Component {
         >
           {label}
         </li>
+        /* eslint-enable jsx-a11y/no-static-element-interactions */
       );
-      /* eslint-enable jsx-a11y/no-static-element-interactions */
     });
   }
 
@@ -256,16 +270,5 @@ export default class Menu extends Component {
   }
 }
 
-Menu.propTypes = {
-  options: PropTypes.arrayOf(PropTypes.shape({
-    value: PropTypes.string,
-  })),
-  tabIndex: PropTypes.string,
-  value: PropTypes.string,
-  onSelect: PropTypes.func,
-};
-
-Menu.defaultProps = {
-  options: [],
-  tabIndex: '0',
-};
+Menu.propTypes = propTypes;
+Menu.defaultProps = defaultProps;

@@ -1,8 +1,13 @@
 import React, { PropTypes } from 'react';
 import styles from '../../styles/cspace-input/ReadOnlyInput.css';
 
-// Preservation of whitespace is a functional requirement of this component,
-// so this style is attached to the DOM to prevent it from being overridden.
+const propTypes = {
+  name: PropTypes.string,
+  value: PropTypes.string,
+};
+
+// Preservation of whitespace is a functional requirement of this component, so this style is
+// attached to the DOM to prevent it from being overridden.
 
 const preserveWhiteSpace = {
   whiteSpace: 'pre',
@@ -28,7 +33,4 @@ export default function ReadOnlyInput(props) {
   );
 }
 
-ReadOnlyInput.propTypes = {
-  name: PropTypes.string,
-  value: PropTypes.string,
-};
+ReadOnlyInput.propTypes = propTypes;

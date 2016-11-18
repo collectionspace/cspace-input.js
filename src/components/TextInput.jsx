@@ -2,7 +2,17 @@ import React, { PropTypes } from 'react';
 import LineInput from './LineInput';
 import MultilineInput from './MultilineInput';
 
-function getInputComponent(multiline, value) {
+const propTypes = {
+  name: PropTypes.string,
+  value: PropTypes.string,
+  multiline: PropTypes.bool,
+};
+
+const defaultProps = {
+  multiline: null,
+};
+
+function getBaseComponent(multiline, value) {
   let isMultiline = false;
 
   if (typeof multiline === 'undefined' || multiline == null) {
@@ -29,26 +39,21 @@ function getInputComponent(multiline, value) {
 export default function TextInput(props) {
   const {
     multiline,
+    name,
     value,
     ...remainingProps
   } = props;
 
-  const InputComponent = getInputComponent(multiline, value);
+  const BaseComponent = getBaseComponent(multiline, value);
 
   return (
-    <InputComponent
-      value={value}
+    <BaseComponent
       {...remainingProps}
+      name={name}
+      value={value}
     />
   );
 }
 
-TextInput.propTypes = {
-  ...LineInput.propTypes,
-  ...MultilineInput.propTypes,
-  multiline: PropTypes.bool,
-};
-
-TextInput.defaultProps = {
-  multiline: null,
-};
+TextInput.propTypes = propTypes;
+TextInput.defaultProps = defaultProps;

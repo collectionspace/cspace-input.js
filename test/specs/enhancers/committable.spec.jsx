@@ -112,5 +112,28 @@ describe('committable', function suite() {
       committedPath.should.deep.equal(['input']);
       committedValue.should.equal(newValue);
     });
+
+    it('should call not call onCommit when other keys are pressed in the base component', function test() {
+      const EnhancedComponent = committable('input');
+
+      let handlerCalled = false;
+
+      const handleCommit = () => {
+        handlerCalled = true;
+      };
+
+      render(
+        <EnhancedComponent
+          name="input"
+          onCommit={handleCommit}
+          defaultValue="hello"
+        />, this.container);
+
+      const input = this.container.querySelector('input');
+
+      Simulate.keyPress(input, { key: 'a' });
+
+      handlerCalled.should.equal(false);
+    });
   });
 });

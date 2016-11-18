@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react';
 import RepeatingInput from '../components/RepeatingInput';
 
+
 /**
  * Makes an input component possibly repeating. Returns an enhanced component that accepts a
  * repeating prop. If true, the base component is wrapped in a RepeatingInput; otherwise, the
@@ -9,14 +10,22 @@ import RepeatingInput from '../components/RepeatingInput';
  * @returns {function} The enhanced component.
  */
 export default function repeatable(BaseComponent) {
-  const Repeatable = (props) => {
+  const baseComponentName = BaseComponent.displayName
+    || BaseComponent.name
+    || 'Component';
+
+  const propTypes = {
+    ...BaseComponent.propTypes,
+    ...RepeatingInput.propTypes,
+    repeating: PropTypes.bool,
+  };
+
+  const contextTypes = BaseComponent.contextTypes;
+
+  function Repeatable(props) {
     const {
-      name,
       repeating,
-      subpath,
-      value,
       onAddInstance,
-      onCommit,
       onMoveInstance,
       onRemoveInstance,
       ...remainingProps
@@ -24,15 +33,17 @@ export default function repeatable(BaseComponent) {
 
     if (!repeating) {
       return (
-        <BaseComponent
-          name={name}
-          subpath={subpath}
-          value={value}
-          onCommit={onCommit}
-          {...remainingProps}
-        />
+        <BaseComponent {...remainingProps} />
       );
     }
+
+    const {
+      name,
+      subpath,
+      value,
+      onCommit,
+      ...baseProps
+    } = remainingProps;
 
     return (
       <RepeatingInput
@@ -44,20 +55,14 @@ export default function repeatable(BaseComponent) {
         onMoveInstance={onMoveInstance}
         onRemoveInstance={onRemoveInstance}
       >
-        <BaseComponent {...remainingProps} />
+        <BaseComponent {...baseProps} />
       </RepeatingInput>
     );
-  };
+  }
 
-  Repeatable.propTypes = {
-    ...BaseComponent.propTypes,
-    ...RepeatingInput.propTypes,
-    repeating: PropTypes.bool,
-  };
-
-  Repeatable.defaultProps = {
-    repeating: false,
-  };
+  Repeatable.propTypes = propTypes;
+  Repeatable.contextTypes = contextTypes;
+  Repeatable.displayName = `repeatable(${baseComponentName})`;
 
   return Repeatable;
 }

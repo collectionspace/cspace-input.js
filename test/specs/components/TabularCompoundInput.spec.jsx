@@ -43,27 +43,4 @@ describe('TabularCompoundInput', function suite() {
     this.container.querySelector('input').value.should.equal(compoundValue.objectNumber);
     this.container.querySelector('textarea').value.should.equal(compoundValue.comment);
   });
-
-  it('should render outer and inner labels', function test() {
-    render(
-      <TabularCompoundInput label="Compound input label">
-        <TextInput name="objectNumber" label="Inner label" />
-      </TabularCompoundInput>, this.container);
-
-    const labels = this.container.querySelectorAll('label');
-
-    labels[0].textContent.should.equal('Compound input label');
-    labels[1].textContent.should.equal('Inner label');
-  });
-
-  it('should render when no labels are supplied', function test() {
-    render(
-      <TabularCompoundInput>
-        <TextInput name="objectNumber" />
-      </TabularCompoundInput>, this.container);
-
-    const labels = this.container.querySelectorAll('label');
-
-    labels.length.should.equal(0);
-  });
 });
