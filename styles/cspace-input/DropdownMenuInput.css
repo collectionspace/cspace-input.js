@@ -1,12 +1,12 @@
 @value inputHeight, activeEdgeWidth from '../dimensions.css';
-@value textLight, textMedium from '../colors.css';
+@value textLight from '../colors.css';
 
 .common {
   composes: common from './Input.css';
 }
 
 .common input, .common textarea {
-  padding-right: 24px;
+  padding-right: 21px;
   background-image: url(../../images/dropdown.svg);
   background-repeat: no-repeat;
   background-position: right;
@@ -17,20 +17,18 @@
 }
 
 .common > div > header {
-  padding: 4px;
   font-size: 12px;
   font-style: italic;
+  white-space: nowrap;
   border-bottom: 1px solid textLight;
+  /* Italic lean makes padding on the right appear smaller */
+  padding: 4px 8px 4px 4px;
 }
 
 .embedded > div {
   left: -1px;
   top: calc(inputHeight + activeEdgeWidth - 2px);
   min-width: calc(100% + 2px);
-}
-
-.filtering input, .filtering textarea {
-  color: textMedium;
 }
 
 .open {

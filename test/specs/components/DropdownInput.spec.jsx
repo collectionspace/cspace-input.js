@@ -247,26 +247,6 @@ describe('DropdownInput', function suite() {
     this.container.querySelector('p').should.not.equal(null);
   });
 
-  it('should call onChange when the input value changes', function test() {
-    let changedToValue = null;
-
-    const handleChange = (value) => {
-      changedToValue = value;
-    };
-
-    render(
-      <DropdownInput onChange={handleChange}>
-        <p>content</p>
-      </DropdownInput>, this.container);
-
-    const input = this.container.querySelector('input');
-    const newValue = input.value = 'new';
-
-    Simulate.change(input);
-
-    changedToValue.should.equal(newValue);
-  });
-
   it('should call onClose when the popup closes', function test() {
     let handlerCalled = false;
 

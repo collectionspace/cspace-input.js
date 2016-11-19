@@ -65,22 +65,22 @@ export const getOptionForLabel = (options, label) => {
 };
 
 /**
- * Filter an option list using a supplied filter string. An option is retained by the filter if its
- * label begins with the string, case-insensitively.
+ * Filter an option list by a given prefix. An option is retained by the filter if its label begins
+ * with the prefix, case-insensitively.
  * @param {Object[]} options - The options to filter
- * @param {string} filter - The filter string
- * @returns {Object[]} An array of options whose labels begin with the filter string
+ * @param {string} prefix - The prefix by which to filter
+ * @returns {Object[]} An array of options whose labels begin with the prefix
  */
-export const filterOptions = (options, filter) => {
-  if (!filter) {
+export const filterOptionsByPrefix = (options, prefix) => {
+  if (!prefix) {
     return options;
   }
 
-  const normalizedFilter = filter.toLowerCase();
+  const normalizedPrefix = prefix.toLowerCase();
 
   // TODO: Use String.startsWith when it is supported in all browsers.
 
-  return options.filter(option => option.label.toLowerCase().indexOf(normalizedFilter, 0) === 0);
+  return options.filter(option => option.label.toLowerCase().indexOf(normalizedPrefix, 0) === 0);
 };
 
 /**
@@ -101,19 +101,21 @@ export const normalizeOptions = (options, blankable) => {
     });
   }
 
-  options.forEach((option) => {
-    const value = option.value;
-    let label = option.label;
+  if (options) {
+    options.forEach((option) => {
+      const value = option.value;
+      let label = option.label;
 
-    if (label === null || typeof label === 'undefined') {
-      label = value;
-    }
+      if (label === null || typeof label === 'undefined') {
+        label = value;
+      }
 
-    normalizedOptions.push({
-      value,
-      label,
+      normalizedOptions.push({
+        value,
+        label,
+      });
     });
-  });
+  }
 
   return normalizedOptions;
 };
