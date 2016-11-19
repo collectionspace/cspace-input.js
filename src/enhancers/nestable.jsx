@@ -20,15 +20,6 @@ export default function nestable(BaseComponent) {
     ]),
   };
 
-  const contextTypes = {
-    ...BaseComponent.contextTypes,
-    defaultSubpath: PropTypes.oneOfType([
-      PropTypes.arrayOf(PropTypes.string),
-      PropTypes.string,
-    ]),
-    parentPath: PropTypes.arrayOf(PropTypes.string),
-  };
-
   function Nestable(props) {
     const {
       subpath, // eslint-disable-line no-unused-vars
@@ -43,7 +34,6 @@ export default function nestable(BaseComponent) {
   }
 
   Nestable.propTypes = propTypes;
-  Nestable.contextTypes = contextTypes;
   Nestable.displayName = `nestable(${baseComponentName})`;
 
   return Nestable;

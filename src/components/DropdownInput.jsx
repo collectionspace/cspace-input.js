@@ -3,8 +3,6 @@ import classNames from 'classnames';
 import BaseTextInput from './TextInput';
 import Popup from './Popup';
 import changeable from '../enhancers/changeable';
-import committable from '../enhancers/committable';
-import nestable from '../enhancers/nestable';
 import styles from '../../styles/cspace-input/DropdownInput.css';
 
 const TextInput = changeable(BaseTextInput);

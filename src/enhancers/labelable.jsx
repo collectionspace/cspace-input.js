@@ -21,8 +21,6 @@ export default function labelable(BaseComponent) {
     msgkey: PropTypes.string,
   };
 
-  const contextTypes = BaseComponent.contextTypes;
-
   function Labelable(props) {
     const {
       label,
@@ -49,7 +47,6 @@ export default function labelable(BaseComponent) {
   }
 
   Labelable.propTypes = propTypes;
-  Labelable.contextTypes = contextTypes;
   Labelable.displayName = `labelable(${baseComponentName})`;
 
   return Labelable;

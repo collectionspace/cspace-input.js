@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import classNames from 'classnames';
 import DropdownInput from './DropdownInput';
 import Menu from './Menu';
-import getPath from '../helpers/getPath';
+import { getPath } from '../helpers/pathHelpers';
 
 import {
   getLabelForValue,
@@ -31,14 +31,6 @@ const propTypes = {
 const defaultProps = {
   blankable: true,
   options: [],
-};
-
-const contextTypes = {
-  defaultSubpath: PropTypes.oneOfType([
-    PropTypes.arrayOf(PropTypes.string),
-    PropTypes.string,
-  ]),
-  parentPath: PropTypes.arrayOf(PropTypes.string),
 };
 
 export default class DropdownMenuInput extends Component {
@@ -82,11 +74,8 @@ export default class DropdownMenuInput extends Component {
       onCommit,
     } = this.props;
 
-    console.log("DropdownMenuInput commit: " + value);
-    console.log(getPath(this.props, this.context));
-
     if (onCommit) {
-      onCommit(getPath(this.props, this.context), value);
+      onCommit(getPath(this.props), value);
     }
   }
 
@@ -289,4 +278,3 @@ export default class DropdownMenuInput extends Component {
 
 DropdownMenuInput.propTypes = propTypes;
 DropdownMenuInput.defaultProps = defaultProps;
-DropdownMenuInput.contextTypes = contextTypes;

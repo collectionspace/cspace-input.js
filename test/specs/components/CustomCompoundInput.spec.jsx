@@ -1,4 +1,5 @@
 import React from 'react';
+import { Simulate } from 'react-addons-test-utils';
 import Immutable from 'immutable';
 import { render } from 'react-dom';
 import chai from 'chai';
@@ -8,6 +9,7 @@ import createTestContainer from '../../helpers/createTestContainer';
 import isInput from '../../../src/helpers/isInput';
 import CustomCompoundInput from '../../../src/components/CustomCompoundInput';
 import TextInput from '../../../src/components/TextInput';
+import committable from '../../../src/enhancers/committable';
 import nestable from '../../../src/enhancers/nestable';
 
 chai.should();
@@ -43,6 +45,34 @@ describe('CustomCompoundInput', function suite() {
 
     this.container.querySelector('input').value.should.equal(compoundValue.objectNumber);
     this.container.querySelector('textarea').value.should.equal(compoundValue.comment);
+  });
+
+  it('should set parentPath on child inputs', function test() {
+    const CommittableTextInput = committable(TextInput);
+
+    let committedPath = null;
+
+    const handleCommit = (path) => {
+      committedPath = path;
+    };
+
+    render(
+      <CustomCompoundInput
+        parentPath={['parent']}
+        name="document"
+        defaultChildSubpath="collectionobjects_common"
+      >
+        <CommittableTextInput
+          name="objectNumber"
+          onCommit={handleCommit}
+        />
+      </CustomCompoundInput>, this.container);
+
+    const input = this.container.querySelector('input');
+
+    Simulate.blur(input);
+
+    committedPath.should.deep.equal(['parent', 'document', 'collectionobjects_common', 'objectNumber']);
   });
 
   it('should distribute values to descendant inputs recursively', function test() {
@@ -86,6 +116,32 @@ describe('CustomCompoundInput', function suite() {
 
     this.container.querySelector('input[name="deeplyNested"]').value.should
       .equal(compoundValue.group.deepGroup.deeplyNested);
+  });
+
+  it('should recursively set parentPath on child inputs', function test() {
+    const CommittableTextInput = committable(TextInput);
+
+    let committedPath = null;
+
+    const handleCommit = (path) => {
+      committedPath = path;
+    };
+
+    render(
+      <CustomCompoundInput name="parent">
+        <CustomCompoundInput name="nested">
+          <CommittableTextInput
+            name="objectNumber"
+            onCommit={handleCommit}
+          />
+        </CustomCompoundInput>
+      </CustomCompoundInput>, this.container);
+
+    const input = this.container.querySelector('input');
+
+    Simulate.blur(input);
+
+    committedPath.should.deep.equal(['parent', 'nested', 'objectNumber']);
   });
 
   it('should accept an Immutable.Map value', function test() {

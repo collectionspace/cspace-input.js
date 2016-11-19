@@ -150,6 +150,39 @@ describe('RepeatingInput', function suite() {
     this.container.querySelector('input[name="2"]').value.should.equal(repeatingValue[2]);
   });
 
+  it('should set parentPath on instances', function test() {
+    const CommittableTextInput = committable(TextInput);
+
+    let committedPath = null;
+
+    const handleCommit = (path) => {
+      committedPath = path;
+    };
+
+    const repeatingValue = [
+      'Value 1',
+      'Value 2',
+      'Value 3',
+    ];
+
+    render(
+      <RepeatingInput
+        value={repeatingValue}
+        label="Label"
+        name="rpt"
+        parentPath="parent"
+        onCommit={handleCommit}
+      >
+        <CommittableTextInput label="Inner label" />
+      </RepeatingInput>, this.container);
+
+    const input = this.container.querySelector('input[name="0"]');
+
+    Simulate.blur(input);
+
+    committedPath.should.deep.equal(['parent', 'rpt', '0']);
+  });
+
   it('should call the onCommit callback when a committable instance is committed', function test() {
     const CommittableTextInput = committable(nestable(TextInput));
 

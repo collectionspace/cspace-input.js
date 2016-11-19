@@ -1,9 +1,12 @@
 import React, { PropTypes } from 'react';
 import LineInput from './LineInput';
 import MultilineInput from './MultilineInput';
+import { pathPropType } from '../helpers/pathHelpers';
 
 const propTypes = {
   name: PropTypes.string,
+  parentPath: pathPropType,
+  subpath: pathPropType,
   value: PropTypes.string,
   multiline: PropTypes.bool,
 };
@@ -39,7 +42,6 @@ function getBaseComponent(multiline, value) {
 export default function TextInput(props) {
   const {
     multiline,
-    name,
     value,
     ...remainingProps
   } = props;
@@ -49,7 +51,6 @@ export default function TextInput(props) {
   return (
     <BaseComponent
       {...remainingProps}
-      name={name}
       value={value}
     />
   );

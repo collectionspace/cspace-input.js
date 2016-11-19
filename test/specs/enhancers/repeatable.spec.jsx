@@ -89,6 +89,19 @@ describe('repeatable', function suite() {
       result.props.should.include({ value });
     });
 
+    it('should lift parentPath to the RepeatingInput when repeating is true', function test() {
+      const StubComponent = () => null;
+      const EnhancedComponent = repeatable(StubComponent);
+      const shallowRenderer = createRenderer();
+
+      shallowRenderer.render(<EnhancedComponent parentPath="document" repeating />);
+
+      const result = shallowRenderer.getRenderOutput();
+
+      result.type.should.equal(RepeatingInput);
+      result.props.should.include({ parentPath: 'document' });
+    });
+
     it('should lift subpath to the RepeatingInput when repeating is true', function test() {
       const StubComponent = () => null;
       const EnhancedComponent = repeatable(StubComponent);

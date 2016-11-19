@@ -20,8 +20,6 @@ export default function repeatable(BaseComponent) {
     repeating: PropTypes.bool,
   };
 
-  const contextTypes = BaseComponent.contextTypes;
-
   function Repeatable(props) {
     const {
       repeating,
@@ -39,6 +37,7 @@ export default function repeatable(BaseComponent) {
 
     const {
       name,
+      parentPath,
       subpath,
       value,
       onCommit,
@@ -48,6 +47,7 @@ export default function repeatable(BaseComponent) {
     return (
       <RepeatingInput
         name={name}
+        parentPath={parentPath}
         subpath={subpath}
         value={value}
         onAddInstance={onAddInstance}
@@ -61,7 +61,6 @@ export default function repeatable(BaseComponent) {
   }
 
   Repeatable.propTypes = propTypes;
-  Repeatable.contextTypes = contextTypes;
   Repeatable.displayName = `repeatable(${baseComponentName})`;
 
   return Repeatable;

@@ -1,8 +1,11 @@
 import React, { PropTypes } from 'react';
+import { pathPropType } from '../helpers/pathHelpers';
 import styles from '../../styles/cspace-input/LineInput.css';
 
 const propTypes = {
   name: PropTypes.string,
+  parentPath: pathPropType,
+  subpath: pathPropType,
   value: PropTypes.string,
 };
 

@@ -1,8 +1,11 @@
 import React, { PropTypes } from 'react';
+import { pathPropType } from '../helpers/pathHelpers';
 import styles from '../../styles/cspace-input/ReadOnlyInput.css';
 
 const propTypes = {
   name: PropTypes.string,
+  parentPath: pathPropType, // eslint-disable-line react/no-unused-prop-types
+  subpath: pathPropType,    // eslint-disable-line react/no-unused-prop-types
   value: PropTypes.string,
 };
 

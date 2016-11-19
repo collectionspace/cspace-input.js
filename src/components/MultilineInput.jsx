@@ -1,9 +1,12 @@
 import React, { PropTypes } from 'react';
+import { pathPropType } from '../helpers/pathHelpers';
 import styles from '../../styles/cspace-input/MultilineInput.css';
 
 const propTypes = {
   embedded: PropTypes.bool,
   name: PropTypes.string,
+  parentPath: pathPropType,
+  subpath: pathPropType,
   value: PropTypes.string,
 };
 
@@ -14,8 +17,11 @@ const propTypes = {
 export default function MultilineInput(props) {
   const {
     embedded,
-    name,
     value,
+    /* eslint-disable no-unused-vars */
+    parentPath,
+    subpath,
+    /* eslint-enable no-unused-vars */
     ...remainingProps
   } = props;
 
@@ -27,7 +33,6 @@ export default function MultilineInput(props) {
     <textarea
       {...remainingProps}
       className={className}
-      name={name}
       readOnly={readOnly}
       value={normalizedValue}
     />

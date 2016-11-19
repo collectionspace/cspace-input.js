@@ -2,6 +2,7 @@ import React, { PropTypes } from 'react';
 import chai from 'chai';
 
 import isInput from '../../../src/helpers/isInput';
+import { pathPropType } from '../../../src/helpers/pathHelpers';
 
 chai.should();
 
@@ -24,7 +25,7 @@ describe('isInput', function suite() {
     isInput(<Component />).should.equal(false);
   });
 
-  it('should return false for a component without both name and value propTypes', function test() {
+  it('should return false for a component without all of the required propTypes', function test() {
     const Component = () => null;
 
     Component.propTypes = {
@@ -35,11 +36,13 @@ describe('isInput', function suite() {
     isInput(<Component />).should.equal(false);
   });
 
-  it('should return true for a component both name and value propTypes', function test() {
+  it('should return true for a component with all of the required propTypes', function test() {
     const Component = () => null;
 
     Component.propTypes = {
       name: PropTypes.string,
+      parentPath: pathPropType,
+      subpath: pathPropType,
       value: PropTypes.string,
     };
 

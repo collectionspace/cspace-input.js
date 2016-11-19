@@ -18,7 +18,7 @@ import nestable from './enhancers/nestable';
 import repeatable from './enhancers/repeatable';
 import standalone from './enhancers/standalone';
 
-import getPath from './helpers/getPath';
+import * as pathHelpers from './helpers/pathHelpers';
 
 export const baseComponents = {
   Button,
@@ -70,5 +70,5 @@ export const enhancers = {
 };
 
 export const helpers = {
-  getPath,
+  pathHelpers,
 };

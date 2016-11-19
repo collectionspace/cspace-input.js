@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import getPath from '../helpers/getPath';
+import { getPath } from '../helpers/pathHelpers';
 
 /**
  * Returns an enhanced component that detects that a change to the value of the base component has
@@ -19,10 +19,7 @@ export default function committable(BaseComponent) {
     ...BaseComponent.propTypes,
     onBlur: PropTypes.func,
     onCommit: PropTypes.func,
-    onKeyPress: PropTypes.func,
   };
-
-  const contextTypes = BaseComponent.contextTypes;
 
   class Committable extends Component {
     constructor(props) {
@@ -47,14 +44,6 @@ export default function committable(BaseComponent) {
     }
 
     handleKeyPress(event) {
-      const {
-        onKeyPress,
-      } = this.props;
-
-      if (onKeyPress) {
-        onKeyPress(event);
-      }
-
       if (event.key === 'Enter') {
         this.commit(event.target.value);
       }
@@ -64,10 +53,9 @@ export default function committable(BaseComponent) {
       const {
         onCommit,
       } = this.props;
-      console.log("committable commit: " + value);
-      console.log(getPath(this.props, this.context));
+
       if (onCommit) {
-        onCommit(getPath(this.props, this.context), value);
+        onCommit(getPath(this.props), value);
       }
     }
 
@@ -89,7 +77,6 @@ export default function committable(BaseComponent) {
 
   Committable.propTypes = propTypes;
   Committable.displayName = `committable(${baseComponentName})`;
-  Committable.contextTypes = contextTypes;
 
   return Committable;
 }

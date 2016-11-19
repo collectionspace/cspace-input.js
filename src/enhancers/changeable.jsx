@@ -25,8 +25,6 @@ export default function changeable(BaseComponent) {
     value: '',
   };
 
-  const contextTypes = BaseComponent.contextTypes;
-
   class Changeable extends Component {
     constructor(props) {
       super(props);
@@ -90,7 +88,6 @@ export default function changeable(BaseComponent) {
 
   Changeable.propTypes = propTypes;
   Changeable.defaultProps = defaultProps;
-  Changeable.contextTypes = contextTypes;
   Changeable.displayName = `changeable(${baseComponentName})`;
 
   return Changeable;

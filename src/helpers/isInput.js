@@ -1,9 +1,9 @@
-export default function isInput(candidateComponent) {
-  if (!candidateComponent) {
+export default function isInput(component) {
+  if (!component) {
     return false;
   }
 
-  const type = candidateComponent.type;
+  const type = component.type;
 
   if (!type) {
     return false;
@@ -15,5 +15,10 @@ export default function isInput(candidateComponent) {
     return false;
   }
 
-  return ('name' in propTypes && 'value' in propTypes);
+  return (
+    'name' in propTypes &&
+    'value' in propTypes &&
+    'parentPath' in propTypes &&
+    'subpath' in propTypes
+  );
 }

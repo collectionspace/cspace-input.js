@@ -1,8 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 import Immutable from 'immutable';
 import MiniButton from './MiniButton';
-import getPath from '../helpers/getPath';
 import normalizeLabel from '../helpers/normalizeLabel';
+import { getPath, pathPropType } from '../helpers/pathHelpers';
 import repeatingInputStyles from '../../styles/cspace-input/RepeatingInput.css';
 import moveToTopButtonStyles from '../../styles/cspace-input/MoveToTopButton.css';
 
@@ -33,6 +33,8 @@ function normalizeValue(value) {
 const propTypes = {
   children: PropTypes.node,
   name: PropTypes.string,
+  parentPath: pathPropType, // eslint-disable-line react/no-unused-prop-types
+  subpath: pathPropType,    // eslint-disable-line react/no-unused-prop-types
   value: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.object,
@@ -48,18 +50,6 @@ const propTypes = {
   onRemoveInstance: PropTypes.func,
 };
 
-const contextTypes = {
-  defaultSubpath: PropTypes.oneOfType([
-    PropTypes.arrayOf(PropTypes.string),
-    PropTypes.string,
-  ]),
-  parentPath: PropTypes.arrayOf(PropTypes.string),
-};
-
-const childContextTypes = {
-  parentPath: PropTypes.arrayOf(PropTypes.string),
-};
-
 export default class RepeatingInput extends Component {
   constructor(props) {
     super(props);
@@ -70,19 +60,13 @@ export default class RepeatingInput extends Component {
     this.handleRemoveButtonClick = this.handleRemoveButtonClick.bind(this);
   }
 
-  getChildContext() {
-    return {
-      parentPath: getPath(this.props, this.context),
-    };
-  }
-
   handleAddButtonClick() {
     const {
       onAddInstance,
     } = this.props;
 
     if (onAddInstance) {
-      onAddInstance(getPath(this.props, this.context));
+      onAddInstance(getPath(this.props));
     }
   }
 
@@ -105,7 +89,7 @@ export default class RepeatingInput extends Component {
       const instanceName = event.target.dataset.instancename;
       const newPosition = 0;
 
-      onMoveInstance([...getPath(this.props, this.context), instanceName], newPosition);
+      onMoveInstance([...getPath(this.props), instanceName], newPosition);
     }
   }
 
@@ -117,7 +101,7 @@ export default class RepeatingInput extends Component {
     if (onRemoveInstance) {
       const instanceName = event.target.dataset.instancename;
 
-      onRemoveInstance([...getPath(this.props, this.context), instanceName]);
+      onRemoveInstance([...getPath(this.props), instanceName]);
     }
   }
 
@@ -165,13 +149,12 @@ export default class RepeatingInput extends Component {
         embedded: true,
         label: undefined,
         name: instanceName,
+        parentPath: getPath(this.props),
         value: instanceValue,
       };
 
-      if (childPropTypes) {
-        if (childPropTypes.onCommit) {
-          overrideProps.onCommit = this.handleInstanceCommit;
-        }
+      if (childPropTypes && childPropTypes.onCommit) {
+        overrideProps.onCommit = this.handleInstanceCommit;
       }
 
       const instance = React.cloneElement(template, overrideProps);
@@ -240,6 +223,4 @@ export default class RepeatingInput extends Component {
 }
 
 RepeatingInput.propTypes = propTypes;
-RepeatingInput.contextTypes = contextTypes;
-RepeatingInput.childContextTypes = childContextTypes;
 

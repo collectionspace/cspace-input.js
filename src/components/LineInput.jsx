@@ -1,9 +1,12 @@
 import React, { PropTypes } from 'react';
+import { pathPropType } from '../helpers/pathHelpers';
 import styles from '../../styles/cspace-input/LineInput.css';
 
 const propTypes = {
   embedded: PropTypes.bool,
   name: PropTypes.string,
+  parentPath: pathPropType,
+  subpath: pathPropType,
   value: PropTypes.string,
 };
 
@@ -18,6 +21,10 @@ export default function LineInput(props) {
     embedded,
     name,
     value,
+    /* eslint-disable no-unused-vars */
+    parentPath,
+    subpath,
+    /* eslint-enable no-unused-vars */
     ...remainingProps
   } = props;
 
