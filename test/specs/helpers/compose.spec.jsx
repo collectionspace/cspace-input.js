@@ -1,8 +1,5 @@
-/* eslint-disable no-unused-expressions, react/prop-types */
-
 import React from 'react';
 import { render } from 'react-dom';
-import chai from 'chai';
 
 import createTestContainer from '../../helpers/createTestContainer';
 
@@ -11,8 +8,10 @@ import compose from '../../../src/helpers/compose';
 chai.should();
 
 const PlainComponent = () => <div className="plain">Hello world</div>;
+/* eslint-disable react/prop-types */
 const WrapperComponent1 = props => <div className="wrapper1">{props.children}</div>;
 const WrapperComponent2 = props => <div className="wrapper2">{props.children}</div>;
+/* eslint-enable react/prop-types */
 
 const enhancer1 = BaseComponent =>
   () => <WrapperComponent1><BaseComponent /></WrapperComponent1>;
@@ -47,8 +46,8 @@ describe('compose', function suite() {
       const root = this.container.firstElementChild;
 
       root.className.should.equal('wrapper1');
-      root.querySelector('div.wrapper2').should.exist;
-      root.querySelector('div.wrapper2').querySelector('div.plain').should.exist;
+      root.querySelector('div.wrapper2').should.not.equal(null);
+      root.querySelector('div.wrapper2').querySelector('div.plain').should.not.equal(null);
     });
   });
 });

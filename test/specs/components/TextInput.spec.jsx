@@ -1,6 +1,5 @@
 import React from 'react';
 import { createRenderer } from 'react-addons-test-utils';
-import chai from 'chai';
 
 import isInput from '../../../src/helpers/isInput';
 import LineInput from '../../../src/components/LineInput';

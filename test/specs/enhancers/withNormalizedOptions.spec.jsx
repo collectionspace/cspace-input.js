@@ -1,6 +1,5 @@
 import React from 'react';
 import { createRenderer } from 'react-addons-test-utils';
-import chai from 'chai';
 
 import Menu from '../../../src/components/Menu';
 import { normalizeOptions } from '../../../src/helpers/optionHelpers';

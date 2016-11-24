@@ -1,5 +1,3 @@
-import chai from 'chai';
-
 import { getPath } from '../../../src/helpers/pathHelpers';
 
 chai.should();
