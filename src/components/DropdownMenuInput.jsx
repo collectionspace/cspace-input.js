@@ -3,29 +3,24 @@ import classNames from 'classnames';
 import DropdownInput from './DropdownInput';
 import Menu from './Menu';
 import { getPath } from '../helpers/pathHelpers';
-
-import {
-  getLabelForValue,
-  getOptionForLabel,
-  filterOptions,
-  normalizeOptions,
-} from '../helpers/optionHelpers';
-
+import { getLabelForValue } from '../helpers/optionHelpers';
 import styles from '../../styles/cspace-input/DropdownMenuInput.css';
 
 const propTypes = {
   ...DropdownInput.propTypes,
-  blankable: PropTypes.bool,
+  className: PropTypes.string,
   embedded: PropTypes.bool,
-  formatFilterMessage: PropTypes.func,
-  formatLoadingMesasge: PropTypes.func,
-  isLoading: PropTypes.bool,
+  menuHeader: PropTypes.node,
+  menuFooter: PropTypes.node,
+  open: PropTypes.bool,
   options: PropTypes.arrayOf(PropTypes.shape({
     value: PropTypes.string,
     label: PropTypes.string,
   })),
   valueLabel: PropTypes.string,
+  onClose: PropTypes.func,
   onCommit: PropTypes.func,
+  onOpen: PropTypes.func,
 };
 
 const defaultProps = {
@@ -33,39 +28,57 @@ const defaultProps = {
   options: [],
 };
 
+const renderMenuHeader = (content) => {
+  if (content) {
+    return (
+      <header>{content}</header>
+    );
+  }
+
+  return null;
+};
+
+const renderMenuFooter = (content) => {
+  if (content) {
+    return (
+      <footer>{content}</footer>
+    );
+  }
+
+  return null;
+};
+
 export default class DropdownMenuInput extends Component {
   constructor(props) {
     super(props);
 
-    this.handleDropdownInputChange = this.handleDropdownInputChange.bind(this);
     this.handleDropdownInputClose = this.handleDropdownInputClose.bind(this);
-    this.handleDropdownInputKeyDown = this.handleDropdownInputKeyDown.bind(this);
     this.handleDropdownInputOpen = this.handleDropdownInputOpen.bind(this);
     this.handleDropdownInputRef = this.handleDropdownInputRef.bind(this);
     this.handleMenuRef = this.handleMenuRef.bind(this);
     this.handleMenuSelect = this.handleMenuSelect.bind(this);
     this.focusMenu = this.focusMenu.bind(this);
 
-    const options = normalizeOptions(props.options, props.blankable);
-    const canonicalValueLabel = getLabelForValue(options, props.value);
+    const valueLabel = (props.valueLabel === null || typeof props.valueLabel === 'undefined')
+      ? getLabelForValue(props.options, props.value)
+      : props.valueLabel;
 
     this.state = {
-      options,
-      filter: null,
+      valueLabel,
       open: false,
       value: props.value,
-      valueLabel: (canonicalValueLabel === null) ? props.valueLabel : canonicalValueLabel,
     };
   }
 
   componentWillReceiveProps(nextProps) {
-    const options = normalizeOptions(nextProps.options, nextProps.blankable);
-    const canonicalValueLabel = getLabelForValue(options, nextProps.value);
+    const valueLabel = (nextProps.valueLabel === null || typeof nextProps.valueLabel === 'undefined')
+      ? getLabelForValue(nextProps.options, nextProps.value)
+      : nextProps.valueLabel;
 
     this.setState({
-      options,
+      valueLabel,
+      open: nextProps.open,
       value: nextProps.value,
-      valueLabel: (canonicalValueLabel === null) ? nextProps.valueLabel : canonicalValueLabel,
     });
   }
 
@@ -85,84 +98,32 @@ export default class DropdownMenuInput extends Component {
     }
   }
 
-  formatFilterMessage(count) {
-    const {
-      formatFilterMessage,
-    } = this.props;
-
-    if (formatFilterMessage) {
-      return formatFilterMessage(count);
-    }
-
-    const matches = count === 1 ? 'match' : 'matches';
-    const num = count === 0 ? 'No' : count;
-
-    return `${num} ${matches} found`;
-  }
-
-  formatLoadingMessage() {
-    const {
-      formatLoadingMessage,
-    } = this.props;
-
-    if (formatLoadingMessage) {
-      return formatLoadingMessage();
-    }
-
-    return 'Loading...';
-  }
-
-  handleDropdownInputChange(value) {
-    this.setState({
-      filter: value,
-    });
-  }
-
   handleDropdownInputClose() {
     this.setState({
-      filter: null,
       open: false,
     });
-  }
 
-  handleDropdownInputKeyDown(event) {
-    if (event.key === 'Enter') {
-      const {
-        filter,
-        options,
-      } = this.state;
+    const {
+      onClose,
+    } = this.props;
 
-      let matchingOption = null;
-
-      const matchingOptions = filterOptions(options, filter);
-
-      if (matchingOptions.length === 1) {
-        // The filter matches only one option. Select it.
-        matchingOption = matchingOptions[0];
-      } else if (matchingOptions.length > 1) {
-        // The filter matches more than one option. If it matches one of them exactly, select that
-        // one.
-        matchingOption = getOptionForLabel(matchingOptions, filter);
-      }
-
-      if (matchingOption) {
-        this.setState({
-          filter: null,
-          open: false,
-          value: matchingOption.value,
-          valueLabel: matchingOption.label,
-        });
-
-        this.commit(matchingOption.value);
-      }
+    if (onClose) {
+      onClose();
     }
   }
 
   handleDropdownInputOpen() {
     this.setState({
-      filter: null,
       open: true,
     });
+
+    const {
+      onOpen,
+    } = this.props;
+
+    if (onOpen) {
+      onOpen();
+    }
   }
 
   handleDropdownInputRef(ref) {
@@ -182,7 +143,6 @@ export default class DropdownMenuInput extends Component {
     this.setState({
       value,
       valueLabel,
-      filter: null,
       open: false,
     });
 
@@ -190,63 +150,35 @@ export default class DropdownMenuInput extends Component {
     this.dropdownInput.focusInput();
   }
 
-  renderMenuHeader(filteredOptions) {
-    const {
-      filter,
-    } = this.state;
-
-    const {
-      isLoading,
-    } = this.props;
-
-    if (isLoading) {
-      return (
-        <header>{this.formatLoadingMessage()}</header>
-      );
-    }
-
-    if (filter === null) {
-      return null;
-    }
-
-    return (
-      <header>{this.formatFilterMessage(filteredOptions.length)}</header>
-    );
-  }
-
   render() {
     const {
-      filter,
       open,
-      options,
       value,
       valueLabel,
     } = this.state;
 
     const {
+      className,
       embedded,
+      menuHeader,
+      menuFooter,
+      options,
       /* eslint-disable no-unused-vars */
       blankable,
-      isLoading,
-      options: optionsProp,
-      formatFilterMessage,
-      formatLoadingMessage,
+      open: openProp,
       valueLabel: valueLabelProp,
       onCommit,
       /* eslint-enable no-unused-vars */
       ...remainingProps
     } = this.props;
 
-    const classes = classNames({
+    const classes = classNames(className, {
       [styles.common]: true,
       [styles.embedded]: embedded,
-      [styles.filtering]: filter !== null,
       [styles.open]: open,
     });
 
-    const inputValue = (filter === null) ? valueLabel : filter;
-    const filteredOptions = filterOptions(options, filter);
-    const menuHeader = this.renderMenuHeader(filteredOptions);
+    const inputValue = valueLabel;
 
     return (
       <DropdownInput
@@ -258,19 +190,18 @@ export default class DropdownMenuInput extends Component {
         ref={this.handleDropdownInputRef}
         spellCheck={false}
         value={inputValue}
-        onChange={this.handleDropdownInputChange}
         onClose={this.handleDropdownInputClose}
-        onKeyDown={this.handleDropdownInputKeyDown}
         onOpen={this.handleDropdownInputOpen}
       >
-        {menuHeader}
+        {renderMenuHeader(menuHeader)}
         <Menu
-          options={filteredOptions}
+          options={options}
           ref={this.handleMenuRef}
           tabIndex="-1"
           value={value}
           onSelect={this.handleMenuSelect}
         />
+        {renderMenuFooter(menuFooter)}
       </DropdownInput>
     );
   }

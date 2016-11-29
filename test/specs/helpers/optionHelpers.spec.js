@@ -1,10 +1,8 @@
-import chai from 'chai';
-
 import {
   getOptionForValue,
   getLabelForValue,
   getOptionForLabel,
-  filterOptions,
+  filterOptionsByPrefix,
   normalizeOptions,
 } from '../../../src/helpers/optionHelpers';
 
@@ -84,9 +82,9 @@ describe('optionHelpers', function suite() {
     });
   });
 
-  describe('filterOptions', function funcSuite() {
+  describe('filterOptionsByPrefix', function funcSuite() {
     it('should return an array of options whose labels start with the given filter', function test() {
-      filterOptions(options, 'Label 1').should.deep.equal([
+      filterOptionsByPrefix(options, 'Label 1').should.deep.equal([
         options[0],
         options[9],
         options[10],
@@ -96,7 +94,7 @@ describe('optionHelpers', function suite() {
     });
 
     it('should use case insensitive comparison', function test() {
-      filterOptions(options, 'LABEL 1').should.deep.equal([
+      filterOptionsByPrefix(options, 'LABEL 1').should.deep.equal([
         options[0],
         options[9],
         options[10],
@@ -106,9 +104,9 @@ describe('optionHelpers', function suite() {
     });
 
     it('should return all options when filter is empty, null, or undefined', function test() {
-      filterOptions(options, '').should.equal(options);
-      filterOptions(options, null).should.equal(options);
-      filterOptions(options).should.equal(options);
+      filterOptionsByPrefix(options, '').should.equal(options);
+      filterOptionsByPrefix(options, null).should.equal(options);
+      filterOptionsByPrefix(options).should.equal(options);
     });
   });
 
@@ -140,6 +138,21 @@ describe('optionHelpers', function suite() {
         { value: 'value4', label: 'value4' },
         { value: 'value5', label: 'value5' },
       ]);
+    });
+
+    it('should not add an empty option when blankable is false', function test() {
+      normalizeOptions(uglyOptions, false).should.deep.equal([
+        { value: 'value1', label: 'Label 1' },
+        { value: 'value2', label: '' },
+        { value: 'value3', label: 'value3' },
+        { value: 'value4', label: 'value4' },
+        { value: 'value5', label: 'value5' },
+      ]);
+    });
+
+    it('should return an empty array when options is null or undefined', function test() {
+      normalizeOptions(null).should.deep.equal([]);
+      normalizeOptions(undefined).should.deep.equal([]);
     });
   });
 });

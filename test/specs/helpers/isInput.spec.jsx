@@ -1,5 +1,4 @@
 import React, { PropTypes } from 'react';
-import chai from 'chai';
 
 import isInput from '../../../src/helpers/isInput';
 import { pathPropType } from '../../../src/helpers/pathHelpers';

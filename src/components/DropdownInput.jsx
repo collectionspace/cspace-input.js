@@ -1,11 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 import classNames from 'classnames';
-import BaseTextInput from './TextInput';
+import TextInput from './TextInput';
 import Popup from './Popup';
-import changeable from '../enhancers/changeable';
 import styles from '../../styles/cspace-input/DropdownInput.css';
-
-const TextInput = changeable(BaseTextInput);
 
 const propTypes = {
   ...TextInput.propTypes,
@@ -20,7 +17,6 @@ const propTypes = {
    */
   focusPopup: PropTypes.func,
 
-  onChange: PropTypes.func,
   onClose: PropTypes.func,
   onKeyDown: PropTypes.func,
   onOpen: PropTypes.func,
@@ -35,7 +31,6 @@ export default class DropdownInput extends Component {
     super(props);
 
     this.handleInputBlur = this.handleInputBlur.bind(this);
-    this.handleInputChange = this.handleInputChange.bind(this);
     this.handleInputMouseDown = this.handleInputMouseDown.bind(this);
     this.handleInputKeyDown = this.handleInputKeyDown.bind(this);
     this.handlePopupBlur = this.handlePopupBlur.bind(this);
@@ -117,18 +112,6 @@ export default class DropdownInput extends Component {
     }
   }
 
-  handleInputChange(value) {
-    const {
-      onChange,
-    } = this.props;
-
-    this.open();
-
-    if (onChange) {
-      onChange(value);
-    }
-  }
-
   handleInputMouseDown() {
     this.open();
   }
@@ -187,7 +170,6 @@ export default class DropdownInput extends Component {
       children,
       className,
       focusPopup,
-      onChange,
       onClose,
       onKeyDown,
       onOpen,
@@ -198,9 +180,7 @@ export default class DropdownInput extends Component {
     return (
       <TextInput
         {...remainingProps}
-        autoSyncValue={false}
         onBlur={this.handleInputBlur}
-        onChange={this.handleInputChange}
         onKeyDown={this.handleInputKeyDown}
         onMouseDown={this.handleInputMouseDown}
       />
