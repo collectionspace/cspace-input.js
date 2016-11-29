@@ -427,4 +427,44 @@ describe('DropdownMenuInput', function suite() {
     committedPath.should.deep.equal(['color']);
     committedValue.should.equal('value3');
   });
+
+  it('should render a header if content is supplied', function test() {
+    const options = [
+      { value: 'value1', label: 'Value 1' },
+      { value: 'value2', label: 'Value 2' },
+      { value: 'value3', label: 'Value 3' },
+    ];
+
+    render(
+      <DropdownMenuInput
+        options={options}
+        menuHeader="header content"
+      />, this.container);
+
+    const input = this.container.querySelector('input');
+
+    Simulate.mouseDown(input);
+
+    this.container.querySelector('header').textContent.should.equal('header content');
+  });
+
+  it('should render a footer if content is supplied', function test() {
+    const options = [
+      { value: 'value1', label: 'Value 1' },
+      { value: 'value2', label: 'Value 2' },
+      { value: 'value3', label: 'Value 3' },
+    ];
+
+    render(
+      <DropdownMenuInput
+        options={options}
+        menuFooter="footer content"
+      />, this.container);
+
+    const input = this.container.querySelector('input');
+
+    Simulate.mouseDown(input);
+
+    this.container.querySelector('footer').textContent.should.equal('footer content');
+  });
 });

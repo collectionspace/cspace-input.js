@@ -28,6 +28,26 @@ const defaultProps = {
   options: [],
 };
 
+const renderMenuHeader = (content) => {
+  if (content) {
+    return (
+      <header>{content}</header>
+    );
+  }
+
+  return null;
+};
+
+const renderMenuFooter = (content) => {
+  if (content) {
+    return (
+      <footer>{content}</footer>
+    );
+  }
+
+  return null;
+};
+
 export default class DropdownMenuInput extends Component {
   constructor(props) {
     super(props);
@@ -173,7 +193,7 @@ export default class DropdownMenuInput extends Component {
         onClose={this.handleDropdownInputClose}
         onOpen={this.handleDropdownInputOpen}
       >
-        {menuHeader}
+        {renderMenuHeader(menuHeader)}
         <Menu
           options={options}
           ref={this.handleMenuRef}
@@ -181,7 +201,7 @@ export default class DropdownMenuInput extends Component {
           value={value}
           onSelect={this.handleMenuSelect}
         />
-        {menuFooter}
+        {renderMenuFooter(menuFooter)}
       </DropdownInput>
     );
   }

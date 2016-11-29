@@ -272,6 +272,34 @@ describe('FilteringDropdownMenuInput', function suite() {
     });
   });
 
+  it('should close the popup when close is called', function test() {
+    let dropdownMenuInput = null;
+
+    const handleRef = (ref) => {
+      dropdownMenuInput = ref;
+    };
+
+    const options = [
+      { value: 'value1', label: 'abcd' },
+      { value: 'value2', label: 'abcde' },
+      { value: 'value3', label: 'ab1234' },
+    ];
+
+    render(
+      <FilteringDropdownMenuInput
+        options={options}
+        ref={handleRef}
+      />, this.container);
+
+    const input = this.container.querySelector('input');
+
+    Simulate.mouseDown(input);
+
+    dropdownMenuInput.close();
+
+    this.container.querySelectorAll('li').length.should.equal(0);
+  });
+
   it('should should allow a blank value to be committed in the input even if there is no blank option, when blankable is true', function test() {
     let committedValue = null;
 

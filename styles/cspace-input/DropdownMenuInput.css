@@ -20,9 +20,14 @@
   font-size: 12px;
   font-style: italic;
   white-space: nowrap;
-  border-bottom: 1px solid textLight;
   /* Italic lean makes padding on the right appear smaller */
-  padding: 4px 8px 4px 4px;
+  padding: 4px 6px 4px 4px;
+}
+
+.common > div > header+ul,
+.common > div > header+footer,
+.common > div > ul+footer {
+  border-top: 1px solid textLight;
 }
 
 .embedded > div {

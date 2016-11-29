@@ -50,6 +50,12 @@ export default class FilteringDropdownMenuInput extends Component {
     });
   }
 
+  close() {
+    this.setState({
+      open: false,
+    });
+  }
+
   commit(value) {
     const {
       onCommit,
@@ -167,7 +173,7 @@ export default class FilteringDropdownMenuInput extends Component {
 
     if (isFiltering) {
       return (
-        <header>{formatStatusMessage(options ? options.length : 0)}</header>
+        <span>{formatStatusMessage(options ? options.length : 0)}</span>
       );
     }
 
