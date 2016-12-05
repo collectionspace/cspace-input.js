@@ -10,7 +10,7 @@ const propTypes = {
 };
 
 const defaultProps = {
-  formatOptionLabel: option => option.value,
+  formatOptionLabel: option => (typeof option.label === 'undefined' ? option.value : option.label),
   options: [],
 };
 
