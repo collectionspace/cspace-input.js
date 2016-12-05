@@ -11,8 +11,8 @@ const DropdownMenuInput = changeable(BaseDropdownMenuInput);
 const propTypes = {
   ...DropdownMenuInput.propTypes,
   blankable: PropTypes.bool,
-  filter: PropTypes.func,
   formatStatusMessage: PropTypes.func,
+  filter: PropTypes.func,
   onClose: PropTypes.func,
   onCommit: PropTypes.func,
 };

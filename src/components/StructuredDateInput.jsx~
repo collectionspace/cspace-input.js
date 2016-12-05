@@ -1,0 +1,148 @@
+import React, { PropTypes } from 'react';
+
+const messages = {
+  
+};
+
+const propTypes = {
+  getMessage: PropTypes.func,
+};
+
+const defaultProps = {
+  getMessage: id => messages[id],
+};
+
+export default function StructuredDateInput(props) {
+  const {
+    getMessage,
+    options,
+    value,
+  } = props;
+
+  return (
+    <DropdownInput>
+      <CustomCompoundInput>
+        <Row>
+          <div>
+            <TextInput
+              name="datePeriod"
+              label={getMessage('datePeriod')}
+              value={value.get('datePeriod')}
+              onCommit={this.handleInputCommit}
+            />
+          </div>
+          <div>
+            <TextInput
+              name="dateAssociation"
+              label={getMessage('dateAssociation')}
+              value={value.get('dateAssociation')}
+              onCommit={this.handleInputCommit}
+            />
+          </div>
+          <div>
+            <TextInput
+              name="dateNote"
+              label={getMessage('dateNote')}
+              value={value.get('dateNote')}
+              onCommit={this.handleInputCommit}
+            />
+          </div>
+        </Row>
+        <table>
+          <thead>
+            <tr>
+              <th></th>
+              <th>{getMessage('dateYear')}</th>
+              <th>{getMessage('dateMonth')}</th>
+              <th>{getMessage('dateDay')}</th>
+              <th>{getMessage('dateEra')}</th>
+              <th>{getMessage('dateCertainty')}</th>
+              <th>{getMessage('dateQualifier')}</th>
+              <th>{getMessage('dateQualifierValue')}</th>
+              <th>{getMessage('dateQualifierUnit')}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th>{getMessage('structuredDateInput.earliestSingle')}</th>
+              <td>
+                <TextInput
+                  name="dateEarliestSingleYear"
+                  value={value.get('dateEarliestSingleYear')}
+                  onCommit={this.handleInputCommit}
+                />
+              </td>
+              <td>
+                <TextInput
+                  name="dateEarliestSingleMonth"
+                  value={value.get('dateEarliestSingleMonth')}
+                  onCommit={this.handleInputCommit
+                }/>
+              </td>
+              <td>
+                <TextInput
+                  name="dateEarliestSingleDay"
+                  value={value.get('dateEarliestSingleDay')}
+                  onCommit={this.handleInputCommit}
+                />
+              </td>
+              <td>
+                <PrefixFilteringDropdownMenuInput
+                  name="dateEarliestSingleEra"
+                  value={value.get('dateEarliestSingleEra')}
+                  options={options.dateEarliestSingleEra}
+                  onCommit={this.handleInputCommit}
+                />
+              </td>
+              <td>
+                <PrefixFilteringDropdownMenuInput
+                  name="dateEarliestSingleCertainty"
+                  value={value.get('dateEarliestSingleCertainty')}
+                  options={options.dateEarliestSingleCertainty}
+                  onCommit={this.handleInputCommit}
+                />
+              </td>
+              <td>
+                <PrefixFilteringDropdownMenuInput
+                  name="dateEarliestSingleQualifier"
+                  value={value.get('dateEarliestSingleQualifier')}
+                  options={options.dateEarliestSingleQualifier}
+                  onCommit={this.handleInputCommit}
+                />
+              </td>
+              <td>
+                <TextInput
+                  name="dateEarliestSingleQualifierValue"
+                  value={value.get('dateEarliestSingleQualifierValue')}
+                  onCommit={this.handleInputCommit}
+                />
+              </td>
+              <td>
+                <PrefixFilteringDropdownMenuInput
+                  name="dateEarliestSingleQualifierUnit"
+                  value={value.get('dateEarliestSingleQualifierUnit')}
+                  options={options.dateEarliestSingleQualifierUnit}
+                  onCommit={this.handleInputCommit}
+                />
+              </td>
+            </tr>
+            <tr>
+              <th>{this.getIntlMessage('structuredDateInput.latest')}</th>
+              <td><Input name="dateLatestYear" value={value.get('dateLatestYear')} onCommit={this.handleInputCommit}/></td>
+              <td><Input name="dateLatestMonth" value={value.get('dateLatestMonth')} onCommit={this.handleInputCommit}/></td>
+              <td><Input name="dateLatestDay" value={value.get('dateLatestDay')} onCommit={this.handleInputCommit}/></td>
+              <td><VocabularyControlledInput name="dateLatestEra" value={value.get('dateLatestEra')} vocabularyName="dateera" onCommit={this.handleInputCommit}/></td>
+              <td><VocabularyControlledInput name="dateLatestCertainty" value={value.get('dateLatestCertainty')} vocabularyName="datecertainty" onCommit={this.handleInputCommit}/></td>
+              <td><StaticControlledInput name="dateLatestQualifier" value={value.get('dateLatestQualifier')} controlledListName="dateQualifiers" onCommit={this.handleInputCommit}/></td>
+              <td><Input name="dateLatestQualifierValue" value={value.get('dateLatestQualifierValue')} onCommit={this.handleInputCommit}/></td>
+              <td><VocabularyControlledInput name="dateLatestQualifierUnit" value={value.get('dateLatestQualifierUnit')} vocabularyName="datequalifier" onCommit={this.handleInputCommit}/></td>
+            </tr>
+          </tbody>
+        </table>
+      </CustomCompoundInput>
+    </DropdownInput>
+  );
+}
+
+StructuredDateInput.propTypes = propTypes;
+StructuredDateInput.defaultProps = defaultProps;
