@@ -1,0 +1,31 @@
+@value textLight from '../colors.css';
+
+.normal > input, .normal > textarea {
+  padding-right: 21px;
+  background-image: url(../../images/structDate.svg);
+  background-repeat: no-repeat;
+  background-position: right;
+}
+
+.normal > div {
+  padding: 10px;
+}
+
+.normal > div table {
+  border-collapse: collapse;
+  border: 1px solid textLight;
+}
+
+.normal > div table tbody td, .normal > div table tbody th {
+  border: 1px solid textLight;
+}
+
+.normal > div table td {
+  padding: 0;
+}
+
+.normal > div table th {
+  padding: 0 2px;
+  font-weight: 400;
+  text-align: left;
+}
