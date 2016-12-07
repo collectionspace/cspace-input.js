@@ -1,4 +1,4 @@
-/* global document */
+/* global window, document */
 
 import React from 'react';
 import { Simulate } from 'react-addons-test-utils';
@@ -13,7 +13,7 @@ const expect = chai.expect;
 
 chai.should();
 
-const expectedClassName = 'cspace-input-DropdownInput--common cspace-input-DropdownMenuInput--common cspace-input-Input--common';
+const expectedClassName = 'cspace-input-DropdownMenuInput--common cspace-input-Input--common cspace-input-DropdownInput--normal cspace-input-DropdownInput--common';
 
 describe('DropdownMenuInput', function suite() {
   beforeEach(function before() {
@@ -278,7 +278,12 @@ describe('DropdownMenuInput', function suite() {
 
     Simulate.keyDown(input, { key: 'Escape' });
 
-    expect(this.container.querySelector('li')).to.equal(null);
+    return new Promise((resolve) => {
+      window.setTimeout(() => {
+        expect(this.container.querySelector('li')).to.equal(null);
+        resolve();
+      }, 1);
+    });
   });
 
   it('should close the popup when escape is depressed in the popup', function test() {
@@ -305,7 +310,12 @@ describe('DropdownMenuInput', function suite() {
     Simulate.focus(popup);
     Simulate.keyDown(popup, { key: 'Escape' });
 
-    expect(this.container.querySelector('li')).to.equal(null);
+    return new Promise((resolve) => {
+      window.setTimeout(() => {
+        expect(this.container.querySelector('li')).to.equal(null);
+        resolve();
+      }, 1);
+    });
   });
 
   it('should close the popup when a menu item is selected', function test() {
@@ -332,7 +342,12 @@ describe('DropdownMenuInput', function suite() {
 
     Simulate.click(items.item(3));
 
-    expect(this.container.querySelector('li')).to.equal(null);
+    return new Promise((resolve) => {
+      window.setTimeout(() => {
+        expect(this.container.querySelector('li')).to.equal(null);
+        resolve();
+      }, 1);
+    });
   });
 
   it('should call onClose when the popup is closed', function test() {
@@ -366,7 +381,12 @@ describe('DropdownMenuInput', function suite() {
     Simulate.focus(popup);
     Simulate.keyDown(popup, { key: 'Escape' });
 
-    handlerCalled.should.equal(true);
+    return new Promise((resolve) => {
+      window.setTimeout(() => {
+        handlerCalled.should.equal(true);
+        resolve();
+      }, 1);
+    });
   });
 
   it('should update the input value when a menu item is selected', function test() {

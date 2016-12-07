@@ -5,15 +5,11 @@
   composes: common from './Input.css';
 }
 
-.common input, .common textarea {
+.common > input, .common > textarea {
   padding-right: 21px;
   background-image: url(../../images/dropdown.svg);
   background-repeat: no-repeat;
   background-position: right;
-}
-
-.common > div {
-  top: calc(inputHeight + activeEdgeWidth - 1px);
 }
 
 .common > div > header {
@@ -28,18 +24,4 @@
 .common > div > header+footer,
 .common > div > ul+footer {
   border-top: 1px solid textLight;
-}
-
-.embedded > div {
-  left: -1px;
-  top: calc(inputHeight + activeEdgeWidth - 2px);
-  min-width: calc(100% + 2px);
-}
-
-.open {
-  z-index: 2;
-}
-
-.open input, .open textarea {
-  outline: 2px solid;
 }

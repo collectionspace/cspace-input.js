@@ -1,3 +1,36 @@
+@value textDark, textMedium from '../colors.css';
+@value inputHeight, activeEdgeWidth from '../dimensions.css';
+
 .common {
   position: relative;
+}
+
+.normal {
+  composes: common;
+}
+
+.normal > div {
+  top: calc(inputHeight + activeEdgeWidth - 1px);
+}
+
+.embedded {
+  composes: common;
+}
+
+.embedded > div {
+  left: -1px;
+  top: calc(inputHeight + activeEdgeWidth - 2px);
+  min-width: calc(100% + 2px);
+}
+
+.open {
+  z-index: 2;
+}
+
+.open > input, .open > textarea {
+  outline: 2px solid textMedium;
+}
+
+.open > input:focus, .open > textarea:focus {
+  outline: 2px solid textDark;
 }

@@ -9,7 +9,6 @@ import styles from '../../styles/cspace-input/DropdownMenuInput.css';
 const propTypes = {
   ...DropdownInput.propTypes,
   className: PropTypes.string,
-  embedded: PropTypes.bool,
   menuHeader: PropTypes.node,
   menuFooter: PropTypes.node,
   open: PropTypes.bool,
@@ -159,7 +158,6 @@ export default class DropdownMenuInput extends Component {
 
     const {
       className,
-      embedded,
       menuHeader,
       menuFooter,
       options,
@@ -174,7 +172,6 @@ export default class DropdownMenuInput extends Component {
 
     const classes = classNames(className, {
       [styles.common]: true,
-      [styles.embedded]: embedded,
       [styles.open]: open,
     });
 
@@ -184,7 +181,6 @@ export default class DropdownMenuInput extends Component {
       <DropdownInput
         {...remainingProps}
         className={classes}
-        embedded={embedded}
         focusPopup={this.focusMenu}
         open={open}
         ref={this.handleDropdownInputRef}

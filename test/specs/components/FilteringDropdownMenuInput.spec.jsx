@@ -367,7 +367,14 @@ describe('FilteringDropdownMenuInput', function suite() {
 
     Simulate.keyDown(input, { key: 'Escape' });
 
-    input.value.should.equal('Value 3');
+    return new Promise((resolve) => {
+      window.setTimeout(() => {
+        resolve();
+      }, 1);
+    })
+    .then(() => {
+      input.value.should.equal('Value 3');
+    });
   });
 
   it('should revert to the last value when the input loses focus while filtering', function test() {
@@ -395,7 +402,14 @@ describe('FilteringDropdownMenuInput', function suite() {
 
     Simulate.blur(input, { relatedTarget: document.body });
 
-    input.value.should.equal('Value 3');
+    return new Promise((resolve) => {
+      window.setTimeout(() => {
+        resolve();
+      }, 1);
+    })
+    .then(() => {
+      input.value.should.equal('Value 3');
+    });
   });
 
   it('should display a message showing the current number of matching items', function test() {

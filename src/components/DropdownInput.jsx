@@ -8,7 +8,9 @@ const propTypes = {
   ...TextInput.propTypes,
   children: PropTypes.node,
   className: PropTypes.string,
+  embedded: PropTypes.bool,
   open: PropTypes.bool,
+  openOnFocus: PropTypes.bool,
 
   /*
    * A function that may be called to give focus to the contents of the popup. This is supplied as
@@ -17,6 +19,7 @@ const propTypes = {
    */
   focusPopup: PropTypes.func,
 
+  onBlur: PropTypes.func,
   onClose: PropTypes.func,
   onKeyDown: PropTypes.func,
   onOpen: PropTypes.func,
@@ -24,6 +27,7 @@ const propTypes = {
 
 const defaultProps = {
   className: '',
+  open: false,
 };
 
 export default class DropdownInput extends Component {
@@ -31,6 +35,7 @@ export default class DropdownInput extends Component {
     super(props);
 
     this.handleInputBlur = this.handleInputBlur.bind(this);
+    this.handleInputFocus = this.handleInputFocus.bind(this);
     this.handleInputMouseDown = this.handleInputMouseDown.bind(this);
     this.handleInputKeyDown = this.handleInputKeyDown.bind(this);
     this.handlePopupBlur = this.handlePopupBlur.bind(this);
@@ -63,9 +68,11 @@ export default class DropdownInput extends Component {
 
   close() {
     if (this.state.open) {
-      this.setState({
-        open: false,
-      });
+      setTimeout(() => {
+        this.setState({
+          open: false,
+        });
+      }, 0);
     }
   }
 
@@ -107,8 +114,26 @@ export default class DropdownInput extends Component {
   }
 
   handleInputBlur(event) {
+    const {
+      onBlur,
+    } = this.props;
+
+    if (onBlur) {
+      onBlur(event);
+    }
+
     if (!this.domNode.contains(event.relatedTarget)) {
       this.close();
+    }
+  }
+
+  handleInputFocus() {
+    const {
+      openOnFocus,
+    } = this.props;
+
+    if (openOnFocus) {
+      this.open();
     }
   }
 
@@ -170,6 +195,7 @@ export default class DropdownInput extends Component {
       children,
       className,
       focusPopup,
+      openOnFocus,
       onClose,
       onKeyDown,
       onOpen,
@@ -181,6 +207,7 @@ export default class DropdownInput extends Component {
       <TextInput
         {...remainingProps}
         onBlur={this.handleInputBlur}
+        onFocus={this.handleInputFocus}
         onKeyDown={this.handleInputKeyDown}
         onMouseDown={this.handleInputMouseDown}
       />
@@ -213,10 +240,19 @@ export default class DropdownInput extends Component {
 
   render() {
     const {
+      open,
+    } = this.state;
+
+    const {
       className,
+      embedded,
     } = this.props;
 
-    const classes = classNames(styles.common, className);
+    const classes = classNames(className, {
+      [styles.normal]: !embedded,
+      [styles.embedded]: embedded,
+      [styles.open]: open,
+    });
 
     return (
       <div

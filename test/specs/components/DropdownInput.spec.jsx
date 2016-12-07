@@ -1,4 +1,4 @@
-/* global document */
+/* global window, document */
 
 import React from 'react';
 import { Simulate } from 'react-addons-test-utils';
@@ -13,7 +13,7 @@ const expect = chai.expect;
 
 chai.should();
 
-const expectedClassName = 'cspace-input-DropdownInput--common';
+const expectedClassName = 'cspace-input-DropdownInput--normal cspace-input-DropdownInput--common';
 
 describe('DropdownInput', function suite() {
   beforeEach(function before() {
@@ -142,7 +142,12 @@ describe('DropdownInput', function suite() {
 
     Simulate.keyDown(input, { key: 'Escape' });
 
-    expect(this.container.querySelector('p')).to.equal(null);
+    return new Promise((resolve) => {
+      window.setTimeout(() => {
+        expect(this.container.querySelector('p')).to.equal(null);
+        resolve();
+      }, 1);
+    });
   });
 
   it('should close when focus is lost', function test() {
@@ -159,7 +164,12 @@ describe('DropdownInput', function suite() {
 
     Simulate.blur(input);
 
-    expect(this.container.querySelector('p')).to.equal(null);
+    return new Promise((resolve) => {
+      window.setTimeout(() => {
+        expect(this.container.querySelector('p')).to.equal(null);
+        resolve();
+      }, 1);
+    });
   });
 
   it('should not close when focus moves from the input to the popup', function test() {
@@ -178,7 +188,12 @@ describe('DropdownInput', function suite() {
 
     Simulate.blur(input, { relatedTarget: textarea });
 
-    this.container.querySelector('p').should.not.equal(null);
+    return new Promise((resolve) => {
+      window.setTimeout(() => {
+        this.container.querySelector('p').should.not.equal(null);
+        resolve();
+      }, 1);
+    });
   });
 
   it('should close when escape is depressed in the popup', function test() {
@@ -198,11 +213,16 @@ describe('DropdownInput', function suite() {
     Simulate.focus(textarea);
     Simulate.keyDown(textarea, { key: 'Escape' });
 
-    expect(this.container.querySelector('p')).to.equal(null);
+    return new Promise((resolve) => {
+      window.setTimeout(() => {
+        expect(this.container.querySelector('p')).to.equal(null);
 
-    // Focus should return to the input
+        // Focus should return to the input
 
-    document.activeElement.should.equal(input);
+        document.activeElement.should.equal(input);
+        resolve();
+      }, 1);
+    });
   });
 
   it('should close when the popup loses focus', function test() {
@@ -222,7 +242,12 @@ describe('DropdownInput', function suite() {
     Simulate.focus(textarea);
     Simulate.blur(textarea);
 
-    expect(this.container.querySelector('p')).to.equal(null);
+    return new Promise((resolve) => {
+      window.setTimeout(() => {
+        expect(this.container.querySelector('p')).to.equal(null);
+        resolve();
+      }, 1);
+    });
   });
 
 
@@ -243,7 +268,12 @@ describe('DropdownInput', function suite() {
     Simulate.focus(textarea);
     Simulate.blur(textarea, { relatedTarget: input });
 
-    this.container.querySelector('p').should.not.equal(null);
+    return new Promise((resolve) => {
+      window.setTimeout(() => {
+        this.container.querySelector('p').should.not.equal(null);
+        resolve();
+      }, 1);
+    });
   });
 
   it('should call onClose when the popup closes', function test() {
@@ -269,7 +299,12 @@ describe('DropdownInput', function suite() {
     Simulate.focus(textarea);
     Simulate.keyDown(textarea, { key: 'Escape' });
 
-    handlerCalled.should.equal(true);
+    return new Promise((resolve) => {
+      window.setTimeout(() => {
+        handlerCalled.should.equal(true);
+        resolve();
+      }, 1);
+    });
   });
 
   it('should call onKeyDown when a key is depressed in the input', function test() {
