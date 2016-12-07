@@ -19,6 +19,7 @@ const propTypes = {
    */
   focusPopup: PropTypes.func,
 
+  onBlur: PropTypes.func,
   onClose: PropTypes.func,
   onKeyDown: PropTypes.func,
   onOpen: PropTypes.func,
@@ -26,6 +27,7 @@ const propTypes = {
 
 const defaultProps = {
   className: '',
+  open: false,
 };
 
 export default class DropdownInput extends Component {
@@ -66,9 +68,11 @@ export default class DropdownInput extends Component {
 
   close() {
     if (this.state.open) {
-      this.setState({
-        open: false,
-      });
+      setTimeout(() => {
+        this.setState({
+          open: false,
+        });
+      }, 0);
     }
   }
 
@@ -110,12 +114,20 @@ export default class DropdownInput extends Component {
   }
 
   handleInputBlur(event) {
+    const {
+      onBlur,
+    } = this.props;
+
+    if (onBlur) {
+      onBlur(event);
+    }
+
     if (!this.domNode.contains(event.relatedTarget)) {
       this.close();
     }
   }
 
-  handleInputFocus(event) {
+  handleInputFocus() {
     const {
       openOnFocus,
     } = this.props;

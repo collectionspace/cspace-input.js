@@ -35,6 +35,7 @@ const fieldLabels = {
 
 const propTypes = {
   formatFieldLabel: PropTypes.func,
+  formatOptionLabel: PropTypes.func,
   name: PropTypes.string,
   optionLists: PropTypes.object,
   parentPath: pathPropType,
@@ -45,10 +46,11 @@ const propTypes = {
     PropTypes.instanceOf(Immutable.Map),
   ]),
   onCommit: PropTypes.func,
+  onMount: PropTypes.func,
 };
 
 const defaultProps = {
-  formatFieldLabel: id => fieldLabels[id],
+  formatFieldLabel: name => fieldLabels[name],
   optionLists: {},
   terms: {},
 };
@@ -56,9 +58,25 @@ const defaultProps = {
 export default class StructuredDateInput extends Component {
   constructor(props) {
     super(props);
-    
+
+    this.handleDropdownInputClose = this.handleDropdownInputClose.bind(this);
+    this.handleDropdownInputOpen = this.handleDropdownInputOpen.bind(this);
     this.handleInputCommit = this.handleInputCommit.bind(this);
     this.handlePrimaryInputCommit = this.handlePrimaryInputCommit.bind(this);
+
+    this.state = {
+      open: false,
+    };
+  }
+
+  componentDidMount() {
+    const {
+      onMount,
+    } = this.props;
+
+    if (onMount) {
+      onMount();
+    }
   }
 
   getValue(name) {
@@ -76,53 +94,64 @@ export default class StructuredDateInput extends Component {
 
     return value[name];
   }
-  
-  setValue(name, value) {
-    let {
-      value: structuredDateValue,
-    } = this.props;
 
-    if (!structuredDateValue) {
-      structuredDateValue = {};
-    }
-
-    if (Immutable.Map.isMap(structuredDateValue)) {
-      return structuredDateValue.set(name, value);
-    }
-
-    return Object.assign({}, structuredDateValue, { [name]: value});
+  handleDropdownInputClose() {
+    this.setState({
+      open: false,
+    });
   }
 
-  handlePrimaryInputCommit(path, value) {
-    this.handleInputCommit(path.concat('dateDisplayDate'), value);
+  handleDropdownInputOpen() {
+    this.setState({
+      open: true,
+    });
   }
 
   handleInputCommit(path, value) {
-    const name = path[path.length - 1];
-
     const {
       onCommit,
     } = this.props;
-    
+
     if (onCommit) {
-      onCommit(getPath(this.props), this.setValue(name, value));
+      onCommit([...getPath(this.props), ...path], value);
     }
+  }
+
+  handlePrimaryInputCommit(path, value) {
+    this.handleInputCommit(['dateDisplayDate'], value);
   }
 
   render() {
     const {
       formatFieldLabel,
+      formatOptionLabel,
       optionLists,
       terms,
       value,
+      /* eslint-disable no-unused-vars */
+      name,
+      parentPath,
+      subpath,
+      onCommit,
+      onMount,
+      /* eslint-enable no-unused-vars */
+      ...remainingProps
     } = this.props;
+
+    const {
+      open,
+    } = this.state;
 
     return (
       <DropdownInput
+        {...remainingProps}
         className={styles.normal}
+        open={open}
         openOnFocus
         value={this.getValue('dateDisplayDate')}
+        onClose={this.handleDropdownInputClose}
         onCommit={this.handlePrimaryInputCommit}
+        onOpen={this.handleDropdownInputOpen}
       >
         <CustomCompoundInput value={value}>
           <Row>
@@ -151,7 +180,7 @@ export default class StructuredDateInput extends Component {
           <table>
             <thead>
               <tr>
-                <th></th>
+                <th />
                 <th><Label>{formatFieldLabel('dateYear')}</Label></th>
                 <th><Label>{formatFieldLabel('dateMonth')}</Label></th>
                 <th><Label>{formatFieldLabel('dateDay')}</Label></th>
@@ -176,8 +205,8 @@ export default class StructuredDateInput extends Component {
                   <TextInput
                     embedded
                     name="dateEarliestSingleMonth"
-                    onCommit={this.handleInputCommit
-                  }/>
+                    onCommit={this.handleInputCommit}
+                  />
                 </td>
                 <td>
                   <TextInput
@@ -190,7 +219,7 @@ export default class StructuredDateInput extends Component {
                   <VocabularyControlledInput
                     embedded
                     name="dateEarliestSingleEra"
-                    terms={terms.dateEra}
+                    terms={terms.dateera}
                     onCommit={this.handleInputCommit}
                   />
                 </td>
@@ -198,15 +227,16 @@ export default class StructuredDateInput extends Component {
                   <VocabularyControlledInput
                     embedded
                     name="dateEarliestSingleCertainty"
-                    terms={terms.dateCertainty}
+                    terms={terms.datecertainty}
                     onCommit={this.handleInputCommit}
                   />
                 </td>
                 <td>
                   <OptionListControlledInput
                     embedded
+                    formatOptionLabel={formatOptionLabel}
                     name="dateEarliestSingleQualifier"
-                    options={optionLists.dateQualifier}
+                    options={optionLists.dateQualifiers}
                     onCommit={this.handleInputCommit}
                   />
                 </td>
@@ -221,7 +251,7 @@ export default class StructuredDateInput extends Component {
                   <VocabularyControlledInput
                     embedded
                     name="dateEarliestSingleQualifierUnit"
-                    terms={terms.dateQualifierUnit}
+                    terms={terms.datequalifier}
                     onCommit={this.handleInputCommit}
                   />
                 </td>
@@ -256,7 +286,7 @@ export default class StructuredDateInput extends Component {
                   <VocabularyControlledInput
                     embedded
                     name="dateLatestEra"
-                    terms={terms.dateEra}
+                    terms={terms.dateera}
                     value={this.getValue('dateLatestEra')}
                     onCommit={this.handleInputCommit}
                   />
@@ -265,7 +295,7 @@ export default class StructuredDateInput extends Component {
                   <VocabularyControlledInput
                     embedded
                     name="dateLatestCertainty"
-                    terms={terms.dateCertainty}
+                    terms={terms.datecertainty}
                     value={this.getValue('dateLatestCertainty')}
                     onCommit={this.handleInputCommit}
                   />
@@ -273,8 +303,9 @@ export default class StructuredDateInput extends Component {
                 <td>
                   <OptionListControlledInput
                     embedded
+                    formatOptionLabel={formatOptionLabel}
                     name="dateLatestQualifier"
-                    options={optionLists.dateQualifier}
+                    options={optionLists.dateQualifiers}
                     value={this.getValue('dateLatestQualifier')}
                     onCommit={this.handleInputCommit}
                   />
@@ -291,7 +322,7 @@ export default class StructuredDateInput extends Component {
                   <VocabularyControlledInput
                     embedded
                     name="dateLatestQualifierUnit"
-                    terms={terms.dateQualifierUnit}
+                    terms={terms.datequalifier}
                     value={this.getValue('dateLatestQualifierUnit')}
                     onCommit={this.handleInputCommit}
                   />

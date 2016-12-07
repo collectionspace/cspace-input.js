@@ -9,11 +9,13 @@
 
 .normal > div {
   padding: 10px;
+  background-color: rgb(245, 245, 245);
 }
 
 .normal > div table {
   border-collapse: collapse;
   border: 1px solid textLight;
+  min-width: 600px;
 }
 
 .normal > div table tbody td, .normal > div table tbody th {

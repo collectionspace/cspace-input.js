@@ -12,6 +12,7 @@ import PasswordInput from './components/PasswordInput';
 import PrefixFilteringDropdownMenuInput from './components/PrefixFilteringDropdownMenuInput';
 import ReadOnlyInput from './components/ReadOnlyInput';
 import RepeatingInput from './components/RepeatingInput';
+import StructuredDateInput from './components/StructuredDateInput';
 import TabularCompoundInput from './components/TabularCompoundInput';
 import TextInput from './components/TextInput';
 import VocabularyControlledInput from './components/VocabularyControlledInput';
@@ -41,13 +42,13 @@ export const baseComponents = {
   PrefixFilteringDropdownMenuInput,
   ReadOnlyInput,
   RepeatingInput,
+  StructuredDateInput,
   TabularCompoundInput,
   TextInput,
   VocabularyControlledInput,
   // Stubs
   IDGeneratorInput: LineInput,
   DateInput: LineInput,
-  StructuredDateInput: LineInput,
 };
 
 export const components = {
@@ -63,13 +64,13 @@ export const components = {
   MultilineInput: standalone(MultilineInput),
   OptionListControlledInput: repeatable(labelable(OptionListControlledInput)),
   PasswordInput: standalone(PasswordInput),
+  StructuredDateInput: repeatable(labelable(StructuredDateInput)),
   TabularCompoundInput: labelable(TabularCompoundInput),
   TextInput: standalone(TextInput),
   VocabularyControlledInput: repeatable(labelable(VocabularyControlledInput)),
   // Stubs
   IDGeneratorInput: standalone(LineInput),
   DateInput: standalone(LineInput),
-  StructuredDateInput: standalone(LineInput),
 };
 
 export const enhancers = {
