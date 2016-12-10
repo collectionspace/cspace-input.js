@@ -1,0 +1,24 @@
+@value textMedium from '../colors.css';
+
+.common > input, .common > textarea {
+  padding-right: 21px;
+  background-image: url(../../images/calDate.svg);
+  background-repeat: no-repeat;
+  background-position: right;
+}
+
+.common > div {
+  min-width: auto;
+}
+
+.normal {
+  composes: common;
+}
+
+.provisional {
+  composes: common;
+}
+
+.provisional input, .provisional textarea {
+  color: textMedium;
+}
