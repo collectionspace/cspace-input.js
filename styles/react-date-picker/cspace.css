@@ -1,0 +1,180 @@
+.react-date-picker__month-view--theme-cspace {
+  position: relative;
+  overflow: hidden;
+  font-family: 'Open Sans', Arial, sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  color: rgb(70, 70, 70);
+  padding: 4px;
+}
+
+.react-date-picker__month-view--theme-cspace .react-date-picker__month-view-day .react-date-picker__month-view-day-text {
+  outline-offset: -1px;
+  margin: 1px;
+  border: 1px solid transparent;
+  text-align: center;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: default;
+}
+
+.react-date-picker__month-view--theme-cspace .react-date-picker__month-view-week-day-names {
+  font-size: 12px;
+  height: 20px;
+}
+
+.react-date-picker__month-view--theme-cspace .react-date-picker__month-view-week-day-name,
+.react-date-picker__month-view--theme-cspace .react-date-picker__basic-month-view-week-day-name {
+  width: 32px;
+  margin: 1px;
+  padding: 0;
+  color: rgb(160, 160, 160);
+}
+
+.react-date-picker__month-view--theme-cspace .react-date-picker__month-view-day .react-date-picker__month-view-day-text:hover,
+.react-date-picker__decade-view--theme-cspace .react-date-picker__decade-view-year:hover,
+.react-date-picker__year-view--theme-cspace .react-date-picker__year-view-month:hover {
+  background-color: #F0F5FB;
+}
+
+.react-date-picker__month-view--theme-cspace .react-date-picker__month-view-day.react-date-picker__month-view-day--this-month .react-date-picker__month-view-day-text {
+  border: 1px solid rgb(220, 220, 220);
+}
+
+.react-date-picker__month-view--theme-cspace .react-date-picker__month-view-day.react-date-picker__month-view-day--prev-month .react-date-picker__month-view-day-text,
+.react-date-picker__month-view--theme-cspace .react-date-picker__month-view-day.react-date-picker__month-view-day--next-month .react-date-picker__month-view-day-text {
+  color: rgb(160, 160, 160);
+}
+
+.react-date-picker__month-view--theme-cspace .react-date-picker__month-view-day.react-date-picker__month-view-day--active .react-date-picker__month-view-day-text,
+.react-date-picker__decade-view--theme-cspace .react-date-picker__decade-view-year--active,
+.react-date-picker__year-view--theme-cspace .react-date-picker__year-view-month--active {
+  outline: 2px solid rgb(160, 160, 160);
+}
+
+.react-date-picker__month-view--theme-cspace .react-date-picker__month-view-day.react-date-picker__month-view-day--value  {
+  background-image: url(../../images/check.svg);
+  background-position: center center;
+  background-repeat: no-repeat;
+}
+
+.react-date-picker__month-view--theme-cspace .react-date-picker__month-view-day.react-date-picker__month-view-day--value .react-date-picker__month-view-day-text {
+  background-color: rgba(255, 255, 255, .8);
+}
+
+.react-date-picker__month-view--theme-cspace:focus .react-date-picker__month-view-day.react-date-picker__month-view-day--active .react-date-picker__month-view-day-text,
+.react-date-picker__month-view--theme-cspace:focus .react-date-picker__decade-view--theme-cspace .react-date-picker__decade-view-year--active,
+.react-date-picker__month-view--theme-cspace:focus .react-date-picker__year-view--theme-cspace .react-date-picker__year-view-month--active {
+  outline: 2px solid rgb(70, 70, 70);
+}
+
+/*
+.react-date-picker__footer--theme-cspace,
+.react-date-picker__history-view--theme-cspace .react-date-picker__footer {
+  justify-content: flex-end;
+}
+
+.react-date-picker__history-view--theme-cspace .react-date-picker__footer > div {
+  display: none;
+}
+*/
+
+.react-date-picker__footer--theme-cspace .react-date-picker__footer-button,
+.react-date-picker__history-view--theme-cspace .react-date-picker__footer-button {
+  font-family: 'Open Sans', Arial, sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  box-sizing: border-box;
+
+  margin: 2px;
+  outline: none;
+  border: 0;
+  border-radius: 3px;
+  padding: 6px;
+
+  color: rgb(255, 255, 255);
+  background-color: #73AA4F;
+}
+
+.react-date-picker__footer--theme-cspace .react-date-picker__footer-button:hover,
+.react-date-picker__history-view--theme-cspace .react-date-picker__footer-button:hover {
+  background-color: #4A7F28;
+}
+
+.react-date-picker__footer--theme-cspace .react-date-picker__footer-button:focus,
+.react-date-picker__history-view--theme-cspace .react-date-picker__footer-button:focus {
+  box-shadow: 0 0 0 2px #4A7F28;
+}
+
+.react-date-picker__footer--theme-cspace .react-date-picker__footer-button::-moz-focus-inner,
+.react-date-picker__history-view--theme-cspace .react-date-picker__footer-button::-moz-focus-inner {
+  border: 0;
+}
+
+.react-date-picker__nav-bar--theme-cspace .react-date-picker__nav-bar-date {
+  cursor: default;
+}
+
+.react-date-picker__nav-bar--theme-cspace .react-date-picker__nav-bar-date:hover {
+  color: #73AA4F;
+}
+
+.react-date-picker__nav-bar--theme-cspace .react-date-picker__nav-bar-arrow,
+.react-date-picker__decade-view--theme-cspace .react-date-picker__decade-view-arrow {
+  fill: rgb(70, 70, 70);
+  cursor: default;
+  position: relative;
+}
+
+.react-date-picker__nav-bar--theme-cspace .react-date-picker__nav-bar-arrow--disabled,
+.react-date-picker__decade-view--theme-cspace .react-date-picker__decade-view-arrow--disabled {
+  fill: rgb(220, 220, 220);
+}
+
+.react-date-picker__nav-bar--theme-cspace .react-date-picker__nav-bar-arrow:not(.react-date-picker__nav-bar-arrow--disabled):hover,
+.react-date-picker__decade-view--theme-cspace .react-date-picker__decade-view-arrow:not(.react-date-picker__decade-view-arrow--disabled):hover {
+  fill: #73AA4F;
+}
+
+.react-date-picker__nav-bar--theme-cspace .react-date-picker__nav-bar-arrow:not(.react-date-picker__nav-bar-arrow--disabled):active,
+.react-date-picker__decade-view--theme-cspace .react-date-picker__decade-view-arrow:not(.react-date-picker__decade-view-arrow--disabled):active {
+  top: 1px;
+}
+
+.react-date-picker__history-view--theme-cspace {
+  left: 0;
+  width: 100%;
+  background: white;
+}
+
+.react-date-picker__year-view--theme-cspace {
+  padding: 20px 0 0 0;
+}
+
+.react-date-picker__decade-view--theme-cspace {
+  padding: 17px 0;
+}
+
+.react-date-picker__year-view--theme-cspace .react-date-picker__year-view-month,
+.react-date-picker__decade-view--theme-cspace .react-date-picker__decade-view-year {
+  outline-offset: -1px;
+  margin: 1px;
+  border: 1px solid rgb(220, 220, 220);
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: default;
+}
+
+.react-date-picker__decade-view--theme-cspace .react-date-picker__decade-view-year {
+  font-size: 12px;
+}
+
+.react-date-picker__decade-view--theme-cspace .react-date-picker__decade-view-year--disabled,
+.react-date-picker__year-view--theme-cspace .react-date-picker__year-view-month--disabled {
+  color: rgb(220, 220, 220);
+}
