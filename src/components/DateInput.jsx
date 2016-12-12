@@ -233,6 +233,7 @@ export default class DateInput extends Component {
         >
           <NavBar
             renderHistoryView={this.renderHistoryView}
+            secondary
           />
           <Footer
             todayButtonText={todayButtonLabel}
