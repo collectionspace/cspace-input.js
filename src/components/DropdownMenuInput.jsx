@@ -16,6 +16,7 @@ const propTypes = {
     value: PropTypes.string,
     label: PropTypes.string,
   })),
+  renderItemLabel: PropTypes.func,
   valueLabel: PropTypes.string,
   onClose: PropTypes.func,
   onCommit: PropTypes.func,
@@ -52,8 +53,8 @@ export default class DropdownMenuInput extends Component {
     super(props);
 
     this.handleDropdownInputClose = this.handleDropdownInputClose.bind(this);
+    this.handleDropdownInputMount = this.handleDropdownInputMount.bind(this);
     this.handleDropdownInputOpen = this.handleDropdownInputOpen.bind(this);
-    this.handleDropdownInputRef = this.handleDropdownInputRef.bind(this);
     this.handleMenuRef = this.handleMenuRef.bind(this);
     this.handleMenuSelect = this.handleMenuSelect.bind(this);
     this.focusMenu = this.focusMenu.bind(this);
@@ -111,6 +112,10 @@ export default class DropdownMenuInput extends Component {
     }
   }
 
+  handleDropdownInputMount({ focusInput }) {
+    this.focusInput = focusInput;
+  }
+
   handleDropdownInputOpen() {
     this.setState({
       open: true,
@@ -123,10 +128,6 @@ export default class DropdownMenuInput extends Component {
     if (onOpen) {
       onOpen();
     }
-  }
-
-  handleDropdownInputRef(ref) {
-    this.dropdownInput = ref;
   }
 
   handleMenuRef(ref) {
@@ -146,7 +147,7 @@ export default class DropdownMenuInput extends Component {
     });
 
     this.commit(value);
-    this.dropdownInput.focusInput();
+    this.focusInput();
   }
 
   render() {
@@ -161,6 +162,7 @@ export default class DropdownMenuInput extends Component {
       menuHeader,
       menuFooter,
       options,
+      renderItemLabel,
       /* eslint-disable no-unused-vars */
       blankable,
       open: openProp,
@@ -183,10 +185,10 @@ export default class DropdownMenuInput extends Component {
         className={classes}
         focusPopup={this.focusMenu}
         open={open}
-        ref={this.handleDropdownInputRef}
         spellCheck={false}
         value={inputValue}
         onClose={this.handleDropdownInputClose}
+        onMount={this.handleDropdownInputMount}
         onOpen={this.handleDropdownInputOpen}
       >
         {renderMenuHeader(menuHeader)}
@@ -194,6 +196,7 @@ export default class DropdownMenuInput extends Component {
           options={options}
           ref={this.handleMenuRef}
           tabIndex="-1"
+          renderItemLabel={renderItemLabel}
           value={value}
           onSelect={this.handleMenuSelect}
         />

@@ -5,5 +5,6 @@ li.selected {
 }
 
 li.focused {
-  border: 1px dotted black;
+  outline-offset: -1px;
+  outline: 1px dotted black;
 }

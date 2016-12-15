@@ -8,12 +8,15 @@ const propTypes = {
     value: PropTypes.string,
   })),
   tabIndex: PropTypes.string,
+  renderItemLabel: PropTypes.func,
   value: PropTypes.string,
   onSelect: PropTypes.func,
 };
 
 const defaultProps = {
   options: [],
+  // Display a no break space if the label is blank, so height is preserved.
+  renderItemLabel: label => (label || ' '),
   tabIndex: '0',
 };
 
@@ -113,7 +116,7 @@ export default class Menu extends Component {
   }
 
   handleItemClick(event) {
-    const index = parseInt(event.target.dataset.index, 10);
+    const index = parseInt(event.currentTarget.dataset.index, 10);
 
     this.isItemMouseDown = false;
     this.selectItem(index);
@@ -188,6 +191,7 @@ export default class Menu extends Component {
 
     const {
       options,
+      renderItemLabel,
     } = this.props;
 
     return options.map((option, index) => {
@@ -204,10 +208,6 @@ export default class Menu extends Component {
       const ref = (optionValue === value)
         ? this.handleSelectedItemRef
         : null;
-
-      // Display a no break space if the label is blank, so height is preserved.
-
-      const label = optionLabel || ' ';
 
       // TODO: ARIA
       // https://www.w3.org/WAI/GL/wiki/index.php?title=Using_aria-activedescendant&oldid=2629
@@ -230,7 +230,7 @@ export default class Menu extends Component {
           // of the mouse may be updated before onFocus fires.
           onMouseDownCapture={this.handleItemMouseDownCapture}
         >
-          {label}
+          {renderItemLabel(optionLabel)}
         </li>
         /* eslint-enable jsx-a11y/no-static-element-interactions */
       );

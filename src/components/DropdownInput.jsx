@@ -22,6 +22,7 @@ const propTypes = {
   onBlur: PropTypes.func,
   onClose: PropTypes.func,
   onKeyDown: PropTypes.func,
+  onMount: PropTypes.func,
   onOpen: PropTypes.func,
 };
 
@@ -46,6 +47,18 @@ export default class DropdownInput extends Component {
     this.state = {
       open: props.open,
     };
+  }
+
+  componentDidMount() {
+    const {
+      onMount,
+    } = this.props;
+
+    if (onMount) {
+      onMount({
+        focusInput: this.focusInput.bind(this),
+      });
+    }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -198,6 +211,7 @@ export default class DropdownInput extends Component {
       openOnFocus,
       onClose,
       onKeyDown,
+      onMount,
       onOpen,
       /* eslint-enable no-unused-vars */
       ...remainingProps

@@ -71,7 +71,7 @@ describe('Menu', function suite() {
     listItems.item(2).textContent.should.equal('Label 3');
   });
 
-  it('should render empty labels as a no break space', function test() {
+  it('should render empty labels as a no break space by default', function test() {
     const options = [
       { value: 'value1', label: null },
       { value: 'value2', label: '' },
@@ -85,6 +85,28 @@ describe('Menu', function suite() {
     listItems.item(0).textContent.should.equal(' ');
     listItems.item(1).textContent.should.equal(' ');
     listItems.item(2).textContent.should.equal(' ');
+  });
+
+  it('should use renderItemLabel to render labels if supplied', function test() {
+    const options = [
+      { value: 'value1', label: 'Label 1' },
+      { value: 'value2', label: 'Label 2' },
+      { value: 'value3', label: 'Label 3' },
+    ];
+
+    const renderItemLabel = label => `rendered ${label}`;
+
+    render(
+      <Menu
+        options={options}
+        renderItemLabel={renderItemLabel}
+      />, this.container);
+
+    const listItems = this.container.firstElementChild.querySelectorAll('li');
+
+    listItems.item(0).textContent.should.equal('rendered Label 1');
+    listItems.item(1).textContent.should.equal('rendered Label 2');
+    listItems.item(2).textContent.should.equal('rendered Label 3');
   });
 
   it('should render the selected option with the correct class', function test() {
@@ -225,6 +247,41 @@ describe('Menu', function suite() {
     const item3 = this.container.firstElementChild.querySelectorAll('li').item(2);
 
     Simulate.click(item3);
+
+    selectedOption.should.deep.equal({ value: 'value3', label: 'Label 3' });
+  });
+
+  it('should call onSelect when an option rendered with children is clicked', function test() {
+    let selectedOption = null;
+
+    const handleSelect = (option) => {
+      selectedOption = option;
+    };
+
+    const options = [
+      { value: 'value1', label: 'Label 1' },
+      { value: 'value2', label: 'Label 2' },
+      { value: 'value3', label: 'Label 3' },
+    ];
+
+    const renderItemLabel = label => (
+      <div>
+        <span>{label}</span> <span> as child</span>
+      </div>
+    );
+
+    render(
+      <Menu
+        options={options}
+        renderItemLabel={renderItemLabel}
+        value="value2"
+        onSelect={handleSelect}
+      />, this.container);
+
+    const item3 = this.container.firstElementChild.querySelectorAll('li').item(2);
+    const span = item3.querySelector('span');
+
+    Simulate.click(span);
 
     selectedOption.should.deep.equal({ value: 'value3', label: 'Label 3' });
   });
