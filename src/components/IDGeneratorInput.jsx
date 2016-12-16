@@ -4,6 +4,7 @@ import BaseDropdownInput from './DropdownInput';
 import Menu from './Menu';
 import changeable from '../enhancers/changeable';
 import committable from '../enhancers/committable';
+import { getPath } from '../helpers/pathHelpers';
 import styles from '../../styles/cspace-input/IDGeneratorInput.css';
 
 const DropdownInput = committable(changeable(BaseDropdownInput));
@@ -14,6 +15,8 @@ const propTypes = {
   generateID: PropTypes.func,
   sampleColumnLabel: PropTypes.string,
   typeColumnLabel: PropTypes.string,
+  onMount: PropTypes.func,
+  onOpen: PropTypes.func,
 };
 
 const defaultProps = {
@@ -34,13 +37,25 @@ export default class IDGeneratorInput extends Component {
     super(props);
 
     this.focusMenu = this.focusMenu.bind(this);
+    this.handleDropdownInputClose = this.handleDropdownInputClose.bind(this);
     this.handleDropdownInputMount = this.handleDropdownInputMount.bind(this);
+    this.handleDropdownInputOpen = this.handleDropdownInputOpen.bind(this);
     this.handleMenuRef = this.handleMenuRef.bind(this);
     this.handleMenuSelect = this.handleMenuSelect.bind(this);
 
     this.state = {
       open: false,
     };
+  }
+
+  componentDidMount() {
+    const {
+      onMount,
+    } = this.props;
+
+    if (onMount) {
+      onMount();
+    }
   }
 
   focusMenu() {
@@ -51,6 +66,27 @@ export default class IDGeneratorInput extends Component {
 
   handleDropdownInputMount({ focusInput }) {
     this.focusInput = focusInput;
+  }
+
+  handleDropdownInputClose() {
+    this.setState({
+      open: false,
+    });
+  }
+
+  handleDropdownInputOpen() {
+    const {
+      onOpen,
+      patterns,
+    } = this.props;
+
+    if (onOpen) {
+      onOpen(patterns);
+    }
+
+    this.setState({
+      open: true,
+    });
   }
 
   handleMenuRef(ref) {
@@ -69,7 +105,7 @@ export default class IDGeneratorInput extends Component {
     } = this.props;
 
     if (generateID) {
-      generateID(option.value);
+      generateID(option.value, getPath(this.props));
     }
   }
 
@@ -82,19 +118,28 @@ export default class IDGeneratorInput extends Component {
       patterns,
       sampleColumnLabel,
       typeColumnLabel,
+      /* eslint-disable no-unused-vars */
+      generateID,
+      onMount,
+      onOpen,
+      /* eslint-enable no-unused-vars */
+      ...remainingProps
     } = this.props;
 
     const options = patterns.map(pattern => ({
-      value: pattern.csid,
+      value: pattern.name,
       label: [pattern.type, pattern.sample],
     }));
 
     return (
       <DropdownInput
+        {...remainingProps}
         className={styles.normal}
         focusPopup={this.focusMenu}
         open={open}
+        onClose={this.handleDropdownInputClose}
         onMount={this.handleDropdownInputMount}
+        onOpen={this.handleDropdownInputOpen}
       >
         <header>
           <Row>
@@ -106,6 +151,7 @@ export default class IDGeneratorInput extends Component {
           options={options}
           ref={this.handleMenuRef}
           renderItemLabel={renderItemLabel}
+          tabIndex="-1"
           onSelect={this.handleMenuSelect}
         />
       </DropdownInput>

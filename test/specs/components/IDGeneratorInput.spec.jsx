@@ -11,17 +11,17 @@ chai.should();
 
 const patterns = [
   {
-    csid: '9dd92952-c384-44dc-a736-95e435c1759c',
+    name: 'accession',
     type: 'Accession Number',
     sample: '2016.1.1',
   },
   {
-    csid: '8088cfa5-c743-4824-bb4d-fb11b12847f7',
+    name: 'intake',
     type: 'Intake Number',
     sample: 'IN2016.1.1',
   },
   {
-    csid: 'ed87e7c6-0678-4f42-9d33-f671835586ef',
+    name: 'loanin',
     type: 'Loan In Number',
     sample: 'LI2016.1.1',
   },
@@ -34,6 +34,42 @@ describe('IDGeneratorInput', function suite() {
 
   it('should be considered an input by isInput()', function test() {
     isInput(<IDGeneratorInput />).should.equal(true);
+  });
+
+  it('should call onMount when mounted', function test() {
+    let handlerCalled = false;
+
+    const handleMount = () => {
+      handlerCalled = true;
+    };
+
+    render(
+      <IDGeneratorInput
+        patterns={patterns}
+        onMount={handleMount}
+      />, this.container);
+
+    handlerCalled.should.equal(true);
+  });
+
+  it('should call onOpen when opened', function test() {
+    let openWithPatterns = null;
+
+    const handleOpen = (withPatterns) => {
+      openWithPatterns = withPatterns;
+    };
+
+    render(
+      <IDGeneratorInput
+        onOpen={handleOpen}
+        patterns={patterns}
+      />, this.container);
+
+    const input = this.container.querySelector('input');
+
+    Simulate.mouseDown(input);
+
+    openWithPatterns.should.deep.equal(patterns);
   });
 
   it('should show a menu containing pattern types and samples when open', function test() {
@@ -88,10 +124,12 @@ describe('IDGeneratorInput', function suite() {
   });
 
   it('should call generateID when a pattern is selected', function test() {
-    let generatePatternCsid = null;
+    let generateIDPatternName = null;
+    let generateIDPath = null;
 
-    const generateID = (patternCsid) => {
-      generatePatternCsid = patternCsid;
+    const generateID = (patternName, path) => {
+      generateIDPatternName = patternName;
+      generateIDPath = path;
     };
 
     render(
@@ -108,7 +146,8 @@ describe('IDGeneratorInput', function suite() {
 
     Simulate.click(items[1]);
 
-    generatePatternCsid.should.equal(patterns[1].csid);
+    generateIDPatternName.should.equal(patterns[1].name);
+    generateIDPath.should.be.an('array');
   });
 
   it('should focus the menu when focusMenu is called', function test() {
