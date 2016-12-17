@@ -20,7 +20,7 @@
   display: block;
   box-sizing: border-box;
   width: 100%;
-  border: 1px solid white;
+  border: none;
   padding: 0 18px;
   white-space: nowrap;
   text-align: left;
@@ -28,12 +28,11 @@
   background-size: 14px 14px;
 }
 
-.normal button:hover, .normal button:focus {
+.normal button:hover {
   background-color: #C3E2AF;
 }
 
 .normal button:focus {
-  background-color: #BBE2A1;
   outline-offset: -1px;
   outline: 1px dotted black;
 }

@@ -36,6 +36,19 @@ describe('DropdownInput', function suite() {
     this.container.firstElementChild.className.should.equal(expectedClassName);
   });
 
+  it('should call onMount when mounted, and supply a focusInput function', function test() {
+    let onMountArgs = null;
+
+    const handleMount = (args) => {
+      onMountArgs = args;
+    };
+
+    render(<DropdownInput onMount={handleMount} />, this.container);
+
+    onMountArgs.should.be.an('object')
+      .with.property('focusInput').that.is.a('function');
+  });
+
   it('should open and close depending on the open prop', function test() {
     render(
       <DropdownInput open>
@@ -70,6 +83,32 @@ describe('DropdownInput', function suite() {
     Simulate.mouseDown(input);
 
     this.container.querySelector('p').textContent.should.equal('content');
+  });
+
+  it('should open on focus if openOnFocus is true', function test() {
+    render(
+      <DropdownInput openOnFocus>
+        <p>content</p>
+      </DropdownInput>, this.container);
+
+    const input = this.container.querySelector('input');
+
+    Simulate.focus(input);
+
+    this.container.querySelector('p').textContent.should.equal('content');
+  });
+
+  it('should not open on focus if openOnFocus is false', function test() {
+    render(
+      <DropdownInput openOnFocus={false}>
+        <p>content</p>
+      </DropdownInput>, this.container);
+
+    const input = this.container.querySelector('input');
+
+    Simulate.focus(input);
+
+    expect(this.container.querySelector('p')).to.equal(null);
   });
 
   it('should open when down arrow is depressed in the input', function test() {
@@ -172,6 +211,25 @@ describe('DropdownInput', function suite() {
     });
   });
 
+  it('should call onBlur when the input loses focus', function test() {
+    let handlerCalled = false;
+
+    const handleBlur = () => {
+      handlerCalled = true;
+    };
+
+    render(
+      <DropdownInput onBlur={handleBlur}>
+        <p>content</p>
+      </DropdownInput>, this.container);
+
+    const input = this.container.querySelector('input');
+
+    Simulate.blur(input);
+
+    handlerCalled.should.equal(true);
+  });
+
   it('should not close when focus moves from the input to the popup', function test() {
     render(
       <DropdownInput>
@@ -194,6 +252,31 @@ describe('DropdownInput', function suite() {
         resolve();
       }, 1);
     });
+  });
+
+  it('should call onBlur when focus moves from the input to the popup', function test() {
+    let handlerCalled = false;
+
+    const handleBlur = () => {
+      handlerCalled = true;
+    };
+
+    render(
+      <DropdownInput onBlur={handleBlur}>
+        <p><textarea /></p>
+      </DropdownInput>, this.container);
+
+    const input = this.container.querySelector('input');
+
+    Simulate.keyDown(input, { key: 'ArrowDown' });
+
+    const textarea = this.container.querySelector('textarea');
+
+    textarea.should.not.equal(null);
+
+    Simulate.blur(input, { relatedTarget: textarea });
+
+    handlerCalled.should.equal(true);
   });
 
   it('should close when escape is depressed in the popup', function test() {

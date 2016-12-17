@@ -5,6 +5,7 @@ import CustomCompoundInput from './components/CustomCompoundInput';
 import DateInput from './components/DateInput';
 import DropdownMenuInput from './components/DropdownMenuInput';
 import FilteringDropdownMenuInput from './components/FilteringDropdownMenuInput';
+import IDGeneratorInput from './components/IDGeneratorInput';
 import Label from './components/Label';
 import LineInput from './components/LineInput';
 import MultilineInput from './components/MultilineInput';
@@ -36,6 +37,7 @@ export const baseComponents = {
   DateInput,
   DropdownMenuInput,
   FilteringDropdownMenuInput,
+  IDGeneratorInput,
   Label,
   LineInput,
   MultilineInput,
@@ -48,8 +50,6 @@ export const baseComponents = {
   TabularCompoundInput,
   TextInput,
   VocabularyControlledInput,
-  // Stubs
-  IDGeneratorInput: LineInput,
 };
 
 export const components = {
@@ -62,6 +62,7 @@ export const components = {
   CustomCompoundInput: repeatable(labelable(CustomCompoundInput)),
   DateInput: repeatable(labelable(DateInput)),
   DropdownMenuInput: repeatable(labelable(withNormalizedOptions(DropdownMenuInput))),
+  IDGeneratorInput: repeatable(labelable(IDGeneratorInput)),
   LineInput: standalone(LineInput),
   MultilineInput: standalone(MultilineInput),
   OptionListControlledInput: repeatable(labelable(OptionListControlledInput)),
@@ -70,8 +71,6 @@ export const components = {
   TabularCompoundInput: labelable(TabularCompoundInput),
   TextInput: standalone(TextInput),
   VocabularyControlledInput: repeatable(labelable(VocabularyControlledInput)),
-  // Stubs
-  IDGeneratorInput: standalone(LineInput),
 };
 
 export const enhancers = {

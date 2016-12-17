@@ -1,0 +1,28 @@
+@value textLight from '../colors.css';
+
+.common {
+  composes: common from './Input.css';
+}
+
+.common > input, .common > textarea {
+  padding-right: 21px;
+  background-image: url(../../images/idGenerator.svg);
+  background-repeat: no-repeat;
+  background-position: right;
+}
+
+.common > div > header {
+  font-size: 12px;
+  font-style: italic;
+  white-space: nowrap;
+  /* Italic lean makes padding on the right appear smaller */
+  padding: 4px 20px 4px 18px;
+}
+
+.common > div > header+ul {
+  border-top: 1px solid textLight;
+}
+
+.normal {
+  composes: common;
+}
