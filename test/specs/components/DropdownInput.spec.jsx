@@ -111,6 +111,32 @@ describe('DropdownInput', function suite() {
     expect(this.container.querySelector('p')).to.equal(null);
   });
 
+  it('should open on key press if openOnKeyDown is true', function test() {
+    render(
+      <DropdownInput openOnKeyDown>
+        <p>content</p>
+      </DropdownInput>, this.container);
+
+    const input = this.container.querySelector('input');
+
+    Simulate.keyDown(input, { key: 'a', char: 'a' });
+
+    this.container.querySelector('p').textContent.should.equal('content');
+  });
+
+  it('should not open on when escape is depressed even if openOnKeyDown is true', function test() {
+    render(
+      <DropdownInput openOnKeyDown>
+        <p>content</p>
+      </DropdownInput>, this.container);
+
+    const input = this.container.querySelector('input');
+
+    Simulate.keyDown(input, { key: 'Escape', char: '' });
+
+    expect(this.container.querySelector('p')).to.equal(null);
+  });
+
   it('should open when down arrow is depressed in the input', function test() {
     render(
       <DropdownInput>
