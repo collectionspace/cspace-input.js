@@ -22,6 +22,21 @@ const LabelableTextInput = labelable(TextInput);
 
 const primaryFieldName = 'dateDisplayDate';
 
+const getStructDateFieldValue = (structDateValue, fieldName) => {
+  if (!structDateValue) {
+    return undefined;
+  }
+
+  if (Immutable.Map.isMap(structDateValue)) {
+    return structDateValue.get(fieldName);
+  }
+
+  return structDateValue[fieldName];
+};
+
+const getPrimaryValue = structDateValue =>
+  getStructDateFieldValue(structDateValue, primaryFieldName);
+
 const fieldLabels = {
   earliestSingle: 'Earliest/Single',
   latest: 'Latest',
@@ -72,11 +87,15 @@ export default class StructuredDateInput extends Component {
     this.handleDropdownInputClose = this.handleDropdownInputClose.bind(this);
     this.handleDropdownInputOpen = this.handleDropdownInputOpen.bind(this);
     this.handleInputCommit = this.handleInputCommit.bind(this);
+    this.handlePrimaryInputChange = this.handlePrimaryInputChange.bind(this);
     this.handlePrimaryInputCommit = this.handlePrimaryInputCommit.bind(this);
 
+    const value = props.value || props.defaultValue;
+
     this.state = {
+      value,
       open: false,
-      value: props.value || props.defaultValue,
+      primaryValue: getPrimaryValue(value),
     };
   }
 
@@ -91,8 +110,11 @@ export default class StructuredDateInput extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    const value = nextProps.value || nextProps.defaultValue;
+
     this.setState({
-      value: nextProps.value || nextProps.defaultValue,
+      value,
+      primaryValue: getPrimaryValue(value),
     });
   }
 
@@ -101,15 +123,7 @@ export default class StructuredDateInput extends Component {
       value,
     } = this.state;
 
-    if (!value) {
-      return undefined;
-    }
-
-    if (Immutable.Map.isMap(value)) {
-      return value.get(name);
-    }
-
-    return value[name];
+    return getStructDateFieldValue(value, name);
   }
 
   setValue(path, value) {
@@ -176,6 +190,13 @@ export default class StructuredDateInput extends Component {
     this.handleInputCommit([primaryFieldName], value);
   }
 
+  handlePrimaryInputChange(value) {
+    this.setState({
+      open: true,
+      primaryValue: value,
+    });
+  }
+
   render() {
     const {
       formatFieldLabel,
@@ -196,6 +217,7 @@ export default class StructuredDateInput extends Component {
 
     const {
       open,
+      primaryValue,
       value,
     } = this.state;
 
@@ -204,8 +226,8 @@ export default class StructuredDateInput extends Component {
         {...remainingProps}
         className={styles.normal}
         open={open}
-        openOnKeyDown
-        value={this.getValue(primaryFieldName)}
+        value={primaryValue}
+        onChange={this.handlePrimaryInputChange}
         onClose={this.handleDropdownInputClose}
         onCommit={this.handlePrimaryInputCommit}
         onOpen={this.handleDropdownInputOpen}

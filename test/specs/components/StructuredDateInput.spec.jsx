@@ -279,6 +279,25 @@ describe('StructuredDateInput', () => {
     primaryInput.value.should.equal(value.dateDisplayDate);
   });
 
+  it('should open when the primary input value changes', function test() {
+    render(
+      <StructuredDateInput
+        name="birthDate"
+        optionLists={optionLists}
+        terms={terms}
+      />, this.container);
+
+    const primaryInput = this.container.querySelector('input');
+
+    primaryInput.value = 'June 2004';
+
+    Simulate.change(primaryInput);
+
+    primaryInput.value.should.equal('June 2004');
+
+    this.container.querySelector('input[name=datePeriod]').should.not.equal(null);
+  });
+
   it('should call onCommit when a dropdown input is committed', function test() {
     let committedPath = null;
     let committedValue = null;
