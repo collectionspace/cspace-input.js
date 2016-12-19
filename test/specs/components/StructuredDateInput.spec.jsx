@@ -9,6 +9,7 @@ import labelable from '../../../src/enhancers/labelable';
 import repeatable from '../../../src/enhancers/repeatable';
 
 const StructuredDateInput = repeatable(labelable(BaseStructuredDateInput));
+const expect = chai.expect;
 
 chai.should();
 
@@ -47,14 +48,14 @@ describe('StructuredDateInput', () => {
     isInput(<StructuredDateInput />).should.equal(true);
   });
 
-  it('should open the dropdown when the primary input receives focus', function test() {
+  it('should not open the dropdown when the primary input receives focus', function test() {
     render(<StructuredDateInput />, this.container);
 
     const primaryInput = this.container.querySelector('input');
 
     Simulate.focus(primaryInput);
 
-    this.container.querySelector('table').should.not.equal(null);
+    expect(this.container.querySelector('table')).to.equal(null);
   });
 
   it('should call onMount when mounted', function test() {
@@ -101,9 +102,12 @@ describe('StructuredDateInput', () => {
         value={value}
       />, this.container);
 
-    const primaryInput = this.container.querySelector('input');
+    let primaryInput;
 
-    Simulate.focus(primaryInput);
+    primaryInput = this.container.querySelector('input');
+    primaryInput.value.should.equal('June 2003-February 2012');
+
+    Simulate.mouseDown(primaryInput);
 
     this.container.querySelector('input[name=datePeriod]').value.should.equal(value.datePeriod);
     this.container.querySelector('input[name=dateAssociation]').value.should.equal(value.dateAssociation);
@@ -124,6 +128,25 @@ describe('StructuredDateInput', () => {
     this.container.querySelector('input[name=dateLatestQualifier]').value.should.equal('Qual 2');
     this.container.querySelector('input[name=dateLatestQualifierValue]').value.should.equal(value.dateLatestQualifierValue);
     this.container.querySelector('input[name=dateLatestQualifierUnit]').value.should.equal('Unit 2');
+
+    const newValue = {
+      dateDisplayDate: '1998',
+    };
+
+    render(
+      <StructuredDateInput
+        name="birthDate"
+        optionLists={optionLists}
+        terms={terms}
+        value={newValue}
+      />, this.container);
+
+    primaryInput = this.container.querySelector('input');
+    primaryInput.value.should.equal('1998');
+
+    Simulate.mouseDown(primaryInput);
+
+    this.container.querySelector('input[name=datePeriod]').value.should.equal('');
   });
 
   it('should accept an Immutable map value, and distribute values to nested inputs', function test() {
@@ -158,9 +181,12 @@ describe('StructuredDateInput', () => {
         value={value}
       />, this.container);
 
-    const primaryInput = this.container.querySelector('input');
+    let primaryInput;
 
-    Simulate.focus(primaryInput);
+    primaryInput = this.container.querySelector('input');
+    primaryInput.value.should.equal('June 2003-February 2012');
+
+    Simulate.mouseDown(primaryInput);
 
     this.container.querySelector('input[name=datePeriod]').value.should.equal(value.get('datePeriod'));
     this.container.querySelector('input[name=dateAssociation]').value.should.equal(value.get('dateAssociation'));
@@ -181,6 +207,58 @@ describe('StructuredDateInput', () => {
     this.container.querySelector('input[name=dateLatestQualifier]').value.should.equal('Qual 2');
     this.container.querySelector('input[name=dateLatestQualifierValue]').value.should.equal(value.get('dateLatestQualifierValue'));
     this.container.querySelector('input[name=dateLatestQualifierUnit]').value.should.equal('Unit 2');
+
+    const newValue = Immutable.fromJS({
+      dateDisplayDate: '1998',
+    });
+
+    render(
+      <StructuredDateInput
+        name="birthDate"
+        optionLists={optionLists}
+        terms={terms}
+        value={newValue}
+      />, this.container);
+
+    primaryInput = this.container.querySelector('input');
+    primaryInput.value.should.equal('1998');
+
+    Simulate.mouseDown(primaryInput);
+
+    this.container.querySelector('input[name=datePeriod]').value.should.equal('');
+  });
+
+  it('should use defaultValue as the value when value prop is not defined', function test() {
+    const defaultValue = {
+      dateDisplayDate: 'some default',
+    };
+
+    render(
+      <StructuredDateInput
+        defaultValue={defaultValue}
+        name="birthDate"
+        optionLists={optionLists}
+        terms={terms}
+      />, this.container);
+
+    const primaryInput = this.container.querySelector('input');
+
+    primaryInput.value.should.equal('some default');
+  });
+
+  it('should set values to empty when value does not exist', function test() {
+    render(
+      <StructuredDateInput
+        defaultValue={null}
+        name="birthDate"
+        optionLists={optionLists}
+        terms={terms}
+        value={null}
+      />, this.container);
+
+    const primaryInput = this.container.querySelector('input');
+
+    primaryInput.value.should.equal('');
   });
 
   it('should set the primary input value to dateDisplayDate', function test() {
@@ -244,7 +322,7 @@ describe('StructuredDateInput', () => {
 
     const primaryInput = this.container.querySelector('input');
 
-    Simulate.focus(primaryInput);
+    Simulate.mouseDown(primaryInput);
 
     const datePeriodInput = this.container.querySelector('input[name=datePeriod]');
 
@@ -252,15 +330,15 @@ describe('StructuredDateInput', () => {
 
     Simulate.keyPress(datePeriodInput, { key: 'Enter' });
 
-    committedPath.should.deep.equal(['birthDate', 'datePeriod']);
-    committedValue.should.equal('new period');
+    committedPath.should.deep.equal(['birthDate']);
+    committedValue.datePeriod.should.equal('new period');
 
     datePeriodInput.value = 'another new period';
 
     Simulate.blur(datePeriodInput);
 
-    committedPath.should.deep.equal(['birthDate', 'datePeriod']);
-    committedValue.should.equal('another new period');
+    committedPath.should.deep.equal(['birthDate']);
+    committedValue.datePeriod.should.equal('another new period');
   });
 
   it('should call onCommit when the primary input is committed', function test() {
@@ -310,15 +388,123 @@ describe('StructuredDateInput', () => {
 
     Simulate.keyPress(primaryInput, { key: 'Enter' });
 
-    committedPath.should.deep.equal(['birthDate', 'dateDisplayDate']);
-    committedValue.should.equal('new value');
+    committedPath.should.deep.equal(['birthDate']);
+    committedValue.dateDisplayDate.should.equal('new value');
 
     primaryInput.value = 'another new value';
 
     Simulate.blur(primaryInput);
 
-    committedPath.should.deep.equal(['birthDate', 'dateDisplayDate']);
-    committedValue.should.equal('another new value');
+    committedPath.should.deep.equal(['birthDate']);
+    committedValue.dateDisplayDate.should.equal('another new value');
+  });
+
+  it('should recompute scalar dates when values are changed', function test() {
+    let committedValue = null;
+
+    const handleCommit = (path, value) => {
+      committedValue = value;
+    };
+
+    const value = {
+      dateDisplayDate: 'June 2003-February 2012',
+      datePeriod: 'Period',
+      dateAssociation: 'Assocation',
+      dateNote: 'Note',
+      dateEarliestSingleYear: '2003',
+      dateEarliestSingleMonth: '6',
+      dateEarliestSingleDay: '1',
+      dateEarliestSingleEra: 'era1',
+      dateEarliestSingleCertainty: 'certainty1',
+      dateEarliestSingleQualifier: 'qual1',
+      dateEarliestSingleQualifierValue: '23',
+      dateEarliestSingleQualifierUnit: 'unit1',
+      dateLatestYear: '2012',
+      dateLatestMonth: '2',
+      dateLatestDay: '28',
+      dateLatestEra: 'era2',
+      dateLatestCertainty: 'certainty2',
+      dateLatestQualifier: 'qual2',
+      dateLatestQualifierValue: '45',
+      dateLatestQualifierUnit: 'unit2',
+    };
+
+    render(
+      <StructuredDateInput
+        name="birthDate"
+        optionLists={optionLists}
+        terms={terms}
+        value={value}
+        onCommit={handleCommit}
+      />, this.container);
+
+    const primaryInput = this.container.querySelector('input');
+
+    Simulate.mouseDown(primaryInput);
+
+    const datePeriodInput = this.container.querySelector('input[name=dateLatestDay]');
+
+    datePeriodInput.value = '13';
+
+    Simulate.keyPress(datePeriodInput, { key: 'Enter' });
+
+    committedValue.dateEarliestScalarValue.should.equal('2003-06-01');
+    committedValue.dateLatestScalarValue.should.equal('2012-02-14');
+    committedValue.scalarValuesComputed.should.equal(true);
+  });
+
+  it('should recompute scalar dates when values are changed in an immutable map', function test() {
+    let committedValue = null;
+
+    const handleCommit = (path, value) => {
+      committedValue = value;
+    };
+
+    const value = Immutable.fromJS({
+      dateDisplayDate: 'June 2003-February 2012',
+      datePeriod: 'Period',
+      dateAssociation: 'Assocation',
+      dateNote: 'Note',
+      dateEarliestSingleYear: '2003',
+      dateEarliestSingleMonth: '6',
+      dateEarliestSingleDay: '1',
+      dateEarliestSingleEra: 'era1',
+      dateEarliestSingleCertainty: 'certainty1',
+      dateEarliestSingleQualifier: 'qual1',
+      dateEarliestSingleQualifierValue: '23',
+      dateEarliestSingleQualifierUnit: 'unit1',
+      dateLatestYear: '2012',
+      dateLatestMonth: '2',
+      dateLatestDay: '28',
+      dateLatestEra: 'era2',
+      dateLatestCertainty: 'certainty2',
+      dateLatestQualifier: 'qual2',
+      dateLatestQualifierValue: '45',
+      dateLatestQualifierUnit: 'unit2',
+    });
+
+    render(
+      <StructuredDateInput
+        name="birthDate"
+        optionLists={optionLists}
+        terms={terms}
+        value={value}
+        onCommit={handleCommit}
+      />, this.container);
+
+    const primaryInput = this.container.querySelector('input');
+
+    Simulate.mouseDown(primaryInput);
+
+    const datePeriodInput = this.container.querySelector('input[name=dateLatestDay]');
+
+    datePeriodInput.value = '13';
+
+    Simulate.keyPress(datePeriodInput, { key: 'Enter' });
+
+    committedValue.get('dateEarliestScalarValue').should.equal('2003-06-01');
+    committedValue.get('dateLatestScalarValue').should.equal('2012-02-14');
+    committedValue.get('scalarValuesComputed').should.equal(true);
   });
 
   it('should call formatFieldLabel to format the field labels', function test() {
@@ -328,7 +514,7 @@ describe('StructuredDateInput', () => {
 
     const primaryInput = this.container.querySelector('input');
 
-    Simulate.focus(primaryInput);
+    Simulate.mouseDown(primaryInput);
 
     this.container.querySelector('label').textContent.should.equal('formatted datePeriod');
   });
@@ -344,7 +530,7 @@ describe('StructuredDateInput', () => {
 
     const primaryInput = this.container.querySelector('input');
 
-    Simulate.focus(primaryInput);
+    Simulate.mouseDown(primaryInput);
 
     const qualifierInput = this.container.querySelector('input[name=dateEarliestSingleQualifier]');
 

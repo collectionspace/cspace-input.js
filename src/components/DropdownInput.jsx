@@ -11,6 +11,7 @@ const propTypes = {
   embedded: PropTypes.bool,
   open: PropTypes.bool,
   openOnFocus: PropTypes.bool,
+  openOnKeyDown: PropTypes.bool,
 
   /*
    * A function that may be called to give focus to the contents of the popup. This is supplied as
@@ -155,6 +156,11 @@ export default class DropdownInput extends Component {
   }
 
   handleInputKeyDown(event) {
+    const {
+      openOnKeyDown,
+      onKeyDown,
+    } = this.props;
+
     if (event.key === 'ArrowDown') {
       // Prevent the page from scrolling.
       event.preventDefault();
@@ -167,11 +173,9 @@ export default class DropdownInput extends Component {
       }
     } else if (event.key === 'Escape') {
       this.close();
+    } else if (openOnKeyDown && event.char) {
+      this.open();
     }
-
-    const {
-      onKeyDown,
-    } = this.props;
 
     if (onKeyDown) {
       onKeyDown(event);
@@ -209,6 +213,7 @@ export default class DropdownInput extends Component {
       className,
       focusPopup,
       openOnFocus,
+      openOnKeyDown,
       onClose,
       onKeyDown,
       onMount,

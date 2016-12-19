@@ -4,6 +4,8 @@ import Sugar from 'sugar-date';
 // dist bundle by about 26 KB.
 import 'sugar-date/locales';
 
+const normalizedDateFormat = 'YYYY-MM-DD';
+
 /**
  * Normalizes an ISO 8601 date string, removing any time and time zone parts, if present.
  * CollectionSpace dates should be considered time zone-less, but they are returned from the REST
@@ -14,7 +16,7 @@ import 'sugar-date/locales';
  * string is not a valid ISO 8601 date string.
  */
 export const normalizeISO8601DateString = (dateString) => {
-  if (dateString === '' || dateString === null || typeof dateString === 'undefined') {
+  if (!dateString) {
     return null;
   }
 
@@ -23,7 +25,7 @@ export const normalizeISO8601DateString = (dateString) => {
 
   const dateMoment = moment.parseZone(dateString, moment.ISO_8601);
 
-  return (dateMoment.isValid() ? dateMoment.format('YYYY-MM-DD') : null);
+  return (dateMoment.isValid() ? dateMoment.format(normalizedDateFormat) : null);
 };
 
 /**
@@ -36,7 +38,7 @@ export const normalizeISO8601DateString = (dateString) => {
  * string could not be interpreted as a date.
  */
 export const normalizeNaturalLanguageDateString = (dateString, locale = 'en') => {
-  if (dateString === '' || dateString === null || typeof dateString === 'undefined') {
+  if (!dateString) {
     return null;
   }
 
@@ -53,7 +55,7 @@ export const normalizeNaturalLanguageDateString = (dateString, locale = 'en') =>
  * string could not be interpreted as a date.
  */
 export const normalizeDateString = (dateString, locale = 'en') => {
-  if (dateString === '' || dateString === null || typeof dateString === 'undefined') {
+  if (!dateString) {
     return null;
   }
 
@@ -61,4 +63,97 @@ export const normalizeDateString = (dateString, locale = 'en') => {
     normalizeISO8601DateString(dateString)
       || normalizeNaturalLanguageDateString(dateString, locale)
   );
+};
+
+const momentFromYearMonthDay = (year, month, day /* , era */) => {
+  if (
+    (!year && (month || day)) ||
+    (!month && day)
+  ) {
+    return null;
+  }
+
+  const dateParts = [parseInt(year, 10)];
+
+  if (month) {
+    dateParts.push(parseInt(month, 10) - 1);
+
+    if (day) {
+      dateParts.push(parseInt(day, 10));
+    }
+  }
+
+  const date = moment(dateParts);
+
+  return (date.isValid() ? date : null);
+};
+
+export const computeEarliestScalarDate = (structuredDate) => {
+  const {
+    dateEarliestSingleYear: year,
+    dateEarliestSingleMonth: month,
+    dateEarliestSingleDay: day,
+    dateEarliestSingleEra: era,
+  } = structuredDate;
+
+  if (!year && !month && !day) {
+    return '';
+  }
+
+  const date = momentFromYearMonthDay(year, month, day, era);
+
+  // TODO: Handle BC dates. The old UI ignored the era.
+  // TODO: Incorporate the qualifier value/unit. The old UI did nothing with these.
+
+  return (date ? date.format(normalizedDateFormat) : null);
+};
+
+export const computeLatestScalarDate = (structuredDate) => {
+  let {
+    dateLatestYear: year,
+    dateLatestMonth: month,
+    dateLatestDay: day,
+  } = structuredDate;
+
+  const {
+    dateLatestEra: era,
+  } = structuredDate;
+
+  if (!year && !month && !day) {
+    // No latest date parts are specified. Inherit year, month, and day from earliest/single.
+
+    const {
+      dateEarliestSingleYear,
+      dateEarliestSingleMonth,
+      dateEarliestSingleDay,
+      // dateEarliestSingleEra,
+    } = structuredDate;
+
+    // TODO: What if no date parts are specified, but the era/certainty/qualifier is different than
+    // the earliest/single?
+
+    year = dateEarliestSingleYear;
+    month = dateEarliestSingleMonth;
+    day = dateEarliestSingleDay;
+  }
+
+  if (!year && !month && !day) {
+    return '';
+  }
+
+  const date = momentFromYearMonthDay(year, month, day, era);
+
+  if (!date) {
+    return null;
+  }
+
+  if (!month) {
+    date.endOf('year');
+  } else if (!day) {
+    date.endOf('month');
+  }
+
+  date.add(1, 'days');
+
+  return date.format(normalizedDateFormat);
 };

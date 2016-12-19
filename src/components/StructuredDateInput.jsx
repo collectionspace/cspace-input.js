@@ -1,6 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 import Immutable from 'immutable';
 import { Row } from 'cspace-layout';
+import set from 'lodash/set';
+import merge from 'lodash/merge';
 import CustomCompoundInput from './CustomCompoundInput';
 import BaseDropdownInput from './DropdownInput';
 import Label from './Label';
@@ -11,11 +13,14 @@ import changeable from '../enhancers/changeable';
 import committable from '../enhancers/committable';
 import labelable from '../enhancers/labelable';
 import { getPath, pathPropType } from '../helpers/pathHelpers';
+import { computeEarliestScalarDate, computeLatestScalarDate } from '../helpers/dateHelpers';
 import styles from '../../styles/cspace-input/StructuredDateInput.css';
 
 const DropdownInput = committable(changeable(BaseDropdownInput));
 const TextInput = committable(changeable(BaseTextInput));
 const LabelableTextInput = labelable(TextInput);
+
+const primaryFieldName = 'dateDisplayDate';
 
 const fieldLabels = {
   earliestSingle: 'Earliest/Single',
@@ -34,6 +39,10 @@ const fieldLabels = {
 };
 
 const propTypes = {
+  defaultValue: PropTypes.oneOfType([
+    PropTypes.object, // eslint-disable-line react/forbid-prop-types
+    PropTypes.instanceOf(Immutable.Map),
+  ]),
   formatFieldLabel: PropTypes.func,
   formatOptionLabel: PropTypes.func,
   name: PropTypes.string,
@@ -42,7 +51,7 @@ const propTypes = {
   subpath: pathPropType,
   terms: PropTypes.object,
   value: PropTypes.oneOfType([
-    PropTypes.object,          // eslint-disable-line react/forbid-prop-types
+    PropTypes.object, // eslint-disable-line react/forbid-prop-types
     PropTypes.instanceOf(Immutable.Map),
   ]),
   onCommit: PropTypes.func,
@@ -50,6 +59,7 @@ const propTypes = {
 };
 
 const defaultProps = {
+  defaultValue: {},
   formatFieldLabel: name => fieldLabels[name],
   optionLists: {},
   terms: {},
@@ -66,6 +76,7 @@ export default class StructuredDateInput extends Component {
 
     this.state = {
       open: false,
+      value: props.value || props.defaultValue,
     };
   }
 
@@ -79,10 +90,16 @@ export default class StructuredDateInput extends Component {
     }
   }
 
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      value: nextProps.value || nextProps.defaultValue,
+    });
+  }
+
   getValue(name) {
     const {
       value,
-    } = this.props;
+    } = this.state;
 
     if (!value) {
       return undefined;
@@ -93,6 +110,38 @@ export default class StructuredDateInput extends Component {
     }
 
     return value[name];
+  }
+
+  setValue(path, value) {
+    const {
+      value: structDateValue,
+    } = this.state;
+
+    let newStructDateValue;
+
+    if (Immutable.Map.isMap(structDateValue)) {
+      newStructDateValue = structDateValue.setIn(path, value);
+
+      const newStructDateValueAsObject = newStructDateValue.toJS();
+      const dateEarliestScalarValue = computeEarliestScalarDate(newStructDateValueAsObject);
+      const dateLatestScalarValue = computeLatestScalarDate(newStructDateValueAsObject);
+
+      newStructDateValue = newStructDateValue.set('dateEarliestScalarValue', dateEarliestScalarValue);
+      newStructDateValue = newStructDateValue.set('dateLatestScalarValue', dateLatestScalarValue);
+      newStructDateValue = newStructDateValue.set('scalarValuesComputed', true);
+    } else {
+      newStructDateValue = merge({}, structDateValue);
+      set(newStructDateValue, path, value);
+
+      const dateEarliestScalarValue = computeEarliestScalarDate(newStructDateValue);
+      const dateLatestScalarValue = computeLatestScalarDate(newStructDateValue);
+
+      newStructDateValue.dateEarliestScalarValue = dateEarliestScalarValue;
+      newStructDateValue.dateLatestScalarValue = dateLatestScalarValue;
+      newStructDateValue.scalarValuesComputed = true;
+    }
+
+    return newStructDateValue;
   }
 
   handleDropdownInputClose() {
@@ -108,17 +157,23 @@ export default class StructuredDateInput extends Component {
   }
 
   handleInputCommit(path, value) {
+    const newStructDateValue = this.setValue(path, value);
+
     const {
       onCommit,
     } = this.props;
 
     if (onCommit) {
-      onCommit([...getPath(this.props), ...path], value);
+      onCommit(getPath(this.props), newStructDateValue);
     }
+
+    this.setState({
+      value: newStructDateValue,
+    });
   }
 
   handlePrimaryInputCommit(path, value) {
-    this.handleInputCommit(['dateDisplayDate'], value);
+    this.handleInputCommit([primaryFieldName], value);
   }
 
   render() {
@@ -127,11 +182,12 @@ export default class StructuredDateInput extends Component {
       formatOptionLabel,
       optionLists,
       terms,
-      value,
       /* eslint-disable no-unused-vars */
+      defaultValue,
       name,
       parentPath,
       subpath,
+      value: valueProp,
       onCommit,
       onMount,
       /* eslint-enable no-unused-vars */
@@ -140,6 +196,7 @@ export default class StructuredDateInput extends Component {
 
     const {
       open,
+      value,
     } = this.state;
 
     return (
@@ -147,8 +204,8 @@ export default class StructuredDateInput extends Component {
         {...remainingProps}
         className={styles.normal}
         open={open}
-        openOnFocus
-        value={this.getValue('dateDisplayDate')}
+        openOnKeyDown
+        value={this.getValue(primaryFieldName)}
         onClose={this.handleDropdownInputClose}
         onCommit={this.handlePrimaryInputCommit}
         onOpen={this.handleDropdownInputOpen}
