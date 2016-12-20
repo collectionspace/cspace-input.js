@@ -19,6 +19,7 @@ export default function committable(BaseComponent) {
     ...BaseComponent.propTypes,
     onBlur: PropTypes.func,
     onCommit: PropTypes.func,
+    onKeyPress: PropTypes.func,
   };
 
   class Committable extends Component {
@@ -47,6 +48,14 @@ export default function committable(BaseComponent) {
       if (event.key === 'Enter') {
         this.commit(event.target.value);
       }
+
+      const {
+        onKeyPress,
+      } = this.props;
+
+      if (onKeyPress) {
+        onKeyPress(event);
+      }
     }
 
     commit(value) {
@@ -61,7 +70,10 @@ export default function committable(BaseComponent) {
 
     render() {
       const {
-        onCommit, // eslint-disable-line no-unused-vars
+        /* eslint-disable no-unused-vars */
+        onCommit,
+        onKeyPress,
+        /* eslint-enable no-unused-vars */
         ...remainingProps
       } = this.props;
 

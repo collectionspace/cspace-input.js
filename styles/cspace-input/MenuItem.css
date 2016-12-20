@@ -8,3 +8,7 @@ li.focused {
   outline-offset: -1px;
   outline: 1px dotted black;
 }
+
+li + li.startGroup {
+  margin-top: 12px;
+}
