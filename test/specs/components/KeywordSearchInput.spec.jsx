@@ -7,6 +7,14 @@ import createTestContainer from '../../helpers/createTestContainer';
 chai.should();
 
 const recordTypes = {
+  all: {
+    group: 'all',
+    messageDescriptors: {
+      recordNameTitle: {
+        defaultMessage: 'All record types',
+      },
+    },
+  },
   concept: {
     messageDescriptors: {
       recordNameTitle: {
@@ -15,6 +23,14 @@ const recordTypes = {
     },
     group: 'authority',
     vocabularies: {
+      all: {
+        group: 'all',
+        messageDescriptors: {
+          vocabNameTitle: {
+            defaultMessage: 'All vocabularies',
+          },
+        },
+      },
       concept: {
         messageDescriptors: {
           vocabNameTitle: {
@@ -79,6 +95,14 @@ const recordTypes = {
     },
     group: 'authority',
     vocabularies: {
+      all: {
+        group: 'all',
+        messageDescriptors: {
+          vocabNameTitle: {
+            defaultMessage: 'All vocabularies',
+          },
+        },
+      },
       person: {
         messageDescriptors: {
           vocabNameTitle: {
@@ -103,6 +127,14 @@ const recordTypes = {
     },
     group: 'authority',
     vocabularies: {
+      all: {
+        group: 'all',
+        messageDescriptors: {
+          vocabNameTitle: {
+            defaultMessage: 'All vocabularies',
+          },
+        },
+      },
       organization: {
         messageDescriptors: {
           vocabNameTitle: {
@@ -211,11 +243,12 @@ describe('KeywordSearchInput', function suite() {
     recordTypes.organization.vocabularies.ulan_oa.messageDescriptors = messageDescriptors;
   });
 
-  it('should use groupOrder prop to order record type groups', function test() {
+  it('should use recordTypeGroupOrder prop to order record type groups', function test() {
     render(
       <KeywordSearchInput
         recordTypes={recordTypes}
-        groupOrder={{
+        recordTypeGroupOrder={{
+          all: 3,
           object: 2,
           procedure: 0,
           authority: 1,
@@ -229,21 +262,21 @@ describe('KeywordSearchInput', function suite() {
     const items = this.container.querySelectorAll('li');
 
     items.length.should.equal(8);
-    items[0].textContent.should.equal('All record types');
-    items[1].textContent.should.equal('Group');
-    items[2].textContent.should.equal('Loan In');
-    items[3].textContent.should.equal('Media');
-    items[4].textContent.should.equal('Concept');
-    items[5].textContent.should.equal('Organization');
-    items[6].textContent.should.equal('Person');
-    items[7].textContent.should.equal('Object');
+    items[0].textContent.should.equal('Group');
+    items[1].textContent.should.equal('Loan In');
+    items[2].textContent.should.equal('Media');
+    items[3].textContent.should.equal('Concept');
+    items[4].textContent.should.equal('Organization');
+    items[5].textContent.should.equal('Person');
+    items[6].textContent.should.equal('Object');
+    items[7].textContent.should.equal('All record types');
   });
 
-  it('should sort groups where groupOrder is not set to the end', function test() {
+  it('should sort groups where recordTypeGroupOrder is not set to the end', function test() {
     render(
       <KeywordSearchInput
         recordTypes={recordTypes}
-        groupOrder={{
+        recordTypeGroupOrder={{
           object: 2,
         }}
       />, this.container);
@@ -255,8 +288,68 @@ describe('KeywordSearchInput', function suite() {
     const items = this.container.querySelectorAll('li');
 
     items.length.should.equal(8);
-    items[0].textContent.should.equal('All record types');
-    items[1].textContent.should.equal('Object');
+    items[0].textContent.should.equal('Object');
+  });
+
+  it('should use vocabularyGroupOrder prop to order vocabulary groups', function test() {
+    const personGroup = recordTypes.person.vocabularies.person.group;
+    const ulanGroup = recordTypes.person.vocabularies.ulan_pa.group;
+
+    recordTypes.person.vocabularies.person.group = 'normal';
+    recordTypes.person.vocabularies.ulan_pa.group = 'normal';
+
+    render(
+      <KeywordSearchInput
+        recordTypes={recordTypes}
+        recordTypeValue="person"
+        vocabularyGroupOrder={{
+          normal: 0,
+          all: 1,
+        }}
+      />, this.container);
+
+    const input = this.container.querySelectorAll('input')[1];
+
+    Simulate.mouseDown(input);
+
+    const items = this.container.querySelectorAll('li');
+
+    items.length.should.equal(3);
+    items[0].textContent.should.equal('Local Persons');
+    items[1].textContent.should.equal('ULAN Persons');
+    items[2].textContent.should.equal('All vocabularies');
+
+    recordTypes.person.vocabularies.person.group = personGroup;
+    recordTypes.person.vocabularies.ulan_pa.group = ulanGroup;
+  });
+
+  it('should sort groups where vocabularyGroupOrder is not set to the end', function test() {
+    const personGroup = recordTypes.person.vocabularies.person.group;
+    const ulanGroup = recordTypes.person.vocabularies.ulan_pa.group;
+
+    recordTypes.person.vocabularies.person.group = 'foo';
+    recordTypes.person.vocabularies.ulan_pa.group = 'bar';
+
+    render(
+      <KeywordSearchInput
+        recordTypes={recordTypes}
+        recordTypeValue="person"
+        vocabularyGroupOrder={{
+          foo: 1,
+        }}
+      />, this.container);
+
+    const input = this.container.querySelectorAll('input')[1];
+
+    Simulate.mouseDown(input);
+
+    const items = this.container.querySelectorAll('li');
+
+    items.length.should.equal(3);
+    items[0].textContent.should.equal('Local Persons');
+
+    recordTypes.person.vocabularies.person.group = personGroup;
+    recordTypes.person.vocabularies.ulan_pa.group = ulanGroup;
   });
 
   it('should set the keyword input value from the keywordValue prop', function test() {
@@ -519,45 +612,6 @@ describe('KeywordSearchInput', function suite() {
     handlerCalled.should.equal(true);
   });
 
-  it('should call formatAllRecordTypesLabel to format the label for the all record types item', function test() {
-    const formatAllRecordTypesLabel = () =>
-      'formatAllRecordTypesLabel called';
-
-    render(
-      <KeywordSearchInput
-        recordTypes={recordTypes}
-        formatAllRecordTypesLabel={formatAllRecordTypesLabel}
-      />, this.container);
-
-    const input = this.container.querySelector('input');
-
-    Simulate.mouseDown(input);
-
-    const item = this.container.querySelector('li');
-
-    item.textContent.should.equal('formatAllRecordTypesLabel called');
-  });
-
-  it('should call formatAllVocabulariesLabel to format the label for the all vocabularies item', function test() {
-    const formatAllVocabulariesLabel = () =>
-      'formatAllVocabulariesLabel called';
-
-    render(
-      <KeywordSearchInput
-        recordTypes={recordTypes}
-        recordTypeValue="concept"
-        formatAllVocabulariesLabel={formatAllVocabulariesLabel}
-      />, this.container);
-
-    const input = this.container.querySelectorAll('input')[1];
-
-    Simulate.mouseDown(input);
-
-    const item = this.container.querySelector('li');
-
-    item.textContent.should.equal('formatAllVocabulariesLabel called');
-  });
-
   it('should call formatRecordTypeLabel to format the label for a record type item', function test() {
     const formatRecordTypeLabel = name => `formatRecordTypeLabel ${name}`;
 
@@ -574,7 +628,7 @@ describe('KeywordSearchInput', function suite() {
     const items = this.container.querySelectorAll('li');
 
     items.length.should.equal(8);
-    items[0].textContent.should.equal('All record types');
+    items[0].textContent.should.equal('formatRecordTypeLabel all');
     items[1].textContent.should.equal('formatRecordTypeLabel object');
     items[2].textContent.should.equal('formatRecordTypeLabel group');
     items[3].textContent.should.equal('formatRecordTypeLabel loanin');
@@ -601,7 +655,7 @@ describe('KeywordSearchInput', function suite() {
     const items = this.container.querySelectorAll('li');
 
     items.length.should.equal(4);
-    items[0].textContent.should.equal('All vocabularies');
+    items[0].textContent.should.equal('formatVocabularyLabel all');
     items[1].textContent.should.equal('formatVocabularyLabel activity');
     items[2].textContent.should.equal('formatVocabularyLabel concept');
     items[3].textContent.should.equal('formatVocabularyLabel material_ca');

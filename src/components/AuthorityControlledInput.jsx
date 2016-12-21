@@ -30,7 +30,7 @@ const defaultProps = {
   minLength: 3,
 };
 
-const getOptions = (authority, matches, partialTerm, recordTypes) => {
+const getOptions = (authority, matches, partialTerm) => {
   const authorities = parseAuthoritySpec(authority);
   const options = [];
 
@@ -44,8 +44,7 @@ const getOptions = (authority, matches, partialTerm, recordTypes) => {
           vocabularyName,
         } = authoritySpec;
 
-        const authorityServiceName = recordTypes[authorityName].serviceConfig.name;
-        const authorityMatch = partialTermMatch.getIn([authorityServiceName, vocabularyName]);
+        const authorityMatch = partialTermMatch.getIn([authorityName, vocabularyName]);
 
         if (authorityMatch) {
           const items = authorityMatch.get('items');
@@ -66,7 +65,7 @@ const getOptions = (authority, matches, partialTerm, recordTypes) => {
   return options;
 };
 
-const isPending = (authority, matches, partialTerm, recordTypes) => {
+const isPending = (authority, matches, partialTerm) => {
   const authorities = parseAuthoritySpec(authority);
   let foundPending = false;
 
@@ -80,8 +79,7 @@ const isPending = (authority, matches, partialTerm, recordTypes) => {
           vocabularyName,
         } = authoritySpec;
 
-        const authorityServiceName = recordTypes[authorityName].serviceConfig.name;
-        const authorityMatch = partialTermMatch.getIn([authorityServiceName, vocabularyName]);
+        const authorityMatch = partialTermMatch.getIn([authorityName, vocabularyName]);
 
         if (authorityMatch) {
           foundPending = foundPending || authorityMatch.get('isSearchPending') || authorityMatch.get('isAddPending');
@@ -93,7 +91,7 @@ const isPending = (authority, matches, partialTerm, recordTypes) => {
   return foundPending;
 };
 
-const getNewTerm = (authority, matches, partialTerm, recordTypes) => {
+const getNewTerm = (authority, matches, partialTerm) => {
   const authorities = parseAuthoritySpec(authority);
   let newTerm = null;
 
@@ -107,8 +105,7 @@ const getNewTerm = (authority, matches, partialTerm, recordTypes) => {
           vocabularyName,
         } = authoritySpec;
 
-        const authorityServiceName = recordTypes[authorityName].serviceConfig.name;
-        const authorityMatch = partialTermMatch.getIn([authorityServiceName, vocabularyName]);
+        const authorityMatch = partialTermMatch.getIn([authorityName, vocabularyName]);
 
         if (authorityMatch) {
           newTerm = newTerm || authorityMatch.get('newTerm');
@@ -136,11 +133,11 @@ export default class AuthorityControlledInput extends Component {
 
   componentWillReceiveProps(nextProps) {
     const newTerm = getNewTerm(
-      nextProps.authority, nextProps.matches, this.state.partialTerm, nextProps.recordTypes
+      nextProps.authority, nextProps.matches, this.state.partialTerm
     );
 
     const hadNewTerm = getNewTerm(
-      this.props.authority, this.props.matches, this.state.partialTerm, this.props.recordTypes
+      this.props.authority, this.props.matches, this.state.partialTerm
     );
 
     if (newTerm && !hadNewTerm) {
@@ -152,10 +149,10 @@ export default class AuthorityControlledInput extends Component {
       };
 
       if (!isPending(
-        nextProps.authority, nextProps.matches, this.state.partialTerm, nextProps.recordTypes
+        nextProps.authority, nextProps.matches, this.state.partialTerm
       )) {
         newState.options = getOptions(
-          nextProps.authority, nextProps.matches, this.state.partialTerm, nextProps.recordTypes
+          nextProps.authority, nextProps.matches, this.state.partialTerm
         );
       }
 
@@ -185,7 +182,6 @@ export default class AuthorityControlledInput extends Component {
       findMatchingTerms,
       matches,
       minLength,
-      recordTypes,
     } = this.props;
 
     const newState = {
@@ -201,7 +197,7 @@ export default class AuthorityControlledInput extends Component {
       // TODO: Pause to debounce
       findMatchingTerms(partialTerm);
     } else {
-      newState.options = getOptions(authority, matches, partialTerm, recordTypes);
+      newState.options = getOptions(authority, matches, partialTerm);
     }
 
     this.setState(newState);
@@ -250,11 +246,11 @@ export default class AuthorityControlledInput extends Component {
       formatSearchResultMessage,
       matches,
       minLength,
-      recordTypes,
       /* eslint-disable no-unused-vars */
       addTerm,
       findMatchingTerms,
       formatVocabName,
+      recordTypes,
       /* eslint-enable no-unused-vars */
       ...remainingProps
     } = this.props;
@@ -275,7 +271,7 @@ export default class AuthorityControlledInput extends Component {
       ? formatMoreCharsRequiredMessage
       : formatSearchResultMessage;
 
-    const className = isPending(authority, matches, partialTerm, recordTypes)
+    const className = isPending(authority, matches, partialTerm)
       ? styles.searching
       : styles.normal;
 

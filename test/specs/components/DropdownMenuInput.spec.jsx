@@ -43,6 +43,29 @@ describe('DropdownMenuInput', function suite() {
     this.container.firstElementChild.className.should.equal(expectedClassName);
   });
 
+  it('should call onMount when mounted', function test() {
+    let mountedValue = null;
+
+    const handleMount = ({ value }) => {
+      mountedValue = value;
+    };
+
+    const options = [
+      { value: 'value1', label: 'Value 1' },
+      { value: 'value2', label: 'Value 2' },
+      { value: 'value3', label: 'Value 3' },
+    ];
+
+    render(
+      <DropdownMenuInput
+        options={options}
+        value="value3"
+        onMount={handleMount}
+      />, this.container);
+
+    mountedValue.should.equal('value3');
+  });
+
   it('should focus the menu when focusMenu is called', function test() {
     const options = [
       { value: 'value1', label: 'Value 1' },

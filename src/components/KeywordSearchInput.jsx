@@ -8,14 +8,14 @@ import styles from '../../styles/cspace-input/KeywordSearchInput.css';
 const LineInput = committable(changeable(BaseLineInput));
 
 const propTypes = {
-  formatAllRecordTypesLabel: PropTypes.func,
-  formatAllVocabulariesLabel: PropTypes.func,
   formatRecordTypeLabel: PropTypes.func,
   formatVocabularyLabel: PropTypes.func,
-  groupOrder: PropTypes.object,
   keywordValue: PropTypes.string,
+  placeholder: PropTypes.string,
   recordTypes: PropTypes.object,
+  recordTypeGroupOrder: PropTypes.object,
   recordTypeValue: PropTypes.string,
+  vocabularyGroupOrder: PropTypes.object,
   vocabularyValue: PropTypes.string,
   onSearch: PropTypes.func,
   onKeywordCommit: PropTypes.func,
@@ -24,8 +24,6 @@ const propTypes = {
 };
 
 const defaultProps = {
-  formatAllRecordTypesLabel: () => 'All record types',
-  formatAllVocabulariesLabel: () => 'All vocabularies',
   formatRecordTypeLabel: (name, config) => {
     const messages = config.messageDescriptors;
 
@@ -45,10 +43,14 @@ const defaultProps = {
     return name;
   },
   recordTypes: {},
-  groupOrder: {
-    object: 0,
-    procedure: 1,
-    authority: 2,
+  recordTypeGroupOrder: {
+    all: 0,
+    object: 1,
+    procedure: 2,
+    authority: 3,
+  },
+  vocabularyGroupOrder: {
+    all: 0,
   },
 };
 
@@ -59,7 +61,9 @@ export default class KeywordSearchInput extends Component {
     this.handleKeywordInputCommit = this.handleKeywordInputCommit.bind(this);
     this.handleKeywordInputKeyPress = this.handleKeywordInputKeyPress.bind(this);
     this.handleRecordTypeDropdownCommit = this.handleRecordTypeDropdownCommit.bind(this);
+    this.handleRecordTypeDropdownMount = this.handleRecordTypeDropdownMount.bind(this);
     this.handleVocabularyDropdownCommit = this.handleVocabularyDropdownCommit.bind(this);
+    this.handleVocabularyDropdownMount = this.handleVocabularyDropdownMount.bind(this);
   }
 
   handleKeywordInputCommit(path, value) {
@@ -94,6 +98,20 @@ export default class KeywordSearchInput extends Component {
     }
   }
 
+  handleRecordTypeDropdownMount({ value }) {
+    if (value !== this.props.recordTypeValue) {
+      // A default was selected.
+
+      const {
+        onRecordTypeCommit,
+      } = this.props;
+
+      if (onRecordTypeCommit) {
+        onRecordTypeCommit(value);
+      }
+    }
+  }
+
   handleVocabularyDropdownCommit(path, value) {
     const {
       onVocabularyCommit,
@@ -104,11 +122,24 @@ export default class KeywordSearchInput extends Component {
     }
   }
 
+  handleVocabularyDropdownMount({ value }) {
+    if (value !== this.props.vocabularyValue) {
+      // A default was selected.
+
+      const {
+        onVocabularyCommit,
+      } = this.props;
+
+      if (onVocabularyCommit) {
+        onVocabularyCommit(value);
+      }
+    }
+  }
+
   renderRecordTypeDropdown() {
     const {
-      formatAllRecordTypesLabel,
       formatRecordTypeLabel,
-      groupOrder,
+      recordTypeGroupOrder,
       recordTypes,
       recordTypeValue,
     } = this.props;
@@ -124,8 +155,8 @@ export default class KeywordSearchInput extends Component {
         const groupB = configB.group;
 
         if (groupA !== groupB) {
-          let groupOrderA = groupOrder[groupA];
-          let groupOrderB = groupOrder[groupB];
+          let groupOrderA = recordTypeGroupOrder[groupA];
+          let groupOrderB = recordTypeGroupOrder[groupB];
 
           if (isNaN(groupOrderA)) {
             groupOrderA = Number.MAX_VALUE;
@@ -166,12 +197,7 @@ export default class KeywordSearchInput extends Component {
         return labelA.localeCompare(labelB);
       });
 
-    const options = [
-      {
-        value: '_all_',
-        label: formatAllRecordTypesLabel(),
-      },
-    ].concat(sortedRecordTypeNames.map((name, index) => {
+    const options = sortedRecordTypeNames.map((name, index) => {
       const recordType = recordTypes[name];
       const prevRecordType = (index === 0) ? null : recordTypes[sortedRecordTypeNames[index - 1]];
 
@@ -180,7 +206,7 @@ export default class KeywordSearchInput extends Component {
         label: formatRecordTypeLabel(name, recordType),
         startGroup: !prevRecordType || (recordType.group !== prevRecordType.group),
       };
-    }));
+    });
 
     let value = recordTypeValue;
 
@@ -195,7 +221,7 @@ export default class KeywordSearchInput extends Component {
         }
       }
 
-      if (!value) {
+      if (!value && options.length > 0) {
         value = options[0].value;
       }
     }
@@ -207,20 +233,25 @@ export default class KeywordSearchInput extends Component {
         options={options}
         value={value}
         onCommit={this.handleRecordTypeDropdownCommit}
+        onMount={this.handleRecordTypeDropdownMount}
       />
     );
   }
 
   renderVocabularyDropdown() {
     const {
-      formatAllVocabulariesLabel,
       formatVocabularyLabel,
       recordTypes,
       recordTypeValue,
+      vocabularyGroupOrder,
       vocabularyValue,
     } = this.props;
 
-    if (!recordTypeValue || !recordTypes[recordTypeValue].vocabularies) {
+    if (
+      !recordTypeValue ||
+      !recordTypes[recordTypeValue] ||
+      !recordTypes[recordTypeValue].vocabularies
+    ) {
       return null;
     }
 
@@ -231,7 +262,29 @@ export default class KeywordSearchInput extends Component {
         const configA = vocabularies[nameA];
         const configB = vocabularies[nameB];
 
-        // Primary sort by sortOrder
+        // Primary sort by group
+
+        const groupA = configA.group;
+        const groupB = configB.group;
+
+        if (groupA !== groupB) {
+          let groupOrderA = vocabularyGroupOrder[groupA];
+          let groupOrderB = vocabularyGroupOrder[groupB];
+
+          if (isNaN(groupOrderA)) {
+            groupOrderA = Number.MAX_VALUE;
+          }
+
+          if (isNaN(groupOrderB)) {
+            groupOrderB = Number.MAX_VALUE;
+          }
+
+          if (groupOrderA !== groupOrderB) {
+            return (groupOrderA > groupOrderB ? 1 : -1);
+          }
+        }
+
+        // Secondary sort by sortOrder
 
         let sortOrderA = configA.sortOrder;
         let sortOrderB = configB.sortOrder;
@@ -248,7 +301,7 @@ export default class KeywordSearchInput extends Component {
           return (sortOrderA > sortOrderB ? 1 : -1);
         }
 
-        // Secondary sort by label
+        // Final sort by label
 
         const labelA = formatVocabularyLabel(nameA, configA);
         const labelB = formatVocabularyLabel(nameB, configB);
@@ -257,18 +310,16 @@ export default class KeywordSearchInput extends Component {
         return labelA.localeCompare(labelB);
       });
 
-    const options = [
-      {
-        value: '_all_',
-        label: formatAllVocabulariesLabel(),
-      },
-    ].concat(sortedVocabularyNames.map((name, index) => (
-      {
+    const options = sortedVocabularyNames.map((name, index) => {
+      const vocabulary = vocabularies[name];
+      const prevVocabulary = (index === 0) ? null : vocabularies[sortedVocabularyNames[index - 1]];
+
+      return {
         value: name,
-        label: formatVocabularyLabel(name, vocabularies[name]),
-        startGroup: index === 0,
-      }
-    )));
+        label: formatVocabularyLabel(name, vocabulary),
+        startGroup: !prevVocabulary || (vocabulary.group !== prevVocabulary.group),
+      };
+    });
 
     let value = vocabularyValue;
 
@@ -283,7 +334,7 @@ export default class KeywordSearchInput extends Component {
         }
       }
 
-      if (!value) {
+      if (!value && options.length > 0) {
         value = options[0].value;
       }
     }
@@ -295,6 +346,7 @@ export default class KeywordSearchInput extends Component {
         options={options}
         value={value}
         onCommit={this.handleVocabularyDropdownCommit}
+        onMount={this.handleVocabularyDropdownMount}
       />
     );
   }
@@ -302,11 +354,13 @@ export default class KeywordSearchInput extends Component {
   renderKeywordInput() {
     const {
       keywordValue,
+      placeholder,
     } = this.props;
 
     return (
       <LineInput
         embedded
+        placeholder={placeholder}
         value={keywordValue}
         onCommit={this.handleKeywordInputCommit}
         onKeyPress={this.handleKeywordInputKeyPress}
