@@ -1,0 +1,23 @@
+@value textLight from '../colors.css';
+
+.common {
+  composes: common from './Input.css';
+  display: flex;
+  border: 1px solid textLight;
+}
+
+.common > div {
+  border-right: 1px solid textLight;
+  flex: 0 0 auto;
+}
+
+.common > input, .common > textarea {
+  padding-right: 21px;
+  background-image: url(../../images/search.svg);
+  background-repeat: no-repeat;
+  background-position: right;
+}
+
+.normal {
+  composes: common;
+}

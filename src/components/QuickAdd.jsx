@@ -56,14 +56,14 @@ export default class QuickAdd extends Component {
       } = authoritySpec;
 
       const vocabularyConfig =
-        recordTypes[authorityName].serviceConfig.vocabularies[vocabularyName];
+        recordTypes[authorityName].vocabularies[vocabularyName];
 
       if (!vocabularyConfig) {
         return null;
       }
 
       return (
-        <li key={vocabularyName}>
+        <li key={`${authorityName}/${vocabularyName}`}>
           <button
             data-authorityname={authorityName}
             data-vocabularyname={vocabularyName}

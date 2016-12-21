@@ -198,9 +198,11 @@ export default class Menu extends Component {
       const {
         value: optionValue,
         label: optionLabel,
+        startGroup: optionStartGroup,
       } = option;
 
       const className = classNames({
+        [itemStyles.startGroup]: !!optionStartGroup,
         [itemStyles.selected]: optionValue === value,
         [itemStyles.focused]: focusedIndex === index,
       });

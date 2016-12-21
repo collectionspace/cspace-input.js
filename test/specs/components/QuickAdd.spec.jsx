@@ -12,17 +12,17 @@ describe('QuickAdd', function suite() {
     person: {
       serviceConfig: {
         name: 'personauthorities',
-        vocabularies: {
-          person: {
-            messageDescriptors: {
-              vocabNameTitle: {
-                id: 'vocab.personauthorities.person.nameTitle',
-                defaultMessage: 'Local Persons',
-              },
+        quickAddData: () => {},
+      },
+      vocabularies: {
+        person: {
+          messageDescriptors: {
+            vocabNameTitle: {
+              id: 'vocab.personauthorities.person.nameTitle',
+              defaultMessage: 'Local Persons',
             },
           },
         },
-        quickAddData: () => {},
       },
     },
   };

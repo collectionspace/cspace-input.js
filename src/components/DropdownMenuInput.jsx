@@ -20,6 +20,7 @@ const propTypes = {
   valueLabel: PropTypes.string,
   onClose: PropTypes.func,
   onCommit: PropTypes.func,
+  onMount: PropTypes.func,
   onOpen: PropTypes.func,
 };
 
@@ -68,6 +69,16 @@ export default class DropdownMenuInput extends Component {
       open: false,
       value: props.value,
     };
+  }
+
+  componentDidMount() {
+    const {
+      onMount,
+    } = this.props;
+
+    if (onMount) {
+      onMount({ value: this.state.value });
+    }
   }
 
   componentWillReceiveProps(nextProps) {
