@@ -5,35 +5,35 @@ const webpack = require('webpack');
 const values = require('postcss-modules-values');
 
 const sauceLaunchers = {
-  'chrome-latest-osx': {
+  'chrome-latest-mac': {
     base: 'SauceLabs',
     browserName: 'chrome',
     version: 'latest',
     platform: 'macOS 10.12',
   },
-  'chrome-previous-osx': {
+  'chrome-previous-mac': {
     base: 'SauceLabs',
     browserName: 'chrome',
     version: 'latest-1',
     platform: 'macOS 10.12',
   },
-  'firefox-latest-osx': {
+  'firefox-latest-mac': {
     base: 'SauceLabs',
     browserName: 'firefox',
     version: 'latest',
     platform: 'macOS 10.12',
   },
-  'firefox-previous-osx': {
+  'firefox-previous-mac': {
     base: 'SauceLabs',
     browserName: 'firefox',
     version: 'latest-1',
     platform: 'macOS 10.12',
   },
-  // 'safari-latest-osx': {
+  // 'safari-latest-mac': {
   //   base: 'SauceLabs',
   //   browserName: 'safari',
   //   version: 'latest',
-  //   platform: 'OS X 10.11',
+  //   platform: 'macOS 10.12',
   // },
   // 'edge-latest-win10': {
   //   base: 'SauceLabs',
