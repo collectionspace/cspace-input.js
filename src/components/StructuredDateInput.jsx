@@ -6,11 +6,12 @@ import merge from 'lodash/merge';
 import CustomCompoundInput from './CustomCompoundInput';
 import BaseDropdownInput from './DropdownInput';
 import Label from './Label';
-import OptionListControlledInput from './OptionListControlledInput';
 import BaseTextInput from './TextInput';
+import BasePrefixFilteringDropdownMenuInput from './PrefixFilteringDropdownMenuInput';
 import VocabularyControlledInput from './VocabularyControlledInput';
 import changeable from '../enhancers/changeable';
 import committable from '../enhancers/committable';
+import withLabeledOptions from '../enhancers/withLabeledOptions';
 import labelable from '../enhancers/labelable';
 import { getPath, pathPropType } from '../helpers/pathHelpers';
 import { computeEarliestScalarDate, computeLatestScalarDate } from '../helpers/dateHelpers';
@@ -19,6 +20,7 @@ import styles from '../../styles/cspace-input/StructuredDateInput.css';
 const DropdownInput = committable(changeable(BaseDropdownInput));
 const TextInput = committable(changeable(BaseTextInput));
 const LabelableTextInput = labelable(TextInput);
+const PrefixFilteringDropdownMenuInput = withLabeledOptions(BasePrefixFilteringDropdownMenuInput);
 
 const primaryFieldName = 'dateDisplayDate';
 
@@ -311,7 +313,7 @@ export default class StructuredDateInput extends Component {
                   />
                 </td>
                 <td>
-                  <OptionListControlledInput
+                  <PrefixFilteringDropdownMenuInput
                     embedded
                     formatOptionLabel={formatOptionLabel}
                     name="dateEarliestSingleQualifier"
@@ -380,7 +382,7 @@ export default class StructuredDateInput extends Component {
                   />
                 </td>
                 <td>
-                  <OptionListControlledInput
+                  <PrefixFilteringDropdownMenuInput
                     embedded
                     formatOptionLabel={formatOptionLabel}
                     name="dateLatestQualifier"

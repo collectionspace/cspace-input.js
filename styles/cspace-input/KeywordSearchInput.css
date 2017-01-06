@@ -4,6 +4,25 @@
   composes: common from './Input.css';
   display: flex;
   border: 1px solid textLight;
+  border-radius: 3px;
+}
+
+.common > input {
+  padding-right: 21px;
+  background-image: url(../../images/search.svg);
+  background-repeat: no-repeat;
+  background-position: right;
+}
+
+.common input {
+  height: 24px;
+  background-size: 20px;
+  border-radius: 3px;
+  padding-left: 4px;
+}
+
+.normal {
+  composes: common;
 }
 
 .common > div {
@@ -11,13 +30,6 @@
   flex: 0 0 auto;
 }
 
-.common > input, .common > textarea {
-  padding-right: 21px;
-  background-image: url(../../images/search.svg);
-  background-repeat: no-repeat;
-  background-position: right;
-}
-
-.normal {
-  composes: common;
+.common > div > div {
+  top: 26px;
 }

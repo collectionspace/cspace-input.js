@@ -1,5 +1,6 @@
 import AuthorityControlledInput from './components/AuthorityControlledInput';
 import Button from './components/Button';
+import ComboBoxInput from './components/ComboBoxInput';
 import CompoundInput from './components/CompoundInput';
 import CustomCompoundInput from './components/CustomCompoundInput';
 import DateInput from './components/DateInput';
@@ -9,8 +10,8 @@ import IDGeneratorInput from './components/IDGeneratorInput';
 import KeywordSearchInput from './components/KeywordSearchInput';
 import Label from './components/Label';
 import LineInput from './components/LineInput';
+import MiniButton from './components/MiniButton';
 import MultilineInput from './components/MultilineInput';
-import OptionListControlledInput from './components/OptionListControlledInput';
 import PasswordInput from './components/PasswordInput';
 import PrefixFilteringDropdownMenuInput from './components/PrefixFilteringDropdownMenuInput';
 import ReadOnlyInput from './components/ReadOnlyInput';
@@ -26,6 +27,7 @@ import labelable from './enhancers/labelable';
 import nestable from './enhancers/nestable';
 import repeatable from './enhancers/repeatable';
 import standalone from './enhancers/standalone';
+import withLabeledOptions from './enhancers/withLabeledOptions';
 import withNormalizedOptions from './enhancers/withNormalizedOptions';
 
 import * as pathHelpers from './helpers/pathHelpers';
@@ -42,8 +44,8 @@ export const baseComponents = {
   KeywordSearchInput,
   Label,
   LineInput,
+  MiniButton,
   MultilineInput,
-  OptionListControlledInput,
   PasswordInput,
   PrefixFilteringDropdownMenuInput,
   ReadOnlyInput,
@@ -59,16 +61,18 @@ export const components = {
   CompoundInput,
   KeywordSearchInput: labelable(KeywordSearchInput),
   Label,
+  MiniButton,
   ReadOnlyInput,
   RepeatingInput,
   AuthorityControlledInput: repeatable(labelable(AuthorityControlledInput)),
+  ComboBoxInput: repeatable(labelable(withLabeledOptions(ComboBoxInput))),
   CustomCompoundInput: repeatable(labelable(CustomCompoundInput)),
   DateInput: repeatable(labelable(DateInput)),
   DropdownMenuInput: repeatable(labelable(withNormalizedOptions(DropdownMenuInput))),
   IDGeneratorInput: repeatable(labelable(IDGeneratorInput)),
   LineInput: standalone(LineInput),
   MultilineInput: standalone(MultilineInput),
-  OptionListControlledInput: repeatable(labelable(OptionListControlledInput)),
+  OptionListControlledInput: repeatable(labelable(withLabeledOptions(PrefixFilteringDropdownMenuInput))),
   PasswordInput: standalone(PasswordInput),
   StructuredDateInput: repeatable(labelable(StructuredDateInput)),
   TabularCompoundInput: labelable(TabularCompoundInput),
@@ -83,6 +87,7 @@ export const enhancers = {
   nestable,
   repeatable,
   standalone,
+  withLabeledOptions,
   withNormalizedOptions,
 };
 

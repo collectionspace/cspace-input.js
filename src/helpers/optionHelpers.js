@@ -14,12 +14,14 @@ export const getOptionForValue = (options, value) => {
 
   // TODO: Use Array.find when it is supported in all browsers.
 
-  for (let i = 0; i < options.length; i += 1) {
-    const candidateOption = options[i];
+  if (options) {
+    for (let i = 0; i < options.length; i += 1) {
+      const candidateOption = options[i];
 
-    if (candidateOption.value === value) {
-      option = candidateOption;
-      break;
+      if (candidateOption.value === value) {
+        option = candidateOption;
+        break;
+      }
     }
   }
 

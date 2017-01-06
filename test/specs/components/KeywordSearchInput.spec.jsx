@@ -8,11 +8,13 @@ chai.should();
 
 const recordTypes = {
   all: {
-    group: 'all',
     messageDescriptors: {
       recordNameTitle: {
         defaultMessage: 'All record types',
       },
+    },
+    serviceConfig: {
+      serviceType: 'utility',
     },
   },
   concept: {
@@ -21,10 +23,12 @@ const recordTypes = {
         defaultMessage: 'Concept',
       },
     },
-    group: 'authority',
+    serviceConfig: {
+      serviceType: 'authority',
+    },
     vocabularies: {
       all: {
-        group: 'all',
+        type: 'all',
         messageDescriptors: {
           vocabNameTitle: {
             defaultMessage: 'All vocabularies',
@@ -60,7 +64,9 @@ const recordTypes = {
         defaultMessage: 'Loan In',
       },
     },
-    group: 'procedure',
+    serviceConfig: {
+      serviceType: 'procedure',
+    },
   },
   media: {
     messageDescriptors: {
@@ -68,7 +74,9 @@ const recordTypes = {
         defaultMessage: 'Media',
       },
     },
-    group: 'procedure',
+    serviceConfig: {
+      serviceType: 'procedure',
+    },
   },
   group: {
     messageDescriptors: {
@@ -76,7 +84,9 @@ const recordTypes = {
         defaultMessage: 'Group',
       },
     },
-    group: 'procedure',
+    serviceConfig: {
+      serviceType: 'procedure',
+    },
   },
   object: {
     defaultForSearch: true,
@@ -85,7 +95,9 @@ const recordTypes = {
         defaultMessage: 'Object',
       },
     },
-    group: 'object',
+    serviceConfig: {
+      serviceType: 'object',
+    },
   },
   person: {
     messageDescriptors: {
@@ -93,10 +105,12 @@ const recordTypes = {
         defaultMessage: 'Person',
       },
     },
-    group: 'authority',
+    serviceConfig: {
+      serviceType: 'authority',
+    },
     vocabularies: {
       all: {
-        group: 'all',
+        type: 'all',
         messageDescriptors: {
           vocabNameTitle: {
             defaultMessage: 'All vocabularies',
@@ -125,10 +139,12 @@ const recordTypes = {
         defaultMessage: 'Organization',
       },
     },
-    group: 'authority',
+    serviceConfig: {
+      serviceType: 'authority',
+    },
     vocabularies: {
       all: {
-        group: 'all',
+        type: 'all',
         messageDescriptors: {
           vocabNameTitle: {
             defaultMessage: 'All vocabularies',
@@ -243,12 +259,12 @@ describe('KeywordSearchInput', function suite() {
     recordTypes.organization.vocabularies.ulan_oa.messageDescriptors = messageDescriptors;
   });
 
-  it('should use recordTypeGroupOrder prop to order record type groups', function test() {
+  it('should use serviceTypeOrder prop to order service types', function test() {
     render(
       <KeywordSearchInput
         recordTypes={recordTypes}
-        recordTypeGroupOrder={{
-          all: 3,
+        serviceTypeOrder={{
+          utility: 3,
           object: 2,
           procedure: 0,
           authority: 1,
@@ -272,11 +288,11 @@ describe('KeywordSearchInput', function suite() {
     items[7].textContent.should.equal('All record types');
   });
 
-  it('should sort groups where recordTypeGroupOrder is not set to the end', function test() {
+  it('should sort service types where serviceTypeOrder is not set to the end', function test() {
     render(
       <KeywordSearchInput
         recordTypes={recordTypes}
-        recordTypeGroupOrder={{
+        serviceTypeOrder={{
           object: 2,
         }}
       />, this.container);
@@ -291,18 +307,18 @@ describe('KeywordSearchInput', function suite() {
     items[0].textContent.should.equal('Object');
   });
 
-  it('should use vocabularyGroupOrder prop to order vocabulary groups', function test() {
-    const personGroup = recordTypes.person.vocabularies.person.group;
-    const ulanGroup = recordTypes.person.vocabularies.ulan_pa.group;
+  it('should use vocabularyTypeOrder prop to order vocabulary types', function test() {
+    const personType = recordTypes.person.vocabularies.person.type;
+    const ulanType = recordTypes.person.vocabularies.ulan_pa.type;
 
-    recordTypes.person.vocabularies.person.group = 'normal';
-    recordTypes.person.vocabularies.ulan_pa.group = 'normal';
+    recordTypes.person.vocabularies.person.type = 'normal';
+    recordTypes.person.vocabularies.ulan_pa.type = 'normal';
 
     render(
       <KeywordSearchInput
         recordTypes={recordTypes}
         recordTypeValue="person"
-        vocabularyGroupOrder={{
+        vocabularyTypeOrder={{
           normal: 0,
           all: 1,
         }}
@@ -319,22 +335,22 @@ describe('KeywordSearchInput', function suite() {
     items[1].textContent.should.equal('ULAN Persons');
     items[2].textContent.should.equal('All vocabularies');
 
-    recordTypes.person.vocabularies.person.group = personGroup;
-    recordTypes.person.vocabularies.ulan_pa.group = ulanGroup;
+    recordTypes.person.vocabularies.person.type = personType;
+    recordTypes.person.vocabularies.ulan_pa.type = ulanType;
   });
 
-  it('should sort groups where vocabularyGroupOrder is not set to the end', function test() {
-    const personGroup = recordTypes.person.vocabularies.person.group;
-    const ulanGroup = recordTypes.person.vocabularies.ulan_pa.group;
+  it('should sort types where vocabularyTypeOrder is not set to the end', function test() {
+    const personType = recordTypes.person.vocabularies.person.type;
+    const ulanType = recordTypes.person.vocabularies.ulan_pa.type;
 
-    recordTypes.person.vocabularies.person.group = 'foo';
-    recordTypes.person.vocabularies.ulan_pa.group = 'bar';
+    recordTypes.person.vocabularies.person.type = 'foo';
+    recordTypes.person.vocabularies.ulan_pa.type = 'bar';
 
     render(
       <KeywordSearchInput
         recordTypes={recordTypes}
         recordTypeValue="person"
-        vocabularyGroupOrder={{
+        vocabularyTypeOrder={{
           foo: 1,
         }}
       />, this.container);
@@ -348,8 +364,8 @@ describe('KeywordSearchInput', function suite() {
     items.length.should.equal(3);
     items[0].textContent.should.equal('Local Persons');
 
-    recordTypes.person.vocabularies.person.group = personGroup;
-    recordTypes.person.vocabularies.ulan_pa.group = ulanGroup;
+    recordTypes.person.vocabularies.person.type = personType;
+    recordTypes.person.vocabularies.ulan_pa.type = ulanType;
   });
 
   it('should set the keyword input value from the keywordValue prop', function test() {

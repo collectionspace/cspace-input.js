@@ -22,6 +22,7 @@ const propTypes = {
   onCommit: PropTypes.func,
   onMount: PropTypes.func,
   onOpen: PropTypes.func,
+  onUpdate: PropTypes.func,
 };
 
 const defaultProps = {
@@ -78,6 +79,16 @@ export default class DropdownMenuInput extends Component {
 
     if (onMount) {
       onMount({ value: this.state.value });
+    }
+  }
+
+  componentDidUpdate() {
+    const {
+      onUpdate,
+    } = this.props;
+
+    if (onUpdate) {
+      onUpdate({ value: this.state.value });
     }
   }
 
@@ -178,7 +189,11 @@ export default class DropdownMenuInput extends Component {
       blankable,
       open: openProp,
       valueLabel: valueLabelProp,
+      onClose,
       onCommit,
+      onMount,
+      onOpen,
+      onUpdate,
       /* eslint-enable no-unused-vars */
       ...remainingProps
     } = this.props;

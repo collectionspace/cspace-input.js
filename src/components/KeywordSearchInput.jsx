@@ -1,11 +1,13 @@
 import React, { Component, PropTypes } from 'react';
 import BaseLineInput from './LineInput';
-import OptionListControlledInput from './OptionListControlledInput';
+import BasePrefixFilteringDropdownMenuInput from './PrefixFilteringDropdownMenuInput';
 import changeable from '../enhancers/changeable';
 import committable from '../enhancers/committable';
+import withLabeledOptions from '../enhancers/withLabeledOptions';
 import styles from '../../styles/cspace-input/KeywordSearchInput.css';
 
 const LineInput = committable(changeable(BaseLineInput));
+const PrefixFilteringDropdownMenuInput = withLabeledOptions(BasePrefixFilteringDropdownMenuInput);
 
 const propTypes = {
   formatRecordTypeLabel: PropTypes.func,
@@ -13,9 +15,9 @@ const propTypes = {
   keywordValue: PropTypes.string,
   placeholder: PropTypes.string,
   recordTypes: PropTypes.object,
-  recordTypeGroupOrder: PropTypes.object,
+  serviceTypeOrder: PropTypes.object,
   recordTypeValue: PropTypes.string,
-  vocabularyGroupOrder: PropTypes.object,
+  vocabularyTypeOrder: PropTypes.object,
   vocabularyValue: PropTypes.string,
   onSearch: PropTypes.func,
   onKeywordCommit: PropTypes.func,
@@ -43,13 +45,13 @@ const defaultProps = {
     return name;
   },
   recordTypes: {},
-  recordTypeGroupOrder: {
-    all: 0,
+  serviceTypeOrder: {
+    utility: 0,
     object: 1,
     procedure: 2,
     authority: 3,
   },
-  vocabularyGroupOrder: {
+  vocabularyTypeOrder: {
     all: 0,
   },
 };
@@ -58,12 +60,12 @@ export default class KeywordSearchInput extends Component {
   constructor() {
     super();
 
+    this.handleKeyPress = this.handleKeyPress.bind(this);
     this.handleKeywordInputCommit = this.handleKeywordInputCommit.bind(this);
-    this.handleKeywordInputKeyPress = this.handleKeywordInputKeyPress.bind(this);
     this.handleRecordTypeDropdownCommit = this.handleRecordTypeDropdownCommit.bind(this);
-    this.handleRecordTypeDropdownMount = this.handleRecordTypeDropdownMount.bind(this);
+    this.handleRecordTypeDropdownUpdate = this.handleRecordTypeDropdownUpdate.bind(this);
     this.handleVocabularyDropdownCommit = this.handleVocabularyDropdownCommit.bind(this);
-    this.handleVocabularyDropdownMount = this.handleVocabularyDropdownMount.bind(this);
+    this.handleVocabularyDropdownUpdate = this.handleVocabularyDropdownUpdate.bind(this);
   }
 
   handleKeywordInputCommit(path, value) {
@@ -76,7 +78,7 @@ export default class KeywordSearchInput extends Component {
     }
   }
 
-  handleKeywordInputKeyPress(event) {
+  handleKeyPress(event) {
     if (event.key === 'Enter') {
       const {
         onSearch,
@@ -98,7 +100,7 @@ export default class KeywordSearchInput extends Component {
     }
   }
 
-  handleRecordTypeDropdownMount({ value }) {
+  handleRecordTypeDropdownUpdate({ value }) {
     if (value !== this.props.recordTypeValue) {
       // A default was selected.
 
@@ -122,7 +124,7 @@ export default class KeywordSearchInput extends Component {
     }
   }
 
-  handleVocabularyDropdownMount({ value }) {
+  handleVocabularyDropdownUpdate({ value }) {
     if (value !== this.props.vocabularyValue) {
       // A default was selected.
 
@@ -139,9 +141,9 @@ export default class KeywordSearchInput extends Component {
   renderRecordTypeDropdown() {
     const {
       formatRecordTypeLabel,
-      recordTypeGroupOrder,
       recordTypes,
       recordTypeValue,
+      serviceTypeOrder,
     } = this.props;
 
     const sortedRecordTypeNames = Object.keys(recordTypes)
@@ -149,25 +151,25 @@ export default class KeywordSearchInput extends Component {
         const configA = recordTypes[nameA];
         const configB = recordTypes[nameB];
 
-        // Primary sort by group
+        // Primary sort by service type
 
-        const groupA = configA.group;
-        const groupB = configB.group;
+        const serviceTypeA = configA.serviceConfig.serviceType;
+        const serviceTypeB = configB.serviceConfig.serviceType;
 
-        if (groupA !== groupB) {
-          let groupOrderA = recordTypeGroupOrder[groupA];
-          let groupOrderB = recordTypeGroupOrder[groupB];
+        if (serviceTypeA !== serviceTypeB) {
+          let serviceTypeOrderA = serviceTypeOrder[serviceTypeA];
+          let serviceTypeOrderB = serviceTypeOrder[serviceTypeB];
 
-          if (isNaN(groupOrderA)) {
-            groupOrderA = Number.MAX_VALUE;
+          if (isNaN(serviceTypeOrderA)) {
+            serviceTypeOrderA = Number.MAX_VALUE;
           }
 
-          if (isNaN(groupOrderB)) {
-            groupOrderB = Number.MAX_VALUE;
+          if (isNaN(serviceTypeOrderB)) {
+            serviceTypeOrderB = Number.MAX_VALUE;
           }
 
-          if (groupOrderA !== groupOrderB) {
-            return (groupOrderA > groupOrderB ? 1 : -1);
+          if (serviceTypeOrderA !== serviceTypeOrderB) {
+            return (serviceTypeOrderA > serviceTypeOrderB ? 1 : -1);
           }
         }
 
@@ -204,7 +206,8 @@ export default class KeywordSearchInput extends Component {
       return {
         value: name,
         label: formatRecordTypeLabel(name, recordType),
-        startGroup: !prevRecordType || (recordType.group !== prevRecordType.group),
+        startGroup: !prevRecordType || 
+          (recordType.serviceConfig.serviceType !== prevRecordType.serviceConfig.serviceType),
       };
     });
 
@@ -227,13 +230,15 @@ export default class KeywordSearchInput extends Component {
     }
 
     return (
-      <OptionListControlledInput
+      <PrefixFilteringDropdownMenuInput
         blankable={false}
         embedded
         options={options}
         value={value}
         onCommit={this.handleRecordTypeDropdownCommit}
-        onMount={this.handleRecordTypeDropdownMount}
+        onKeyPress={this.handleKeyPress}
+        onMount={this.handleRecordTypeDropdownUpdate}
+        onUpdate={this.handleRecordTypeDropdownUpdate}
       />
     );
   }
@@ -243,7 +248,7 @@ export default class KeywordSearchInput extends Component {
       formatVocabularyLabel,
       recordTypes,
       recordTypeValue,
-      vocabularyGroupOrder,
+      vocabularyTypeOrder,
       vocabularyValue,
     } = this.props;
 
@@ -264,23 +269,23 @@ export default class KeywordSearchInput extends Component {
 
         // Primary sort by group
 
-        const groupA = configA.group;
-        const groupB = configB.group;
+        const vocabularyTypeA = configA.type;
+        const vocabularyTypeB = configB.type;
 
-        if (groupA !== groupB) {
-          let groupOrderA = vocabularyGroupOrder[groupA];
-          let groupOrderB = vocabularyGroupOrder[groupB];
+        if (vocabularyTypeA !== vocabularyTypeB) {
+          let vocabularyTypeOrderA = vocabularyTypeOrder[vocabularyTypeA];
+          let vocabularyTypeOrderB = vocabularyTypeOrder[vocabularyTypeB];
 
-          if (isNaN(groupOrderA)) {
-            groupOrderA = Number.MAX_VALUE;
+          if (isNaN(vocabularyTypeOrderA)) {
+            vocabularyTypeOrderA = Number.MAX_VALUE;
           }
 
-          if (isNaN(groupOrderB)) {
-            groupOrderB = Number.MAX_VALUE;
+          if (isNaN(vocabularyTypeOrderB)) {
+            vocabularyTypeOrderB = Number.MAX_VALUE;
           }
 
-          if (groupOrderA !== groupOrderB) {
-            return (groupOrderA > groupOrderB ? 1 : -1);
+          if (vocabularyTypeOrderA !== vocabularyTypeOrderB) {
+            return (vocabularyTypeOrderA > vocabularyTypeOrderB ? 1 : -1);
           }
         }
 
@@ -317,7 +322,7 @@ export default class KeywordSearchInput extends Component {
       return {
         value: name,
         label: formatVocabularyLabel(name, vocabulary),
-        startGroup: !prevVocabulary || (vocabulary.group !== prevVocabulary.group),
+        startGroup: !prevVocabulary || (vocabulary.type !== prevVocabulary.type),
       };
     });
 
@@ -340,13 +345,15 @@ export default class KeywordSearchInput extends Component {
     }
 
     return (
-      <OptionListControlledInput
+      <PrefixFilteringDropdownMenuInput
         blankable={false}
         embedded
         options={options}
         value={value}
         onCommit={this.handleVocabularyDropdownCommit}
-        onMount={this.handleVocabularyDropdownMount}
+        onKeyPress={this.handleKeyPress}
+        onMount={this.handleVocabularyDropdownUpdate}
+        onUpdate={this.handleVocabularyDropdownUpdate}
       />
     );
   }
@@ -363,7 +370,7 @@ export default class KeywordSearchInput extends Component {
         placeholder={placeholder}
         value={keywordValue}
         onCommit={this.handleKeywordInputCommit}
-        onKeyPress={this.handleKeywordInputKeyPress}
+        onKeyPress={this.handleKeyPress}
       />
     );
   }

@@ -1,6 +1,6 @@
 {
   "name": "cspace-input",
-  "version": "0.3.3",
+  "version": "0.4.0",
   "description": "CollectionSpace input components",
   "author": "Ray Lee <rhlee@berkeley.edu>",
   "license": "ECL-2.0",
@@ -37,8 +37,8 @@
     "test-specs": "npm run test-browser-specs",
     "test-integration": "npm run test-browser-integration",
     "test-browser": "cross-env NODE_ENV=test karma start --singleRun=true",
-    "test-browser-specs": "cross-env NODE_ENV=test karma start --singleRun=true --dir=specs",
-    "test-browser-integration": "cross-env NODE_ENV=test karma start --singleRun=true --dir=integration"
+    "test-browser-specs": "cross-env NODE_ENV=test karma start --singleRun=true --dir=test/specs",
+    "test-browser-integration": "cross-env NODE_ENV=test karma start --singleRun=true --dir=test/integration"
   },
   "dependencies": {
     "classnames": "^2.2.5",

@@ -1,0 +1,5 @@
+@value textMedium from '../colors.css';
+
+.adding input, .adding textarea {
+  color: textMedium;
+}
