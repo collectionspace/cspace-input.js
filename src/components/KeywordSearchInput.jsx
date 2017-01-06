@@ -206,7 +206,7 @@ export default class KeywordSearchInput extends Component {
       return {
         value: name,
         label: formatRecordTypeLabel(name, recordType),
-        startGroup: !prevRecordType || 
+        startGroup: !prevRecordType ||
           (recordType.serviceConfig.serviceType !== prevRecordType.serviceConfig.serviceType),
       };
     });

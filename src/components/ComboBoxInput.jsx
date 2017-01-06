@@ -85,7 +85,7 @@ export default class ComboBoxInput extends Component {
 
         // If the current content of the input matches an option exactly, select it.
 
-        let matchingOption = getOptionForLabel(options, valueLabel);
+        const matchingOption = getOptionForLabel(options, valueLabel);
 
         if (matchingOption) {
           this.setState({
@@ -96,18 +96,14 @@ export default class ComboBoxInput extends Component {
           });
 
           this.commit(matchingOption.value);
-        } else {
-          let newOption = null;
+        } else if (valueLabel !== '' || blankable) {
+          this.setState({
+            valueLabel,
+            open: false,
+          });
 
-          if (valueLabel !== '' || blankable) {
-            this.setState({
-              valueLabel,
-              open: false,
-            });
-
-            if (onAddOption) {
-              onAddOption(valueLabel);
-            }
+          if (onAddOption) {
+            onAddOption(valueLabel);
           }
         }
       }
@@ -146,7 +142,9 @@ export default class ComboBoxInput extends Component {
 
     const {
       className,
+      /* eslint-disable no-unused-vars */
       onAddOption,
+      /* eslint-enable no-unused-vars */
       ...remainingProps
     } = this.props;
 
@@ -154,12 +152,10 @@ export default class ComboBoxInput extends Component {
 
     if (isAdding) {
       valueProp = { valueLabel };
+    } else if (getOptionForValue(this.props.options, value)) {
+      valueProp = { value };
     } else {
-      if (getOptionForValue(this.props.options, value)) {
-        valueProp = { value };
-      } else {
-        valueProp = { valueLabel: value };
-      }
+      valueProp = { valueLabel: value };
     }
 
     const classes = classNames(className, {

@@ -82,16 +82,6 @@ export default class DropdownMenuInput extends Component {
     }
   }
 
-  componentDidUpdate() {
-    const {
-      onUpdate,
-    } = this.props;
-
-    if (onUpdate) {
-      onUpdate({ value: this.state.value });
-    }
-  }
-
   componentWillReceiveProps(nextProps) {
     const valueLabel = (nextProps.valueLabel === null || typeof nextProps.valueLabel === 'undefined')
       ? getLabelForValue(nextProps.options, nextProps.value)
@@ -102,6 +92,16 @@ export default class DropdownMenuInput extends Component {
       open: nextProps.open,
       value: nextProps.value,
     });
+  }
+
+  componentDidUpdate() {
+    const {
+      onUpdate,
+    } = this.props;
+
+    if (onUpdate) {
+      onUpdate({ value: this.state.value });
+    }
   }
 
   commit(value) {

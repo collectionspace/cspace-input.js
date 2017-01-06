@@ -1,5 +1,4 @@
 import React, { PropTypes } from 'react';
-import { normalizeOptions } from '../helpers/optionHelpers';
 
 /**
  * Sets labels on options using a formatting function before passing them on to the base

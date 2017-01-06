@@ -72,7 +72,9 @@ export const components = {
   IDGeneratorInput: repeatable(labelable(IDGeneratorInput)),
   LineInput: standalone(LineInput),
   MultilineInput: standalone(MultilineInput),
-  OptionListControlledInput: repeatable(labelable(withLabeledOptions(PrefixFilteringDropdownMenuInput))),
+  OptionListControlledInput: repeatable(
+    labelable(withLabeledOptions(PrefixFilteringDropdownMenuInput))
+  ),
   PasswordInput: standalone(PasswordInput),
   StructuredDateInput: repeatable(labelable(StructuredDateInput)),
   TabularCompoundInput: labelable(TabularCompoundInput),

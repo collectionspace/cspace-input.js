@@ -53,7 +53,7 @@ describe('ComboBoxInput', function suite() {
     render(<ComboBoxInput options={options} value="value1" />, this.container);
 
     const input = this.container.querySelector('input');
-    
+
     input.value.should.equal('Value 1');
 
     render(<ComboBoxInput options={options} value="value3" />, this.container);
@@ -102,7 +102,7 @@ describe('ComboBoxInput', function suite() {
     const handleAddOption = (label) => {
       addedLabel = label;
     };
-    
+
     const options = [
       { value: 'value1', label: 'Value 1' },
       { value: 'value2', label: 'Value 2' },
@@ -116,14 +116,14 @@ describe('ComboBoxInput', function suite() {
       />, this.container);
 
     const input = this.container.querySelector('input');
-    
+
     Simulate.mouseDown(input);
 
     input.value = 'New';
-    
+
     Simulate.change(input);
     Simulate.keyDown(input, { key: 'Enter' });
-    
+
     addedLabel.should.equal('New');
   });
 
@@ -133,7 +133,7 @@ describe('ComboBoxInput', function suite() {
     const handleAddOption = (label) => {
       addedLabel = label;
     };
-    
+
     const options = [
       { value: 'value1', label: 'Value 1' },
       { value: 'value2', label: 'Value 2' },
@@ -147,14 +147,14 @@ describe('ComboBoxInput', function suite() {
       />, this.container);
 
     const input = this.container.querySelector('input');
-    
+
     Simulate.mouseDown(input);
 
     input.value = 'Value 2';
-    
+
     Simulate.change(input);
     Simulate.keyDown(input, { key: 'Enter' });
-    
+
     expect(addedLabel).to.equal(null);
 
     Simulate.keyDown(input, { key: 'Enter' });
@@ -168,7 +168,7 @@ describe('ComboBoxInput', function suite() {
     const handleAddOption = (label) => {
       addedLabel = label;
     };
-    
+
     const options = [
       { value: 'value1', label: 'Value 1' },
       { value: 'value2', label: 'Value 2' },
@@ -183,14 +183,14 @@ describe('ComboBoxInput', function suite() {
       />, this.container);
 
     const input = this.container.querySelector('input');
-    
+
     Simulate.mouseDown(input);
 
     input.value = '';
-    
+
     Simulate.change(input);
     Simulate.keyDown(input, { key: 'Enter' });
-    
+
     expect(addedLabel).to.equal('');
   });
 
@@ -200,7 +200,7 @@ describe('ComboBoxInput', function suite() {
     const handleAddOption = (label) => {
       addedLabel = label;
     };
-    
+
     const options = [
       { value: 'value1', label: 'Value 1' },
       { value: 'value2', label: 'Value 2' },
@@ -215,14 +215,14 @@ describe('ComboBoxInput', function suite() {
       />, this.container);
 
     const input = this.container.querySelector('input');
-    
+
     Simulate.mouseDown(input);
 
     input.value = '';
-    
+
     Simulate.change(input);
     Simulate.keyDown(input, { key: 'Enter' });
-    
+
     expect(addedLabel).to.equal(null);
   });
 
