@@ -4,6 +4,7 @@ import MultilineInput from './MultilineInput';
 import { pathPropType } from '../helpers/pathHelpers';
 
 const propTypes = {
+  embedded: PropTypes.bool,
   name: PropTypes.string,
   parentPath: pathPropType,
   subpath: pathPropType,

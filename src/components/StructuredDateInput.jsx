@@ -60,6 +60,7 @@ const propTypes = {
     PropTypes.object, // eslint-disable-line react/forbid-prop-types
     PropTypes.instanceOf(Immutable.Map),
   ]),
+  embedded: PropTypes.bool,
   formatFieldLabel: PropTypes.func,
   formatOptionLabel: PropTypes.func,
   name: PropTypes.string,

@@ -34,6 +34,11 @@
   vertical-align: top;
 }
 
+
+.common > div > div > div > :global(.cspace-input-CompoundInput--common) > :global(.cspace-layout-Panel--common) {
+  margin: 0;
+}
+
 .common > div > div > *:first-child,
 .common > div > div > *:last-child,
 .common > footer > *:first-child {

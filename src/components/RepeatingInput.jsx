@@ -140,7 +140,6 @@ export default class RepeatingInput extends Component {
     } = this.props;
 
     const template = React.Children.only(children);
-    const childPropTypes = template.type.propTypes;
 
     return normalizeValue(value).map((instanceValue, index, list) => {
       const instanceName = `${index}`;
@@ -151,11 +150,9 @@ export default class RepeatingInput extends Component {
         name: instanceName,
         parentPath: getPath(this.props),
         value: instanceValue,
+        // The template is expected to accept an onCommit prop.
+        onCommit: this.handleInstanceCommit,
       };
-
-      if (childPropTypes && childPropTypes.onCommit) {
-        overrideProps.onCommit = this.handleInstanceCommit;
-      }
 
       const instance = React.cloneElement(template, overrideProps);
 
