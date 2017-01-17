@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import Immutable from 'immutable';
+import classNames from 'classnames';
 import get from 'lodash/get';
 import { getPath, pathPropType } from '../helpers/pathHelpers';
 import isInput from '../helpers/isInput';
@@ -7,6 +8,7 @@ import styles from '../../styles/cspace-input/CompoundInput.css';
 
 const propTypes = {
   children: PropTypes.node,
+  className: PropTypes.string,
   defaultChildSubpath: pathPropType,
   name: PropTypes.string,
   parentPath: pathPropType,    // eslint-disable-line react/no-unused-prop-types
@@ -85,12 +87,15 @@ export default class CustomCompoundInput extends Component {
   render() {
     const {
       children,
+      className,
       name,
     } = this.props;
 
+    const classes = classNames(className, styles.common);
+
     return (
       <fieldset
-        className={styles.common}
+        className={classes}
         name={name}
       >
         {this.decorateInputs(children)}
