@@ -11,7 +11,7 @@ const propTypes = {
 };
 
 const defaultProps = {
-  formatVocabName: vocab => vocab.messageDescriptors.vocabNameTitle.defaultMessage,
+  formatVocabName: vocab => vocab.messages.vocabNameTitle.defaultMessage,
 };
 
 export default class QuickAdd extends Component {

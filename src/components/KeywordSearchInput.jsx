@@ -27,18 +27,18 @@ const propTypes = {
 
 const defaultProps = {
   formatRecordTypeLabel: (name, config) => {
-    const messages = config.messageDescriptors;
+    const messages = config.messages;
 
-    if (messages && messages.recordNameTitle) {
-      return messages.recordNameTitle.defaultMessage;
+    if (messages) {
+      return messages.record.recordNameTitle.defaultMessage;
     }
 
     return name;
   },
   formatVocabularyLabel: (name, config) => {
-    const messages = config.messageDescriptors;
+    const messages = config.messages;
 
-    if (messages && messages.vocabNameTitle) {
+    if (messages) {
       return messages.vocabNameTitle.defaultMessage;
     }
 

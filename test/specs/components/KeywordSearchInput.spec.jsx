@@ -8,9 +8,11 @@ chai.should();
 
 const recordTypes = {
   all: {
-    messageDescriptors: {
-      recordNameTitle: {
-        defaultMessage: 'All record types',
+    messages: {
+      record: {
+        recordNameTitle: {
+          defaultMessage: 'All record types',
+        },
       },
     },
     serviceConfig: {
@@ -18,9 +20,11 @@ const recordTypes = {
     },
   },
   concept: {
-    messageDescriptors: {
-      recordNameTitle: {
-        defaultMessage: 'Concept',
+    messages: {
+      record: {
+        recordNameTitle: {
+          defaultMessage: 'Concept',
+        },
       },
     },
     serviceConfig: {
@@ -29,28 +33,28 @@ const recordTypes = {
     vocabularies: {
       all: {
         type: 'all',
-        messageDescriptors: {
+        messages: {
           vocabNameTitle: {
             defaultMessage: 'All vocabularies',
           },
         },
       },
       concept: {
-        messageDescriptors: {
+        messages: {
           vocabNameTitle: {
             defaultMessage: 'Associated Concepts',
           },
         },
       },
       activity: {
-        messageDescriptors: {
+        messages: {
           vocabNameTitle: {
             defaultMessage: 'Activity Concepts',
           },
         },
       },
       material_ca: {
-        messageDescriptors: {
+        messages: {
           vocabNameTitle: {
             defaultMessage: 'Material Concepts',
           },
@@ -59,9 +63,11 @@ const recordTypes = {
     },
   },
   loanin: {
-    messageDescriptors: {
-      recordNameTitle: {
-        defaultMessage: 'Loan In',
+    messages: {
+      record: {
+        recordNameTitle: {
+          defaultMessage: 'Loan In',
+        },
       },
     },
     serviceConfig: {
@@ -69,9 +75,11 @@ const recordTypes = {
     },
   },
   media: {
-    messageDescriptors: {
-      recordNameTitle: {
-        defaultMessage: 'Media',
+    messages: {
+      record: {
+        recordNameTitle: {
+          defaultMessage: 'Media',
+        },
       },
     },
     serviceConfig: {
@@ -79,9 +87,11 @@ const recordTypes = {
     },
   },
   group: {
-    messageDescriptors: {
-      recordNameTitle: {
-        defaultMessage: 'Group',
+    messages: {
+      record: {
+        recordNameTitle: {
+          defaultMessage: 'Group',
+        },
       },
     },
     serviceConfig: {
@@ -90,9 +100,11 @@ const recordTypes = {
   },
   object: {
     defaultForSearch: true,
-    messageDescriptors: {
-      recordNameTitle: {
-        defaultMessage: 'Object',
+    messages: {
+      record: {
+        recordNameTitle: {
+          defaultMessage: 'Object',
+        },
       },
     },
     serviceConfig: {
@@ -100,9 +112,11 @@ const recordTypes = {
     },
   },
   person: {
-    messageDescriptors: {
-      recordNameTitle: {
-        defaultMessage: 'Person',
+    messages: {
+      record: {
+        recordNameTitle: {
+          defaultMessage: 'Person',
+        },
       },
     },
     serviceConfig: {
@@ -111,21 +125,21 @@ const recordTypes = {
     vocabularies: {
       all: {
         type: 'all',
-        messageDescriptors: {
+        messages: {
           vocabNameTitle: {
             defaultMessage: 'All vocabularies',
           },
         },
       },
       person: {
-        messageDescriptors: {
+        messages: {
           vocabNameTitle: {
             defaultMessage: 'Local Persons',
           },
         },
       },
       ulan_pa: {
-        messageDescriptors: {
+        messages: {
           vocabNameTitle: {
             defaultMessage: 'ULAN Persons',
           },
@@ -134,9 +148,11 @@ const recordTypes = {
     },
   },
   organization: {
-    messageDescriptors: {
-      recordNameTitle: {
-        defaultMessage: 'Organization',
+    messages: {
+      record: {
+        recordNameTitle: {
+          defaultMessage: 'Organization',
+        },
       },
     },
     serviceConfig: {
@@ -145,21 +161,21 @@ const recordTypes = {
     vocabularies: {
       all: {
         type: 'all',
-        messageDescriptors: {
+        messages: {
           vocabNameTitle: {
             defaultMessage: 'All vocabularies',
           },
         },
       },
       organization: {
-        messageDescriptors: {
+        messages: {
           vocabNameTitle: {
             defaultMessage: 'Local Organizations',
           },
         },
       },
       ulan_oa: {
-        messageDescriptors: {
+        messages: {
           vocabNameTitle: {
             defaultMessage: 'ULAN Organizations',
           },
@@ -198,9 +214,9 @@ describe('KeywordSearchInput', function suite() {
   });
 
   it('should display the record type name if a message is not provided', function test() {
-    const messageDescriptors = recordTypes.loanin.messageDescriptors;
+    const messages = recordTypes.loanin.messages;
 
-    recordTypes.loanin.messageDescriptors = null;
+    recordTypes.loanin.messages = null;
 
     render(
       <KeywordSearchInput
@@ -215,7 +231,7 @@ describe('KeywordSearchInput', function suite() {
 
     items[3].textContent.should.equal('loanin');
 
-    recordTypes.loanin.messageDescriptors = messageDescriptors;
+    recordTypes.loanin.messages = messages;
   });
 
   it('should render vocabulary options if a record type is selected', function test() {
@@ -238,9 +254,9 @@ describe('KeywordSearchInput', function suite() {
   });
 
   it('should display the vocabulary name if a message is not provided', function test() {
-    const messageDescriptors = recordTypes.organization.vocabularies.ulan_oa.messageDescriptors;
+    const messages = recordTypes.organization.vocabularies.ulan_oa.messages;
 
-    recordTypes.organization.vocabularies.ulan_oa.messageDescriptors = null;
+    recordTypes.organization.vocabularies.ulan_oa.messages = null;
 
     render(
       <KeywordSearchInput
@@ -256,7 +272,7 @@ describe('KeywordSearchInput', function suite() {
 
     items[2].textContent.should.equal('ulan_oa');
 
-    recordTypes.organization.vocabularies.ulan_oa.messageDescriptors = messageDescriptors;
+    recordTypes.organization.vocabularies.ulan_oa.messages = messages;
   });
 
   it('should use serviceTypeOrder prop to order service types', function test() {

@@ -11,6 +11,11 @@
   display: block;
   font-size: 12px;
   background-color: transparent;
+  overflow: hidden;
+}
+
+.common:global(.material-icons) {
+  font-size: 12px;
 }
 
 .common:enabled {
