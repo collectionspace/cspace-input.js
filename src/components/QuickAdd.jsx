@@ -11,7 +11,7 @@ const propTypes = {
 };
 
 const defaultProps = {
-  formatVocabName: vocab => vocab.messages.vocabNameTitle.defaultMessage,
+  formatVocabName: vocab => vocab.messages.collectionName.defaultMessage,
 };
 
 export default class QuickAdd extends Component {
@@ -74,6 +74,8 @@ export default class QuickAdd extends Component {
         </li>
       );
     });
+
+    // TODO: i18n of add message
 
     return (
       <div className={styles.normal}>

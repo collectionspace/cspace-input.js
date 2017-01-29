@@ -17,8 +17,8 @@ describe('QuickAdd', function suite() {
       vocabularies: {
         person: {
           messages: {
-            vocabNameTitle: {
-              id: 'vocab.personauthorities.person.nameTitle',
+            collectionName: {
+              id: 'vocab.person.local.collectionName',
               defaultMessage: 'Local Persons',
             },
           },

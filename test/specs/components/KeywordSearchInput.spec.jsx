@@ -10,8 +10,8 @@ const recordTypes = {
   all: {
     messages: {
       record: {
-        recordNameTitle: {
-          defaultMessage: 'All record types',
+        collectionName: {
+          defaultMessage: 'All Records',
         },
       },
     },
@@ -22,8 +22,8 @@ const recordTypes = {
   concept: {
     messages: {
       record: {
-        recordNameTitle: {
-          defaultMessage: 'Concept',
+        collectionName: {
+          defaultMessage: 'Concepts',
         },
       },
     },
@@ -34,29 +34,29 @@ const recordTypes = {
       all: {
         type: 'all',
         messages: {
-          vocabNameTitle: {
-            defaultMessage: 'All vocabularies',
+          name: {
+            defaultMessage: 'All',
           },
         },
       },
       concept: {
         messages: {
-          vocabNameTitle: {
-            defaultMessage: 'Associated Concepts',
+          name: {
+            defaultMessage: 'Associated',
           },
         },
       },
       activity: {
         messages: {
-          vocabNameTitle: {
-            defaultMessage: 'Activity Concepts',
+          name: {
+            defaultMessage: 'Activity',
           },
         },
       },
       material_ca: {
         messages: {
-          vocabNameTitle: {
-            defaultMessage: 'Material Concepts',
+          name: {
+            defaultMessage: 'Material',
           },
         },
       },
@@ -65,8 +65,8 @@ const recordTypes = {
   loanin: {
     messages: {
       record: {
-        recordNameTitle: {
-          defaultMessage: 'Loan In',
+        collectionName: {
+          defaultMessage: 'Loans In',
         },
       },
     },
@@ -77,8 +77,8 @@ const recordTypes = {
   media: {
     messages: {
       record: {
-        recordNameTitle: {
-          defaultMessage: 'Media',
+        collectionName: {
+          defaultMessage: 'Media Handling',
         },
       },
     },
@@ -89,8 +89,8 @@ const recordTypes = {
   group: {
     messages: {
       record: {
-        recordNameTitle: {
-          defaultMessage: 'Group',
+        collectionName: {
+          defaultMessage: 'Groups',
         },
       },
     },
@@ -102,8 +102,8 @@ const recordTypes = {
     defaultForSearch: true,
     messages: {
       record: {
-        recordNameTitle: {
-          defaultMessage: 'Object',
+        collectionName: {
+          defaultMessage: 'Objects',
         },
       },
     },
@@ -114,8 +114,8 @@ const recordTypes = {
   person: {
     messages: {
       record: {
-        recordNameTitle: {
-          defaultMessage: 'Person',
+        collectionName: {
+          defaultMessage: 'Persons',
         },
       },
     },
@@ -126,22 +126,22 @@ const recordTypes = {
       all: {
         type: 'all',
         messages: {
-          vocabNameTitle: {
-            defaultMessage: 'All vocabularies',
+          name: {
+            defaultMessage: 'All',
           },
         },
       },
       person: {
         messages: {
-          vocabNameTitle: {
-            defaultMessage: 'Local Persons',
+          name: {
+            defaultMessage: 'Local',
           },
         },
       },
       ulan_pa: {
         messages: {
-          vocabNameTitle: {
-            defaultMessage: 'ULAN Persons',
+          name: {
+            defaultMessage: 'ULAN',
           },
         },
       },
@@ -150,8 +150,8 @@ const recordTypes = {
   organization: {
     messages: {
       record: {
-        recordNameTitle: {
-          defaultMessage: 'Organization',
+        collectionName: {
+          defaultMessage: 'Organizations',
         },
       },
     },
@@ -162,22 +162,22 @@ const recordTypes = {
       all: {
         type: 'all',
         messages: {
-          vocabNameTitle: {
-            defaultMessage: 'All vocabularies',
+          name: {
+            defaultMessage: 'All',
           },
         },
       },
       organization: {
         messages: {
-          vocabNameTitle: {
-            defaultMessage: 'Local Organizations',
+          name: {
+            defaultMessage: 'Local',
           },
         },
       },
       ulan_oa: {
         messages: {
-          vocabNameTitle: {
-            defaultMessage: 'ULAN Organizations',
+          name: {
+            defaultMessage: 'ULAN',
           },
         },
       },
@@ -203,14 +203,14 @@ describe('KeywordSearchInput', function suite() {
     const items = this.container.querySelectorAll('li');
 
     items.length.should.equal(8);
-    items[0].textContent.should.equal('All record types');
-    items[1].textContent.should.equal('Object');
-    items[2].textContent.should.equal('Group');
-    items[3].textContent.should.equal('Loan In');
-    items[4].textContent.should.equal('Media');
-    items[5].textContent.should.equal('Concept');
-    items[6].textContent.should.equal('Organization');
-    items[7].textContent.should.equal('Person');
+    items[0].textContent.should.equal('All Records');
+    items[1].textContent.should.equal('Objects');
+    items[2].textContent.should.equal('Groups');
+    items[3].textContent.should.equal('Loans In');
+    items[4].textContent.should.equal('Media Handling');
+    items[5].textContent.should.equal('Concepts');
+    items[6].textContent.should.equal('Organizations');
+    items[7].textContent.should.equal('Persons');
   });
 
   it('should display the record type name if a message is not provided', function test() {
@@ -248,9 +248,9 @@ describe('KeywordSearchInput', function suite() {
     const items = this.container.querySelectorAll('li');
 
     items.length.should.equal(3);
-    items[0].textContent.should.equal('All vocabularies');
-    items[1].textContent.should.equal('Local Organizations');
-    items[2].textContent.should.equal('ULAN Organizations');
+    items[0].textContent.should.equal('All');
+    items[1].textContent.should.equal('Local');
+    items[2].textContent.should.equal('ULAN');
   });
 
   it('should display the vocabulary name if a message is not provided', function test() {
@@ -294,14 +294,14 @@ describe('KeywordSearchInput', function suite() {
     const items = this.container.querySelectorAll('li');
 
     items.length.should.equal(8);
-    items[0].textContent.should.equal('Group');
-    items[1].textContent.should.equal('Loan In');
-    items[2].textContent.should.equal('Media');
-    items[3].textContent.should.equal('Concept');
-    items[4].textContent.should.equal('Organization');
-    items[5].textContent.should.equal('Person');
-    items[6].textContent.should.equal('Object');
-    items[7].textContent.should.equal('All record types');
+    items[0].textContent.should.equal('Groups');
+    items[1].textContent.should.equal('Loans In');
+    items[2].textContent.should.equal('Media Handling');
+    items[3].textContent.should.equal('Concepts');
+    items[4].textContent.should.equal('Organizations');
+    items[5].textContent.should.equal('Persons');
+    items[6].textContent.should.equal('Objects');
+    items[7].textContent.should.equal('All Records');
   });
 
   it('should sort service types where serviceTypeOrder is not set to the end', function test() {
@@ -320,7 +320,7 @@ describe('KeywordSearchInput', function suite() {
     const items = this.container.querySelectorAll('li');
 
     items.length.should.equal(8);
-    items[0].textContent.should.equal('Object');
+    items[0].textContent.should.equal('Objects');
   });
 
   it('should use vocabularyTypeOrder prop to order vocabulary types', function test() {
@@ -347,9 +347,9 @@ describe('KeywordSearchInput', function suite() {
     const items = this.container.querySelectorAll('li');
 
     items.length.should.equal(3);
-    items[0].textContent.should.equal('Local Persons');
-    items[1].textContent.should.equal('ULAN Persons');
-    items[2].textContent.should.equal('All vocabularies');
+    items[0].textContent.should.equal('Local');
+    items[1].textContent.should.equal('ULAN');
+    items[2].textContent.should.equal('All');
 
     recordTypes.person.vocabularies.person.type = personType;
     recordTypes.person.vocabularies.ulan_pa.type = ulanType;
@@ -378,7 +378,7 @@ describe('KeywordSearchInput', function suite() {
     const items = this.container.querySelectorAll('li');
 
     items.length.should.equal(3);
-    items[0].textContent.should.equal('Local Persons');
+    items[0].textContent.should.equal('Local');
 
     recordTypes.person.vocabularies.person.type = personType;
     recordTypes.person.vocabularies.ulan_pa.type = ulanType;
@@ -405,7 +405,7 @@ describe('KeywordSearchInput', function suite() {
 
     const input = this.container.querySelector('input');
 
-    input.value.should.equal('Group');
+    input.value.should.equal('Groups');
   });
 
   it('should select the record type with defaultForSearch set to true if recordTypeValue is not supplied', function test() {
@@ -419,7 +419,7 @@ describe('KeywordSearchInput', function suite() {
 
     const input = this.container.querySelector('input');
 
-    input.value.should.equal('Media');
+    input.value.should.equal('Media Handling');
 
     recordTypes.object.defaultForSearch = true;
     recordTypes.media.defaultForSearch = false;
@@ -435,7 +435,7 @@ describe('KeywordSearchInput', function suite() {
 
     const input = this.container.querySelector('input');
 
-    input.value.should.equal('All record types');
+    input.value.should.equal('All Records');
 
     recordTypes.object.defaultForSearch = true;
   });
@@ -450,8 +450,8 @@ describe('KeywordSearchInput', function suite() {
 
     const inputs = this.container.querySelectorAll('input');
 
-    inputs[0].value.should.equal('Concept');
-    inputs[1].value.should.equal('Material Concepts');
+    inputs[0].value.should.equal('Concepts');
+    inputs[1].value.should.equal('Material');
   });
 
   it('should select the vocabulary with defaultForSearch set to true if vocabularyValue is not supplied', function test() {
@@ -465,8 +465,8 @@ describe('KeywordSearchInput', function suite() {
 
     const inputs = this.container.querySelectorAll('input');
 
-    inputs[0].value.should.equal('Concept');
-    inputs[1].value.should.equal('Material Concepts');
+    inputs[0].value.should.equal('Concepts');
+    inputs[1].value.should.equal('Material');
 
     recordTypes.concept.vocabularies.material_ca.defaultForSearch = false;
   });
@@ -480,8 +480,8 @@ describe('KeywordSearchInput', function suite() {
 
     const inputs = this.container.querySelectorAll('input');
 
-    inputs[0].value.should.equal('Concept');
-    inputs[1].value.should.equal('All vocabularies');
+    inputs[0].value.should.equal('Concepts');
+    inputs[1].value.should.equal('All');
   });
 
   it('should not render the vocabulary dropdown if the selected record type is not an authority', function test() {
@@ -512,14 +512,14 @@ describe('KeywordSearchInput', function suite() {
     const items = this.container.querySelectorAll('li');
 
     items.length.should.equal(8);
-    items[0].textContent.should.equal('All record types');
-    items[1].textContent.should.equal('Object');
-    items[2].textContent.should.equal('Media');
-    items[3].textContent.should.equal('Group');
-    items[4].textContent.should.equal('Loan In');
-    items[5].textContent.should.equal('Person');
-    items[6].textContent.should.equal('Concept');
-    items[7].textContent.should.equal('Organization');
+    items[0].textContent.should.equal('All Records');
+    items[1].textContent.should.equal('Objects');
+    items[2].textContent.should.equal('Media Handling');
+    items[3].textContent.should.equal('Groups');
+    items[4].textContent.should.equal('Loans In');
+    items[5].textContent.should.equal('Persons');
+    items[6].textContent.should.equal('Concepts');
+    items[7].textContent.should.equal('Organizations');
 
     recordTypes.media.sortOrder = null;
     recordTypes.person.sortOrder = null;
@@ -542,10 +542,10 @@ describe('KeywordSearchInput', function suite() {
     const items = this.container.querySelectorAll('li');
 
     items.length.should.equal(4);
-    items[0].textContent.should.equal('All vocabularies');
-    items[1].textContent.should.equal('Associated Concepts');
-    items[2].textContent.should.equal('Material Concepts');
-    items[3].textContent.should.equal('Activity Concepts');
+    items[0].textContent.should.equal('All');
+    items[1].textContent.should.equal('Associated');
+    items[2].textContent.should.equal('Material');
+    items[3].textContent.should.equal('Activity');
 
     recordTypes.concept.vocabularies.concept.sortOrder = null;
     recordTypes.concept.vocabularies.material_ca.sortOrder = null;

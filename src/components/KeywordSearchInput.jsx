@@ -30,7 +30,7 @@ const defaultProps = {
     const messages = config.messages;
 
     if (messages) {
-      return messages.record.recordNameTitle.defaultMessage;
+      return messages.record.collectionName.defaultMessage;
     }
 
     return name;
@@ -39,7 +39,7 @@ const defaultProps = {
     const messages = config.messages;
 
     if (messages) {
-      return messages.vocabNameTitle.defaultMessage;
+      return messages.name.defaultMessage;
     }
 
     return name;
