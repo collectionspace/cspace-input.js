@@ -14,12 +14,14 @@ import MiniButton from './components/MiniButton';
 import MultilineInput from './components/MultilineInput';
 import PasswordInput from './components/PasswordInput';
 import PrefixFilteringDropdownMenuInput from './components/PrefixFilteringDropdownMenuInput';
+import RecordTypeInput from './components/RecordTypeInput';
 import ReadOnlyInput from './components/ReadOnlyInput';
 import RepeatingInput from './components/RepeatingInput';
 import StructuredDateInput from './components/StructuredDateInput';
 import TabularCompoundInput from './components/TabularCompoundInput';
 import TextInput from './components/TextInput';
 import VocabularyControlledInput from './components/VocabularyControlledInput';
+import VocabularyInput from './components/VocabularyInput';
 
 import changeable from './enhancers/changeable';
 import committable from './enhancers/committable';
@@ -49,11 +51,13 @@ export const baseComponents = {
   PasswordInput,
   PrefixFilteringDropdownMenuInput,
   ReadOnlyInput,
+  RecordTypeInput,
   RepeatingInput,
   StructuredDateInput,
   TabularCompoundInput,
   TextInput,
   VocabularyControlledInput,
+  VocabularyInput,
 };
 
 export const components = {
