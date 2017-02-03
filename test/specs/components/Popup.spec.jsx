@@ -111,16 +111,16 @@ describe('Popup', function suite() {
     Simulate.keyDown(element);
   });
 
-  it('should call onMounted after mount', function test() {
+  it('should call onMount after mount', function test() {
     let handlerCalled = false;
 
-    const handleMounted = () => {
+    const handleMount = () => {
       handlerCalled = true;
     };
 
     render(
       <div style={{ position: 'relative' }}>
-        <Popup onMounted={handleMounted}>
+        <Popup onMount={handleMount}>
           <span>Hello</span>
         </Popup>
         <br /><br />

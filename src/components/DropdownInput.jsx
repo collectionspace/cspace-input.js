@@ -41,7 +41,7 @@ export default class DropdownInput extends Component {
     this.handleInputKeyDown = this.handleInputKeyDown.bind(this);
     this.handlePopupBlur = this.handlePopupBlur.bind(this);
     this.handlePopupKeyDown = this.handlePopupKeyDown.bind(this);
-    this.handlePopupMounted = this.handlePopupMounted.bind(this);
+    this.handlePopupMount = this.handlePopupMount.bind(this);
     this.handleRef = this.handleRef.bind(this);
 
     this.state = {
@@ -191,7 +191,7 @@ export default class DropdownInput extends Component {
     }
   }
 
-  handlePopupMounted() {
+  handlePopupMount() {
     if (this.focusPopupNeeded) {
       this.focusPopup();
       this.focusPopupNeeded = false;
@@ -242,7 +242,7 @@ export default class DropdownInput extends Component {
         <Popup
           onBlur={this.handlePopupBlur}
           onKeyDown={this.handlePopupKeyDown}
-          onMounted={this.handlePopupMounted}
+          onMount={this.handlePopupMount}
         >
           {children}
         </Popup>

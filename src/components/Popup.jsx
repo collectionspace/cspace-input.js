@@ -9,7 +9,7 @@ const propTypes = {
   /**
    * Callback to be executed after the Popup has mounted.
    */
-  onMounted: PropTypes.func,
+  onMount: PropTypes.func,
 };
 
 export default class Popup extends Component {
@@ -22,11 +22,11 @@ export default class Popup extends Component {
 
   componentDidMount() {
     const {
-      onMounted,
+      onMount,
     } = this.props;
 
-    if (onMounted) {
-      onMounted();
+    if (onMount) {
+      onMount();
     }
   }
 
