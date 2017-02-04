@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
+import { Popup } from 'cspace-layout';
 import classNames from 'classnames';
 import TextInput from './TextInput';
-import Popup from './Popup';
 import styles from '../../styles/cspace-input/DropdownInput.css';
 
 const propTypes = {

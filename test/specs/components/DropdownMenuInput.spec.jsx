@@ -326,7 +326,7 @@ describe('DropdownMenuInput', function suite() {
 
     Simulate.mouseDown(input);
 
-    const popup = this.container.querySelector('.cspace-input-Popup--common');
+    const popup = this.container.querySelector('.cspace-layout-Popup--common');
 
     popup.should.not.equal(null);
 
@@ -397,7 +397,7 @@ describe('DropdownMenuInput', function suite() {
 
     Simulate.mouseDown(input);
 
-    const popup = this.container.querySelector('.cspace-input-Popup--common');
+    const popup = this.container.querySelector('.cspace-layout-Popup--common');
 
     popup.should.not.equal(null);
 
