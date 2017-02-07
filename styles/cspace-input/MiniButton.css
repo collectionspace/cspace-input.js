@@ -3,6 +3,7 @@
 
 .common {
   composes: common from './Input.css';
+  margin: 0;
   border-radius: 0;
   border: none;
   padding: 0;
