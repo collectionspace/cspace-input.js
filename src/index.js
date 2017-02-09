@@ -77,7 +77,7 @@ export const components = {
   LineInput: standalone(LineInput),
   MultilineInput: standalone(MultilineInput),
   OptionListControlledInput: repeatable(
-    labelable(withLabeledOptions(PrefixFilteringDropdownMenuInput))
+    labelable(withLabeledOptions(withNormalizedOptions(PrefixFilteringDropdownMenuInput)))
   ),
   PasswordInput: standalone(PasswordInput),
   StructuredDateInput: repeatable(labelable(StructuredDateInput)),

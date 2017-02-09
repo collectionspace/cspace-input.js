@@ -1,6 +1,9 @@
 import React, { Component, PropTypes } from 'react';
 import { getDisplayName } from 'cspace-refname';
 import PrefixFilteringDropdownMenuInput from './PrefixFilteringDropdownMenuInput';
+import withNormalizedOptions from '../enhancers/withNormalizedOptions';
+
+const BaseDropdownMenuInput = withNormalizedOptions(PrefixFilteringDropdownMenuInput);
 
 const propTypes = {
   ...PrefixFilteringDropdownMenuInput.propTypes,
@@ -38,7 +41,7 @@ export default class VocabularyControlledInput extends Component {
     })) : [];
 
     return (
-      <PrefixFilteringDropdownMenuInput
+      <BaseDropdownMenuInput
         options={options}
         value={value}
         valueLabel={getDisplayName(value)}

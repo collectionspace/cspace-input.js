@@ -1,7 +1,6 @@
 import React from 'react';
 import { render } from 'react-dom';
 import { createRenderer } from 'react-addons-test-utils';
-import PrefixFilteringDropdownMenuInput from '../../../src/components/PrefixFilteringDropdownMenuInput';
 import VocabularyControlledInput from '../../../src/components/VocabularyControlledInput';
 
 import createTestContainer from '../../helpers/createTestContainer';
@@ -20,7 +19,7 @@ describe('VocabularyControlledInput', function suite() {
 
     const result = shallowRenderer.getRenderOutput();
 
-    result.type.should.equal(PrefixFilteringDropdownMenuInput);
+    result.type.displayName.should.match(/PrefixFilteringDropdownMenuInput/);
   });
 
   it('should turn the terms into options and pass them to the base component', function test() {
