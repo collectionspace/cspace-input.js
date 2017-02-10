@@ -1,7 +1,10 @@
 import React, { PropTypes } from 'react';
+import classNames from 'classnames';
 import styles from '../../styles/cspace-input/Button.css';
 
 const propTypes = {
+  className: PropTypes.string,
+  icon: PropTypes.bool,
   type: PropTypes.string,
 };
 
@@ -14,13 +17,17 @@ const defaultProps = {
  */
 export default function Button(props) {
   const {
+    className,
+    icon,
     type,
     ...remainingProps
   } = props;
 
+  const classes = classNames(icon ? styles.icon : styles.common, className);
+
   return (
     <button
-      className={styles.common}
+      className={classes}
       type={type}
       {...remainingProps}
     />

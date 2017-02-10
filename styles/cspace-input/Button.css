@@ -7,8 +7,7 @@
   outline: none;
   border: 0;
   border-radius: roundedCornerRadius;
-  padding: 6px;
-
+  padding: 6px 10px;
   color: buttonText;
   background-color: buttonBg;
 }
@@ -23,4 +22,13 @@
 
 .common::-moz-focus-inner {
   border: 0;
+  padding: 0;
+}
+
+.icon {
+  composes: common;
+  padding-left: 32px;
+  background-position: 10px center;
+  background-size: 18px;
+  background-repeat: no-repeat;
 }
