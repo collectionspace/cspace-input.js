@@ -17,9 +17,14 @@ export default function committable(BaseComponent) {
 
   const propTypes = {
     ...BaseComponent.propTypes,
+    commitUnchanged: PropTypes.bool,
     onBlur: PropTypes.func,
     onCommit: PropTypes.func,
     onKeyPress: PropTypes.func,
+  };
+
+  const defaultProps = {
+    commitUnchanged: false,
   };
 
   class Committable extends Component {
@@ -60,10 +65,15 @@ export default function committable(BaseComponent) {
 
     commit(value) {
       const {
+        commitUnchanged,
+        value: initialValue,
         onCommit,
       } = this.props;
 
-      if (onCommit) {
+      if (
+        onCommit &&
+        (((value || initialValue) && (value !== initialValue)) || commitUnchanged)
+      ) {
         onCommit(getPath(this.props), value);
       }
     }
@@ -71,6 +81,7 @@ export default function committable(BaseComponent) {
     render() {
       const {
         /* eslint-disable no-unused-vars */
+        commitUnchanged,
         onCommit,
         onKeyPress,
         /* eslint-enable no-unused-vars */
@@ -88,6 +99,7 @@ export default function committable(BaseComponent) {
   }
 
   Committable.propTypes = propTypes;
+  Committable.defaultProps = defaultProps;
   Committable.displayName = `committable(${baseComponentName})`;
 
   return Committable;

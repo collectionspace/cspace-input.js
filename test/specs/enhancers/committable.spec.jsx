@@ -35,6 +35,14 @@ describe('committable', function suite() {
       committable('input').propTypes.should.include.keys(['onBlur']);
     });
 
+    it('should accept an onKeyPress prop', function test() {
+      committable('input').propTypes.should.include.keys(['onKeyPress']);
+    });
+
+    it('should accept an commitUnchanged prop', function test() {
+      committable('input').propTypes.should.include.keys(['commitUnchanged']);
+    });
+
     it('should call onCommit when the base component loses focus', function test() {
       const EnhancedComponent = committable('input');
 
@@ -112,7 +120,7 @@ describe('committable', function suite() {
       committedValue.should.equal(newValue);
     });
 
-    it('should call not call onCommit when other keys are pressed in the base component', function test() {
+    it('should not call onCommit when other keys are pressed in the base component', function test() {
       const EnhancedComponent = committable('input');
 
       let handlerCalled = false;
@@ -133,6 +141,81 @@ describe('committable', function suite() {
       Simulate.keyPress(input, { key: 'a' });
 
       handlerCalled.should.equal(false);
+    });
+
+    it('should call onKeyPress when a key is pressed in the base component', function test() {
+      const EnhancedComponent = committable('input');
+
+      let pressedKey = null;
+
+      const handleKeyPress = (event) => {
+        pressedKey = event.key;
+      };
+
+      render(
+        <EnhancedComponent
+          name="input"
+          onKeyPress={handleKeyPress}
+        />, this.container);
+
+      const input = this.container.querySelector('input');
+
+      Simulate.keyPress(input, { key: 't' });
+
+      pressedKey.should.equal('t');
+    });
+    
+    describe('when commitUnchanged is false', function test() {
+      it('should not call onCommit if the committed value is the same as the initial value', function test() {
+        const EnhancedComponent = committable('input');
+
+        let handlerCalled = false;
+
+        const handleCommit = () => {
+          handlerCalled = true;
+        };
+
+        render(
+          <EnhancedComponent
+            name="input"
+            onCommit={handleCommit}
+            onChange={() => {}}
+            value="hello"
+          />, this.container);
+
+        const input = this.container.querySelector('input');
+
+        Simulate.keyPress(input, { key: 'Enter' });
+
+        handlerCalled.should.equal(false);
+      });
+    });
+
+    describe('when commitUnchanged is true', function test() {
+      it('should call onCommit even if the committed value is the same as the initial value', function test() {
+        const EnhancedComponent = committable('input');
+
+        let handlerCalled = false;
+
+        const handleCommit = () => {
+          handlerCalled = true;
+        };
+
+        render(
+          <EnhancedComponent
+            commitUnchanged
+            name="input"
+            onCommit={handleCommit}
+            onChange={() => {}}
+            value="hello"
+          />, this.container);
+
+        const input = this.container.querySelector('input');
+
+        Simulate.keyPress(input, { key: 'Enter' });
+
+        handlerCalled.should.equal(true);
+      });
     });
   });
 });
