@@ -1,4 +1,4 @@
-@value buttonText, buttonBg, buttonBgActive from '../colors.css';
+@value buttonText, buttonBg, buttonBgActive, buttonBgDisabled from '../colors.css';
 @value roundedCornerRadius, activeEdgeWidth from '../dimensions.css';
 
 .common {
@@ -12,7 +12,11 @@
   background-color: buttonBg;
 }
 
-.common:hover {
+.common:disabled {
+  background-color: buttonBgDisabled;
+}
+
+.common:hover:not(:disabled) {
   background-color: buttonBgActive;
 }
 
