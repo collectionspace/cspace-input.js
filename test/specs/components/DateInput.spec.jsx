@@ -108,6 +108,30 @@ describe('DateInput', function suite() {
     committedValue.should.equal('');
   });
 
+  it('should not call onCommit when the dropdown input value is unchanged from the initial value', function test() {
+    let handlerCalled = false;
+
+    const handleCommit = () => {
+      handlerCalled = true;
+    };
+
+    render(
+      <DateInput
+        name="birthDate"
+        value="2011-11-02T00:00:00.000Z"
+        onCommit={handleCommit}
+      />, this.container);
+
+    const input = this.container.querySelector('input');
+
+    input.value = '2011-11-02';
+
+    Simulate.change(input);
+    Simulate.keyPress(input, { key: 'Enter' });
+
+    handlerCalled.should.equal(false);
+  });
+
   it('should call onCommit when a value is selected in the calendar', function test() {
     let committedPath = null;
     let committedValue = null;
@@ -135,6 +159,31 @@ describe('DateInput', function suite() {
 
     committedPath.should.deep.equal(['birthDate']);
     committedValue.should.not.equal(null);
+  });
+
+  it('should not call onCommit when the selected calendar date is unchanged from the initial value', function test() {
+    let handlerCalled = false;
+
+    const handleCommit = () => {
+      handlerCalled = true;
+    };
+
+    render(
+      <DateInput
+        name="birthDate"
+        value="2011-11-02T00:00:00.000Z"
+        onCommit={handleCommit}
+      />, this.container);
+
+    const input = this.container.querySelector('input');
+
+    Simulate.keyDown(input, { key: 'ArrowDown' });
+
+    const calendar = this.container.querySelector('.react-date-picker__month-view');
+
+    Simulate.keyDown(calendar, { key: 'Enter' });
+
+    handlerCalled.should.equal(false);
   });
 
   it('should label weekdays based on locale', function test() {

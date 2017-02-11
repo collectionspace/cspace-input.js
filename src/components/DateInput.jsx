@@ -63,7 +63,17 @@ export default class DateInput extends Component {
       onCommit,
     } = this.props;
 
-    if (onCommit) {
+    let {
+      value: initialValue,
+    } = this.props;
+
+    initialValue = normalizeISO8601DateString(initialValue);
+
+    if (
+      onCommit &&
+      (value || initialValue) &&
+      (value !== initialValue)
+    ) {
       onCommit(getPath(this.props), value);
     }
   }
@@ -208,6 +218,7 @@ export default class DateInput extends Component {
       <DropdownInput
         {...remainingProps}
         className={className}
+        commitUnchanged
         focusPopup={this.focusCalendar}
         open={open}
         onChange={this.handleDropdownInputChange}
