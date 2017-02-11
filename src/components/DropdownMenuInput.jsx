@@ -106,10 +106,15 @@ export default class DropdownMenuInput extends Component {
 
   commit(value) {
     const {
+      value: initialValue,
       onCommit,
     } = this.props;
 
-    if (onCommit) {
+    if (
+      onCommit &&
+      (value || initialValue) &&
+      (value !== initialValue)
+    ) {
       onCommit(getPath(this.props), value);
     }
   }

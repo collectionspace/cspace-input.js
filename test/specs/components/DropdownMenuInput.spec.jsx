@@ -145,6 +145,37 @@ describe('DropdownMenuInput', function suite() {
     input.value.should.equal('Value 1');
   });
 
+  it('should call onUpdate after an update', function test() {
+    let updatedValue = null;
+
+    const handleUpdate = ({ value: valueArg }) => {
+      updatedValue = valueArg;
+    }
+
+    const options = [
+      { value: 'value1', label: 'Value 1' },
+      { value: 'value2', label: 'Value 2' },
+      { value: 'value3', label: 'Value 3' },
+    ];
+
+    render(
+      <DropdownMenuInput
+        options={options}
+        value="value2"
+      />, this.container);
+
+    const input = this.container.querySelector('input');
+
+    render(
+      <DropdownMenuInput
+        options={options}
+        value="value1"
+        onUpdate={handleUpdate}
+      />, this.container);
+
+    updatedValue.should.equal('value1');
+  });
+
   it('should allow an empty label', function test() {
     const options = [
       { value: 'value1', label: 'Value 1' },
@@ -469,6 +500,38 @@ describe('DropdownMenuInput', function suite() {
 
     committedPath.should.deep.equal(['color']);
     committedValue.should.equal('value3');
+  });
+
+  it('should not call onCommit when the value is unchanged', function test() {
+    let handlerCalled = false;
+
+    const handleCommit = () => {
+      handlerCalled = true;
+    };
+
+    const options = [
+      { value: 'value1', label: 'Value 1' },
+      { value: 'value2', label: 'Value 2' },
+      { value: 'value3', label: 'Value 3' },
+    ];
+
+    render(
+      <DropdownMenuInput
+        name="color"
+        options={options}
+        value="value2"
+        onCommit={handleCommit}
+      />, this.container);
+
+    const input = this.container.querySelector('input');
+
+    Simulate.mouseDown(input);
+
+    const items = this.container.querySelectorAll('li');
+
+    Simulate.click(items.item(1));
+
+    handlerCalled.should.equal(false);
   });
 
   it('should render a header if content is supplied', function test() {
