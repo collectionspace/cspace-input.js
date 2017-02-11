@@ -35,7 +35,7 @@ describe('Button', function suite() {
   });
 
   it('should render with custom class passed as a prop', function test() {
-    render(<Button className='myclass'>Button</Button>, this.container);
+    render(<Button className="myclass">Button</Button>, this.container);
 
     this.container.firstElementChild.className.should
       .equal(`${expectedClassName} myclass`);

@@ -164,8 +164,8 @@ describe('committable', function suite() {
 
       pressedKey.should.equal('t');
     });
-    
-    describe('when commitUnchanged is false', function test() {
+
+    describe('when commitUnchanged is false', function commitUnchangedTest() {
       it('should not call onCommit if the committed value is the same as the initial value', function test() {
         const EnhancedComponent = committable('input');
 
@@ -191,7 +191,7 @@ describe('committable', function suite() {
       });
     });
 
-    describe('when commitUnchanged is true', function test() {
+    describe('when commitUnchanged is true', function commitUnchangedTest() {
       it('should call onCommit even if the committed value is the same as the initial value', function test() {
         const EnhancedComponent = committable('input');
 

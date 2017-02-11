@@ -69,6 +69,8 @@ describe('CustomCompoundInput', function suite() {
 
     const input = this.container.querySelector('input');
 
+    input.value = 'something';
+
     Simulate.blur(input);
 
     committedPath.should.deep.equal(['parent', 'document', 'collectionobjects_common', 'objectNumber']);
@@ -137,6 +139,8 @@ describe('CustomCompoundInput', function suite() {
       </CustomCompoundInput>, this.container);
 
     const input = this.container.querySelector('input');
+
+    input.value = 'something';
 
     Simulate.blur(input);
 

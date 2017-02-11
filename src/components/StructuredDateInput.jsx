@@ -235,7 +235,7 @@ export default class StructuredDateInput extends Component {
       <DropdownInput
         {...remainingProps}
         className={styles.normal}
-        commitUnchanged={true}
+        commitUnchanged
         open={open}
         value={primaryValue}
         onChange={this.handlePrimaryInputChange}

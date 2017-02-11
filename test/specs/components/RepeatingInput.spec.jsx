@@ -177,6 +177,8 @@ describe('RepeatingInput', function suite() {
 
     const input = this.container.querySelector('input[name="0"]');
 
+    input.value = 'something';
+
     Simulate.blur(input);
 
     committedPath.should.deep.equal(['parent', 'rpt', '0']);

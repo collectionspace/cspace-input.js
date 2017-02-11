@@ -150,7 +150,7 @@ describe('DropdownMenuInput', function suite() {
 
     const handleUpdate = ({ value: valueArg }) => {
       updatedValue = valueArg;
-    }
+    };
 
     const options = [
       { value: 'value1', label: 'Value 1' },
@@ -163,8 +163,6 @@ describe('DropdownMenuInput', function suite() {
         options={options}
         value="value2"
       />, this.container);
-
-    const input = this.container.querySelector('input');
 
     render(
       <DropdownMenuInput
