@@ -418,6 +418,33 @@ describe('StructuredDateInput', () => {
     committedValue.dateDisplayDate.should.equal('another new value');
   });
 
+  it('should not call onCommit when the primary input value is unchanged', function test() {
+    let handlerCalled = false;
+
+    const handleCommit = () => {
+      handlerCalled = true;
+    };
+
+    const value = {
+      dateDisplayDate: 'June 2003-February 2012',
+    };
+
+    render(
+      <StructuredDateInput
+        name="birthDate"
+        optionLists={optionLists}
+        terms={terms}
+        value={value}
+        onCommit={handleCommit}
+      />, this.container);
+
+    const primaryInput = this.container.querySelector('input');
+
+    Simulate.keyPress(primaryInput, { key: 'Enter' });
+
+    handlerCalled.should.equal(false);
+  });
+
   it('should recompute scalar dates when values are changed', function test() {
     let committedValue = null;
 

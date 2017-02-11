@@ -190,7 +190,14 @@ export default class StructuredDateInput extends Component {
   }
 
   handlePrimaryInputCommit(path, value) {
-    this.handleInputCommit([primaryFieldName], value);
+    const initialValue = this.getValue(primaryFieldName);
+
+    if (
+      (value || initialValue) &&
+      (value !== initialValue)
+    ) {
+      this.handleInputCommit([primaryFieldName], value);
+    }
   }
 
   handlePrimaryInputChange(value) {
@@ -228,6 +235,7 @@ export default class StructuredDateInput extends Component {
       <DropdownInput
         {...remainingProps}
         className={styles.normal}
+        commitUnchanged={true}
         open={open}
         value={primaryValue}
         onChange={this.handlePrimaryInputChange}
