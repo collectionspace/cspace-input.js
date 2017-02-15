@@ -8,8 +8,8 @@ const propTypes = {
   formatVocabularyLabel: PropTypes.func,
   recordTypes: PropTypes.object,
   recordType: PropTypes.string,
+  rootVocabulary: PropTypes.string,
   value: PropTypes.string,
-  vocabularyTypeOrder: PropTypes.object,
 };
 
 const defaultProps = {
@@ -22,9 +22,7 @@ const defaultProps = {
 
     return name;
   },
-  vocabularyTypeOrder: {
-    all: 0,
-  },
+  rootVocabulary: 'all',
 };
 
 export default function VocabularyInput(props) {
@@ -32,7 +30,7 @@ export default function VocabularyInput(props) {
     formatVocabularyLabel,
     recordTypes,
     recordType,
-    vocabularyTypeOrder,
+    rootVocabulary,
     value: vocabularyValue,
     ...remainingProps
   } = props;
@@ -46,35 +44,22 @@ export default function VocabularyInput(props) {
   }
 
   const vocabularies = recordTypes[recordType].vocabularies;
+  const options = [];
 
-  const sortedVocabularyNames = Object.keys(vocabularies)
+  if (vocabularies[rootVocabulary]) {
+    options.push({
+      value: rootVocabulary,
+      label: formatVocabularyLabel(rootVocabulary, vocabularies[rootVocabulary]),
+    });
+  }
+
+  const vocabularyNames = Object.keys(vocabularies)
+    .filter(vocabularyName => vocabularyName !== rootVocabulary)
     .sort((nameA, nameB) => {
       const configA = vocabularies[nameA];
       const configB = vocabularies[nameB];
 
-      // Primary sort by group
-
-      const vocabularyTypeA = configA.type;
-      const vocabularyTypeB = configB.type;
-
-      if (vocabularyTypeA !== vocabularyTypeB) {
-        let vocabularyTypeOrderA = vocabularyTypeOrder[vocabularyTypeA];
-        let vocabularyTypeOrderB = vocabularyTypeOrder[vocabularyTypeB];
-
-        if (isNaN(vocabularyTypeOrderA)) {
-          vocabularyTypeOrderA = Number.MAX_VALUE;
-        }
-
-        if (isNaN(vocabularyTypeOrderB)) {
-          vocabularyTypeOrderB = Number.MAX_VALUE;
-        }
-
-        if (vocabularyTypeOrderA !== vocabularyTypeOrderB) {
-          return (vocabularyTypeOrderA > vocabularyTypeOrderB ? 1 : -1);
-        }
-      }
-
-      // Secondary sort by sortOrder
+      // Primary sort by sortOrder
 
       let sortOrderA = configA.sortOrder;
       let sortOrderB = configB.sortOrder;
@@ -91,7 +76,7 @@ export default function VocabularyInput(props) {
         return (sortOrderA > sortOrderB ? 1 : -1);
       }
 
-      // Final sort by label
+      // Secondary sort by label
 
       const labelA = formatVocabularyLabel(nameA, configA);
       const labelB = formatVocabularyLabel(nameB, configB);
@@ -100,22 +85,19 @@ export default function VocabularyInput(props) {
       return labelA.localeCompare(labelB);
     });
 
-  const options = sortedVocabularyNames.map((name, index) => {
-    const vocabulary = vocabularies[name];
-    const prevVocabulary = (index === 0) ? null : vocabularies[sortedVocabularyNames[index - 1]];
-
-    return {
-      value: name,
-      label: formatVocabularyLabel(name, vocabulary),
-      startGroup: !prevVocabulary || (vocabulary.type !== prevVocabulary.type),
-    };
+  vocabularyNames.forEach((vocabularyName) => {
+    options.push({
+      indent: 1,
+      value: vocabularyName,
+      label: formatVocabularyLabel(vocabularyName, vocabularies[vocabularyName]),
+    });
   });
 
   let value = vocabularyValue;
 
   if (!value) {
-    for (let i = 0; i < sortedVocabularyNames.length; i += 1) {
-      const vocabularyName = sortedVocabularyNames[i];
+    for (let i = 0; i < vocabularyNames.length; i += 1) {
+      const vocabularyName = vocabularyNames[i];
       const vocabulary = vocabularies[vocabularyName];
 
       if (vocabulary.defaultForSearch) {

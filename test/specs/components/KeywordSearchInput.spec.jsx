@@ -19,6 +19,42 @@ const recordTypes = {
       serviceType: 'utility',
     },
   },
+  object: {
+    messages: {
+      record: {
+        collectionName: {
+          defaultMessage: 'All Objects',
+        },
+      },
+    },
+    serviceConfig: {
+      serviceType: 'utility',
+    },
+  },
+  procedure: {
+    messages: {
+      record: {
+        collectionName: {
+          defaultMessage: 'All Procedures',
+        },
+      },
+    },
+    serviceConfig: {
+      serviceType: 'utility',
+    },
+  },
+  authority: {
+    messages: {
+      record: {
+        collectionName: {
+          defaultMessage: 'All Authorities',
+        },
+      },
+    },
+    serviceConfig: {
+      serviceType: 'utility',
+    },
+  },
   concept: {
     messages: {
       record: {
@@ -98,7 +134,7 @@ const recordTypes = {
       serviceType: 'procedure',
     },
   },
-  object: {
+  collectionobject: {
     defaultForSearch: true,
     messages: {
       record: {
@@ -202,15 +238,17 @@ describe('KeywordSearchInput', function suite() {
 
     const items = this.container.querySelectorAll('li');
 
-    items.length.should.equal(8);
+    items.length.should.equal(10);
     items[0].textContent.should.equal('All Records');
     items[1].textContent.should.equal('Objects');
-    items[2].textContent.should.equal('Groups');
-    items[3].textContent.should.equal('Loans In');
-    items[4].textContent.should.equal('Media Handling');
-    items[5].textContent.should.equal('Concepts');
-    items[6].textContent.should.equal('Organizations');
-    items[7].textContent.should.equal('Persons');
+    items[2].textContent.should.equal('All Procedures');
+    items[3].textContent.should.equal('Groups');
+    items[4].textContent.should.equal('Loans In');
+    items[5].textContent.should.equal('Media Handling');
+    items[6].textContent.should.equal('All Authorities');
+    items[7].textContent.should.equal('Concepts');
+    items[8].textContent.should.equal('Organizations');
+    items[9].textContent.should.equal('Persons');
   });
 
   it('should display the record type name if a message is not provided', function test() {
@@ -229,7 +267,7 @@ describe('KeywordSearchInput', function suite() {
 
     const items = this.container.querySelectorAll('li');
 
-    items[3].textContent.should.equal('loanin');
+    items[4].textContent.should.equal('loanin');
 
     recordTypes.loanin.messages = messages;
   });
@@ -275,115 +313,6 @@ describe('KeywordSearchInput', function suite() {
     recordTypes.organization.vocabularies.ulan_oa.messages = messages;
   });
 
-  it('should use serviceTypeOrder prop to order service types', function test() {
-    render(
-      <KeywordSearchInput
-        recordTypes={recordTypes}
-        serviceTypeOrder={{
-          utility: 3,
-          object: 2,
-          procedure: 0,
-          authority: 1,
-        }}
-      />, this.container);
-
-    const input = this.container.querySelector('input');
-
-    Simulate.mouseDown(input);
-
-    const items = this.container.querySelectorAll('li');
-
-    items.length.should.equal(8);
-    items[0].textContent.should.equal('Groups');
-    items[1].textContent.should.equal('Loans In');
-    items[2].textContent.should.equal('Media Handling');
-    items[3].textContent.should.equal('Concepts');
-    items[4].textContent.should.equal('Organizations');
-    items[5].textContent.should.equal('Persons');
-    items[6].textContent.should.equal('Objects');
-    items[7].textContent.should.equal('All Records');
-  });
-
-  it('should sort service types where serviceTypeOrder is not set to the end', function test() {
-    render(
-      <KeywordSearchInput
-        recordTypes={recordTypes}
-        serviceTypeOrder={{
-          object: 2,
-        }}
-      />, this.container);
-
-    const input = this.container.querySelector('input');
-
-    Simulate.mouseDown(input);
-
-    const items = this.container.querySelectorAll('li');
-
-    items.length.should.equal(8);
-    items[0].textContent.should.equal('Objects');
-  });
-
-  it('should use vocabularyTypeOrder prop to order vocabulary types', function test() {
-    const personType = recordTypes.person.vocabularies.person.type;
-    const ulanType = recordTypes.person.vocabularies.ulan_pa.type;
-
-    recordTypes.person.vocabularies.person.type = 'normal';
-    recordTypes.person.vocabularies.ulan_pa.type = 'normal';
-
-    render(
-      <KeywordSearchInput
-        recordTypes={recordTypes}
-        recordTypeValue="person"
-        vocabularyTypeOrder={{
-          normal: 0,
-          all: 1,
-        }}
-      />, this.container);
-
-    const input = this.container.querySelectorAll('input')[1];
-
-    Simulate.mouseDown(input);
-
-    const items = this.container.querySelectorAll('li');
-
-    items.length.should.equal(3);
-    items[0].textContent.should.equal('Local');
-    items[1].textContent.should.equal('ULAN');
-    items[2].textContent.should.equal('All');
-
-    recordTypes.person.vocabularies.person.type = personType;
-    recordTypes.person.vocabularies.ulan_pa.type = ulanType;
-  });
-
-  it('should sort types where vocabularyTypeOrder is not set to the end', function test() {
-    const personType = recordTypes.person.vocabularies.person.type;
-    const ulanType = recordTypes.person.vocabularies.ulan_pa.type;
-
-    recordTypes.person.vocabularies.person.type = 'foo';
-    recordTypes.person.vocabularies.ulan_pa.type = 'bar';
-
-    render(
-      <KeywordSearchInput
-        recordTypes={recordTypes}
-        recordTypeValue="person"
-        vocabularyTypeOrder={{
-          foo: 1,
-        }}
-      />, this.container);
-
-    const input = this.container.querySelectorAll('input')[1];
-
-    Simulate.mouseDown(input);
-
-    const items = this.container.querySelectorAll('li');
-
-    items.length.should.equal(3);
-    items[0].textContent.should.equal('Local');
-
-    recordTypes.person.vocabularies.person.type = personType;
-    recordTypes.person.vocabularies.ulan_pa.type = ulanType;
-  });
-
   it('should set the keyword input value from the keywordValue prop', function test() {
     render(
       <KeywordSearchInput
@@ -409,7 +338,7 @@ describe('KeywordSearchInput', function suite() {
   });
 
   it('should select the record type with defaultForSearch set to true if recordTypeValue is not supplied', function test() {
-    recordTypes.object.defaultForSearch = false;
+    recordTypes.collectionobject.defaultForSearch = false;
     recordTypes.media.defaultForSearch = true;
 
     render(
@@ -511,15 +440,17 @@ describe('KeywordSearchInput', function suite() {
 
     const items = this.container.querySelectorAll('li');
 
-    items.length.should.equal(8);
+    items.length.should.equal(10);
     items[0].textContent.should.equal('All Records');
     items[1].textContent.should.equal('Objects');
-    items[2].textContent.should.equal('Media Handling');
-    items[3].textContent.should.equal('Groups');
-    items[4].textContent.should.equal('Loans In');
-    items[5].textContent.should.equal('Persons');
-    items[6].textContent.should.equal('Concepts');
-    items[7].textContent.should.equal('Organizations');
+    items[2].textContent.should.equal('All Procedures');
+    items[3].textContent.should.equal('Media Handling');
+    items[4].textContent.should.equal('Groups');
+    items[5].textContent.should.equal('Loans In');
+    items[6].textContent.should.equal('All Authorities');
+    items[7].textContent.should.equal('Persons');
+    items[8].textContent.should.equal('Concepts');
+    items[9].textContent.should.equal('Organizations');
 
     recordTypes.media.sortOrder = null;
     recordTypes.person.sortOrder = null;
@@ -570,7 +501,7 @@ describe('KeywordSearchInput', function suite() {
 
     const items = this.container.querySelectorAll('li');
 
-    Simulate.click(items.item(3));
+    Simulate.click(items.item(4));
 
     committedValue.should.equal('loanin');
   });
@@ -659,15 +590,17 @@ describe('KeywordSearchInput', function suite() {
 
     const items = this.container.querySelectorAll('li');
 
-    items.length.should.equal(8);
+    items.length.should.equal(10);
     items[0].textContent.should.equal('formatRecordTypeLabel all');
-    items[1].textContent.should.equal('formatRecordTypeLabel object');
-    items[2].textContent.should.equal('formatRecordTypeLabel group');
-    items[3].textContent.should.equal('formatRecordTypeLabel loanin');
-    items[4].textContent.should.equal('formatRecordTypeLabel media');
-    items[5].textContent.should.equal('formatRecordTypeLabel concept');
-    items[6].textContent.should.equal('formatRecordTypeLabel organization');
-    items[7].textContent.should.equal('formatRecordTypeLabel person');
+    items[1].textContent.should.equal('formatRecordTypeLabel collectionobject');
+    items[2].textContent.should.equal('formatRecordTypeLabel procedure');
+    items[3].textContent.should.equal('formatRecordTypeLabel group');
+    items[4].textContent.should.equal('formatRecordTypeLabel loanin');
+    items[5].textContent.should.equal('formatRecordTypeLabel media');
+    items[6].textContent.should.equal('formatRecordTypeLabel authority');
+    items[7].textContent.should.equal('formatRecordTypeLabel concept');
+    items[8].textContent.should.equal('formatRecordTypeLabel organization');
+    items[9].textContent.should.equal('formatRecordTypeLabel person');
   });
 
   it('should call formatVocabularyLabel to format the label for a vocabulary item', function test() {

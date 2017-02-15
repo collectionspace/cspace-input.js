@@ -19,6 +19,42 @@ const recordTypes = {
       serviceType: 'utility',
     },
   },
+  object: {
+    messages: {
+      record: {
+        collectionName: {
+          defaultMessage: 'All Objects',
+        },
+      },
+    },
+    serviceConfig: {
+      serviceType: 'utility',
+    },
+  },
+  procedure: {
+    messages: {
+      record: {
+        collectionName: {
+          defaultMessage: 'All Procedures',
+        },
+      },
+    },
+    serviceConfig: {
+      serviceType: 'utility',
+    },
+  },
+  authority: {
+    messages: {
+      record: {
+        collectionName: {
+          defaultMessage: 'All Authorities',
+        },
+      },
+    },
+    serviceConfig: {
+      serviceType: 'utility',
+    },
+  },
   concept: {
     messages: {
       record: {
@@ -98,7 +134,7 @@ const recordTypes = {
       serviceType: 'procedure',
     },
   },
-  object: {
+  collectionobject: {
     defaultForSearch: true,
     messages: {
       record: {
@@ -229,67 +265,6 @@ describe('VocabularyInput', function suite() {
     items[2].textContent.should.equal('ulan_oa');
 
     recordTypes.organization.vocabularies.ulan_oa.messages = messages;
-  });
-
-  it('should use vocabularyTypeOrder prop to order vocabulary types', function test() {
-    const personType = recordTypes.person.vocabularies.person.type;
-    const ulanType = recordTypes.person.vocabularies.ulan_pa.type;
-
-    recordTypes.person.vocabularies.person.type = 'normal';
-    recordTypes.person.vocabularies.ulan_pa.type = 'normal';
-
-    render(
-      <VocabularyInput
-        recordTypes={recordTypes}
-        recordType="person"
-        vocabularyTypeOrder={{
-          normal: 0,
-          all: 1,
-        }}
-      />, this.container);
-
-    const input = this.container.querySelector('input');
-
-    Simulate.mouseDown(input);
-
-    const items = this.container.querySelectorAll('li');
-
-    items.length.should.equal(3);
-    items[0].textContent.should.equal('Local');
-    items[1].textContent.should.equal('ULAN');
-    items[2].textContent.should.equal('All');
-
-    recordTypes.person.vocabularies.person.type = personType;
-    recordTypes.person.vocabularies.ulan_pa.type = ulanType;
-  });
-
-  it('should sort types where vocabularyTypeOrder is not set to the end', function test() {
-    const personType = recordTypes.person.vocabularies.person.type;
-    const ulanType = recordTypes.person.vocabularies.ulan_pa.type;
-
-    recordTypes.person.vocabularies.person.type = 'foo';
-    recordTypes.person.vocabularies.ulan_pa.type = 'bar';
-
-    render(
-      <VocabularyInput
-        recordTypes={recordTypes}
-        recordType="person"
-        vocabularyTypeOrder={{
-          foo: 1,
-        }}
-      />, this.container);
-
-    const input = this.container.querySelector('input');
-
-    Simulate.mouseDown(input);
-
-    const items = this.container.querySelectorAll('li');
-
-    items.length.should.equal(3);
-    items[0].textContent.should.equal('Local');
-
-    recordTypes.person.vocabularies.person.type = personType;
-    recordTypes.person.vocabularies.ulan_pa.type = ulanType;
   });
 
   it('should select the vocabulary indicated by value prop', function test() {

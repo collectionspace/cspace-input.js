@@ -109,6 +109,42 @@ describe('Menu', function suite() {
     listItems.item(2).textContent.should.equal('rendered Label 3');
   });
 
+  it('should render items with an indent class if indent is provided', function test() {
+    const options = [
+      { value: 'value1', label: 'Label 1' },
+      { value: 'value2', label: 'Label 2', indent: 1 },
+      { value: 'value3', label: 'Label 3' },
+    ];
+
+    render(
+      <Menu
+        options={options}
+        value="value2"
+      />, this.container);
+
+    const listItems = this.container.firstElementChild.querySelectorAll('li');
+
+    listItems.item(1).className.should.contain('cspace-input-MenuItem--indent1');
+  });
+
+  it('should not with an indent class if indent is 0', function test() {
+    const options = [
+      { value: 'value1', label: 'Label 1' },
+      { value: 'value2', label: 'Label 2', indent: 0 },
+      { value: 'value3', label: 'Label 3' },
+    ];
+
+    render(
+      <Menu
+        options={options}
+        value="value2"
+      />, this.container);
+
+    const listItems = this.container.firstElementChild.querySelectorAll('li');
+
+    listItems.item(1).className.should.not.contain('cspace-input-MenuItem--indent');
+  });
+
   it('should render the selected option with the correct class', function test() {
     const options = [
       { value: 'value1', label: 'Label 1' },
@@ -124,7 +160,7 @@ describe('Menu', function suite() {
 
     const listItems = this.container.firstElementChild.querySelectorAll('li');
 
-    listItems.item(1).className.should.equal('cspace-input-MenuItem--selected');
+    listItems.item(1).className.should.equal('cspace-input-MenuItem--common cspace-input-MenuItem--selected');
   });
 
   it('should focus and select an option when clicked', function test() {
@@ -144,7 +180,9 @@ describe('Menu', function suite() {
 
     Simulate.click(item3);
 
-    item3.className.should.equal('cspace-input-MenuItem--selected cspace-input-MenuItem--focused');
+    item3.className.should
+      .match(/cspace-input-MenuItem--selected/)
+      .and.match(/cspace-input-MenuItem--focused/);
   });
 
   it('should unfocus all items when losing focus', function test() {
@@ -165,11 +203,14 @@ describe('Menu', function suite() {
 
     Simulate.click(item3);
 
-    item3.className.should.equal('cspace-input-MenuItem--selected cspace-input-MenuItem--focused');
+    item3.className.should
+      .match(/cspace-input-MenuItem--selected/)
+      .and.match(/cspace-input-MenuItem--focused/);
 
     Simulate.blur(menu);
 
-    item3.className.should.equal('cspace-input-MenuItem--selected');
+    item3.className.should
+      .not.match(/cspace-input-MenuItem--focused/);
   });
 
   it('should focus the selected item when gaining focus', function test() {
@@ -188,11 +229,13 @@ describe('Menu', function suite() {
     const menu = this.container.firstElementChild;
     const item2 = menu.querySelectorAll('li').item(1);
 
-    item2.className.should.equal('cspace-input-MenuItem--selected');
+    item2.className.should.match(/cspace-input-MenuItem--selected/);
 
     Simulate.focus(menu);
 
-    item2.className.should.equal('cspace-input-MenuItem--selected cspace-input-MenuItem--focused');
+    item2.className.should
+      .match(/cspace-input-MenuItem--selected/)
+      .and.match(/cspace-input-MenuItem--focused/);
   });
 
   it('should not propagate mouseDown event on an item', function test() {

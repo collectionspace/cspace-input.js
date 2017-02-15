@@ -25,11 +25,11 @@
   composes: common;
 }
 
-.common > div {
+.common > :global(.cspace-input-DropdownMenuInput--common) {
   border-right: 1px solid textLight;
-  flex: 0 0 auto;
+  flex: 0 1 auto;
 }
 
-.common > div > div {
+.common > :global(.cspace-input-DropdownMenuInput--common) > div {
   top: 28px;
 }

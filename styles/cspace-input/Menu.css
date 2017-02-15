@@ -11,12 +11,3 @@
 .common:focus {
   outline: none;
 }
-
-.common > li {
-  padding: 0 18px 0 18px;
-  white-space: nowrap;
-}
-
-.common > li:hover {
-  background-color: #F0F5FB;
-}

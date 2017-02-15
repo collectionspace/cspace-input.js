@@ -1,14 +1,31 @@
-li.selected {
+.common {
+  padding: 0 18px 0 18px;
+  white-space: nowrap;
+}
+
+.common:hover {
+  background-color: #F0F5FB;
+}
+
+.selected {
   background: url(../../images/check.svg) no-repeat;
   background-position: 2px center;
   background-size: 14px 14px;
 }
 
-li.focused {
+.focused {
   outline-offset: -1px;
   outline: 1px dotted black;
 }
 
-li + li.startGroup {
+.common + .startGroup {
   margin-top: 12px;
+}
+
+.indent1 {
+  padding-left: 26px;
+}
+
+.indent2 {
+  padding-left: 36px;
 }

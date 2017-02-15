@@ -198,10 +198,12 @@ export default class Menu extends Component {
       const {
         value: optionValue,
         label: optionLabel,
+        indent: optionIndent,
         startGroup: optionStartGroup,
       } = option;
 
-      const className = classNames({
+      const className = classNames(optionIndent ? itemStyles[`indent${optionIndent}`] : null, {
+        [itemStyles.common]: true,
         [itemStyles.startGroup]: !!optionStartGroup,
         [itemStyles.selected]: optionValue === value,
         [itemStyles.focused]: focusedIndex === index,

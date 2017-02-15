@@ -14,9 +14,7 @@ const propTypes = {
   keywordValue: PropTypes.string,
   placeholder: PropTypes.string,
   recordTypes: PropTypes.object,
-  serviceTypeOrder: PropTypes.object,
   recordTypeValue: PropTypes.string,
-  vocabularyTypeOrder: PropTypes.object,
   vocabularyValue: PropTypes.string,
   onSearch: PropTypes.func,
   onKeywordCommit: PropTypes.func,
@@ -111,7 +109,6 @@ export default class KeywordSearchInput extends Component {
       formatRecordTypeLabel,
       recordTypes,
       recordTypeValue,
-      serviceTypeOrder,
     } = this.props;
 
     return (
@@ -119,7 +116,6 @@ export default class KeywordSearchInput extends Component {
         embedded
         formatRecordTypeLabel={formatRecordTypeLabel}
         recordTypes={recordTypes}
-        serviceTypeOrder={serviceTypeOrder}
         value={recordTypeValue}
         onCommit={this.handleRecordTypeDropdownCommit}
         onKeyPress={this.handleKeyPress}
@@ -134,7 +130,6 @@ export default class KeywordSearchInput extends Component {
       formatVocabularyLabel,
       recordTypes,
       recordTypeValue,
-      vocabularyTypeOrder,
       vocabularyValue,
     } = this.props;
 
@@ -145,7 +140,6 @@ export default class KeywordSearchInput extends Component {
         recordTypes={recordTypes}
         recordType={recordTypeValue}
         value={vocabularyValue}
-        vocabularyTypeOrder={vocabularyTypeOrder}
         onCommit={this.handleVocabularyDropdownCommit}
         onKeyPress={this.handleKeyPress}
         onMount={this.handleVocabularyDropdownUpdate}

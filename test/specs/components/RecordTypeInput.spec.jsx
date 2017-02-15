@@ -19,6 +19,42 @@ const recordTypes = {
       serviceType: 'utility',
     },
   },
+  object: {
+    messages: {
+      record: {
+        collectionName: {
+          defaultMessage: 'All Objects',
+        },
+      },
+    },
+    serviceConfig: {
+      serviceType: 'utility',
+    },
+  },
+  procedure: {
+    messages: {
+      record: {
+        collectionName: {
+          defaultMessage: 'All Procedures',
+        },
+      },
+    },
+    serviceConfig: {
+      serviceType: 'utility',
+    },
+  },
+  authority: {
+    messages: {
+      record: {
+        collectionName: {
+          defaultMessage: 'All Authorities',
+        },
+      },
+    },
+    serviceConfig: {
+      serviceType: 'utility',
+    },
+  },
   concept: {
     messages: {
       record: {
@@ -98,7 +134,7 @@ const recordTypes = {
       serviceType: 'procedure',
     },
   },
-  object: {
+  collectionobject: {
     defaultForSearch: true,
     messages: {
       record: {
@@ -202,15 +238,17 @@ describe('RecordTypeInput', function suite() {
 
     const items = this.container.querySelectorAll('li');
 
-    items.length.should.equal(8);
+    items.length.should.equal(10);
     items[0].textContent.should.equal('All Records');
     items[1].textContent.should.equal('Objects');
-    items[2].textContent.should.equal('Groups');
-    items[3].textContent.should.equal('Loans In');
-    items[4].textContent.should.equal('Media Handling');
-    items[5].textContent.should.equal('Concepts');
-    items[6].textContent.should.equal('Organizations');
-    items[7].textContent.should.equal('Persons');
+    items[2].textContent.should.equal('All Procedures');
+    items[3].textContent.should.equal('Groups');
+    items[4].textContent.should.equal('Loans In');
+    items[5].textContent.should.equal('Media Handling');
+    items[6].textContent.should.equal('All Authorities');
+    items[7].textContent.should.equal('Concepts');
+    items[8].textContent.should.equal('Organizations');
+    items[9].textContent.should.equal('Persons');
   });
 
   it('should display the record type name if a message is not provided', function test() {
@@ -229,57 +267,9 @@ describe('RecordTypeInput', function suite() {
 
     const items = this.container.querySelectorAll('li');
 
-    items[3].textContent.should.equal('loanin');
+    items[4].textContent.should.equal('loanin');
 
     recordTypes.loanin.messages = messages;
-  });
-
-  it('should use serviceTypeOrder prop to order service types', function test() {
-    render(
-      <RecordTypeInput
-        recordTypes={recordTypes}
-        serviceTypeOrder={{
-          utility: 3,
-          object: 2,
-          procedure: 0,
-          authority: 1,
-        }}
-      />, this.container);
-
-    const input = this.container.querySelector('input');
-
-    Simulate.mouseDown(input);
-
-    const items = this.container.querySelectorAll('li');
-
-    items.length.should.equal(8);
-    items[0].textContent.should.equal('Groups');
-    items[1].textContent.should.equal('Loans In');
-    items[2].textContent.should.equal('Media Handling');
-    items[3].textContent.should.equal('Concepts');
-    items[4].textContent.should.equal('Organizations');
-    items[5].textContent.should.equal('Persons');
-    items[6].textContent.should.equal('Objects');
-    items[7].textContent.should.equal('All Records');
-  });
-
-  it('should sort service types where serviceTypeOrder is not set to the end', function test() {
-    render(
-      <RecordTypeInput
-        recordTypes={recordTypes}
-        serviceTypeOrder={{
-          object: 2,
-        }}
-      />, this.container);
-
-    const input = this.container.querySelector('input');
-
-    Simulate.mouseDown(input);
-
-    const items = this.container.querySelectorAll('li');
-
-    items.length.should.equal(8);
-    items[0].textContent.should.equal('Objects');
   });
 
   it('should select the record type indicated by value prop', function test() {
@@ -295,7 +285,7 @@ describe('RecordTypeInput', function suite() {
   });
 
   it('should select the record type with defaultForSearch set to true if value is not supplied', function test() {
-    recordTypes.object.defaultForSearch = false;
+    recordTypes.collectionobject.defaultForSearch = false;
     recordTypes.media.defaultForSearch = true;
 
     render(
@@ -326,7 +316,7 @@ describe('RecordTypeInput', function suite() {
     recordTypes.object.defaultForSearch = true;
   });
 
-  it('should use sortOrder property of record type config to sort record types within groups', function test() {
+  it('should use sortOrder property of record type config to sort record types within service types', function test() {
     recordTypes.media.sortOrder = 0;
     recordTypes.person.sortOrder = 0;
 
@@ -341,15 +331,17 @@ describe('RecordTypeInput', function suite() {
 
     const items = this.container.querySelectorAll('li');
 
-    items.length.should.equal(8);
+    items.length.should.equal(10);
     items[0].textContent.should.equal('All Records');
     items[1].textContent.should.equal('Objects');
-    items[2].textContent.should.equal('Media Handling');
-    items[3].textContent.should.equal('Groups');
-    items[4].textContent.should.equal('Loans In');
-    items[5].textContent.should.equal('Persons');
-    items[6].textContent.should.equal('Concepts');
-    items[7].textContent.should.equal('Organizations');
+    items[2].textContent.should.equal('All Procedures');
+    items[3].textContent.should.equal('Media Handling');
+    items[4].textContent.should.equal('Groups');
+    items[5].textContent.should.equal('Loans In');
+    items[6].textContent.should.equal('All Authorities');
+    items[7].textContent.should.equal('Persons');
+    items[8].textContent.should.equal('Concepts');
+    items[9].textContent.should.equal('Organizations');
 
     recordTypes.media.sortOrder = null;
     recordTypes.person.sortOrder = null;
@@ -370,14 +362,16 @@ describe('RecordTypeInput', function suite() {
 
     const items = this.container.querySelectorAll('li');
 
-    items.length.should.equal(8);
+    items.length.should.equal(10);
     items[0].textContent.should.equal('formatRecordTypeLabel all');
-    items[1].textContent.should.equal('formatRecordTypeLabel object');
-    items[2].textContent.should.equal('formatRecordTypeLabel group');
-    items[3].textContent.should.equal('formatRecordTypeLabel loanin');
-    items[4].textContent.should.equal('formatRecordTypeLabel media');
-    items[5].textContent.should.equal('formatRecordTypeLabel concept');
-    items[6].textContent.should.equal('formatRecordTypeLabel organization');
-    items[7].textContent.should.equal('formatRecordTypeLabel person');
+    items[1].textContent.should.equal('formatRecordTypeLabel collectionobject');
+    items[2].textContent.should.equal('formatRecordTypeLabel procedure');
+    items[3].textContent.should.equal('formatRecordTypeLabel group');
+    items[4].textContent.should.equal('formatRecordTypeLabel loanin');
+    items[5].textContent.should.equal('formatRecordTypeLabel media');
+    items[6].textContent.should.equal('formatRecordTypeLabel authority');
+    items[7].textContent.should.equal('formatRecordTypeLabel concept');
+    items[8].textContent.should.equal('formatRecordTypeLabel organization');
+    items[9].textContent.should.equal('formatRecordTypeLabel person');
   });
 });
