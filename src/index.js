@@ -80,9 +80,11 @@ export const components = {
     labelable(withLabeledOptions(withNormalizedOptions(PrefixFilteringDropdownMenuInput)))
   ),
   PasswordInput: standalone(PasswordInput),
+  RecordTypeInput: labelable(RecordTypeInput),
   StructuredDateInput: repeatable(labelable(StructuredDateInput)),
   TabularCompoundInput: labelable(TabularCompoundInput),
   TextInput: standalone(TextInput),
+  VocabularyInput: labelable(VocabularyInput),
   VocabularyControlledInput: repeatable(labelable(VocabularyControlledInput)),
 };
 
