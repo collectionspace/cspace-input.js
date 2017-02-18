@@ -103,6 +103,8 @@ export default class FilteringDropdownMenuInput extends Component {
     } = this.state;
 
     if (isFiltering && event.key === 'Enter') {
+      event.preventDefault();
+
       const {
         valueLabel,
       } = this.state;
