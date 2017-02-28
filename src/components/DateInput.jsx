@@ -43,6 +43,7 @@ export default class DateInput extends Component {
     this.handleDropdownInputChange = this.handleDropdownInputChange.bind(this);
     this.handleDropdownInputClose = this.handleDropdownInputClose.bind(this);
     this.handleDropdownInputCommit = this.handleDropdownInputCommit.bind(this);
+    this.handleDropdownInputKeyPress = this.handleDropdownInputKeyPress.bind(this);
     this.handleDropdownInputOpen = this.handleDropdownInputOpen.bind(this);
     this.renderHistoryView = this.renderHistoryView.bind(this);
 
@@ -158,6 +159,16 @@ export default class DateInput extends Component {
     }
   }
 
+  handleDropdownInputKeyPress(event) {
+    if (event.key === 'Enter') {
+      const { provisionalDate } = this.state;
+
+      if (typeof provisionalDate !== 'undefined') {
+        event.preventDefault();
+      }
+    }
+  }
+
   handleDropdownInputOpen() {
     const {
       date,
@@ -224,6 +235,7 @@ export default class DateInput extends Component {
         onChange={this.handleDropdownInputChange}
         onClose={this.handleDropdownInputClose}
         onCommit={this.handleDropdownInputCommit}
+        onKeyPress={this.handleDropdownInputKeyPress}
         onOpen={this.handleDropdownInputOpen}
         value={value}
       >
