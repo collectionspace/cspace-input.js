@@ -4,7 +4,7 @@ import RecordTypeInput from './RecordTypeInput';
 import VocabularyInput from './VocabularyInput';
 import changeable from '../enhancers/changeable';
 import committable from '../enhancers/committable';
-import styles from '../../styles/cspace-input/KeywordSearchInput.css';
+import styles from '../../styles/cspace-input/QuickSearchInput.css';
 
 const LineInput = committable(changeable(BaseLineInput));
 
@@ -22,7 +22,7 @@ const propTypes = {
   onVocabularyCommit: PropTypes.func,
 };
 
-export default class KeywordSearchInput extends Component {
+export default class QuickSearchInput extends Component {
   constructor() {
     super();
 
@@ -176,4 +176,4 @@ export default class KeywordSearchInput extends Component {
   }
 }
 
-KeywordSearchInput.propTypes = propTypes;
+QuickSearchInput.propTypes = propTypes;

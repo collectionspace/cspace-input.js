@@ -1,7 +1,7 @@
 import React from 'react';
 import { render } from 'react-dom';
 import { Simulate } from 'react-addons-test-utils';
-import KeywordSearchInput from '../../../src/components/KeywordSearchInput';
+import QuickSearchInput from '../../../src/components/QuickSearchInput';
 import createTestContainer from '../../helpers/createTestContainer';
 
 chai.should();
@@ -221,14 +221,14 @@ const recordTypes = {
   },
 };
 
-describe('KeywordSearchInput', function suite() {
+describe('QuickSearchInput', function suite() {
   beforeEach(function before() {
     this.container = createTestContainer(this);
   });
 
   it('should render record type options', function test() {
     render(
-      <KeywordSearchInput
+      <QuickSearchInput
         recordTypes={recordTypes}
       />, this.container);
 
@@ -257,7 +257,7 @@ describe('KeywordSearchInput', function suite() {
     recordTypes.loanin.messages = null;
 
     render(
-      <KeywordSearchInput
+      <QuickSearchInput
         recordTypes={recordTypes}
       />, this.container);
 
@@ -274,7 +274,7 @@ describe('KeywordSearchInput', function suite() {
 
   it('should render vocabulary options if a record type is selected', function test() {
     render(
-      <KeywordSearchInput
+      <QuickSearchInput
         recordTypes={recordTypes}
         recordTypeValue="organization"
       />, this.container);
@@ -297,7 +297,7 @@ describe('KeywordSearchInput', function suite() {
     recordTypes.organization.vocabularies.ulan_oa.messages = null;
 
     render(
-      <KeywordSearchInput
+      <QuickSearchInput
         recordTypes={recordTypes}
         recordTypeValue="organization"
       />, this.container);
@@ -315,7 +315,7 @@ describe('KeywordSearchInput', function suite() {
 
   it('should set the keyword input value from the keywordValue prop', function test() {
     render(
-      <KeywordSearchInput
+      <QuickSearchInput
         recordTypes={recordTypes}
         keywordValue="some keywords"
       />, this.container);
@@ -327,7 +327,7 @@ describe('KeywordSearchInput', function suite() {
 
   it('should select the record type indicated by recordTypeValue prop', function test() {
     render(
-      <KeywordSearchInput
+      <QuickSearchInput
         recordTypes={recordTypes}
         recordTypeValue="group"
       />, this.container);
@@ -342,7 +342,7 @@ describe('KeywordSearchInput', function suite() {
     recordTypes.media.defaultForSearch = true;
 
     render(
-      <KeywordSearchInput
+      <QuickSearchInput
         recordTypes={recordTypes}
       />, this.container);
 
@@ -358,7 +358,7 @@ describe('KeywordSearchInput', function suite() {
     recordTypes.object.defaultForSearch = false;
 
     render(
-      <KeywordSearchInput
+      <QuickSearchInput
         recordTypes={recordTypes}
       />, this.container);
 
@@ -371,7 +371,7 @@ describe('KeywordSearchInput', function suite() {
 
   it('should select the vocabulary indicated by vocabularyValue prop', function test() {
     render(
-      <KeywordSearchInput
+      <QuickSearchInput
         recordTypes={recordTypes}
         recordTypeValue="concept"
         vocabularyValue="material_ca"
@@ -387,7 +387,7 @@ describe('KeywordSearchInput', function suite() {
     recordTypes.concept.vocabularies.material_ca.defaultForSearch = true;
 
     render(
-      <KeywordSearchInput
+      <QuickSearchInput
         recordTypes={recordTypes}
         recordTypeValue="concept"
       />, this.container);
@@ -402,7 +402,7 @@ describe('KeywordSearchInput', function suite() {
 
   it('should select the first vocabulary option if vocabularyValue is not supplied and no vocabularies have defaultForSearch set to true', function test() {
     render(
-      <KeywordSearchInput
+      <QuickSearchInput
         recordTypes={recordTypes}
         recordTypeValue="concept"
       />, this.container);
@@ -415,7 +415,7 @@ describe('KeywordSearchInput', function suite() {
 
   it('should not render the vocabulary dropdown if the selected record type is not an authority', function test() {
     render(
-      <KeywordSearchInput
+      <QuickSearchInput
         recordTypes={recordTypes}
         recordTypeValue="media"
       />, this.container);
@@ -430,7 +430,7 @@ describe('KeywordSearchInput', function suite() {
     recordTypes.person.sortOrder = 0;
 
     render(
-      <KeywordSearchInput
+      <QuickSearchInput
         recordTypes={recordTypes}
       />, this.container);
 
@@ -461,7 +461,7 @@ describe('KeywordSearchInput', function suite() {
     recordTypes.concept.vocabularies.material_ca.sortOrder = 1;
 
     render(
-      <KeywordSearchInput
+      <QuickSearchInput
         recordTypes={recordTypes}
         recordTypeValue="concept"
       />, this.container);
@@ -490,7 +490,7 @@ describe('KeywordSearchInput', function suite() {
     };
 
     render(
-      <KeywordSearchInput
+      <QuickSearchInput
         recordTypes={recordTypes}
         onRecordTypeCommit={handleCommit}
       />, this.container);
@@ -514,7 +514,7 @@ describe('KeywordSearchInput', function suite() {
     };
 
     render(
-      <KeywordSearchInput
+      <QuickSearchInput
         recordTypes={recordTypes}
         recordTypeValue="concept"
         onVocabularyCommit={handleCommit}
@@ -539,7 +539,7 @@ describe('KeywordSearchInput', function suite() {
     };
 
     render(
-      <KeywordSearchInput
+      <QuickSearchInput
         recordTypes={recordTypes}
         onKeywordCommit={handleCommit}
       />, this.container);
@@ -561,7 +561,7 @@ describe('KeywordSearchInput', function suite() {
     };
 
     render(
-      <KeywordSearchInput
+      <QuickSearchInput
         recordTypes={recordTypes}
         onSearch={handleSearch}
       />, this.container);
@@ -579,7 +579,7 @@ describe('KeywordSearchInput', function suite() {
     const formatRecordTypeLabel = name => `formatRecordTypeLabel ${name}`;
 
     render(
-      <KeywordSearchInput
+      <QuickSearchInput
         recordTypes={recordTypes}
         formatRecordTypeLabel={formatRecordTypeLabel}
       />, this.container);
@@ -607,7 +607,7 @@ describe('KeywordSearchInput', function suite() {
     const formatVocabularyLabel = name => `formatVocabularyLabel ${name}`;
 
     render(
-      <KeywordSearchInput
+      <QuickSearchInput
         recordTypes={recordTypes}
         recordTypeValue="concept"
         formatVocabularyLabel={formatVocabularyLabel}

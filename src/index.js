@@ -7,7 +7,7 @@ import DateInput from './components/DateInput';
 import DropdownMenuInput from './components/DropdownMenuInput';
 import FilteringDropdownMenuInput from './components/FilteringDropdownMenuInput';
 import IDGeneratorInput from './components/IDGeneratorInput';
-import KeywordSearchInput from './components/KeywordSearchInput';
+import QuickSearchInput from './components/QuickSearchInput';
 import Label from './components/Label';
 import LineInput from './components/LineInput';
 import MiniButton from './components/MiniButton';
@@ -43,7 +43,7 @@ export const baseComponents = {
   DropdownMenuInput,
   FilteringDropdownMenuInput,
   IDGeneratorInput,
-  KeywordSearchInput,
+  QuickSearchInput,
   Label,
   LineInput,
   MiniButton,
@@ -63,7 +63,7 @@ export const baseComponents = {
 export const components = {
   Button,
   CompoundInput,
-  KeywordSearchInput: labelable(KeywordSearchInput),
+  QuickSearchInput: labelable(QuickSearchInput),
   Label,
   MiniButton,
   ReadOnlyInput,
