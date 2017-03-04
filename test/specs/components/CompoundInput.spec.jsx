@@ -4,7 +4,7 @@ import { render } from 'react-dom';
 
 import createTestContainer from '../../helpers/createTestContainer';
 
-import isInput from '../../../src/helpers/isInput';
+import { isInput } from '../../../src/helpers/inputHelpers';
 import TextInput from '../../../src/components/TextInput';
 import CompoundInput from '../../../src/components/CompoundInput';
 import labelable from '../../../src/enhancers/labelable';

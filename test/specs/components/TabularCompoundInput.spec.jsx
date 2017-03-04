@@ -3,7 +3,7 @@ import { render } from 'react-dom';
 
 import createTestContainer from '../../helpers/createTestContainer';
 
-import isInput from '../../../src/helpers/isInput';
+import { isInput } from '../../../src/helpers/inputHelpers';
 import TabularCompoundInput from '../../../src/components/TabularCompoundInput';
 import Label from '../../../src/components/Label';
 import TextInput from '../../../src/components/TextInput';
@@ -17,12 +17,6 @@ describe('TabularCompoundInput', function suite() {
 
   it('should be considered an input by isInput()', function test() {
     isInput(<TabularCompoundInput />).should.equal(true);
-  });
-
-  it('should render as a fieldset', function test() {
-    render(<TabularCompoundInput />, this.container);
-
-    this.container.firstElementChild.nodeName.should.equal('FIELDSET');
   });
 
   it('should distribute values to child inputs', function test() {

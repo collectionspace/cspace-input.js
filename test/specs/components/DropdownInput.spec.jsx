@@ -6,7 +6,7 @@ import { render } from 'react-dom';
 
 import createTestContainer from '../../helpers/createTestContainer';
 
-import isInput from '../../../src/helpers/isInput';
+import { isInput } from '../../../src/helpers/inputHelpers';
 import DropdownInput from '../../../src/components/DropdownInput';
 
 const expect = chai.expect;

@@ -7,13 +7,14 @@ import DateInput from './components/DateInput';
 import DropdownMenuInput from './components/DropdownMenuInput';
 import FilteringDropdownMenuInput from './components/FilteringDropdownMenuInput';
 import IDGeneratorInput from './components/IDGeneratorInput';
-import QuickSearchInput from './components/QuickSearchInput';
+import InputTable from './components/InputTable';
 import Label from './components/Label';
 import LineInput from './components/LineInput';
 import MiniButton from './components/MiniButton';
 import MultilineInput from './components/MultilineInput';
 import PasswordInput from './components/PasswordInput';
 import PrefixFilteringDropdownMenuInput from './components/PrefixFilteringDropdownMenuInput';
+import QuickSearchInput from './components/QuickSearchInput';
 import RecordTypeInput from './components/RecordTypeInput';
 import ReadOnlyInput from './components/ReadOnlyInput';
 import RepeatingInput from './components/RepeatingInput';
@@ -43,13 +44,14 @@ export const baseComponents = {
   DropdownMenuInput,
   FilteringDropdownMenuInput,
   IDGeneratorInput,
-  QuickSearchInput,
+  InputTable,
   Label,
   LineInput,
   MiniButton,
   MultilineInput,
   PasswordInput,
   PrefixFilteringDropdownMenuInput,
+  QuickSearchInput,
   ReadOnlyInput,
   RecordTypeInput,
   RepeatingInput,
@@ -63,7 +65,6 @@ export const baseComponents = {
 export const components = {
   Button,
   CompoundInput,
-  QuickSearchInput: labelable(QuickSearchInput),
   Label,
   MiniButton,
   ReadOnlyInput,
@@ -74,12 +75,14 @@ export const components = {
   DateInput: repeatable(labelable(DateInput)),
   DropdownMenuInput: repeatable(labelable(withNormalizedOptions(DropdownMenuInput))),
   IDGeneratorInput: repeatable(labelable(IDGeneratorInput)),
+  InputTable: labelable(InputTable),
   LineInput: standalone(LineInput),
   MultilineInput: standalone(MultilineInput),
   OptionListControlledInput: repeatable(
     labelable(withLabeledOptions(withNormalizedOptions(PrefixFilteringDropdownMenuInput)))
   ),
   PasswordInput: standalone(PasswordInput),
+  QuickSearchInput: labelable(QuickSearchInput),
   RecordTypeInput: labelable(RecordTypeInput),
   StructuredDateInput: repeatable(labelable(StructuredDateInput)),
   TabularCompoundInput: labelable(TabularCompoundInput),

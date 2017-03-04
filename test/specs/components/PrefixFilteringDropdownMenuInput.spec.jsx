@@ -4,7 +4,7 @@ import { render } from 'react-dom';
 
 import createTestContainer from '../../helpers/createTestContainer';
 
-import isInput from '../../../src/helpers/isInput';
+import { isInput } from '../../../src/helpers/inputHelpers';
 import PrefixFilteringDropdownMenuInput from '../../../src/components/PrefixFilteringDropdownMenuInput';
 
 chai.should();

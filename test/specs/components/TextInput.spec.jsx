@@ -1,7 +1,7 @@
 import React from 'react';
 import { createRenderer } from 'react-addons-test-utils';
 
-import isInput from '../../../src/helpers/isInput';
+import { isInput } from '../../../src/helpers/inputHelpers';
 import LineInput from '../../../src/components/LineInput';
 import MultilineInput from '../../../src/components/MultilineInput';
 import TextInput from '../../../src/components/TextInput';

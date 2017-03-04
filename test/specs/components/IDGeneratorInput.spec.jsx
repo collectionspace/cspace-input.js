@@ -5,7 +5,7 @@ import { render } from 'react-dom';
 import { Simulate } from 'react-addons-test-utils';
 import IDGeneratorInput from '../../../src/components/IDGeneratorInput';
 import createTestContainer from '../../helpers/createTestContainer';
-import isInput from '../../../src/helpers/isInput';
+import { isInput } from '../../../src/helpers/inputHelpers';
 
 chai.should();
 
