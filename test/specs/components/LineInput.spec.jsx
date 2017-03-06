@@ -4,7 +4,7 @@ import { render } from 'react-dom';
 import createTestContainer from '../../helpers/createTestContainer';
 import createInvisible from '../../helpers/createInvisible';
 
-import isInput from '../../../src/helpers/isInput';
+import { isInput } from '../../../src/helpers/inputHelpers';
 import LineInput from '../../../src/components/LineInput';
 
 chai.should();

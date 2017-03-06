@@ -4,9 +4,8 @@ import { render } from 'react-dom';
 
 import createTestContainer from '../helpers/createTestContainer';
 
-import InputRow from '../../src/components/InputRow';
-import Label from '../../src/components/Label';
-import LabelRow from '../../src/components/LabelRow';
+import InputTableRow from '../../src/components/InputTableRow';
+import InputTableHeader from '../../src/components/InputTableHeader';
 import { components } from '../../src';
 
 const {
@@ -26,22 +25,22 @@ describe('exported', function suite() {
   });
 
   describe('CustomCompoundInput', function componentSuite() {
-    it('should render an InputRow template and a LabelRow label', function test() {
-      const labelRow = (
-        <LabelRow>
-          <Label>Alternate title</Label>
-          <Label>Type</Label>
-          <Label>Language</Label>
-        </LabelRow>
+    it('should render an InputTableRow template and an InputTableHeader label', function test() {
+      const tableHeader = (
+        <InputTableHeader>
+          <TextInput name="title" label="Alternate title" />
+          <TextInput name="type" label="Type" />
+          <TextInput name="language" label="Language" />
+        </InputTableHeader>
       );
 
       render(
-        <CustomCompoundInput label={labelRow}>
-          <InputRow>
+        <CustomCompoundInput label={tableHeader}>
+          <InputTableRow>
             <TextInput embedded name="title" />
             <TextInput embedded name="type" />
             <TextInput embedded name="language" />
-          </InputRow>
+          </InputTableRow>
         </CustomCompoundInput>, this.container);
 
       this.container.querySelectorAll('label').length.should.equal(3);

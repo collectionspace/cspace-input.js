@@ -4,7 +4,7 @@ import { Simulate } from 'react-addons-test-utils';
 import Immutable from 'immutable';
 import BaseStructuredDateInput from '../../../src/components/StructuredDateInput';
 import createTestContainer from '../../helpers/createTestContainer';
-import isInput from '../../../src/helpers/isInput';
+import { isInput } from '../../../src/helpers/inputHelpers';
 import labelable from '../../../src/enhancers/labelable';
 import repeatable from '../../../src/enhancers/repeatable';
 

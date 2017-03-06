@@ -5,7 +5,7 @@ import { render } from 'react-dom';
 
 import createTestContainer from '../../helpers/createTestContainer';
 
-import isInput from '../../../src/helpers/isInput';
+import { isInput } from '../../../src/helpers/inputHelpers';
 import CustomCompoundInput from '../../../src/components/CustomCompoundInput';
 import TextInput from '../../../src/components/TextInput';
 import committable from '../../../src/enhancers/committable';

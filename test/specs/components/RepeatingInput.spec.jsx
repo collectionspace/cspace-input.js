@@ -7,15 +7,15 @@ import { render } from 'react-dom';
 
 import createTestContainer from '../../helpers/createTestContainer';
 
-import isInput from '../../../src/helpers/isInput';
+import { isInput } from '../../../src/helpers/inputHelpers';
 import CustomCompoundInput from '../../../src/components/CustomCompoundInput';
-import InputRow from '../../../src/components/InputRow';
-import Label from '../../../src/components/Label';
-import LabelRow from '../../../src/components/LabelRow';
+import InputTableRow from '../../../src/components/InputTableRow';
+import InputTableHeader from '../../../src/components/InputTableHeader';
 import RepeatingInput from '../../../src/components/RepeatingInput';
-import TextInput from '../../../src/components/TextInput';
+import BaseTextInput from '../../../src/components/TextInput';
 import committable from '../../../src/enhancers/committable';
-import nestable from '../../../src/enhancers/nestable';
+
+const TextInput = committable(BaseTextInput);
 
 chai.should();
 
@@ -150,8 +150,6 @@ describe('RepeatingInput', function suite() {
   });
 
   it('should set parentPath on instances', function test() {
-    const CommittableTextInput = committable(TextInput);
-
     let committedPath = null;
 
     const handleCommit = (path) => {
@@ -172,7 +170,7 @@ describe('RepeatingInput', function suite() {
         parentPath="parent"
         onCommit={handleCommit}
       >
-        <CommittableTextInput label="Inner label" />
+        <TextInput label="Inner label" />
       </RepeatingInput>, this.container);
 
     const input = this.container.querySelector('input[name="0"]');
@@ -185,8 +183,6 @@ describe('RepeatingInput', function suite() {
   });
 
   it('should call the onCommit callback when a committable instance is committed', function test() {
-    const CommittableTextInput = committable(nestable(TextInput));
-
     let committedPath = null;
     let committedValue = null;
 
@@ -208,7 +204,7 @@ describe('RepeatingInput', function suite() {
         value={repeatingValue}
         onCommit={handleCommit}
       >
-        <CommittableTextInput />
+        <TextInput />
       </RepeatingInput>, this.container);
 
     const input = this.container.querySelectorAll('input')[1];
@@ -268,22 +264,22 @@ describe('RepeatingInput', function suite() {
       },
     ];
 
-    const labelRow = (
-      <LabelRow embedded>
-        <Label>Alternate title</Label>
-        <Label>Type</Label>
-        <Label>Language</Label>
-      </LabelRow>
+    const tableHeader = (
+      <InputTableHeader embedded>
+        <TextInput name="title" label="Alternate title" />
+        <TextInput name="type" label="Type" />
+        <TextInput name="language" label="Language" />
+      </InputTableHeader>
     );
 
     render(
       <RepeatingInput value={repeatingValue}>
-        <CustomCompoundInput label={labelRow}>
-          <InputRow embedded>
+        <CustomCompoundInput label={tableHeader}>
+          <InputTableRow embedded>
             <TextInput embedded name="title" />
             <TextInput embedded name="type" />
             <TextInput embedded name="language" />
-          </InputRow>
+          </InputTableRow>
         </CustomCompoundInput>
       </RepeatingInput>, this.container);
 

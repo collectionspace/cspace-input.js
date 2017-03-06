@@ -3,7 +3,7 @@ import Immutable from 'immutable';
 import classNames from 'classnames';
 import get from 'lodash/get';
 import { getPath, pathPropType } from '../helpers/pathHelpers';
-import isInput from '../helpers/isInput';
+import { isInput } from '../helpers/inputHelpers';
 import styles from '../../styles/cspace-input/CompoundInput.css';
 
 const propTypes = {
