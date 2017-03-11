@@ -16,6 +16,7 @@ const propTypes = {
   matches: PropTypes.object,
   minLength: PropTypes.number,
   recordTypes: PropTypes.object,
+  showQuickAdd: PropTypes.bool,
 };
 
 const defaultProps = {
@@ -28,6 +29,7 @@ const defaultProps = {
   },
   // TODO: Make configurable
   minLength: 3,
+  showQuickAdd: true,
 };
 
 const getOptions = (authority, matches, partialTerm) => {
@@ -218,13 +220,14 @@ export default class AuthorityControlledInput extends Component {
       formatVocabName,
       minLength,
       recordTypes,
+      showQuickAdd,
     } = this.props;
 
     const {
       partialTerm,
     } = this.state;
 
-    if (partialTerm && partialTerm.length >= minLength) {
+    if (showQuickAdd && partialTerm && partialTerm.length >= minLength) {
       return (
         <QuickAdd
           add={addTerm}
@@ -251,6 +254,7 @@ export default class AuthorityControlledInput extends Component {
       findMatchingTerms,
       formatVocabName,
       recordTypes,
+      showQuickAdd,
       /* eslint-enable no-unused-vars */
       ...remainingProps
     } = this.props;
