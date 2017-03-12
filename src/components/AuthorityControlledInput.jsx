@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { getDisplayName } from 'cspace-refname';
+import ReadOnlyInput from './ReadOnlyInput';
 import FilteringDropdownMenuInput from './FilteringDropdownMenuInput';
 import QuickAdd from './QuickAdd';
 import parseAuthoritySpec from '../helpers/parseAuthoritySpec';
@@ -17,6 +18,7 @@ const propTypes = {
   minLength: PropTypes.number,
   recordTypes: PropTypes.object,
   showQuickAdd: PropTypes.bool,
+  readOnly: PropTypes.bool,
 };
 
 const defaultProps = {
@@ -249,6 +251,7 @@ export default class AuthorityControlledInput extends Component {
       formatSearchResultMessage,
       matches,
       minLength,
+      readOnly,
       /* eslint-disable no-unused-vars */
       addTerm,
       findMatchingTerms,
@@ -264,6 +267,12 @@ export default class AuthorityControlledInput extends Component {
       partialTerm,
       value,
     } = this.state;
+
+    if (readOnly) {
+      return (
+        <ReadOnlyInput value={getDisplayName(value)} />
+      );
+    }
 
     const moreCharsRequired = (
       typeof partialTerm !== 'undefined' &&

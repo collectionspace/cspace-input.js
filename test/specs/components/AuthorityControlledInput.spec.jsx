@@ -22,9 +22,20 @@ describe('AuthorityControlledInput', function suite() {
     result.type.should.equal(FilteringDropdownMenuInput);
   });
 
-  it('should', function test() {
-    render(<AuthorityControlledInput authority="" />, this.container);
-  });
-
   // TODO: Complete tests.
+
+  it('should render a ReadOnlyInput if readOnly is true', function test() {
+    const value = 'urn:cspace:core.collectionspace.org:personauthorities:name(person):item:name(DavidBowie1489220916785)\'David Bowie\'';
+
+    render(
+      <AuthorityControlledInput
+        value={value}
+        readOnly
+      />, this.container);
+
+    const input = this.container.firstElementChild;
+
+    input.className.should.contain('cspace-input-ReadOnlyInput--common');
+    input.textContent.should.equal('David Bowie');
+  });
 });

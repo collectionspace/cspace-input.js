@@ -9,6 +9,7 @@ const propTypes = {
   parentPath: pathPropType,
   subpath: pathPropType,
   value: PropTypes.string,
+  readOnly: PropTypes.bool,
   multiline: PropTypes.bool,
 };
 

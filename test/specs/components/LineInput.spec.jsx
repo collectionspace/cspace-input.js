@@ -60,4 +60,13 @@ describe('LineInput', function suite() {
     this.container.firstElementChild.getBoundingClientRect().height.should
       .equal(measuringStick.getBoundingClientRect().height);
   });
+
+  it('should render a ReadOnlyInput if readOnly is true', function test() {
+    render(<LineInput value={'Hello world'} readOnly />, this.container);
+
+    const input = this.container.firstElementChild;
+
+    input.className.should.contain('cspace-input-ReadOnlyInput--common');
+    input.textContent.should.equal('Hello world');
+  });
 });

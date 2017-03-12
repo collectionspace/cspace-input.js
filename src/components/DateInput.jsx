@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { Footer, HistoryView, MonthView, NavBar } from 'react-date-picker';
 import BaseDropdownInput from './DropdownInput';
+import ReadOnlyInput from './ReadOnlyInput';
 import changeable from '../enhancers/changeable';
 import committable from '../enhancers/committable';
 import { normalizeDateString, normalizeISO8601DateString } from '../helpers/dateHelpers';
@@ -21,6 +22,7 @@ const propTypes = {
   clearButtonLabel: PropTypes.string,
   okButtonLabel: PropTypes.string,
   cancelButtonLabel: PropTypes.string,
+  readOnly: PropTypes.bool,
 };
 
 const defaultProps = {
@@ -207,6 +209,7 @@ export default class DateInput extends Component {
       locale,
       todayButtonLabel,
       clearButtonLabel,
+      readOnly,
       /* eslint-disable no-unused-vars */
       okButtonLabel,
       cancelButtonLabel,
@@ -221,6 +224,12 @@ export default class DateInput extends Component {
       provisionalDate,
       viewDate,
     } = this.state;
+
+    if (readOnly) {
+      return (
+        <ReadOnlyInput value={date} />
+      );
+    }
 
     const value = typeof provisionalDate === 'undefined' ? date : provisionalDate;
     const className = typeof provisionalDate === 'undefined' ? styles.normal : styles.provisional;

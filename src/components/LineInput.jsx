@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react';
 import { pathPropType } from '../helpers/pathHelpers';
+import ReadOnlyInput from './ReadOnlyInput';
 import styles from '../../styles/cspace-input/LineInput.css';
 
 const propTypes = {
@@ -8,6 +9,7 @@ const propTypes = {
   parentPath: pathPropType,
   subpath: pathPropType,
   value: PropTypes.string,
+  readOnly: PropTypes.bool,
 };
 
 /**
@@ -20,6 +22,7 @@ export default function LineInput(props) {
   const {
     embedded,
     name,
+    readOnly,
     value,
     /* eslint-disable no-unused-vars */
     parentPath,
@@ -28,16 +31,21 @@ export default function LineInput(props) {
     ...remainingProps
   } = props;
 
+  if (readOnly) {
+    return (
+      <ReadOnlyInput value={value} />
+    );
+  }
+
   const className = embedded ? styles.embedded : styles.normal;
   const normalizedValue = (value === null || typeof value === 'undefined') ? '' : value;
-  const readOnly = !remainingProps.onChange;
 
   return (
     <input
       {...remainingProps}
       className={className}
       name={name}
-      readOnly={readOnly}
+      readOnly={!remainingProps.onChange}
       type="text"
       value={normalizedValue}
     />

@@ -571,4 +571,24 @@ describe('DropdownMenuInput', function suite() {
 
     this.container.querySelector('footer').textContent.should.equal('footer content');
   });
+
+  it('should render a ReadOnlyInput if readOnly is true', function test() {
+    const options = [
+      { value: 'value1', label: 'Value 1' },
+      { value: 'value2', label: 'Value 2' },
+      { value: 'value3', label: 'Value 3' },
+    ];
+
+    render(
+      <DropdownMenuInput
+        options={options}
+        value="value2"
+        readOnly
+      />, this.container);
+
+    const input = this.container.firstElementChild;
+
+    input.className.should.contain('cspace-input-ReadOnlyInput--common');
+    input.textContent.should.equal('Value 2');
+  });
 });

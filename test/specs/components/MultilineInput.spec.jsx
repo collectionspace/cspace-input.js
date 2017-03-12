@@ -59,4 +59,13 @@ describe('MultilineInput', function suite() {
     this.container.firstElementChild.getBoundingClientRect().height.should
       .be.above(measuringStick.getBoundingClientRect().height);
   });
+
+  it('should render a ReadOnlyInput if readOnly is true', function test() {
+    render(<MultilineInput value={'Hello world\nLine 2'} readOnly />, this.container);
+
+    const input = this.container.firstElementChild;
+
+    input.className.should.contain('cspace-input-ReadOnlyInput--common');
+    input.textContent.should.equal('Hello world\nLine 2');
+  });
 });

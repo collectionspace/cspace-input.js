@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import classNames from 'classnames';
+import ReadOnlyInput from './ReadOnlyInput';
 import DropdownInput from './DropdownInput';
 import Menu from './Menu';
 import { getPath } from '../helpers/pathHelpers';
@@ -16,6 +17,7 @@ const propTypes = {
     value: PropTypes.string,
     label: PropTypes.string,
   })),
+  readOnly: PropTypes.bool,
   renderItemLabel: PropTypes.func,
   valueLabel: PropTypes.string,
   onClose: PropTypes.func,
@@ -189,6 +191,7 @@ export default class DropdownMenuInput extends Component {
       menuHeader,
       menuFooter,
       options,
+      readOnly,
       renderItemLabel,
       /* eslint-disable no-unused-vars */
       blankable,
@@ -203,12 +206,18 @@ export default class DropdownMenuInput extends Component {
       ...remainingProps
     } = this.props;
 
+    const inputValue = valueLabel;
+
+    if (readOnly) {
+      return (
+        <ReadOnlyInput value={inputValue} />
+      );
+    }
+
     const classes = classNames(className, {
       [styles.common]: true,
       [styles.open]: open,
     });
-
-    const inputValue = valueLabel;
 
     return (
       <DropdownInput
