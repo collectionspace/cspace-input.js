@@ -10,6 +10,7 @@ import styles from '../../styles/cspace-input/AuthorityControlledInput.css';
 const propTypes = {
   ...FilteringDropdownMenuInput.propTypes,
   addTerm: PropTypes.func,
+  authority: PropTypes.string,
   findMatchingTerms: PropTypes.func,
   formatMoreCharsRequiredMessage: PropTypes.func,
   formatSearchResultMessage: PropTypes.func,
@@ -24,7 +25,7 @@ const propTypes = {
 const defaultProps = {
   formatMoreCharsRequiredMessage: () => 'Continue typing to find matching terms',
   formatSearchResultMessage: (count) => {
-    const matches = count === 1 ? 'match' : 'matches';
+    const matches = count === 1 ? 'matching term' : 'matching terms';
     const num = count === 0 ? 'No' : count;
 
     return `${num} ${matches} found`;
@@ -97,6 +98,7 @@ const isPending = (authority, matches, partialTerm) => {
 
 const getNewTerm = (authority, matches, partialTerm) => {
   const authorities = parseAuthoritySpec(authority);
+
   let newTerm = null;
 
   if (matches) {

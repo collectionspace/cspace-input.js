@@ -78,7 +78,7 @@ export default class QuickAdd extends Component {
     // TODO: i18n of add message
 
     return (
-      <div className={styles.normal}>
+      <div className={styles.common}>
         <div>Add <strong>{displayName}</strong> to</div>
         <ul>
           {buttons}
