@@ -40,6 +40,7 @@ describe('ReadOnlyInput', function suite() {
 
     const measuringStick = createInvisible('div');
     measuringStick.className = expectedClassName;
+    measuringStick.style.minHeight = '0';
     measuringStick.textContent = lines[0];
 
     this.container.firstElementChild.textContent.should.equal(value);
