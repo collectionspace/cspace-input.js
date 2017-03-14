@@ -1,3 +1,5 @@
 .common {
   composes: common from './Input.css';
+  margin-bottom: 10px;
+  min-height: 22px;
 }
