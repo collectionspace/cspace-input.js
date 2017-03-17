@@ -6,6 +6,7 @@ const PrefixFilteringDropdownMenuInput = withLabeledOptions(BasePrefixFilteringD
 
 const propTypes = {
   formatRecordTypeLabel: PropTypes.func,
+  indentItems: PropTypes.bool,
   recordTypes: PropTypes.object,
   rootType: PropTypes.string,
   serviceTypes: PropTypes.arrayOf(PropTypes.string),
@@ -22,6 +23,7 @@ const defaultProps = {
 
     return name;
   },
+  indentItems: true,
   recordTypes: {},
   rootType: 'all',
   serviceTypes: ['object', 'procedure', 'authority'],
@@ -30,6 +32,7 @@ const defaultProps = {
 export default function RecordTypeInput(props) {
   const {
     formatRecordTypeLabel,
+    indentItems,
     recordTypes,
     rootType,
     serviceTypes,
@@ -82,11 +85,13 @@ export default function RecordTypeInput(props) {
 
     let indent = 0;
 
-    if (recordTypeNames.length > 1) {
-      // If there is more than one record type within this service type, add the service type as a
-      // parent option.
+    if (recordTypeNames.length > 1 && recordTypes[serviceType]) {
+      // If there is more than one record type within this service type, and the service type is
+      // itself a record type, add the service type as a parent option.
 
-      indent += 1;
+      if (indentItems) {
+        indent += 1;
+      }
 
       options.push({
         indent,
@@ -95,7 +100,9 @@ export default function RecordTypeInput(props) {
       });
     }
 
-    indent += 1;
+    if (indentItems) {
+      indent += 1;
+    }
 
     recordTypeNames.forEach((recordTypeName) => {
       options.push({
