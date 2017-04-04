@@ -15,10 +15,6 @@
   overflow: hidden;
 }
 
-.common:global(.material-icons) {
-  font-size: 12px;
-}
-
 .common:enabled {
   background-color: inputBg;
 }
