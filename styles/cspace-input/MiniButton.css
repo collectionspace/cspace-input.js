@@ -6,8 +6,7 @@
   margin: 0;
   border-radius: 0;
   border: none;
-  padding: 0;
-  width: calc(inputHeight - 2px);
+  padding: 0 4px;
   height: calc(inputHeight - 2px);
   display: block;
   font-size: 12px;
@@ -46,4 +45,13 @@
 
 .common::-moz-focus-inner {
   border: 0;
+}
+
+.normal {
+  composes: common;
+  width: calc(inputHeight - 2px);
+}
+
+.autoWidth {
+  composes: common;
 }
