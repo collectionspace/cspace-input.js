@@ -1,0 +1,48 @@
+@value inputBg, textDark, textLight from '../colors.css';
+@value activeEdgeWidth, inputMargin from '../dimensions.css';
+
+.common > input {
+  position: absolute;
+  left: -20px;
+  top: -20px;
+}
+
+.common > span {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  outline-offset: -1px;
+  margin: 1px;
+  border: 1px solid;
+  background-repeat: no-repeat;
+}
+
+.common > input:checked + span {
+  background-image: url(../../images/check.svg);
+}
+
+.common > input:focus + span {
+  outline: solid textDark;
+  outline-width: activeEdgeWidth;
+}
+
+.normal {
+  composes: common;
+}
+
+.normal > span {
+  border-color: textLight;
+  background-color: inputBg;
+}
+
+.readOnly {
+  composes: common;
+}
+
+.readOnly > span {
+  border-color: transparent;
+}
+
+.indeterminate > span {
+  background-image: url(../../images/remove.svg);
+}
