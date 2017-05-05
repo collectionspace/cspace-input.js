@@ -106,7 +106,7 @@ export default class DropdownMenuInput extends Component {
     }
   }
 
-  commit(value) {
+  commit(value, meta) {
     const {
       value: initialValue,
       onCommit,
@@ -117,7 +117,7 @@ export default class DropdownMenuInput extends Component {
       (value || initialValue) &&
       (value !== initialValue)
     ) {
-      onCommit(getPath(this.props), value);
+      onCommit(getPath(this.props), value, meta);
     }
   }
 
@@ -166,6 +166,7 @@ export default class DropdownMenuInput extends Component {
   handleMenuSelect(option) {
     const {
       value,
+      meta,
       label: valueLabel,
     } = option;
 
@@ -175,7 +176,7 @@ export default class DropdownMenuInput extends Component {
       open: false,
     });
 
-    this.commit(value);
+    this.commit(value, meta);
     this.focusInput();
   }
 

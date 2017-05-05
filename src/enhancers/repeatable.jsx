@@ -22,6 +22,7 @@ export default function repeatable(BaseComponent) {
   function Repeatable(props) {
     const {
       repeating,
+      reorderable,
       onAddInstance,
       onMoveInstance,
       onRemoveInstance,
@@ -49,6 +50,7 @@ export default function repeatable(BaseComponent) {
         parentPath={parentPath}
         subpath={subpath}
         value={value}
+        reorderable={reorderable}
         onAddInstance={onAddInstance}
         onCommit={onCommit}
         onMoveInstance={onMoveInstance}

@@ -20,6 +20,7 @@ const propTypes = {
   recordTypes: PropTypes.object,
   showQuickAdd: PropTypes.bool,
   readOnly: PropTypes.bool,
+  matchFilter: PropTypes.func,
 };
 
 const defaultProps = {
@@ -30,12 +31,13 @@ const defaultProps = {
 
     return `${num} ${matches} found`;
   },
+  matchFilter: () => true,
   // TODO: Make configurable
   minLength: 3,
   showQuickAdd: true,
 };
 
-const getOptions = (authority, matches, partialTerm) => {
+const getOptions = (authority, matches, partialTerm, matchFilter) => {
   const authorities = parseAuthoritySpec(authority);
   const options = [];
 
@@ -55,9 +57,10 @@ const getOptions = (authority, matches, partialTerm) => {
           const items = authorityMatch.get('items');
 
           if (items) {
-            const authorityOptions = items.map(item => ({
+            const authorityOptions = items.filter(matchFilter).map(item => ({
               value: item.refName,
               label: item.termDisplayName,
+              meta: item,
             }));
 
             options.push(...authorityOptions);
@@ -147,7 +150,11 @@ export default class AuthorityControlledInput extends Component {
     );
 
     if (newTerm && !hadNewTerm) {
-      this.commit(newTerm.getIn(['document', 'ns2:collectionspace_core', 'refName']));
+      const refName = newTerm.getIn(['document', 'ns2:collectionspace_core', 'refName']);
+      const uri = newTerm.getIn(['document', 'ns2:collectionspace_core', 'uri']);
+      const csid = uri.substring(uri.lastIndexOf('/') + 1);
+
+      this.commit(refName, { csid });
       this.dropdownInput.close();
     } else {
       const newState = {
@@ -158,7 +165,7 @@ export default class AuthorityControlledInput extends Component {
         nextProps.authority, nextProps.matches, this.state.partialTerm
       )) {
         newState.options = getOptions(
-          nextProps.authority, nextProps.matches, this.state.partialTerm
+          nextProps.authority, nextProps.matches, this.state.partialTerm, nextProps.matchFilter
         );
       }
 
@@ -166,7 +173,7 @@ export default class AuthorityControlledInput extends Component {
     }
   }
 
-  commit(value) {
+  commit(value, meta) {
     this.setState({
       options: [],
       partialTerm: null,
@@ -177,8 +184,10 @@ export default class AuthorityControlledInput extends Component {
       onCommit,
     } = this.props;
 
+    const csid = meta ? meta.csid : undefined;
+
     if (onCommit) {
-      onCommit(getPath(this.props), value);
+      onCommit(getPath(this.props), value, csid);
     }
   }
 
@@ -188,6 +197,7 @@ export default class AuthorityControlledInput extends Component {
       findMatchingTerms,
       matches,
       minLength,
+      matchFilter,
     } = this.props;
 
     const newState = {
@@ -203,14 +213,14 @@ export default class AuthorityControlledInput extends Component {
       // TODO: Pause to debounce
       findMatchingTerms(partialTerm);
     } else {
-      newState.options = getOptions(authority, matches, partialTerm);
+      newState.options = getOptions(authority, matches, partialTerm, matchFilter);
     }
 
     this.setState(newState);
   }
 
-  handleDropdownInputCommit(path, value) {
-    this.commit(value);
+  handleDropdownInputCommit(path, value, meta) {
+    this.commit(value, meta);
   }
 
   handleDropdownInputRef(ref) {
@@ -246,6 +256,18 @@ export default class AuthorityControlledInput extends Component {
     return null;
   }
 
+  renderReadOnly() {
+    const {
+      value,
+    } = this.state;
+
+    return (
+      <ReadOnlyInput
+        value={getDisplayName(value)}
+      />
+    );
+  }
+
   render() {
     const {
       authority,
@@ -260,6 +282,7 @@ export default class AuthorityControlledInput extends Component {
       formatVocabName,
       recordTypes,
       showQuickAdd,
+      matchFilter,
       /* eslint-enable no-unused-vars */
       ...remainingProps
     } = this.props;
@@ -271,9 +294,7 @@ export default class AuthorityControlledInput extends Component {
     } = this.state;
 
     if (readOnly) {
-      return (
-        <ReadOnlyInput value={getDisplayName(value)} />
-      );
+      return this.renderReadOnly();
     }
 
     const moreCharsRequired = (

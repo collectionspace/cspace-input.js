@@ -44,10 +44,15 @@ const propTypes = {
       PropTypes.object,
     ])),
   ]),
+  reorderable: PropTypes.bool,
   onAddInstance: PropTypes.func,
   onCommit: PropTypes.func,
   onMoveInstance: PropTypes.func,
   onRemoveInstance: PropTypes.func,
+};
+
+const defaultProps = {
+  reorderable: true,
 };
 
 export default class RepeatingInput extends Component {
@@ -118,7 +123,7 @@ export default class RepeatingInput extends Component {
 
     const normalizedLabel = normalizeLabel(label);
 
-    if (!label) {
+    if (!normalizedLabel) {
       return null;
     }
 
@@ -137,6 +142,7 @@ export default class RepeatingInput extends Component {
     const {
       children,
       value,
+      reorderable,
     } = this.props;
 
     const template = React.Children.only(children);
@@ -155,19 +161,24 @@ export default class RepeatingInput extends Component {
       };
 
       const instance = React.cloneElement(template, overrideProps);
+      const orderNumber = index + 1;
+
+      const orderIndicator = (
+        <MiniButton
+          className={moveToTopButtonStyles.common}
+          data-instancename={instanceName}
+          disabled={index === 0 || !reorderable}
+          name="moveToTop"
+          onClick={this.handleMoveToTopButtonClick}
+        >
+          {orderNumber}
+        </MiniButton>
+      );
 
       return (
         <div key={index}>
           <div>
-            <MiniButton
-              className={moveToTopButtonStyles.common}
-              data-instancename={instanceName}
-              disabled={index === 0}
-              name="moveToTop"
-              onClick={this.handleMoveToTopButtonClick}
-            >
-              {index + 1}
-            </MiniButton>
+            {orderIndicator}
           </div>
           <div>
             {instance}
@@ -220,4 +231,4 @@ export default class RepeatingInput extends Component {
 }
 
 RepeatingInput.propTypes = propTypes;
-
+RepeatingInput.defaultProps = defaultProps;

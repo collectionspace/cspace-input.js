@@ -56,13 +56,13 @@ export default class FilteringDropdownMenuInput extends Component {
     });
   }
 
-  commit(value) {
+  commit(value, meta) {
     const {
       onCommit,
     } = this.props;
 
     if (onCommit) {
-      onCommit(getPath(this.props), value);
+      onCommit(getPath(this.props), value, meta);
     }
   }
 
@@ -86,7 +86,7 @@ export default class FilteringDropdownMenuInput extends Component {
     this.filter(value);
   }
 
-  handleDropdownInputCommit(path, value) {
+  handleDropdownInputCommit(path, value, meta) {
     this.setState({
       value,
       isFiltering: false,
@@ -94,7 +94,7 @@ export default class FilteringDropdownMenuInput extends Component {
     });
 
     this.filter();
-    this.commit(value);
+    this.commit(value, meta);
   }
 
   handleDropdownInputKeyDown(event) {
@@ -138,7 +138,7 @@ export default class FilteringDropdownMenuInput extends Component {
           valueLabel: matchingOption.label,
         });
 
-        this.commit(matchingOption.value);
+        this.commit(matchingOption.value, matchingOption.meta);
       }
     }
   }

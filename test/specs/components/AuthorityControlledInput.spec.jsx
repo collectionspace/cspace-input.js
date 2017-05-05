@@ -33,6 +33,7 @@ const janMatches = Immutable.Map().setIn(['jan', 'person', 'local', 'items'], [
   {
     refName: 'urn:cspace:core.collectionspace.org:personauthorities:name(person):item:name(JaneDoe)\'Jane Doe\'',
     termDisplayName: 'Jane Doe',
+    uri: '/personauthorities/fbe3019a-f8d4-4f84-a900/items/7fc7c8ca-8ca0-4a29-8e2e',
   },
 ]);
 
@@ -40,6 +41,7 @@ const johMatches = Immutable.Map().setIn(['joh', 'person', 'local', 'items'], [
   {
     refName: 'urn:cspace:core.collectionspace.org:personauthorities:name(person):item:name(JohnDoe)\'John Doe\'',
     termDisplayName: 'John Doe',
+    uri: '/personauthorities/fbe3019a-f8d4-4f84-a900/items/7fc7c8ca-8ca0-4a29-8e2e',
   },
 ]);
 
@@ -51,6 +53,7 @@ const newTermMatches = Immutable.fromJS({
           document: {
             'ns2:collectionspace_core': {
               refName: 'urn:cspace:core.collectionspace.org:personauthorities:name(person):item:name(JohnDoe)\'John Doe\'',
+              uri: '/personauthorities/fbe3019a-f8d4-4f84-a900/items/7fc7c8ca-8ca0-4a29-8e2e',
             },
           },
         },
