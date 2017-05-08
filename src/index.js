@@ -1,4 +1,4 @@
-import AuthorityControlledInput from './components/AuthorityControlledInput';
+import AutocompleteInput from './components/AutocompleteInput';
 import Button from './components/Button';
 import ComboBoxInput from './components/ComboBoxInput';
 import CompoundInput from './components/CompoundInput';
@@ -36,7 +36,7 @@ import withNormalizedOptions from './enhancers/withNormalizedOptions';
 import * as pathHelpers from './helpers/pathHelpers';
 
 export const baseComponents = {
-  AuthorityControlledInput,
+  AutocompleteInput,
   Button,
   CompoundInput,
   CustomCompoundInput,
@@ -69,7 +69,7 @@ export const components = {
   MiniButton,
   ReadOnlyInput,
   RepeatingInput,
-  AuthorityControlledInput: repeatable(labelable(AuthorityControlledInput)),
+  AutocompleteInput: repeatable(labelable(AutocompleteInput)),
   ComboBoxInput: repeatable(labelable(withLabeledOptions(ComboBoxInput))),
   CustomCompoundInput: repeatable(labelable(CustomCompoundInput)),
   DateInput: repeatable(labelable(DateInput)),

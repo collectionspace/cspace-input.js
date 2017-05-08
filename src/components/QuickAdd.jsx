@@ -1,17 +1,27 @@
 import React, { Component, PropTypes } from 'react';
-import parseAuthoritySpec from '../helpers/parseAuthoritySpec';
+import get from 'lodash/get';
+import parseResourceID from '../helpers/parseResourceID';
 import styles from '../../styles/cspace-input/QuickAdd.css';
 
 const propTypes = {
   add: PropTypes.func,
-  authority: PropTypes.string,
   displayName: PropTypes.string,
-  formatVocabName: PropTypes.func,
+  formatDestinationName: PropTypes.func,
+  formatAddPrompt: PropTypes.func,
   recordTypes: PropTypes.object,
+  to: PropTypes.string,
 };
 
 const defaultProps = {
-  formatVocabName: vocab => vocab.messages.collectionName.defaultMessage,
+  formatAddPrompt: displayName => `Add ${displayName} to`,
+  formatDestinationName: (recordTypeConfig, vocabulary) => {
+    if (vocabulary) {
+      return get(recordTypeConfig,
+        ['vocabularies', vocabulary, 'messages', 'collectionName', 'defaultMessage']);
+    }
+
+    return get(recordTypeConfig, ['messages', 'record', 'collectionName', 'defaultMessage']);
+  },
 };
 
 export default class QuickAdd extends Component {
@@ -31,55 +41,61 @@ export default class QuickAdd extends Component {
 
     if (add) {
       const {
-        authorityname: authorityName,
-        vocabularyname: vocabularyName,
+        vocabulary,
+        recordtype: recordType,
       } = event.currentTarget.dataset;
 
-      add(authorityName, vocabularyName, displayName);
+      add(recordType, vocabulary, displayName);
     }
   }
 
   render() {
     const {
-      authority,
       displayName,
-      formatVocabName,
+      formatAddPrompt,
+      formatDestinationName,
       recordTypes,
+      to: destinationID,
     } = this.props;
 
-    const authorities = parseAuthoritySpec(authority);
+    const destinations = parseResourceID(destinationID);
 
-    const buttons = authorities.map((authoritySpec) => {
+    const buttons = destinations.map((destination) => {
       const {
-        authorityName,
-        vocabularyName,
-      } = authoritySpec;
+        recordType,
+        vocabulary,
+      } = destination;
 
-      const vocabularyConfig =
-        recordTypes[authorityName].vocabularies[vocabularyName];
+      const recordTypeConfig = get(recordTypes, recordType);
 
-      if (!vocabularyConfig) {
+      if (!recordTypeConfig) {
         return null;
       }
 
+      if (vocabulary) {
+        const vocabularyConfig = get(recordTypeConfig, ['vocabularies', vocabulary]);
+
+        if (!vocabularyConfig) {
+          return null;
+        }
+      }
+
       return (
-        <li key={`${authorityName}/${vocabularyName}`}>
+        <li key={[recordType, vocabulary].join('/')}>
           <button
-            data-authorityname={authorityName}
-            data-vocabularyname={vocabularyName}
+            data-recordtype={recordType}
+            data-vocabulary={vocabulary}
             onClick={this.handleButtonClick}
           >
-            {formatVocabName(vocabularyConfig)}
+            {formatDestinationName(recordTypeConfig, vocabulary)}
           </button>
         </li>
       );
     });
 
-    // TODO: i18n of add message
-
     return (
       <div className={styles.common}>
-        <div>Add <strong>{displayName}</strong> to</div>
+        <div>{formatAddPrompt(displayName)}</div>
         <ul>
           {buttons}
         </ul>

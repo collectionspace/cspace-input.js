@@ -3,7 +3,7 @@ import { render } from 'react-dom';
 import { createRenderer, Simulate } from 'react-addons-test-utils';
 import Immutable from 'immutable';
 import FilteringDropdownMenuInput from '../../../src/components/FilteringDropdownMenuInput';
-import AuthorityControlledInput from '../../../src/components/AuthorityControlledInput';
+import AutocompleteInput from '../../../src/components/AutocompleteInput';
 import createTestContainer from '../../helpers/createTestContainer';
 
 const expect = chai.expect;
@@ -32,7 +32,6 @@ const recordTypes = {
 const janMatches = Immutable.Map().setIn(['jan', 'person', 'local', 'items'], [
   {
     refName: 'urn:cspace:core.collectionspace.org:personauthorities:name(person):item:name(JaneDoe)\'Jane Doe\'',
-    termDisplayName: 'Jane Doe',
     uri: '/personauthorities/fbe3019a-f8d4-4f84-a900/items/7fc7c8ca-8ca0-4a29-8e2e',
   },
 ]);
@@ -40,7 +39,6 @@ const janMatches = Immutable.Map().setIn(['jan', 'person', 'local', 'items'], [
 const johMatches = Immutable.Map().setIn(['joh', 'person', 'local', 'items'], [
   {
     refName: 'urn:cspace:core.collectionspace.org:personauthorities:name(person):item:name(JohnDoe)\'John Doe\'',
-    termDisplayName: 'John Doe',
     uri: '/personauthorities/fbe3019a-f8d4-4f84-a900/items/7fc7c8ca-8ca0-4a29-8e2e',
   },
 ]);
@@ -62,7 +60,7 @@ const newTermMatches = Immutable.fromJS({
   },
 });
 
-describe('AuthorityControlledInput', function suite() {
+describe('AutocompleteInput', function suite() {
   beforeEach(function before() {
     this.container = createTestContainer(this);
   });
@@ -70,7 +68,7 @@ describe('AuthorityControlledInput', function suite() {
   it('should render as a FilteringDropdownMenuInput', function test() {
     const shallowRenderer = createRenderer();
 
-    shallowRenderer.render(<AuthorityControlledInput authority="" />, context);
+    shallowRenderer.render(<AutocompleteInput source="" />, context);
 
     const result = shallowRenderer.getRenderOutput();
 
@@ -81,8 +79,8 @@ describe('AuthorityControlledInput', function suite() {
     const value = 'urn:cspace:core.collectionspace.org:personauthorities:name(person):item:name(JaneDoe)\'Jane Doe\'';
 
     render(
-      <AuthorityControlledInput
-        authority="person/local"
+      <AutocompleteInput
+        source="person/local"
         value={value}
       />, this.container);
 
@@ -93,8 +91,8 @@ describe('AuthorityControlledInput', function suite() {
 
   it('should show a continue typing prompt if the value is changed to somethign shorter than the min length', function test() {
     render(
-      <AuthorityControlledInput
-        authority="person/local"
+      <AutocompleteInput
+        source="person/local"
         recordTypes={recordTypes}
       />, this.container);
 
@@ -138,8 +136,8 @@ describe('AuthorityControlledInput', function suite() {
 
   it('should show a quick add menu when the minimum number of characters is entered', function test() {
     render(
-      <AuthorityControlledInput
-        authority="person/local"
+      <AutocompleteInput
+        source="person/local"
         recordTypes={recordTypes}
       />, this.container);
 
@@ -156,8 +154,8 @@ describe('AuthorityControlledInput', function suite() {
 
   it('should not show the quick add menu when showQuickAdd is false', function test() {
     render(
-      <AuthorityControlledInput
-        authority="person/local"
+      <AutocompleteInput
+        source="person/local"
         recordTypes={recordTypes}
         showQuickAdd={false}
       />, this.container);
@@ -175,8 +173,8 @@ describe('AuthorityControlledInput', function suite() {
 
   it('should show options when a partial term is entered that has items in matches', function test() {
     render(
-      <AuthorityControlledInput
-        authority="person/local"
+      <AutocompleteInput
+        source="person/local"
         matches={johMatches}
         recordTypes={recordTypes}
       />, this.container);
@@ -202,8 +200,8 @@ describe('AuthorityControlledInput', function suite() {
     };
 
     render(
-      <AuthorityControlledInput
-        authority="person/local"
+      <AutocompleteInput
+        source="person/local"
         recordTypes={recordTypes}
         findMatchingTerms={findMatchingTerms}
       />, this.container);
@@ -227,10 +225,10 @@ describe('AuthorityControlledInput', function suite() {
     };
 
     render(
-      <AuthorityControlledInput
+      <AutocompleteInput
         parentPath={['collectionobjects_common']}
         name="owner"
-        authority="person/local"
+        source="person/local"
         matches={johMatches}
         recordTypes={recordTypes}
         onCommit={handleCommit}
@@ -261,10 +259,10 @@ describe('AuthorityControlledInput', function suite() {
     };
 
     render(
-      <AuthorityControlledInput
+      <AutocompleteInput
         parentPath={['collectionobjects_common']}
         name="owner"
-        authority="person/local"
+        source="person/local"
         matches={johMatches}
         recordTypes={recordTypes}
         onCommit={handleCommit}
@@ -277,10 +275,10 @@ describe('AuthorityControlledInput', function suite() {
     Simulate.change(input);
 
     render(
-      <AuthorityControlledInput
+      <AutocompleteInput
         parentPath={['collectionobjects_common']}
         name="owner"
-        authority="person/local"
+        source="person/local"
         matches={newTermMatches}
         recordTypes={recordTypes}
         onCommit={handleCommit}
@@ -292,10 +290,10 @@ describe('AuthorityControlledInput', function suite() {
 
   it('should update options when new matches are supplied', function test() {
     render(
-      <AuthorityControlledInput
+      <AutocompleteInput
         parentPath={['collectionobjects_common']}
         name="owner"
-        authority="person/local"
+        source="person/local"
         matches={johMatches}
         recordTypes={recordTypes}
       />, this.container);
@@ -307,10 +305,10 @@ describe('AuthorityControlledInput', function suite() {
     Simulate.change(input);
 
     render(
-      <AuthorityControlledInput
+      <AutocompleteInput
         parentPath={['collectionobjects_common']}
         name="owner"
-        authority="person/local"
+        source="person/local"
         matches={janMatches}
         recordTypes={recordTypes}
       />, this.container);
@@ -326,7 +324,7 @@ describe('AuthorityControlledInput', function suite() {
     const value = 'urn:cspace:core.collectionspace.org:personauthorities:name(person):item:name(DavidBowie1489220916785)\'David Bowie\'';
 
     render(
-      <AuthorityControlledInput
+      <AutocompleteInput
         value={value}
         readOnly
       />, this.container);

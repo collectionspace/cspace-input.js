@@ -3,23 +3,24 @@ import { getDisplayName } from 'cspace-refname';
 import ReadOnlyInput from './ReadOnlyInput';
 import FilteringDropdownMenuInput from './FilteringDropdownMenuInput';
 import QuickAdd from './QuickAdd';
-import parseAuthoritySpec from '../helpers/parseAuthoritySpec';
+import parseResourceID from '../helpers/parseResourceID';
 import { getPath } from '../helpers/pathHelpers';
-import styles from '../../styles/cspace-input/AuthorityControlledInput.css';
+import styles from '../../styles/cspace-input/AutocompleteInput.css';
 
 const propTypes = {
   ...FilteringDropdownMenuInput.propTypes,
   addTerm: PropTypes.func,
-  authority: PropTypes.string,
   findMatchingTerms: PropTypes.func,
+  formatAddPrompt: PropTypes.func,
   formatMoreCharsRequiredMessage: PropTypes.func,
   formatSearchResultMessage: PropTypes.func,
-  formatVocabName: PropTypes.func,
+  formatSourceName: PropTypes.func,
   matches: PropTypes.object,
   minLength: PropTypes.number,
   recordTypes: PropTypes.object,
   showQuickAdd: PropTypes.bool,
   readOnly: PropTypes.bool,
+  source: PropTypes.string,
   matchFilter: PropTypes.func,
 };
 
@@ -37,33 +38,33 @@ const defaultProps = {
   showQuickAdd: true,
 };
 
-const getOptions = (authority, matches, partialTerm, matchFilter) => {
-  const authorities = parseAuthoritySpec(authority);
+const getOptions = (sourceID, matches, partialTerm, matchFilter) => {
+  const sources = parseResourceID(sourceID);
   const options = [];
 
   if (matches) {
     const partialTermMatch = matches.get(partialTerm);
 
     if (partialTermMatch) {
-      authorities.forEach((authoritySpec) => {
+      sources.forEach((source) => {
         const {
-          authorityName,
-          vocabularyName,
-        } = authoritySpec;
+          recordType,
+          vocabulary,
+        } = source;
 
-        const authorityMatch = partialTermMatch.getIn([authorityName, vocabularyName]);
+        const sourceMatch = partialTermMatch.getIn([recordType, vocabulary]);
 
-        if (authorityMatch) {
-          const items = authorityMatch.get('items');
+        if (sourceMatch) {
+          const items = sourceMatch.get('items');
 
           if (items) {
-            const authorityOptions = items.filter(matchFilter).map(item => ({
+            const sourceOptions = items.filter(matchFilter).map(item => ({
               value: item.refName,
-              label: item.termDisplayName,
+              label: getDisplayName(item.refName),
               meta: item,
             }));
 
-            options.push(...authorityOptions);
+            options.push(...sourceOptions);
           }
         }
       });
@@ -73,24 +74,24 @@ const getOptions = (authority, matches, partialTerm, matchFilter) => {
   return options;
 };
 
-const isPending = (authority, matches, partialTerm) => {
-  const authorities = parseAuthoritySpec(authority);
+const isPending = (sourceID, matches, partialTerm) => {
+  const sources = parseResourceID(sourceID);
   let foundPending = false;
 
   if (matches) {
     const partialTermMatch = matches.get(partialTerm);
 
     if (partialTermMatch) {
-      authorities.forEach((authoritySpec) => {
+      sources.forEach((source) => {
         const {
-          authorityName,
-          vocabularyName,
-        } = authoritySpec;
+          recordType,
+          vocabulary,
+        } = source;
 
-        const authorityMatch = partialTermMatch.getIn([authorityName, vocabularyName]);
+        const sourceMatch = partialTermMatch.getIn([recordType, vocabulary]);
 
-        if (authorityMatch) {
-          foundPending = foundPending || authorityMatch.get('isSearchPending') || authorityMatch.get('isAddPending');
+        if (sourceMatch) {
+          foundPending = foundPending || sourceMatch.get('isSearchPending') || sourceMatch.get('isAddPending');
         }
       });
     }
@@ -99,8 +100,8 @@ const isPending = (authority, matches, partialTerm) => {
   return foundPending;
 };
 
-const getNewTerm = (authority, matches, partialTerm) => {
-  const authorities = parseAuthoritySpec(authority);
+const getNewTerm = (sourceID, matches, partialTerm) => {
+  const sources = parseResourceID(sourceID);
 
   let newTerm = null;
 
@@ -108,16 +109,16 @@ const getNewTerm = (authority, matches, partialTerm) => {
     const partialTermMatch = matches.get(partialTerm);
 
     if (partialTermMatch) {
-      authorities.forEach((authoritySpec) => {
+      sources.forEach((source) => {
         const {
-          authorityName,
-          vocabularyName,
-        } = authoritySpec;
+          recordType,
+          vocabulary,
+        } = source;
 
-        const authorityMatch = partialTermMatch.getIn([authorityName, vocabularyName]);
+        const sourceMatch = partialTermMatch.getIn([recordType, vocabulary]);
 
-        if (authorityMatch) {
-          newTerm = newTerm || authorityMatch.get('newTerm');
+        if (sourceMatch) {
+          newTerm = newTerm || sourceMatch.get('newTerm');
         }
       });
     }
@@ -126,7 +127,7 @@ const getNewTerm = (authority, matches, partialTerm) => {
   return newTerm;
 };
 
-export default class AuthorityControlledInput extends Component {
+export default class AutocompleteInput extends Component {
   constructor(props) {
     super(props);
 
@@ -142,11 +143,11 @@ export default class AuthorityControlledInput extends Component {
 
   componentWillReceiveProps(nextProps) {
     const newTerm = getNewTerm(
-      nextProps.authority, nextProps.matches, this.state.partialTerm
+      nextProps.source, nextProps.matches, this.state.partialTerm
     );
 
     const hadNewTerm = getNewTerm(
-      this.props.authority, this.props.matches, this.state.partialTerm
+      this.props.source, this.props.matches, this.state.partialTerm
     );
 
     if (newTerm && !hadNewTerm) {
@@ -162,10 +163,10 @@ export default class AuthorityControlledInput extends Component {
       };
 
       if (!isPending(
-        nextProps.authority, nextProps.matches, this.state.partialTerm
+        nextProps.source, nextProps.matches, this.state.partialTerm
       )) {
         newState.options = getOptions(
-          nextProps.authority, nextProps.matches, this.state.partialTerm, nextProps.matchFilter
+          nextProps.source, nextProps.matches, this.state.partialTerm, nextProps.matchFilter
         );
       }
 
@@ -193,7 +194,7 @@ export default class AuthorityControlledInput extends Component {
 
   findMatchingTerms(partialTerm) {
     const {
-      authority,
+      source,
       findMatchingTerms,
       matches,
       minLength,
@@ -213,7 +214,7 @@ export default class AuthorityControlledInput extends Component {
       // TODO: Pause to debounce
       findMatchingTerms(partialTerm);
     } else {
-      newState.options = getOptions(authority, matches, partialTerm, matchFilter);
+      newState.options = getOptions(source, matches, partialTerm, matchFilter);
     }
 
     this.setState(newState);
@@ -230,11 +231,12 @@ export default class AuthorityControlledInput extends Component {
   renderQuickAdd() {
     const {
       addTerm,
-      authority,
-      formatVocabName,
+      formatAddPrompt,
+      formatSourceName,
       minLength,
       recordTypes,
       showQuickAdd,
+      source,
     } = this.props;
 
     const {
@@ -245,10 +247,11 @@ export default class AuthorityControlledInput extends Component {
       return (
         <QuickAdd
           add={addTerm}
-          authority={authority}
           displayName={partialTerm}
-          formatVocabName={formatVocabName}
+          formatAddPrompt={formatAddPrompt}
+          formatDestinationName={formatSourceName}
           recordTypes={recordTypes}
+          to={source}
         />
       );
     }
@@ -270,16 +273,17 @@ export default class AuthorityControlledInput extends Component {
 
   render() {
     const {
-      authority,
       formatMoreCharsRequiredMessage,
       formatSearchResultMessage,
       matches,
       minLength,
       readOnly,
+      source,
       /* eslint-disable no-unused-vars */
       addTerm,
       findMatchingTerms,
-      formatVocabName,
+      formatAddPrompt,
+      formatSourceName,
       recordTypes,
       showQuickAdd,
       matchFilter,
@@ -307,7 +311,7 @@ export default class AuthorityControlledInput extends Component {
       ? formatMoreCharsRequiredMessage
       : formatSearchResultMessage;
 
-    const className = isPending(authority, matches, partialTerm)
+    const className = isPending(source, matches, partialTerm)
       ? styles.searching
       : styles.normal;
 
@@ -328,5 +332,5 @@ export default class AuthorityControlledInput extends Component {
   }
 }
 
-AuthorityControlledInput.propTypes = propTypes;
-AuthorityControlledInput.defaultProps = defaultProps;
+AutocompleteInput.propTypes = propTypes;
+AutocompleteInput.defaultProps = defaultProps;
