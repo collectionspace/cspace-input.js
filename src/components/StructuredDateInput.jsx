@@ -8,7 +8,7 @@ import BaseDropdownInput from './DropdownInput';
 import Label from './Label';
 import BaseTextInput from './TextInput';
 import BasePrefixFilteringDropdownMenuInput from './PrefixFilteringDropdownMenuInput';
-import VocabularyControlledInput from './VocabularyControlledInput';
+import TermPickerInput from './TermPickerInput';
 import changeable from '../enhancers/changeable';
 import committable from '../enhancers/committable';
 import withLabeledOptions from '../enhancers/withLabeledOptions';
@@ -306,7 +306,7 @@ export default class StructuredDateInput extends Component {
                   />
                 </td>
                 <td>
-                  <VocabularyControlledInput
+                  <TermPickerInput
                     embedded
                     name="dateEarliestSingleEra"
                     terms={terms.dateera}
@@ -314,7 +314,7 @@ export default class StructuredDateInput extends Component {
                   />
                 </td>
                 <td>
-                  <VocabularyControlledInput
+                  <TermPickerInput
                     embedded
                     name="dateEarliestSingleCertainty"
                     terms={terms.datecertainty}
@@ -338,7 +338,7 @@ export default class StructuredDateInput extends Component {
                   />
                 </td>
                 <td>
-                  <VocabularyControlledInput
+                  <TermPickerInput
                     embedded
                     name="dateEarliestSingleQualifierUnit"
                     terms={terms.datequalifier}
@@ -373,7 +373,7 @@ export default class StructuredDateInput extends Component {
                   />
                 </td>
                 <td>
-                  <VocabularyControlledInput
+                  <TermPickerInput
                     embedded
                     name="dateLatestEra"
                     terms={terms.dateera}
@@ -382,7 +382,7 @@ export default class StructuredDateInput extends Component {
                   />
                 </td>
                 <td>
-                  <VocabularyControlledInput
+                  <TermPickerInput
                     embedded
                     name="dateLatestCertainty"
                     terms={terms.datecertainty}
@@ -409,7 +409,7 @@ export default class StructuredDateInput extends Component {
                   />
                 </td>
                 <td>
-                  <VocabularyControlledInput
+                  <TermPickerInput
                     embedded
                     name="dateLatestQualifierUnit"
                     terms={terms.datequalifier}

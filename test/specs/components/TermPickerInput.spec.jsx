@@ -1,13 +1,13 @@
 import React from 'react';
 import { render } from 'react-dom';
 import { createRenderer } from 'react-addons-test-utils';
-import VocabularyControlledInput from '../../../src/components/VocabularyControlledInput';
+import TermPickerInput from '../../../src/components/TermPickerInput';
 
 import createTestContainer from '../../helpers/createTestContainer';
 
 chai.should();
 
-describe('VocabularyControlledInput', function suite() {
+describe('TermPickerInput', function suite() {
   beforeEach(function before() {
     this.container = createTestContainer(this);
   });
@@ -15,7 +15,7 @@ describe('VocabularyControlledInput', function suite() {
   it('should render as a PrefixFilteringDropdownMenuInput', function test() {
     const shallowRenderer = createRenderer();
 
-    shallowRenderer.render(<VocabularyControlledInput items={[]} />, context);
+    shallowRenderer.render(<TermPickerInput items={[]} />, context);
 
     const result = shallowRenderer.getRenderOutput();
 
@@ -36,7 +36,7 @@ describe('VocabularyControlledInput', function suite() {
       },
     ];
 
-    shallowRenderer.render(<VocabularyControlledInput terms={terms} />, context);
+    shallowRenderer.render(<TermPickerInput terms={terms} />, context);
 
     const result = shallowRenderer.getRenderOutput();
 
@@ -55,7 +55,7 @@ describe('VocabularyControlledInput', function suite() {
   it('should pass empty options to the base component when terms is undefined', function test() {
     const shallowRenderer = createRenderer();
 
-    shallowRenderer.render(<VocabularyControlledInput />, context);
+    shallowRenderer.render(<TermPickerInput />, context);
 
     const result = shallowRenderer.getRenderOutput();
 
@@ -69,7 +69,7 @@ describe('VocabularyControlledInput', function suite() {
       handlerCalled = true;
     };
 
-    render(<VocabularyControlledInput onMount={handleMount} />, this.container);
+    render(<TermPickerInput onMount={handleMount} />, this.container);
 
     handlerCalled.should.equal(true);
   });

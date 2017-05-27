@@ -21,7 +21,7 @@ import RepeatingInput from './components/RepeatingInput';
 import StructuredDateInput from './components/StructuredDateInput';
 import TabularCompoundInput from './components/TabularCompoundInput';
 import TextInput from './components/TextInput';
-import VocabularyControlledInput from './components/VocabularyControlledInput';
+import TermPickerInput from './components/TermPickerInput';
 import VocabularyInput from './components/VocabularyInput';
 
 import changeable from './enhancers/changeable';
@@ -58,7 +58,7 @@ export const baseComponents = {
   StructuredDateInput,
   TabularCompoundInput,
   TextInput,
-  VocabularyControlledInput,
+  TermPickerInput,
   VocabularyInput,
 };
 
@@ -88,7 +88,7 @@ export const components = {
   TabularCompoundInput: labelable(TabularCompoundInput),
   TextInput: standalone(TextInput),
   VocabularyInput: labelable(VocabularyInput),
-  VocabularyControlledInput: repeatable(labelable(VocabularyControlledInput)),
+  TermPickerInput: repeatable(labelable(TermPickerInput)),
 };
 
 export const enhancers = {

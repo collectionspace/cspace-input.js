@@ -14,7 +14,7 @@ const propTypes = {
   onMount: PropTypes.func,
 };
 
-export default class VocabularyControlledInput extends Component {
+export default class TermPickerInput extends Component {
   componentDidMount() {
     const {
       onMount,
@@ -51,4 +51,4 @@ export default class VocabularyControlledInput extends Component {
   }
 }
 
-VocabularyControlledInput.propTypes = propTypes;
+TermPickerInput.propTypes = propTypes;
