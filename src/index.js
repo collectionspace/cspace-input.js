@@ -1,5 +1,6 @@
 import AutocompleteInput from './components/AutocompleteInput';
 import Button from './components/Button';
+import CheckboxInput from './components/CheckboxInput';
 import ComboBoxInput from './components/ComboBoxInput';
 import CompoundInput from './components/CompoundInput';
 import CustomCompoundInput from './components/CustomCompoundInput';
@@ -38,6 +39,7 @@ import * as pathHelpers from './helpers/pathHelpers';
 export const baseComponents = {
   AutocompleteInput,
   Button,
+  CheckboxInput,
   CompoundInput,
   CustomCompoundInput,
   DateInput,
@@ -70,6 +72,7 @@ export const components = {
   ReadOnlyInput,
   RepeatingInput,
   AutocompleteInput: repeatable(labelable(AutocompleteInput)),
+  CheckboxInput: labelable(CheckboxInput),
   ComboBoxInput: repeatable(labelable(withLabeledOptions(ComboBoxInput))),
   CustomCompoundInput: repeatable(labelable(CustomCompoundInput)),
   DateInput: repeatable(labelable(DateInput)),
@@ -78,7 +81,7 @@ export const components = {
   InputTable: labelable(InputTable),
   LineInput: standalone(LineInput),
   MultilineInput: standalone(MultilineInput),
-  OptionListControlledInput: repeatable(
+  OptionPickerInput: repeatable(
     labelable(withLabeledOptions(withNormalizedOptions(PrefixFilteringDropdownMenuInput)))
   ),
   PasswordInput: standalone(PasswordInput),
