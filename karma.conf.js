@@ -110,6 +110,12 @@ module.exports = function karma(config) {
       'saucelabs',
     ],
 
+    browserConsoleLogOptions: {
+      level: 'log',
+      format: '%b %T: %m',
+      terminal: true,
+    },
+
     autoWatch: true,
     singleRun: config.singleRun === 'true',
 

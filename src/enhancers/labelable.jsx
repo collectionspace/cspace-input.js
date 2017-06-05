@@ -19,16 +19,18 @@ export default function labelable(BaseComponent) {
     ...BaseComponent.propTypes,
     label: PropTypes.node,
     msgkey: PropTypes.string,
+    required: PropTypes.bool,
   };
 
   function Labelable(props) {
     const {
       label,
       msgkey, // eslint-disable-line no-unused-vars
+      required,
       ...remainingProps
     } = props;
 
-    const normalizedLabel = normalizeLabel(label);
+    const normalizedLabel = normalizeLabel(label, { required });
 
     const baseComponent = (
       <BaseComponent {...remainingProps} />

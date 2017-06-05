@@ -8,3 +8,11 @@
   line-height: 14px;
   color: textDark;
 }
+
+.required {
+  composes: common;
+}
+
+.required::after {
+  content: "*";
+}
