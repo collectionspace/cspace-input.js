@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { Footer, HistoryView, MonthView, NavBar } from 'react-date-picker';
 import BaseDropdownInput from './DropdownInput';
 import ReadOnlyInput from './ReadOnlyInput';

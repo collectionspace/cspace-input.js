@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 import { isInput } from '../../../src/helpers/inputHelpers';
 import { pathPropType } from '../../../src/helpers/pathHelpers';

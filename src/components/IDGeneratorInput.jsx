@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { Row } from 'cspace-layout';
 import BaseDropdownInput from './DropdownInput';
 import Menu from './Menu';

@@ -1,7 +1,7 @@
 /* global window, document */
 
 import React from 'react';
-import { Simulate } from 'react-addons-test-utils';
+import { Simulate } from 'react-dom/test-utils';
 import { render } from 'react-dom';
 
 import createTestContainer from '../../helpers/createTestContainer';

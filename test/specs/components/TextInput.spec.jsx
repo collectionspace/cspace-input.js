@@ -1,5 +1,5 @@
 import React from 'react';
-import { createRenderer } from 'react-addons-test-utils';
+import { createRenderer } from 'react-test-renderer/shallow';
 
 import { isInput } from '../../../src/helpers/inputHelpers';
 import LineInput from '../../../src/components/LineInput';

@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import BaseLineInput from './LineInput';
 import RecordTypeInput from './RecordTypeInput';
 import VocabularyInput from './VocabularyInput';

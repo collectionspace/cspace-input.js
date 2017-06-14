@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import BaseCustomCompoundInput from './CustomCompoundInput';
 import BaseTabularCompoundInput from './TabularCompoundInput';
 import labelable from '../enhancers/labelable';

@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import { extractInputs } from '../helpers/inputHelpers';
 import normalizeLabel from '../helpers/normalizeLabel';
 import styles from '../../styles/cspace-input/InputTableHeader.css';

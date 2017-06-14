@@ -1,5 +1,5 @@
 import React from 'react';
-import { createRenderer } from 'react-addons-test-utils';
+import { createRenderer } from 'react-test-renderer/shallow';
 
 import Menu from '../../../src/components/Menu';
 import { normalizeOptions } from '../../../src/helpers/optionHelpers';

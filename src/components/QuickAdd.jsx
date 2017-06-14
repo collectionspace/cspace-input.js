@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import get from 'lodash/get';
 import parseResourceID from '../helpers/parseResourceID';
 import styles from '../../styles/cspace-input/QuickAdd.css';

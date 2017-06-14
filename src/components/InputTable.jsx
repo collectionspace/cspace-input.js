@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import InputTableHeader from './InputTableHeader';
 import InputTableRow from './InputTableRow';
 import styles from '../../styles/cspace-input/InputTable.css';

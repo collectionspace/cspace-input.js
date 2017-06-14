@@ -1,5 +1,5 @@
 import React from 'react';
-import { Simulate } from 'react-addons-test-utils';
+import { Simulate } from 'react-dom/test-utils';
 import Immutable from 'immutable';
 import { render } from 'react-dom';
 

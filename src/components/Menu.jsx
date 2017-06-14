@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import styles from '../../styles/cspace-input/Menu.css';
 import itemStyles from '../../styles/cspace-input/MenuItem.css';

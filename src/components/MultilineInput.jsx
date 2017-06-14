@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import { pathPropType } from '../helpers/pathHelpers';
 import ReadOnlyInput from './ReadOnlyInput';
 import styles from '../../styles/cspace-input/MultilineInput.css';

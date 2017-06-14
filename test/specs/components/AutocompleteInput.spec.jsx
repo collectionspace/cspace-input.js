@@ -1,6 +1,7 @@
 import React from 'react';
 import { render } from 'react-dom';
-import { createRenderer, Simulate } from 'react-addons-test-utils';
+import { Simulate } from 'react-dom/test-utils';
+import { createRenderer } from 'react-test-renderer/shallow';
 import Immutable from 'immutable';
 import FilteringDropdownMenuInput from '../../../src/components/FilteringDropdownMenuInput';
 import AutocompleteInput from '../../../src/components/AutocompleteInput';

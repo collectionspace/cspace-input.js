@@ -1,6 +1,6 @@
 import React from 'react';
 import { render } from 'react-dom';
-import { Simulate } from 'react-addons-test-utils';
+import { Simulate } from 'react-dom/test-utils';
 import VocabularyInput from '../../../src/components/VocabularyInput';
 import createTestContainer from '../../helpers/createTestContainer';
 

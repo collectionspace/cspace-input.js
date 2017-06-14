@@ -1,6 +1,6 @@
 import React from 'react';
 import { render } from 'react-dom';
-import { Simulate } from 'react-addons-test-utils';
+import { Simulate } from 'react-dom/test-utils';
 import Immutable from 'immutable';
 import BaseStructuredDateInput from '../../../src/components/StructuredDateInput';
 import createTestContainer from '../../helpers/createTestContainer';
