@@ -3,6 +3,7 @@
 
 .common > input {
   position: absolute;
+  display: none;
   left: -20px;
   top: -20px;
 }
