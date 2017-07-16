@@ -11,6 +11,10 @@
     "input",
     "react"
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/collectionspace/cspace-input.js.git"
+  },
   "main": "lib/index.js",
   "files": [
     "dist",
@@ -19,7 +23,6 @@
     "styles",
     "images"
   ],
-  "repository": "collectionspace/cspace-input.js",
   "scripts": {
     "build": "npm run build-cjs && npm run build-umd",
     "build-cjs": "cross-env BABEL_ENV=cjs babel ./src -d lib",
@@ -31,7 +34,7 @@
     "coverage": "istanbul report --root coverage text && istanbul report --root coverage lcov",
     "doc": "documentation readme src/*.js -s \"API\"",
     "lint": "eslint --ext .jsx,.js *.js src test examples",
-    "prepublish": "npm run clean && npm run build",
+    "prepare": "npm run clean && npm run build",
     "start": "cross-env NODE_ENV=test karma start",
     "test": "cross-env NODE_ENV=test karma start --singleRun=true"
   },
