@@ -1,12 +1,14 @@
 /* eslint import/no-extraneous-dependencies: "off" */
 
 const webpack = require('webpack');
-const values = require('postcss-modules-values');
+const path = require('path');
 
 const library = 'cspaceInput';
 const env = process.env.NODE_ENV;
 const isProduction = env === 'production';
 const filename = `${library}${isProduction ? '.min' : ''}.js`;
+
+process.traceDeprecation = true;
 
 const config = {
   entry: './src/index.js',
@@ -14,47 +16,60 @@ const config = {
     filename,
     library,
     libraryTarget: 'umd',
-    path: 'dist',
+    path: path.resolve(__dirname, 'dist'),
   },
   module: {
-    loaders: [
+    rules: [
       {
         test: /\.(js|jsx)$/,
         exclude: /node_modules/,
-        loader: 'babel',
+        use: [
+          {
+            loader: 'babel-loader',
+          },
+        ],
       },
       {
         test: /\.css$/,
-        loader: 'style-loader!css-loader?modules&importLoaders=1&localIdentName=[folder]-[name]--[local]!postcss-loader',
+        use: [
+          {
+            loader: 'style-loader',
+          },
+          {
+            loader: 'css-loader',
+            options: {
+              modules: true,
+              importLoaders: 1,
+              localIdentName: '[folder]-[name]--[local]',
+            },
+          },
+          {
+            loader: 'postcss-loader',
+          },
+        ],
       },
       {
         test: /\.(png|jpg|svg)$/,
-        loader: 'url-loader',
+        use: [
+          {
+            loader: 'url-loader',
+          },
+        ],
       },
     ],
   },
-  postcss: [
-    values,
-  ],
   plugins: [
-    new webpack.optimize.OccurrenceOrderPlugin(),
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
     }),
   ],
   resolve: {
-    extensions: ['', '.js', '.jsx'],
+    extensions: ['.js', '.jsx'],
   },
 };
 
 if (isProduction) {
-  config.plugins.push(
-    new webpack.optimize.UglifyJsPlugin({
-      compress: {
-        warnings: false,
-      },
-    })
-  );
+  config.plugins.push(new webpack.optimize.UglifyJsPlugin());
 }
 
 module.exports = config;

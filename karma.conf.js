@@ -2,7 +2,6 @@
 /* eslint no-console: "off" */
 
 const webpack = require('webpack');
-const values = require('postcss-modules-values');
 
 const sauceLaunchers = {
   'chrome-latest-mac': {
@@ -129,32 +128,52 @@ module.exports = function karma(config) {
     webpack: {
       devtool: 'cheap-module-inline-source-map',
       module: {
-        loaders: [
+        rules: [
           {
             test: /\.(js|jsx)$/,
             exclude: /node_modules/,
-            loader: 'babel',
+            use: [
+              {
+                loader: 'babel-loader',
+              },
+            ],
           },
           {
             test: /\.css$/,
-            loader: 'style-loader!css-loader?modules&importLoaders=1&localIdentName=[folder]-[name]--[local]!postcss-loader',
+            use: [
+              {
+                loader: 'style-loader',
+              },
+              {
+                loader: 'css-loader',
+                options: {
+                  modules: true,
+                  importLoaders: 1,
+                  localIdentName: '[folder]-[name]--[local]',
+                },
+              },
+              {
+                loader: 'postcss-loader',
+              },
+            ],
           },
           {
             test: /\.(png|jpg|svg)$/,
-            loader: 'url-loader',
+            use: [
+              {
+                loader: 'url-loader',
+              },
+            ],
           },
         ],
       },
-      postcss: [
-        values,
-      ],
       plugins: [
         new webpack.DefinePlugin({
           'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
         }),
       ],
       resolve: {
-        extensions: ['', '.js', '.jsx'],
+        extensions: ['.js', '.jsx'],
       },
     },
 
