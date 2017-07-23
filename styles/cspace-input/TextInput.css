@@ -4,7 +4,7 @@
 .common {
   composes: common from './Input.css';
   -webkit-appearance: none;
-  display: block;
+  display: inline-block;
   width: 100%;
   margin: 0;
   outline: none;
