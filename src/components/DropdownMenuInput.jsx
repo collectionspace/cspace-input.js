@@ -26,7 +26,7 @@ const propTypes = {
   onMount: PropTypes.func,
   onOpen: PropTypes.func,
   onUpdate: PropTypes.func,
-  
+
 };
 
 const defaultProps = {
@@ -82,8 +82,19 @@ export default class DropdownMenuInput extends Component {
     } = this.props;
 
     if (onMount) {
-      onMount({ value: this.state.value });
+      onMount({ 
+        value: this.state.value,
+        focus: this.focusMenu.bind(this),
+      });
     }
+  }
+
+  componentWillUnmount() {
+    const {
+      provideController,
+    } = this.props;
+
+    provideController(null);
   }
 
   componentWillReceiveProps(nextProps) {

@@ -134,7 +134,6 @@ export default class AutocompleteInput extends Component {
 
     this.findMatchingTerms = this.findMatchingTerms.bind(this);
     this.handleDropdownInputCommit = this.handleDropdownInputCommit.bind(this);
-    // TODO: Rename since actually for FilteringDropdownMenuInput
     this.handleFilteringDropdownMenuInputRef = this.handleFilteringDropdownMenuInputRef.bind(this);
     this.handleQuickAddNotifyBeforeFocus = this.handleQuickAddNotifyBeforeFocus.bind(this);
     this.handleFilterDropMenuNotifyBeforeFocus = this.handleFilterDropMenuNotifyBeforeFocus.bind(this);
@@ -244,7 +243,7 @@ export default class AutocompleteInput extends Component {
 
   handleQuickAddNotifyBeforeFocus(){
     if (this.dropdownMenuInput) {
-      this.dropdownMenuInput.focusMenu();
+      this.dropdownMenuInput.focus();
     }
   }
 
@@ -358,7 +357,7 @@ export default class AutocompleteInput extends Component {
         onCommit={this.handleDropdownInputCommit}
         notifyBeforeFocusWrap={this.handleFilterDropMenuNotifyBeforeFocus}
         shouldTransferFocus={showQuickAdd}
-        dropdownMenuInputRef={this.handleDropdownMenuInputRef}
+        onMount={this.handleDropdownMenuInputRef}
       />
     );
   }
