@@ -134,7 +134,12 @@ export default class AutocompleteInput extends Component {
 
     this.findMatchingTerms = this.findMatchingTerms.bind(this);
     this.handleDropdownInputCommit = this.handleDropdownInputCommit.bind(this);
-    this.handleDropdownInputRef = this.handleDropdownInputRef.bind(this);
+    // TODO: Rename since actually for FilteringDropdownMenuInput
+    this.handleFilteringDropdownMenuInputRef = this.handleFilteringDropdownMenuInputRef.bind(this);
+    this.handleQuickAddNotifyBeforeFocus = this.handleQuickAddNotifyBeforeFocus.bind(this);
+    this.handleFilterDropMenuNotifyBeforeFocus = this.handleFilterDropMenuNotifyBeforeFocus.bind(this);
+    this.handleQuickAddRef = this.handleQuickAddRef.bind(this);
+    this.handleDropdownMenuInputRef = this.handleDropdownMenuInputRef.bind(this);
 
     this.state = {
       partialTerm: null,
@@ -157,7 +162,7 @@ export default class AutocompleteInput extends Component {
       const csid = uri.substring(uri.lastIndexOf('/') + 1);
 
       this.commit(refName, { csid });
-      this.dropdownInput.close();
+      this.filteringDropdownMenuInput.close();
     } else {
       const newState = {
         value: nextProps.value,
@@ -225,8 +230,28 @@ export default class AutocompleteInput extends Component {
     this.commit(value, meta);
   }
 
-  handleDropdownInputRef(ref) {
-    this.dropdownInput = ref;
+  handleFilteringDropdownMenuInputRef(ref) {
+    this.filteringDropdownMenuInput = ref;
+  }
+
+  handleDropdownMenuInputRef(ref) {
+    this.dropdownMenuInput = ref;
+  }
+
+  handleQuickAddRef(ref) {
+    this.quickAdd = ref;
+  }
+
+  handleQuickAddNotifyBeforeFocus(){
+    if (this.dropdownMenuInput) {
+      this.dropdownMenuInput.focusMenu();
+    }
+  }
+
+  handleFilterDropMenuNotifyBeforeFocus(){
+    if (this.quickAdd) {
+      this.quickAdd.focusMenu();
+    }
   }
 
   renderQuickAdd() {
@@ -253,6 +278,9 @@ export default class AutocompleteInput extends Component {
           formatDestinationName={formatSourceName}
           recordTypes={recordTypes}
           to={source}
+          notifyBeforeFocusWrap={this.handleQuickAddNotifyBeforeFocus}
+          shouldTransferFocus={true}
+          ref={this.handleQuickAddRef}
         />
       );
     }
@@ -324,10 +352,13 @@ export default class AutocompleteInput extends Component {
         formatStatusMessage={formatStatusMessage}
         menuFooter={this.renderQuickAdd()}
         options={options}
-        ref={this.handleDropdownInputRef}
+        ref={this.handleFilteringDropdownMenuInputRef}
         value={value}
         valueLabel={getDisplayName(value)}
         onCommit={this.handleDropdownInputCommit}
+        notifyBeforeFocusWrap={this.handleFilterDropMenuNotifyBeforeFocus}
+        shouldTransferFocus={showQuickAdd}
+        dropdownMenuInputRef={this.handleDropdownMenuInputRef}
       />
     );
   }

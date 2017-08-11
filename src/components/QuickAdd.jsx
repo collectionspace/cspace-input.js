@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
+import Menu from './Menu';
 import PropTypes from 'prop-types';
 import get from 'lodash/get';
 import parseResourceID from '../helpers/parseResourceID';
+import {capitalizeLabel} from '../helpers/optionHelpers';
 import styles from '../../styles/cspace-input/QuickAdd.css';
 
 const propTypes = {
@@ -30,6 +32,8 @@ export default class QuickAdd extends Component {
     super(props);
 
     this.handleButtonClick = this.handleButtonClick.bind(this);
+    this.handleMenuRef = this.handleMenuRef.bind(this);
+    this.focusMenu = this.focusMenu.bind(this);
   }
 
   handleButtonClick(event) {
@@ -50,6 +54,16 @@ export default class QuickAdd extends Component {
     }
   }
 
+  handleMenuRef(ref) {
+    this.menu = ref;
+  }
+
+  focusMenu() {
+    if (this.menu) {
+      this.menu.focus();
+    }
+  }
+
   render() {
     const {
       displayName,
@@ -57,11 +71,13 @@ export default class QuickAdd extends Component {
       formatDestinationName,
       recordTypes,
       to: destinationID,
+      shouldTransferFocus,
+      notifyBeforeFocusWrap,
     } = this.props;
 
     const destinations = parseResourceID(destinationID);
 
-    const buttons = destinations.map((destination) => {
+    const options = destinations.map((destination) => {
       const {
         recordType,
         vocabulary,
@@ -80,26 +96,21 @@ export default class QuickAdd extends Component {
           return null;
         }
       }
-
-      return (
-        <li key={[recordType, vocabulary].join('/')}>
-          <button
-            data-recordtype={recordType}
-            data-vocabulary={vocabulary}
-            onClick={this.handleButtonClick}
-          >
-            {formatDestinationName(recordTypeConfig, vocabulary)}
-          </button>
-        </li>
-      );
+      // TODO: render labels method? - Yousuf
+      return ({label: capitalizeLabel(`${recordType} ${vocabulary}`), value: `${recordType}/${vocabulary}`});
     });
 
     return (
       <div className={styles.common}>
         <div>{formatAddPrompt(displayName)}</div>
-        <ul>
-          {buttons}
-        </ul>
+          <Menu
+            options={options}
+            onSelect={this.handleButtonClick}
+            tabIndex="-1"
+            ref={this.handleMenuRef}
+            shouldTransferFocus={shouldTransferFocus}
+            notifyBeforeFocusWrap={notifyBeforeFocusWrap}
+          />
       </div>
     );
   }

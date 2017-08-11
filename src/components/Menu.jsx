@@ -12,6 +12,8 @@ const propTypes = {
   renderItemLabel: PropTypes.func,
   value: PropTypes.string,
   onSelect: PropTypes.func,
+  shouldTransferFocus: PropTypes.bool,
+  notifyBeforeFocusWrap: PropTypes.func,
 };
 
 const defaultProps = {
@@ -128,6 +130,11 @@ export default class Menu extends Component {
   }
 
   handleKeyDown(event) {
+
+    const {
+      notifyBeforeFocusWrap,
+    } = this.props;
+
     if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
       // Prevent the page from scrolling.
       event.preventDefault();
@@ -138,13 +145,19 @@ export default class Menu extends Component {
 
       const {
         options,
+        shouldTransferFocus,
       } = this.props;
 
       if (event.key === 'ArrowDown') {
         focusedIndex += 1;
 
         if (focusedIndex >= options.length) {
-          focusedIndex = 0;
+          if (shouldTransferFocus) {
+            notifyBeforeFocusWrap();
+            focusedIndex = null;
+          } else {
+            focusedIndex = 0;
+          }
         }
       } else {
         focusedIndex -= 1;

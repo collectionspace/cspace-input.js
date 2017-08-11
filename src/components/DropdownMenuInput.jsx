@@ -26,6 +26,7 @@ const propTypes = {
   onMount: PropTypes.func,
   onOpen: PropTypes.func,
   onUpdate: PropTypes.func,
+  
 };
 
 const defaultProps = {
@@ -195,6 +196,9 @@ export default class DropdownMenuInput extends Component {
       options,
       readOnly,
       renderItemLabel,
+      dropdownMenuInputRef,
+      notifyBeforeFocusWrap,
+      shouldTransferFocus,
       /* eslint-disable no-unused-vars */
       blankable,
       open: openProp,
@@ -241,6 +245,9 @@ export default class DropdownMenuInput extends Component {
           renderItemLabel={renderItemLabel}
           value={value}
           onSelect={this.handleMenuSelect}
+          ref={this.handleMenuRef}
+          notifyBeforeFocusWrap={notifyBeforeFocusWrap}
+          shouldTransferFocus={shouldTransferFocus}
         />
         {renderMenuFooter(menuFooter)}
       </DropdownInput>

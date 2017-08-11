@@ -121,3 +121,17 @@ export const normalizeOptions = (options, blankable) => {
 
   return normalizedOptions;
 };
+
+/**
+* Takes in a string and capitalizes the first letter of each word.
+* @param {String} label - The string to format.
+* @returns {String} A new string where the first letter of each word is capitalized.
+**/
+export const capitalizeLabel = (label) => {
+  return label
+    .toLowerCase()
+    .split(' ')
+    .map((word) => { 
+      return word.charAt(0).toUpperCase() + word.slice(1)
+    }).join(' ');
+};

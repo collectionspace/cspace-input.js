@@ -196,6 +196,7 @@ export default class FilteringDropdownMenuInput extends Component {
     } = this.state;
 
     const {
+      dropdownMenuInputRef,
       className,
       /* eslint-disable no-unused-vars */
       formatStatusMessage,
@@ -221,6 +222,7 @@ export default class FilteringDropdownMenuInput extends Component {
         onCommit={this.handleDropdownInputCommit}
         onKeyDown={this.handleDropdownInputKeyDown}
         onOpen={this.handleDropdownInputOpen}
+        ref={dropdownMenuInputRef}
       />
     );
   }
