@@ -39,6 +39,7 @@ export default class Menu extends Component {
     this.handleKeyPress = this.handleKeyPress.bind(this);
     this.handleRef = this.handleRef.bind(this);
     this.handleSelectedItemRef = this.handleSelectedItemRef.bind(this);
+    this.setSelectedIndexToLast = this.setSelectedIndexToLast.bind(this);
 
     this.state = {
       focusedIndex: null,
@@ -152,7 +153,7 @@ export default class Menu extends Component {
 
         if (focusedIndex >= options.length) {
           if (shouldTransferFocus) {
-            notifyBeforeFocusWrap();
+            notifyBeforeFocusWrap(event.key);
             focusedIndex = null;
           } else {
             focusedIndex = 0;
@@ -162,7 +163,12 @@ export default class Menu extends Component {
         focusedIndex -= 1;
 
         if (focusedIndex < 0) {
-          focusedIndex = options.length - 1;
+          if (shouldTransferFocus) {
+            notifyBeforeFocusWrap(event.key);
+            focusedIndex = null;
+          } else {
+            focusedIndex = options.length - 1;
+          }
         }
       }
 
@@ -170,6 +176,14 @@ export default class Menu extends Component {
         focusedIndex,
       });
     }
+  }
+
+  setSelectedIndexToLast() {
+    const {
+      options,
+    } = this.props;
+
+    this.selectedIndex = options.length - 1;
   }
 
   handleKeyPress(event) {

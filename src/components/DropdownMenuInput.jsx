@@ -54,6 +54,8 @@ const renderMenuFooter = (content) => {
   return null;
 };
 
+const UP = 'UP';
+
 export default class DropdownMenuInput extends Component {
   constructor(props) {
     super(props);
@@ -84,7 +86,7 @@ export default class DropdownMenuInput extends Component {
     if (onMount) {
       onMount({
         value: this.state.value,
-        focus: this.focusMenu.bind(this),
+        focusMenu: this.focusMenu.bind(this),
       });
     }
   }
@@ -134,8 +136,11 @@ export default class DropdownMenuInput extends Component {
     }
   }
 
-  focusMenu() {
+  focusMenu(direction) {
     if (this.menu) {
+      if (direction === UP) {
+        this.menu.setSelectedIndexToLast();
+      }
       this.menu.focus();
     }
   }

@@ -28,6 +28,8 @@ const defaultProps = {
   },
 };
 
+const UP = 'UP';
+
 export default class QuickAdd extends Component {
   constructor(props) {
     super(props);
@@ -60,8 +62,11 @@ export default class QuickAdd extends Component {
     this.menu = ref;
   }
 
-  focusMenu() {
+  focusMenu(direction) {
     if (this.menu) {
+      if (direction === UP) {
+        this.menu.setSelectedIndexToLast();
+      }
       this.menu.focus();
     }
   }

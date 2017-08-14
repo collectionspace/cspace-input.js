@@ -26,6 +26,18 @@ const recordTypes = {
           },
         },
       },
+      ulan: {
+        messages: {
+          name: {
+            id: 'vocab.person.ulan.name',
+            defaultMessage: 'ULAN',
+          },
+          collectionName: {
+            id: 'vocab.person.ulan.collectionName',
+            defaultMessage: 'ULAN Persons',
+          },
+        },
+      },
     },
   },
 };
@@ -41,6 +53,17 @@ const johMatches = Immutable.Map().setIn(['joh', 'person', 'local', 'items'], [
   {
     refName: 'urn:cspace:core.collectionspace.org:personauthorities:name(person):item:name(JohnDoe)\'John Doe\'',
     uri: '/personauthorities/fbe3019a-f8d4-4f84-a900/items/7fc7c8ca-8ca0-4a29-8e2e',
+  },
+]);
+
+const samMatches = Immutable.Map().setIn(['sam', 'person', 'local', 'items'], [
+  {
+    refName: 'urn:cspace:core.collectionspace.org:personauthorities:name(person):item:name(SamuelSmith)\'Samuel Smith\'',
+    uri: '/personauthorities/fbe3019a-f8d4-4f84-a901/items/7fc7c8ca-8ca0-4a29-8e2d',
+  },
+  {
+    refName: 'urn:cspace:core.collectionspace.org:personauthorities:name(person):item:name(SamanthaSmith)\'Samantha Smith\'',
+    uri: '/personauthorities/fbe3019a-f8d4-4f84-a902/items/7fc7c8ca-8ca0-4a29-8e2f',
   },
 ]);
 
@@ -90,7 +113,7 @@ describe('AutocompleteInput', function suite() {
     input.value.should.equal('Jane Doe');
   });
 
-  it('should show a continue typing prompt if the value is changed to somethign shorter than the min length', function test() {
+  it('should show a continue typing prompt if the value is changed to something shorter than the min length', function test() {
     render(
       <AutocompleteInput
         source="person/local"
@@ -335,4 +358,32 @@ describe('AutocompleteInput', function suite() {
     input.className.should.contain('cspace-input-ReadOnlyInput--common');
     input.textContent.should.equal('David Bowie');
   });
+
+  //245 246
+  it('should handleQuickAddNotifyBeforeFocus before wrapping items in QuickAdd when FilteringDropdownMenuInput is present', function test() {
+    
+    render(
+      <AutocompleteInput
+        parentPath={['collectionobjects_common']}
+        name="owner"
+        source="person/local,person/ulan"
+        matches={samMatches}
+        recordTypes={recordTypes}
+      />, this.container);
+
+    const input = this.container.querySelector('input');
+
+    input.value = 'sam';
+
+    Simulate.change(input);
+
+    const div = this.container.firstElementChild;
+    Simulate.keyDown(div, { key: 'ArrowDown' });
+
+  });
+  
+  // //251 252
+  // it('should transfer focus back to FilteringDropdownMenuInput before wrap', function test(){
+
+  // });
 });

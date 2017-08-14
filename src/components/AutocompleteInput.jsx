@@ -39,6 +39,8 @@ const defaultProps = {
   showQuickAdd: true,
 };
 
+const UP = 'UP';
+
 const getOptions = (sourceID, matches, partialTerm, matchFilter) => {
   const sources = parseResourceID(sourceID);
   const options = [];
@@ -241,15 +243,23 @@ export default class AutocompleteInput extends Component {
     this.quickAdd = ref;
   }
 
-  handleQuickAddNotifyBeforeFocus() {
+  handleQuickAddNotifyBeforeFocus(key) {
     if (this.dropdownMenuInput) {
-      this.dropdownMenuInput.focus();
+      if (key === 'ArrowUp') {
+        this.dropdownMenuInput.focusMenu(UP);
+      } else {
+        this.dropdownMenuInput.focusMenu();
+      }
     }
   }
 
-  handleFiltDropMenuNotBeforeFocus() {
+  handleFiltDropMenuNotBeforeFocus(key) {
     if (this.quickAdd) {
-      this.quickAdd.focusMenu();
+      if (key === 'ArrowUp') {
+        this.quickAdd.focusMenu(UP);
+      } else {
+        this.quickAdd.focusMenu();
+      }
     }
   }
 
