@@ -82,19 +82,11 @@ export default class DropdownMenuInput extends Component {
     } = this.props;
 
     if (onMount) {
-      onMount({ 
+      onMount({
         value: this.state.value,
         focus: this.focusMenu.bind(this),
       });
     }
-  }
-
-  componentWillUnmount() {
-    const {
-      provideController,
-    } = this.props;
-
-    provideController(null);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -117,6 +109,14 @@ export default class DropdownMenuInput extends Component {
     if (onUpdate) {
       onUpdate({ value: this.state.value });
     }
+  }
+
+  componentWillUnmount() {
+    const {
+      provideController,
+    } = this.props;
+
+    provideController(null);
   }
 
   commit(value, meta) {
@@ -207,7 +207,6 @@ export default class DropdownMenuInput extends Component {
       options,
       readOnly,
       renderItemLabel,
-      dropdownMenuInputRef,
       notifyBeforeFocusWrap,
       shouldTransferFocus,
       /* eslint-disable no-unused-vars */
@@ -256,7 +255,6 @@ export default class DropdownMenuInput extends Component {
           renderItemLabel={renderItemLabel}
           value={value}
           onSelect={this.handleMenuSelect}
-          ref={this.handleMenuRef}
           notifyBeforeFocusWrap={notifyBeforeFocusWrap}
           shouldTransferFocus={shouldTransferFocus}
         />

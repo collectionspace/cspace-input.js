@@ -130,7 +130,6 @@ export default class Menu extends Component {
   }
 
   handleKeyDown(event) {
-
     const {
       notifyBeforeFocusWrap,
     } = this.props;

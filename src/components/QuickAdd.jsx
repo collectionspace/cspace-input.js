@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
-import Menu from './Menu';
 import PropTypes from 'prop-types';
 import get from 'lodash/get';
+import Menu from './Menu';
 import parseResourceID from '../helpers/parseResourceID';
-import {capitalizeLabel} from '../helpers/optionHelpers';
 import styles from '../../styles/cspace-input/QuickAdd.css';
 
 const propTypes = {
@@ -13,6 +12,8 @@ const propTypes = {
   formatAddPrompt: PropTypes.func,
   recordTypes: PropTypes.object,
   to: PropTypes.string,
+  shouldTransferFocus: PropTypes.bool,
+  notifyBeforeFocusWrap: PropTypes.func,
 };
 
 const defaultProps = {
@@ -34,6 +35,7 @@ export default class QuickAdd extends Component {
     this.handleButtonClick = this.handleButtonClick.bind(this);
     this.handleMenuRef = this.handleMenuRef.bind(this);
     this.focusMenu = this.focusMenu.bind(this);
+    this.renderQuickAddItemLabel = this.renderQuickAddItemLabel.bind(this);
   }
 
   handleButtonClick(event) {
@@ -62,6 +64,24 @@ export default class QuickAdd extends Component {
     if (this.menu) {
       this.menu.focus();
     }
+  }
+
+  renderQuickAddItemLabel(labelData) {
+    const {
+      recordType,
+      vocabulary,
+      formattedDestinationName,
+    } = labelData;
+
+    return (
+      <button
+        data-recordtype={recordType}
+        data-vocabulary={vocabulary}
+        onClick={this.handleButtonClick}
+      >
+        {formattedDestinationName}
+      </button>
+    );
   }
 
   render() {
@@ -96,21 +116,28 @@ export default class QuickAdd extends Component {
           return null;
         }
       }
-      // TODO: render labels method? - Yousuf
-      return ({label: capitalizeLabel(`${recordType} ${vocabulary}`), value: `${recordType}/${vocabulary}`});
+
+      return ({
+        label: {
+          formattedDestinationName: formatDestinationName(recordTypeConfig, vocabulary),
+          vocabulary,
+          recordType,
+        },
+        value: `${recordType}/${vocabulary}`,
+      });
     });
 
     return (
       <div className={styles.common}>
         <div>{formatAddPrompt(displayName)}</div>
-          <Menu
-            options={options}
-            onSelect={this.handleButtonClick}
-            tabIndex="-1"
-            ref={this.handleMenuRef}
-            shouldTransferFocus={shouldTransferFocus}
-            notifyBeforeFocusWrap={notifyBeforeFocusWrap}
-          />
+        <Menu
+          options={options}
+          tabIndex="-1"
+          ref={this.handleMenuRef}
+          shouldTransferFocus={shouldTransferFocus}
+          notifyBeforeFocusWrap={notifyBeforeFocusWrap}
+          renderItemLabel={this.renderQuickAddItemLabel}
+        />
       </div>
     );
   }

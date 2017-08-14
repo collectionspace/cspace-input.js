@@ -136,7 +136,7 @@ export default class AutocompleteInput extends Component {
     this.handleDropdownInputCommit = this.handleDropdownInputCommit.bind(this);
     this.handleFilteringDropdownMenuInputRef = this.handleFilteringDropdownMenuInputRef.bind(this);
     this.handleQuickAddNotifyBeforeFocus = this.handleQuickAddNotifyBeforeFocus.bind(this);
-    this.handleFilterDropMenuNotifyBeforeFocus = this.handleFilterDropMenuNotifyBeforeFocus.bind(this);
+    this.handleFiltDropMenuNotBeforeFocus = this.handleFiltDropMenuNotBeforeFocus.bind(this);
     this.handleQuickAddRef = this.handleQuickAddRef.bind(this);
     this.handleDropdownMenuInputRef = this.handleDropdownMenuInputRef.bind(this);
 
@@ -241,13 +241,13 @@ export default class AutocompleteInput extends Component {
     this.quickAdd = ref;
   }
 
-  handleQuickAddNotifyBeforeFocus(){
+  handleQuickAddNotifyBeforeFocus() {
     if (this.dropdownMenuInput) {
       this.dropdownMenuInput.focus();
     }
   }
 
-  handleFilterDropMenuNotifyBeforeFocus(){
+  handleFiltDropMenuNotBeforeFocus() {
     if (this.quickAdd) {
       this.quickAdd.focusMenu();
     }
@@ -278,7 +278,7 @@ export default class AutocompleteInput extends Component {
           recordTypes={recordTypes}
           to={source}
           notifyBeforeFocusWrap={this.handleQuickAddNotifyBeforeFocus}
-          shouldTransferFocus={true}
+          shouldTransferFocus
           ref={this.handleQuickAddRef}
         />
       );
@@ -355,7 +355,7 @@ export default class AutocompleteInput extends Component {
         value={value}
         valueLabel={getDisplayName(value)}
         onCommit={this.handleDropdownInputCommit}
-        notifyBeforeFocusWrap={this.handleFilterDropMenuNotifyBeforeFocus}
+        notifyBeforeFocusWrap={this.handleFiltDropMenuNotBeforeFocus}
         shouldTransferFocus={showQuickAdd}
         onMount={this.handleDropdownMenuInputRef}
       />
