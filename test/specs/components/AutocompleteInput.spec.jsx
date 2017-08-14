@@ -84,6 +84,8 @@ const newTermMatches = Immutable.fromJS({
   },
 });
 
+const document = global.document;
+
 describe('AutocompleteInput', function suite() {
   beforeEach(function before() {
     this.container = createTestContainer(this);
@@ -359,9 +361,7 @@ describe('AutocompleteInput', function suite() {
     input.textContent.should.equal('David Bowie');
   });
 
-  //245 246
-  it('should handleQuickAddNotifyBeforeFocus before wrapping items in QuickAdd when FilteringDropdownMenuInput is present', function test() {
-    
+  it('should transfer focus before wrapping items', function test() {
     render(
       <AutocompleteInput
         parentPath={['collectionobjects_common']}
@@ -377,13 +377,115 @@ describe('AutocompleteInput', function suite() {
 
     Simulate.change(input);
 
-    const div = this.container.firstElementChild;
-    Simulate.keyDown(div, { key: 'ArrowDown' });
+    Simulate.keyDown(input, { key: 'ArrowDown' });
+    const menus = this.container.querySelectorAll('ul.cspace-input-Menu--common');
+    const filteringDropdownMenu = menus[0];
 
+    Simulate.keyDown(filteringDropdownMenu, { key: 'ArrowDown' });
+    Simulate.keyDown(filteringDropdownMenu, { key: 'ArrowDown' });
   });
-  
-  // //251 252
-  // it('should transfer focus back to FilteringDropdownMenuInput before wrap', function test(){
 
-  // });
+  it('should handle before focus wrap notifications from QuickAdd with ArrowDown', function test() {
+    const eventKey = 'ArrowDown';
+
+    const component = render(
+      <AutocompleteInput
+        parentPath={['collectionobjects_common']}
+        name="owner"
+        source="person/local,person/ulan"
+        matches={samMatches}
+        recordTypes={recordTypes}
+      />, this.container);
+
+    const input = this.container.querySelector('input');
+
+    input.value = 'sam';
+    Simulate.change(input);
+
+    component.handleQuickAddNotifyBeforeFocus(eventKey);
+
+    const menus = this.container.querySelectorAll('ul.cspace-input-Menu--common');
+    const filteringDropdownMenuInput = menus[0];
+    const activeElement = document.activeElement;
+
+    filteringDropdownMenuInput.should.equal(activeElement);
+  });
+
+  it('should handle before focus wrap notifications from QuickAdd with ArrowUp', function test() {
+    const eventKey = 'ArrowUp';
+
+    const component = render(
+      <AutocompleteInput
+        parentPath={['collectionobjects_common']}
+        name="owner"
+        source="person/local,person/ulan"
+        matches={samMatches}
+        recordTypes={recordTypes}
+      />, this.container);
+
+    const input = this.container.querySelector('input');
+
+    input.value = 'sam';
+    Simulate.change(input);
+
+    component.handleQuickAddNotifyBeforeFocus(eventKey);
+
+    const menus = this.container.querySelectorAll('ul.cspace-input-Menu--common');
+    const filteringDropdownMenuInput = menus[0];
+    const activeElement = document.activeElement;
+
+    filteringDropdownMenuInput.should.equal(activeElement);
+  });
+
+  it('should handle before focus wrap notifications from FilteringDropdownMenuInput with ArrowUp', function test() {
+    const eventKey = 'ArrowUp';
+
+    const component = render(
+      <AutocompleteInput
+        parentPath={['collectionobjects_common']}
+        name="owner"
+        source="person/local,person/ulan"
+        matches={samMatches}
+        recordTypes={recordTypes}
+      />, this.container);
+
+    const input = this.container.querySelector('input');
+
+    input.value = 'sam';
+    Simulate.change(input);
+
+    component.handleFiltDropMenuNotBeforeFocus(eventKey);
+
+    const menus = this.container.querySelectorAll('ul.cspace-input-Menu--common');
+    const quickAdd = menus[1];
+    const activeElement = document.activeElement;
+
+    quickAdd.should.equal(activeElement);
+  });
+
+  it('should handle before focus wrap notifications from FilteringDropdownMenuInput with ArrowDown', function test() {
+    const eventKey = 'ArrowDown';
+
+    const component = render(
+      <AutocompleteInput
+        parentPath={['collectionobjects_common']}
+        name="owner"
+        source="person/local,person/ulan"
+        matches={samMatches}
+        recordTypes={recordTypes}
+      />, this.container);
+
+    const input = this.container.querySelector('input');
+
+    input.value = 'sam';
+    Simulate.change(input);
+
+    component.handleFiltDropMenuNotBeforeFocus(eventKey);
+
+    const menus = this.container.querySelectorAll('ul.cspace-input-Menu--common');
+    const quickAdd = menus[1];
+    const activeElement = document.activeElement;
+
+    quickAdd.should.equal(activeElement);
+  });
 });

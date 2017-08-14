@@ -198,7 +198,6 @@ export default class FilteringDropdownMenuInput extends Component {
     const {
       onMount,
       className,
-      dropDownMenuInputRef,
       /* eslint-disable no-unused-vars */
       formatStatusMessage,
       /* eslint-enable no-unused-vars */

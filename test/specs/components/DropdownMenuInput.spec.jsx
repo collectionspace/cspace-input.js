@@ -591,4 +591,17 @@ describe('DropdownMenuInput', function suite() {
     input.className.should.contain('cspace-input-ReadOnlyInput--common');
     input.textContent.should.equal('Value 2');
   });
+
+  it('should set the focus of the DropdownMenuInputs index to last if the direction is upward', function test() {
+    const component = render(<DropdownMenuInput />, this.container);
+
+    const UP = 'UP';
+    component.focusMenu(UP);
+  });
+
+  it('should set the focus of the DropdownMenuInputs index to default if the direction is not upward', function test() {
+    const component = render(<DropdownMenuInput />, this.container);
+
+    component.focusMenu();
+  });
 });

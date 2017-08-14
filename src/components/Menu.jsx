@@ -59,6 +59,14 @@ export default class Menu extends Component {
     }
   }
 
+  setSelectedIndexToLast() {
+    const {
+      options,
+    } = this.props;
+
+    this.selectedIndex = options.length - 1;
+  }
+
   scrollFocusedItemIntoView() {
     const {
       focusedIndex,
@@ -176,14 +184,6 @@ export default class Menu extends Component {
         focusedIndex,
       });
     }
-  }
-
-  setSelectedIndexToLast() {
-    const {
-      options,
-    } = this.props;
-
-    this.selectedIndex = options.length - 1;
   }
 
   handleKeyPress(event) {
