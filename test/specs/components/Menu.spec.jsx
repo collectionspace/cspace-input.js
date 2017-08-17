@@ -639,33 +639,4 @@ describe('Menu', function suite() {
     menu.scrollTop.should.not.be.closeTo(itemOffsetTop, 1);
     menu.scrollTop.should.equal(scrolledPosition);
   });
-
-  it('should notify before focus wrap focus when up arrow is depressed and index is 0', function test() {
-    const options = [
-      { value: 'value1', label: 'Label 1' },
-    ];
-
-    let handlerCalled = false;
-
-    const handleNotify = (eventKey) => {
-      if (eventKey === 'ArrowUp') {
-        handlerCalled = true;
-      }
-    };
-
-    render(
-      <Menu
-        options={options}
-        shouldTransferFocus
-        notifyBeforeFocusWrap={handleNotify}
-      />, this.container);
-
-    const menu = this.container.firstElementChild;
-
-    Simulate.focus(menu);
-
-    Simulate.keyDown(menu, { key: 'ArrowUp' });
-
-    handlerCalled.should.equal(true);
-  });
 });

@@ -96,7 +96,6 @@ export default class Menu extends Component {
       } = this.props;
 
       this.selectedIndex = (itemIndex >= 0) ? itemIndex : options.length + itemIndex;
-      console.log(`Menu selected index: ${this.selectedIndex}`);
     }
     if (this.domNode) {
       this.domNode.focus();
@@ -136,7 +135,6 @@ export default class Menu extends Component {
     this.isItemMouseDown = true;
   }
 
-  // TODO: handle focus transfer when Menu is empty
   handleKeyDown(event) {
     if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
       // Prevent the page from scrolling.
@@ -159,13 +157,11 @@ export default class Menu extends Component {
         if (nextFocusedIndex >= options.length) {
           nextFocusedIndex = 0;
         }
-
         if (onBeforeItemFocusChange) {
           focusedIndex = onBeforeItemFocusChange(focusedIndex, nextFocusedIndex, event.key);
         } else {
           focusedIndex = nextFocusedIndex;
         }
-
       } else {
         nextFocusedIndex -= 1;
 

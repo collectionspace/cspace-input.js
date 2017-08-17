@@ -84,8 +84,6 @@ const newTermMatches = Immutable.fromJS({
   },
 });
 
-const document = global.document;
-
 describe('AutocompleteInput', function suite() {
   beforeEach(function before() {
     this.container = createTestContainer(this);
@@ -383,6 +381,27 @@ describe('AutocompleteInput', function suite() {
         name="owner"
         source="person/local,person/ulan"
         matches={samMatches}
+        recordTypes={recordTypes}
+      />, this.container);
+  });
+
+  it('should handle popup focus behavior when matches are present', function test() {
+    render(
+      <AutocompleteInput
+        parentPath={['collectionobjects_common']}
+        name="owner"
+        source="person/local,person/ulan"
+        matches={samMatches}
+        recordTypes={recordTypes}
+      />, this.container);
+  });
+
+  it('should handle popup focus behavior when matches are not present', function test() {
+    render(
+      <AutocompleteInput
+        parentPath={['collectionobjects_common']}
+        name="owner"
+        source="person/local,person/ulan"
         recordTypes={recordTypes}
       />, this.container);
   });

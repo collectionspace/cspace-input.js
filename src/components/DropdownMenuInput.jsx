@@ -207,6 +207,7 @@ export default class DropdownMenuInput extends Component {
       readOnly,
       renderItemLabel,
       onBeforeItemFocusChange,
+      focusPopup,
       /* eslint-disable no-unused-vars */
       blankable,
       open: openProp,
@@ -237,13 +238,13 @@ export default class DropdownMenuInput extends Component {
       <DropdownInput
         {...remainingProps}
         className={classes}
-        focusPopup={this.focusMenu}
         open={open}
         spellCheck={false}
         value={inputValue}
         onClose={this.handleDropdownInputClose}
         onMount={this.handleDropdownInputMount}
         onOpen={this.handleDropdownInputOpen}
+        focusPopup={focusPopup}
       >
         {renderMenuHeader(menuHeader)}
         <Menu

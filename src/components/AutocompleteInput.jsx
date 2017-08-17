@@ -135,10 +135,11 @@ export default class AutocompleteInput extends Component {
     this.findMatchingTerms = this.findMatchingTerms.bind(this);
     this.handleDropdownInputCommit = this.handleDropdownInputCommit.bind(this);
     this.handleFilteringDropdownMenuInputRef = this.handleFilteringDropdownMenuInputRef.bind(this);
-    this.handleQuickAddOnBeforeItemFocusChange = this.handleQuickAddOnBeforeItemFocusChange.bind(this);
-    this.handleDropdownMenuOnBeforeItemFocusChange = this.handleDropdownMenuOnBeforeItemFocusChange.bind(this);
+    this.handleQuickAddBeforeItemFocusChange = this.handleQuickAddBeforeItemFocusChange.bind(this);
+    this.handleDropdownBeforeItemFocusChange = this.handleDropdownBeforeItemFocusChange.bind(this);
     this.handleQuickAddRef = this.handleQuickAddRef.bind(this);
     this.handleDropdownMenuInputRef = this.handleDropdownMenuInputRef.bind(this);
+    this.handleFocusPopup = this.handleFocusPopup.bind(this);
 
     this.state = {
       partialTerm: null,
@@ -241,7 +242,7 @@ export default class AutocompleteInput extends Component {
     this.quickAdd = ref;
   }
 
-  handleQuickAddOnBeforeItemFocusChange(currentFocusedIndex, nextFocusedIndex, eventKey) {
+  handleQuickAddBeforeItemFocusChange(currentFocusedIndex, nextFocusedIndex, eventKey) {
     if (this.dropdownMenuInput) {
       if (nextFocusedIndex === 0 && eventKey === 'ArrowDown') {
         this.dropdownMenuInput.focusMenu(0);
@@ -249,18 +250,13 @@ export default class AutocompleteInput extends Component {
       } else if (currentFocusedIndex <= 0 && eventKey === 'ArrowUp') {
         this.dropdownMenuInput.focusMenu(-1);
         return null;
-      } else {
-        return nextFocusedIndex;
       }
     }
+    return nextFocusedIndex;
   }
 
-  handleDropdownMenuOnBeforeItemFocusChange(currentFocusedIndex, nextFocusedIndex, eventKey) {
-    const {
-      showQuickAdd,
-    } = this.props;
-
-    if (showQuickAdd) {
+  handleDropdownBeforeItemFocusChange(currentFocusedIndex, nextFocusedIndex, eventKey) {
+    if (this.quickAdd) {
       if (nextFocusedIndex === 0 && eventKey === 'ArrowDown') {
         this.quickAdd.focusMenu(0);
         return null;
@@ -268,9 +264,19 @@ export default class AutocompleteInput extends Component {
         this.quickAdd.focusMenu(-1);
         return null;
       }
-      else {
-        return nextFocusedIndex;
-      }
+    }
+    return nextFocusedIndex;
+  }
+
+  handleFocusPopup() {
+    const {
+      matches,
+    } = this.props;
+
+    if (matches) {
+      this.dropdownMenuInput.focusMenu(0);
+    } else {
+      this.quickAdd.focusMenu(0);
     }
   }
 
@@ -377,6 +383,7 @@ export default class AutocompleteInput extends Component {
         onCommit={this.handleDropdownInputCommit}
         onBeforeItemFocusChange={this.handleDropdownMenuOnBeforeItemFocusChange}
         onMount={this.handleDropdownMenuInputRef}
+        focusPopup={this.handleFocusPopup}
       />
     );
   }

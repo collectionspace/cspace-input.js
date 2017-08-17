@@ -12,6 +12,7 @@ const propTypes = {
   formatAddPrompt: PropTypes.func,
   recordTypes: PropTypes.object,
   to: PropTypes.string,
+  onBeforeItemFocusChange: PropTypes.func,
 };
 
 const defaultProps = {
