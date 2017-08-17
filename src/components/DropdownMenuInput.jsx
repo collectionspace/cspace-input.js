@@ -26,7 +26,6 @@ const propTypes = {
   onMount: PropTypes.func,
   onOpen: PropTypes.func,
   onUpdate: PropTypes.func,
-
 };
 
 const defaultProps = {
@@ -53,8 +52,6 @@ const renderMenuFooter = (content) => {
 
   return null;
 };
-
-const UP = 'UP';
 
 export default class DropdownMenuInput extends Component {
   constructor(props) {
@@ -136,12 +133,9 @@ export default class DropdownMenuInput extends Component {
     }
   }
 
-  focusMenu(direction) {
+  focusMenu(itemIndex) {
     if (this.menu) {
-      if (direction === UP) {
-        this.menu.setSelectedIndexToLast();
-      }
-      this.menu.focus();
+      this.menu.focus(itemIndex);
     }
   }
 
@@ -212,8 +206,7 @@ export default class DropdownMenuInput extends Component {
       options,
       readOnly,
       renderItemLabel,
-      notifyBeforeFocusWrap,
-      shouldTransferFocus,
+      onBeforeItemFocusChange,
       /* eslint-disable no-unused-vars */
       blankable,
       open: openProp,
@@ -260,8 +253,7 @@ export default class DropdownMenuInput extends Component {
           renderItemLabel={renderItemLabel}
           value={value}
           onSelect={this.handleMenuSelect}
-          notifyBeforeFocusWrap={notifyBeforeFocusWrap}
-          shouldTransferFocus={shouldTransferFocus}
+          onBeforeItemFocusChange={onBeforeItemFocusChange}
         />
         {renderMenuFooter(menuFooter)}
       </DropdownInput>

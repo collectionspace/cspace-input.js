@@ -120,4 +120,13 @@ describe('QuickAdd', function suite() {
 
     funcCalled.should.equal(true);
   });
+  it('should return null if the destination record type is missing', function test() {
+    const component = render(
+      <QuickAdd
+        to="nothing/person"
+        recordTypes={recordTypes}
+      />, this.container);
+
+      component.type.should.equal('null');
+  });
 });

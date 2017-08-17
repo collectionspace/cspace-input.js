@@ -12,8 +12,7 @@ const propTypes = {
   renderItemLabel: PropTypes.func,
   value: PropTypes.string,
   onSelect: PropTypes.func,
-  shouldTransferFocus: PropTypes.bool,
-  notifyBeforeFocusWrap: PropTypes.func,
+  onBeforeItemFocusChange: PropTypes.func,
 };
 
 const defaultProps = {
@@ -39,7 +38,6 @@ export default class Menu extends Component {
     this.handleKeyPress = this.handleKeyPress.bind(this);
     this.handleRef = this.handleRef.bind(this);
     this.handleSelectedItemRef = this.handleSelectedItemRef.bind(this);
-    this.setSelectedIndexToLast = this.setSelectedIndexToLast.bind(this);
 
     this.state = {
       focusedIndex: null,
@@ -57,14 +55,6 @@ export default class Menu extends Component {
     if (prevState.focusedIndex !== this.state.focusedIndex && !this.isItemMouseDown) {
       this.scrollFocusedItemIntoView();
     }
-  }
-
-  setSelectedIndexToLast() {
-    const {
-      options,
-    } = this.props;
-
-    this.selectedIndex = options.length - 1;
   }
 
   scrollFocusedItemIntoView() {
@@ -99,7 +89,15 @@ export default class Menu extends Component {
     }
   }
 
-  focus() {
+  focus(itemIndex) {
+    if (typeof itemIndex === 'number') {
+      const {
+        options,
+      } = this.props;
+
+      this.selectedIndex = (itemIndex >= 0) ? itemIndex : options.length + itemIndex;
+      console.log(`Menu selected index: ${this.selectedIndex}`);
+    }
     if (this.domNode) {
       this.domNode.focus();
     }
@@ -138,11 +136,8 @@ export default class Menu extends Component {
     this.isItemMouseDown = true;
   }
 
+  // TODO: handle focus transfer when Menu is empty
   handleKeyDown(event) {
-    const {
-      notifyBeforeFocusWrap,
-    } = this.props;
-
     if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
       // Prevent the page from scrolling.
       event.preventDefault();
@@ -153,33 +148,37 @@ export default class Menu extends Component {
 
       const {
         options,
-        shouldTransferFocus,
+        onBeforeItemFocusChange,
       } = this.props;
 
+      let nextFocusedIndex = focusedIndex;
+
       if (event.key === 'ArrowDown') {
-        focusedIndex += 1;
+        nextFocusedIndex += 1;
 
-        if (focusedIndex >= options.length) {
-          if (shouldTransferFocus) {
-            notifyBeforeFocusWrap(event.key);
-            focusedIndex = null;
-          } else {
-            focusedIndex = 0;
-          }
+        if (nextFocusedIndex >= options.length) {
+          nextFocusedIndex = 0;
         }
-      } else {
-        focusedIndex -= 1;
 
-        if (focusedIndex < 0) {
-          if (shouldTransferFocus) {
-            notifyBeforeFocusWrap(event.key);
-            focusedIndex = null;
-          } else {
-            focusedIndex = options.length - 1;
-          }
+        if (onBeforeItemFocusChange) {
+          focusedIndex = onBeforeItemFocusChange(focusedIndex, nextFocusedIndex, event.key);
+        } else {
+          focusedIndex = nextFocusedIndex;
+        }
+
+      } else {
+        nextFocusedIndex -= 1;
+
+        if (nextFocusedIndex < 0) {
+          nextFocusedIndex = options.length - 1;
+        }
+
+        if (onBeforeItemFocusChange) {
+          focusedIndex = onBeforeItemFocusChange(focusedIndex, nextFocusedIndex, event.key);
+        } else {
+          focusedIndex = nextFocusedIndex;
         }
       }
-
       this.setState({
         focusedIndex,
       });

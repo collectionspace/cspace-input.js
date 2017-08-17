@@ -12,8 +12,6 @@ const propTypes = {
   formatAddPrompt: PropTypes.func,
   recordTypes: PropTypes.object,
   to: PropTypes.string,
-  shouldTransferFocus: PropTypes.bool,
-  notifyBeforeFocusWrap: PropTypes.func,
 };
 
 const defaultProps = {
@@ -27,8 +25,6 @@ const defaultProps = {
     return get(recordTypeConfig, ['messages', 'record', 'collectionName', 'defaultMessage']);
   },
 };
-
-const UP = 'UP';
 
 export default class QuickAdd extends Component {
   constructor(props) {
@@ -62,12 +58,9 @@ export default class QuickAdd extends Component {
     this.menu = ref;
   }
 
-  focusMenu(direction) {
+  focusMenu(itemIndex) {
     if (this.menu) {
-      if (direction === UP) {
-        this.menu.setSelectedIndexToLast();
-      }
-      this.menu.focus();
+      this.menu.focus(itemIndex);
     }
   }
 
@@ -96,8 +89,7 @@ export default class QuickAdd extends Component {
       formatDestinationName,
       recordTypes,
       to: destinationID,
-      shouldTransferFocus,
-      notifyBeforeFocusWrap,
+      onBeforeItemFocusChange,
     } = this.props;
 
     const destinations = parseResourceID(destinationID);
@@ -139,8 +131,7 @@ export default class QuickAdd extends Component {
           options={options}
           tabIndex="-1"
           ref={this.handleMenuRef}
-          shouldTransferFocus={shouldTransferFocus}
-          notifyBeforeFocusWrap={notifyBeforeFocusWrap}
+          onBeforeItemFocusChange={onBeforeItemFocusChange}
           renderItemLabel={this.renderQuickAddItemLabel}
         />
       </div>
