@@ -110,14 +110,6 @@ export default class DropdownMenuInput extends Component {
     }
   }
 
-  componentWillUnmount() {
-    const {
-      provideController,
-    } = this.props;
-
-    provideController(null);
-  }
-
   commit(value, meta) {
     const {
       value: initialValue,
@@ -244,7 +236,7 @@ export default class DropdownMenuInput extends Component {
         onClose={this.handleDropdownInputClose}
         onMount={this.handleDropdownInputMount}
         onOpen={this.handleDropdownInputOpen}
-        focusPopup={focusPopup}
+        focusPopup={focusPopup || this.focusMenu}
       >
         {renderMenuHeader(menuHeader)}
         <Menu

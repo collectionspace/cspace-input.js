@@ -252,6 +252,7 @@ export default class AutocompleteInput extends Component {
         return null;
       }
     }
+
     return nextFocusedIndex;
   }
 
@@ -265,6 +266,7 @@ export default class AutocompleteInput extends Component {
         return null;
       }
     }
+
     return nextFocusedIndex;
   }
 
@@ -304,7 +306,7 @@ export default class AutocompleteInput extends Component {
           formatDestinationName={formatSourceName}
           recordTypes={recordTypes}
           to={source}
-          onBeforeItemFocusChange={this.handleQuickAddOnBeforeItemFocusChange}
+          onBeforeItemFocusChange={this.handleQuickAddBeforeItemFocusChange}
           ref={this.handleQuickAddRef}
         />
       );
@@ -381,7 +383,7 @@ export default class AutocompleteInput extends Component {
         value={value}
         valueLabel={getDisplayName(value)}
         onCommit={this.handleDropdownInputCommit}
-        onBeforeItemFocusChange={this.handleDropdownMenuOnBeforeItemFocusChange}
+        onBeforeItemFocusChange={this.handleDropdownBeforeItemFocusChange}
         onMount={this.handleDropdownMenuInputRef}
         focusPopup={this.handleFocusPopup}
       />

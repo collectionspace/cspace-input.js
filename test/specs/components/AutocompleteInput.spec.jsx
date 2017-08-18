@@ -394,6 +394,17 @@ describe('AutocompleteInput', function suite() {
         matches={samMatches}
         recordTypes={recordTypes}
       />, this.container);
+
+    const input = this.container.querySelector('input');
+
+    input.value = 'sam';
+
+    Simulate.change(input);
+    Simulate.keyDown(input, { key: 'ArrowDown' });
+
+    const item = this.container.querySelector('li');
+
+    item.className.should.contain('cspace-input-MenuItem--focused');
   });
 
   it('should handle popup focus behavior when matches are not present', function test() {
@@ -404,5 +415,135 @@ describe('AutocompleteInput', function suite() {
         source="person/local,person/ulan"
         recordTypes={recordTypes}
       />, this.container);
+
+    const input = this.container.querySelector('input');
+
+    input.value = 'sam';
+
+    Simulate.change(input);
+    Simulate.keyDown(input, { key: 'ArrowDown' });
+
+    const quickAdd = this.container.querySelector('.cspace-input-QuickAdd--common');
+    const item = quickAdd.querySelector('li');
+
+    item.className.should.contain('cspace-input-MenuItem--focused');
+  });
+
+  it('should transfer focus to QuickAdd on ArrowUp on first item in InputMenu', function test() {
+    render(
+      <AutocompleteInput
+        parentPath={['collectionobjects_common']}
+        name="owner"
+        source="person/local,person/ulan"
+        recordTypes={recordTypes}
+        matches={samMatches}
+      />, this.container);
+
+    const input = this.container.querySelector('input');
+
+    input.value = 'sam';
+
+    Simulate.change(input);
+    Simulate.keyDown(input, { key: 'ArrowDown' });
+
+    const dropDownMenu = this.container.querySelector('.cspace-input-Menu--common');
+
+    Simulate.keyDown(dropDownMenu, { key: 'ArrowUp' });
+
+    const quickAdd = this.container.querySelector('.cspace-input-QuickAdd--common');
+    const items = quickAdd.querySelectorAll('li');
+
+    const focusItem = items[items.length - 1];
+
+    focusItem.className.should.contain('cspace-input-MenuItem--focused');
+  });
+
+  it('should transfer focus to QuickAdd on ArrowDown on last item in InputMenu', function test() {
+    render(
+      <AutocompleteInput
+        parentPath={['collectionobjects_common']}
+        name="owner"
+        source="person/local,person/ulan"
+        recordTypes={recordTypes}
+        matches={samMatches}
+      />, this.container);
+
+    const input = this.container.querySelector('input');
+
+    input.value = 'sam';
+
+    Simulate.change(input);
+    Simulate.keyDown(input, { key: 'ArrowDown' });
+
+    const dropDownMenu = this.container.querySelector('.cspace-input-Menu--common');
+
+    Simulate.keyDown(dropDownMenu, { key: 'ArrowDown' });
+    Simulate.keyDown(dropDownMenu, { key: 'ArrowDown' });
+
+    const quickAdd = this.container.querySelector('.cspace-input-QuickAdd--common');
+    const items = quickAdd.querySelectorAll('li');
+
+    const focusItem = items[0];
+
+    focusItem.className.should.contain('cspace-input-MenuItem--focused');
+  });
+
+  it('should have a DropdownMenuInput handler that returns nextFocusIndex if greater than 0', function test() {
+    const component = render(
+      <AutocompleteInput
+        parentPath={['collectionobjects_common']}
+        name="owner"
+        source="person/local,person/ulan"
+        recordTypes={recordTypes}
+        matches={samMatches}
+      />, this.container);
+
+    const nextFocusIndex = component.handleDropdownBeforeItemFocusChange(0, 1, 'ArrowDown');
+
+    expect(nextFocusIndex).to.equal(1);
+  });
+
+  it('should have a QuickAddMenu handler that returns nextFocusIndex if greater than 0', function test() {
+    const component = render(
+      <AutocompleteInput
+        parentPath={['collectionobjects_common']}
+        name="owner"
+        source="person/local,person/ulan"
+        recordTypes={recordTypes}
+        matches={samMatches}
+      />, this.container);
+
+    const nextFocusIndex = component.handleQuickAddBeforeItemFocusChange(0, 1, 'ArrowDown');
+
+    expect(nextFocusIndex).to.equal(1);
+  });
+  it('should have a QuickAddMenu handler that returns null if nextIndex equals 0 on ArrowDown', function test() {
+    const component = render(
+      <AutocompleteInput
+        parentPath={['collectionobjects_common']}
+        name="owner"
+        source="person/local,person/ulan"
+        recordTypes={recordTypes}
+        matches={samMatches}
+      />, this.container);
+
+    const nextFocusIndex = component.handleQuickAddBeforeItemFocusChange(1, 0, 'ArrowDown');
+
+    expect(nextFocusIndex).to.equal(null);
+  });
+
+  it('should have a QuickAddMenu handler that returns null if currentIndex is 0 on ArrowUp', function test() {
+    const component = render(
+      <AutocompleteInput
+        parentPath={['collectionobjects_common']}
+        name="owner"
+        source="person/local,person/ulan"
+        recordTypes={recordTypes}
+        matches={samMatches}
+      />, this.container);
+
+    const nextFocusIndex = component.handleQuickAddBeforeItemFocusChange(0, -1, 'ArrowUp');
+
+    expect(nextFocusIndex).to.equal(null);
   });
 });
