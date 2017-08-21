@@ -134,7 +134,12 @@ export default class AutocompleteInput extends Component {
 
     this.findMatchingTerms = this.findMatchingTerms.bind(this);
     this.handleDropdownInputCommit = this.handleDropdownInputCommit.bind(this);
-    this.handleDropdownInputRef = this.handleDropdownInputRef.bind(this);
+    this.handleFilteringDropdownMenuInputRef = this.handleFilteringDropdownMenuInputRef.bind(this);
+    this.handleQuickAddBeforeItemFocusChange = this.handleQuickAddBeforeItemFocusChange.bind(this);
+    this.handleDropdownBeforeItemFocusChange = this.handleDropdownBeforeItemFocusChange.bind(this);
+    this.handleQuickAddRef = this.handleQuickAddRef.bind(this);
+    this.handleDropdownMenuInputRef = this.handleDropdownMenuInputRef.bind(this);
+    this.handleFocusPopup = this.handleFocusPopup.bind(this);
 
     this.state = {
       partialTerm: null,
@@ -157,7 +162,7 @@ export default class AutocompleteInput extends Component {
       const csid = uri.substring(uri.lastIndexOf('/') + 1);
 
       this.commit(refName, { csid });
-      this.dropdownInput.close();
+      this.filteringDropdownMenuInput.close();
     } else {
       const newState = {
         value: nextProps.value,
@@ -225,8 +230,56 @@ export default class AutocompleteInput extends Component {
     this.commit(value, meta);
   }
 
-  handleDropdownInputRef(ref) {
-    this.dropdownInput = ref;
+  handleFilteringDropdownMenuInputRef(ref) {
+    this.filteringDropdownMenuInput = ref;
+  }
+
+  handleDropdownMenuInputRef(ref) {
+    this.dropdownMenuInput = ref;
+  }
+
+  handleQuickAddRef(ref) {
+    this.quickAdd = ref;
+  }
+
+  handleQuickAddBeforeItemFocusChange(currentFocusedIndex, nextFocusedIndex, eventKey) {
+    if (this.dropdownMenuInput) {
+      if (nextFocusedIndex === 0 && eventKey === 'ArrowDown') {
+        this.dropdownMenuInput.focusMenu(0);
+        return null;
+      } else if (currentFocusedIndex <= 0 && eventKey === 'ArrowUp') {
+        this.dropdownMenuInput.focusMenu(-1);
+        return null;
+      }
+    }
+
+    return nextFocusedIndex;
+  }
+
+  handleDropdownBeforeItemFocusChange(currentFocusedIndex, nextFocusedIndex, eventKey) {
+    if (this.quickAdd) {
+      if (nextFocusedIndex === 0 && eventKey === 'ArrowDown') {
+        this.quickAdd.focusMenu(0);
+        return null;
+      } else if (currentFocusedIndex <= 0 && eventKey === 'ArrowUp') {
+        this.quickAdd.focusMenu(-1);
+        return null;
+      }
+    }
+
+    return nextFocusedIndex;
+  }
+
+  handleFocusPopup() {
+    const {
+      matches,
+    } = this.props;
+
+    if (matches) {
+      this.dropdownMenuInput.focusMenu(0);
+    } else {
+      this.quickAdd.focusMenu(0);
+    }
   }
 
   renderQuickAdd() {
@@ -253,6 +306,8 @@ export default class AutocompleteInput extends Component {
           formatDestinationName={formatSourceName}
           recordTypes={recordTypes}
           to={source}
+          onBeforeItemFocusChange={this.handleQuickAddBeforeItemFocusChange}
+          ref={this.handleQuickAddRef}
         />
       );
     }
@@ -324,10 +379,13 @@ export default class AutocompleteInput extends Component {
         formatStatusMessage={formatStatusMessage}
         menuFooter={this.renderQuickAdd()}
         options={options}
-        ref={this.handleDropdownInputRef}
+        ref={this.handleFilteringDropdownMenuInputRef}
         value={value}
         valueLabel={getDisplayName(value)}
         onCommit={this.handleDropdownInputCommit}
+        onBeforeItemFocusChange={this.handleDropdownBeforeItemFocusChange}
+        onMount={this.handleDropdownMenuInputRef}
+        focusPopup={this.handleFocusPopup}
       />
     );
   }

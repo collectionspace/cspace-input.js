@@ -12,6 +12,7 @@ const propTypes = {
   renderItemLabel: PropTypes.func,
   value: PropTypes.string,
   onSelect: PropTypes.func,
+  onBeforeItemFocusChange: PropTypes.func,
 };
 
 const defaultProps = {
@@ -88,7 +89,14 @@ export default class Menu extends Component {
     }
   }
 
-  focus() {
+  focus(itemIndex) {
+    if (typeof itemIndex === 'number') {
+      const {
+        options,
+      } = this.props;
+
+      this.selectedIndex = (itemIndex >= 0) ? itemIndex : options.length + itemIndex;
+    }
     if (this.domNode) {
       this.domNode.focus();
     }
@@ -138,22 +146,35 @@ export default class Menu extends Component {
 
       const {
         options,
+        onBeforeItemFocusChange,
       } = this.props;
 
-      if (event.key === 'ArrowDown') {
-        focusedIndex += 1;
+      let nextFocusedIndex = focusedIndex;
 
-        if (focusedIndex >= options.length) {
-          focusedIndex = 0;
+      if (event.key === 'ArrowDown') {
+        nextFocusedIndex += 1;
+
+        if (nextFocusedIndex >= options.length) {
+          nextFocusedIndex = 0;
+        }
+        if (onBeforeItemFocusChange) {
+          focusedIndex = onBeforeItemFocusChange(focusedIndex, nextFocusedIndex, event.key);
+        } else {
+          focusedIndex = nextFocusedIndex;
         }
       } else {
-        focusedIndex -= 1;
+        nextFocusedIndex -= 1;
 
-        if (focusedIndex < 0) {
-          focusedIndex = options.length - 1;
+        if (nextFocusedIndex < 0) {
+          nextFocusedIndex = options.length - 1;
+        }
+
+        if (onBeforeItemFocusChange) {
+          focusedIndex = onBeforeItemFocusChange(focusedIndex, nextFocusedIndex, event.key);
+        } else {
+          focusedIndex = nextFocusedIndex;
         }
       }
-
       this.setState({
         focusedIndex,
       });

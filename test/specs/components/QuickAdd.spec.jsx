@@ -12,7 +12,7 @@ describe('QuickAdd', function suite() {
     person: {
       serviceConfig: {
         name: 'personauthorities',
-        quickAddData: () => {},
+        quickAddData: () => { },
       },
       vocabularies: {
         person: {
@@ -20,6 +20,14 @@ describe('QuickAdd', function suite() {
             collectionName: {
               id: 'vocab.person.local.collectionName',
               defaultMessage: 'Local Persons',
+            },
+          },
+        },
+        ulan: {
+          messages: {
+            collectionName: {
+              id: 'vocab.person.ulan.collectionName',
+              defaultMessage: 'ULAN Persons',
             },
           },
         },
@@ -84,24 +92,14 @@ describe('QuickAdd', function suite() {
     this.container.querySelector('button').textContent.should.equal('formatDestinationName called');
   });
 
-  it('should render a button for each vocabulary that is configured in the record plugins', function test() {
+  it('should render a menu', function test() {
     render(
       <QuickAdd
-        to="person/person,person/unknown"
+        to="person/person"
         recordTypes={recordTypes}
       />, this.container);
 
-    this.container.querySelectorAll('button').length.should.equal(1);
-  });
-
-  it('should not render a button for an unknown recordType', function test() {
-    render(
-      <QuickAdd
-        to="foo"
-        recordTypes={recordTypes}
-      />, this.container);
-
-    this.container.querySelectorAll('button').length.should.equal(0);
+    this.container.querySelector('div').children[1].className.should.equal('cspace-input-Menu--common cspace-input-Input--common');
   });
 
   it('should call add when an add button is clicked', function test() {
@@ -122,6 +120,4 @@ describe('QuickAdd', function suite() {
 
     funcCalled.should.equal(true);
   });
-
-  // TODO: Add tests.
 });

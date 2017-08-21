@@ -26,6 +26,18 @@ const recordTypes = {
           },
         },
       },
+      ulan: {
+        messages: {
+          name: {
+            id: 'vocab.person.ulan.name',
+            defaultMessage: 'ULAN',
+          },
+          collectionName: {
+            id: 'vocab.person.ulan.collectionName',
+            defaultMessage: 'ULAN Persons',
+          },
+        },
+      },
     },
   },
 };
@@ -41,6 +53,17 @@ const johMatches = Immutable.Map().setIn(['joh', 'person', 'local', 'items'], [
   {
     refName: 'urn:cspace:core.collectionspace.org:personauthorities:name(person):item:name(JohnDoe)\'John Doe\'',
     uri: '/personauthorities/fbe3019a-f8d4-4f84-a900/items/7fc7c8ca-8ca0-4a29-8e2e',
+  },
+]);
+
+const samMatches = Immutable.Map().setIn(['sam', 'person', 'local', 'items'], [
+  {
+    refName: 'urn:cspace:core.collectionspace.org:personauthorities:name(person):item:name(SamuelSmith)\'Samuel Smith\'',
+    uri: '/personauthorities/fbe3019a-f8d4-4f84-a901/items/7fc7c8ca-8ca0-4a29-8e2d',
+  },
+  {
+    refName: 'urn:cspace:core.collectionspace.org:personauthorities:name(person):item:name(SamanthaSmith)\'Samantha Smith\'',
+    uri: '/personauthorities/fbe3019a-f8d4-4f84-a902/items/7fc7c8ca-8ca0-4a29-8e2f',
   },
 ]);
 
@@ -90,7 +113,7 @@ describe('AutocompleteInput', function suite() {
     input.value.should.equal('Jane Doe');
   });
 
-  it('should show a continue typing prompt if the value is changed to somethign shorter than the min length', function test() {
+  it('should show a continue typing prompt if the value is changed to something shorter than the min length', function test() {
     render(
       <AutocompleteInput
         source="person/local"
@@ -334,5 +357,193 @@ describe('AutocompleteInput', function suite() {
 
     input.className.should.contain('cspace-input-ReadOnlyInput--common');
     input.textContent.should.equal('David Bowie');
+  });
+
+  it('should update options when new matches are supplied', function test() {
+    render(
+      <AutocompleteInput
+        parentPath={['collectionobjects_common']}
+        name="owner"
+        source="person/local,person/ulan"
+        matches={samMatches}
+        recordTypes={recordTypes}
+      />, this.container);
+
+    const input = this.container.querySelector('input');
+
+    input.value = 'sam';
+
+    Simulate.change(input);
+
+    render(
+      <AutocompleteInput
+        parentPath={['collectionobjects_common']}
+        name="owner"
+        source="person/local,person/ulan"
+        matches={samMatches}
+        recordTypes={recordTypes}
+      />, this.container);
+  });
+
+  it('should handle popup focus behavior when matches are present', function test() {
+    render(
+      <AutocompleteInput
+        parentPath={['collectionobjects_common']}
+        name="owner"
+        source="person/local,person/ulan"
+        matches={samMatches}
+        recordTypes={recordTypes}
+      />, this.container);
+
+    const input = this.container.querySelector('input');
+
+    input.value = 'sam';
+
+    Simulate.change(input);
+    Simulate.keyDown(input, { key: 'ArrowDown' });
+
+    const item = this.container.querySelector('li');
+
+    item.className.should.contain('cspace-input-MenuItem--focused');
+  });
+
+  it('should handle popup focus behavior when matches are not present', function test() {
+    render(
+      <AutocompleteInput
+        parentPath={['collectionobjects_common']}
+        name="owner"
+        source="person/local,person/ulan"
+        recordTypes={recordTypes}
+      />, this.container);
+
+    const input = this.container.querySelector('input');
+
+    input.value = 'sam';
+
+    Simulate.change(input);
+    Simulate.keyDown(input, { key: 'ArrowDown' });
+
+    const quickAdd = this.container.querySelector('.cspace-input-QuickAdd--common');
+    const item = quickAdd.querySelector('li');
+
+    item.className.should.contain('cspace-input-MenuItem--focused');
+  });
+
+  it('should transfer focus to QuickAdd on ArrowUp on first item in InputMenu', function test() {
+    render(
+      <AutocompleteInput
+        parentPath={['collectionobjects_common']}
+        name="owner"
+        source="person/local,person/ulan"
+        recordTypes={recordTypes}
+        matches={samMatches}
+      />, this.container);
+
+    const input = this.container.querySelector('input');
+
+    input.value = 'sam';
+
+    Simulate.change(input);
+    Simulate.keyDown(input, { key: 'ArrowDown' });
+
+    const dropDownMenu = this.container.querySelector('.cspace-input-Menu--common');
+
+    Simulate.keyDown(dropDownMenu, { key: 'ArrowUp' });
+
+    const quickAdd = this.container.querySelector('.cspace-input-QuickAdd--common');
+    const items = quickAdd.querySelectorAll('li');
+
+    const focusItem = items[items.length - 1];
+
+    focusItem.className.should.contain('cspace-input-MenuItem--focused');
+  });
+
+  it('should transfer focus to QuickAdd on ArrowDown on last item in InputMenu', function test() {
+    render(
+      <AutocompleteInput
+        parentPath={['collectionobjects_common']}
+        name="owner"
+        source="person/local,person/ulan"
+        recordTypes={recordTypes}
+        matches={samMatches}
+      />, this.container);
+
+    const input = this.container.querySelector('input');
+
+    input.value = 'sam';
+
+    Simulate.change(input);
+    Simulate.keyDown(input, { key: 'ArrowDown' });
+
+    const dropDownMenu = this.container.querySelector('.cspace-input-Menu--common');
+
+    Simulate.keyDown(dropDownMenu, { key: 'ArrowDown' });
+    Simulate.keyDown(dropDownMenu, { key: 'ArrowDown' });
+
+    const quickAdd = this.container.querySelector('.cspace-input-QuickAdd--common');
+    const items = quickAdd.querySelectorAll('li');
+
+    const focusItem = items[0];
+
+    focusItem.className.should.contain('cspace-input-MenuItem--focused');
+  });
+
+  it('should have a DropdownMenuInput handler that returns nextFocusIndex if greater than 0', function test() {
+    const component = render(
+      <AutocompleteInput
+        parentPath={['collectionobjects_common']}
+        name="owner"
+        source="person/local,person/ulan"
+        recordTypes={recordTypes}
+        matches={samMatches}
+      />, this.container);
+
+    const nextFocusIndex = component.handleDropdownBeforeItemFocusChange(0, 1, 'ArrowDown');
+
+    expect(nextFocusIndex).to.equal(1);
+  });
+
+  it('should have a QuickAddMenu handler that returns nextFocusIndex if greater than 0', function test() {
+    const component = render(
+      <AutocompleteInput
+        parentPath={['collectionobjects_common']}
+        name="owner"
+        source="person/local,person/ulan"
+        recordTypes={recordTypes}
+        matches={samMatches}
+      />, this.container);
+
+    const nextFocusIndex = component.handleQuickAddBeforeItemFocusChange(0, 1, 'ArrowDown');
+
+    expect(nextFocusIndex).to.equal(1);
+  });
+  it('should have a QuickAddMenu handler that returns null if nextIndex equals 0 on ArrowDown', function test() {
+    const component = render(
+      <AutocompleteInput
+        parentPath={['collectionobjects_common']}
+        name="owner"
+        source="person/local,person/ulan"
+        recordTypes={recordTypes}
+        matches={samMatches}
+      />, this.container);
+
+    const nextFocusIndex = component.handleQuickAddBeforeItemFocusChange(1, 0, 'ArrowDown');
+
+    expect(nextFocusIndex).to.equal(null);
+  });
+
+  it('should have a QuickAddMenu handler that returns null if currentIndex is 0 on ArrowUp', function test() {
+    const component = render(
+      <AutocompleteInput
+        parentPath={['collectionobjects_common']}
+        name="owner"
+        source="person/local,person/ulan"
+        recordTypes={recordTypes}
+        matches={samMatches}
+      />, this.container);
+
+    const nextFocusIndex = component.handleQuickAddBeforeItemFocusChange(0, -1, 'ArrowUp');
+
+    expect(nextFocusIndex).to.equal(null);
   });
 });

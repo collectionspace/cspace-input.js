@@ -81,7 +81,10 @@ export default class DropdownMenuInput extends Component {
     } = this.props;
 
     if (onMount) {
-      onMount({ value: this.state.value });
+      onMount({
+        value: this.state.value,
+        focusMenu: this.focusMenu.bind(this),
+      });
     }
   }
 
@@ -122,9 +125,9 @@ export default class DropdownMenuInput extends Component {
     }
   }
 
-  focusMenu() {
+  focusMenu(itemIndex) {
     if (this.menu) {
-      this.menu.focus();
+      this.menu.focus(itemIndex);
     }
   }
 
@@ -195,6 +198,8 @@ export default class DropdownMenuInput extends Component {
       options,
       readOnly,
       renderItemLabel,
+      onBeforeItemFocusChange,
+      focusPopup,
       /* eslint-disable no-unused-vars */
       blankable,
       open: openProp,
@@ -225,13 +230,13 @@ export default class DropdownMenuInput extends Component {
       <DropdownInput
         {...remainingProps}
         className={classes}
-        focusPopup={this.focusMenu}
         open={open}
         spellCheck={false}
         value={inputValue}
         onClose={this.handleDropdownInputClose}
         onMount={this.handleDropdownInputMount}
         onOpen={this.handleDropdownInputOpen}
+        focusPopup={focusPopup || this.focusMenu}
       >
         {renderMenuHeader(menuHeader)}
         <Menu
@@ -241,6 +246,7 @@ export default class DropdownMenuInput extends Component {
           renderItemLabel={renderItemLabel}
           value={value}
           onSelect={this.handleMenuSelect}
+          onBeforeItemFocusChange={onBeforeItemFocusChange}
         />
         {renderMenuFooter(menuFooter)}
       </DropdownInput>

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import get from 'lodash/get';
+import Menu from './Menu';
 import parseResourceID from '../helpers/parseResourceID';
 import styles from '../../styles/cspace-input/QuickAdd.css';
 
@@ -11,6 +12,7 @@ const propTypes = {
   formatAddPrompt: PropTypes.func,
   recordTypes: PropTypes.object,
   to: PropTypes.string,
+  onBeforeItemFocusChange: PropTypes.func,
 };
 
 const defaultProps = {
@@ -30,6 +32,9 @@ export default class QuickAdd extends Component {
     super(props);
 
     this.handleButtonClick = this.handleButtonClick.bind(this);
+    this.handleMenuRef = this.handleMenuRef.bind(this);
+    this.focusMenu = this.focusMenu.bind(this);
+    this.renderQuickAddItemLabel = this.renderQuickAddItemLabel.bind(this);
   }
 
   handleButtonClick(event) {
@@ -50,6 +55,34 @@ export default class QuickAdd extends Component {
     }
   }
 
+  handleMenuRef(ref) {
+    this.menu = ref;
+  }
+
+  focusMenu(itemIndex) {
+    if (this.menu) {
+      this.menu.focus(itemIndex);
+    }
+  }
+
+  renderQuickAddItemLabel(labelData) {
+    const {
+      recordType,
+      vocabulary,
+      formattedDestinationName,
+    } = labelData;
+
+    return (
+      <button
+        data-recordtype={recordType}
+        data-vocabulary={vocabulary}
+        onClick={this.handleButtonClick}
+      >
+        {formattedDestinationName}
+      </button>
+    );
+  }
+
   render() {
     const {
       displayName,
@@ -57,11 +90,12 @@ export default class QuickAdd extends Component {
       formatDestinationName,
       recordTypes,
       to: destinationID,
+      onBeforeItemFocusChange,
     } = this.props;
 
     const destinations = parseResourceID(destinationID);
 
-    const buttons = destinations.map((destination) => {
+    const options = destinations.map((destination) => {
       const {
         recordType,
         vocabulary,
@@ -81,25 +115,26 @@ export default class QuickAdd extends Component {
         }
       }
 
-      return (
-        <li key={[recordType, vocabulary].join('/')}>
-          <button
-            data-recordtype={recordType}
-            data-vocabulary={vocabulary}
-            onClick={this.handleButtonClick}
-          >
-            {formatDestinationName(recordTypeConfig, vocabulary)}
-          </button>
-        </li>
-      );
+      return ({
+        label: {
+          formattedDestinationName: formatDestinationName(recordTypeConfig, vocabulary),
+          vocabulary,
+          recordType,
+        },
+        value: `${recordType}/${vocabulary}`,
+      });
     });
 
     return (
       <div className={styles.common}>
         <div>{formatAddPrompt(displayName)}</div>
-        <ul>
-          {buttons}
-        </ul>
+        <Menu
+          options={options}
+          tabIndex="-1"
+          ref={this.handleMenuRef}
+          onBeforeItemFocusChange={onBeforeItemFocusChange}
+          renderItemLabel={this.renderQuickAddItemLabel}
+        />
       </div>
     );
   }
