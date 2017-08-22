@@ -5,11 +5,8 @@
   box-sizing: border-box;
 }
 
-.common > ul {
-  list-style: none;
-  margin: 0;
+.common :global(.cspace-input-MenuItem--common) {
   padding: 0;
-  box-sizing: border-box;
 }
 
 .common button {

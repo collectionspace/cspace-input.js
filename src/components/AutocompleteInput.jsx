@@ -243,7 +243,11 @@ export default class AutocompleteInput extends Component {
   }
 
   handleQuickAddBeforeItemFocusChange(currentFocusedIndex, nextFocusedIndex, eventKey) {
-    if (this.dropdownMenuInput) {
+    const {
+      options,
+    } = this.state;
+
+    if (this.dropdownMenuInput && options && options.length > 0) {
       if (nextFocusedIndex === 0 && eventKey === 'ArrowDown') {
         this.dropdownMenuInput.focusMenu(0);
         return null;
@@ -272,12 +276,14 @@ export default class AutocompleteInput extends Component {
 
   handleFocusPopup() {
     const {
-      matches,
-    } = this.props;
+      options,
+    } = this.state;
 
-    if (matches) {
-      this.dropdownMenuInput.focusMenu(0);
-    } else {
+    if (options && options.length > 0) {
+      if (this.dropdownMenuInput) {
+        this.dropdownMenuInput.focusMenu(0);
+      }
+    } else if (this.quickAdd) {
       this.quickAdd.focusMenu(0);
     }
   }

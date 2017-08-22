@@ -1,3 +1,5 @@
+/* global document */
+
 import React from 'react';
 import { render } from 'react-dom';
 import { Simulate } from 'react-dom/test-utils';
@@ -102,6 +104,26 @@ describe('QuickAdd', function suite() {
     this.container.querySelector('div').children[1].className.should.equal('cspace-input-Menu--common cspace-input-Input--common');
   });
 
+  it('should not render menu items for unknown procedures', function test() {
+    render(
+      <QuickAdd
+        to="person/person,badProcedure/xyz"
+        recordTypes={recordTypes}
+      />, this.container);
+
+    this.container.querySelectorAll('li').should.have.lengthOf(1);
+  });
+
+  it('should not render menu items for unknown vocabularies', function test() {
+    render(
+      <QuickAdd
+        to="person/person,person/badVocabulary"
+        recordTypes={recordTypes}
+      />, this.container);
+
+    this.container.querySelectorAll('li').should.have.lengthOf(1);
+  });
+
   it('should call add when an add button is clicked', function test() {
     let funcCalled = false;
 
@@ -119,5 +141,22 @@ describe('QuickAdd', function suite() {
     Simulate.click(this.container.querySelector('button'));
 
     funcCalled.should.equal(true);
+  });
+
+  it('should focus the menu when focusMenu is called', function test() {
+    let quickAddRef = null;
+
+    render(
+      <QuickAdd
+        to="person/person"
+        recordTypes={recordTypes}
+        ref={(ref) => { quickAddRef = ref; }}
+      />, this.container);
+
+    quickAddRef.focusMenu();
+
+    const menu = this.container.querySelector('.cspace-input-Menu--common');
+
+    menu.should.equal(document.activeElement);
   });
 });

@@ -76,6 +76,7 @@ export default class QuickAdd extends Component {
       <button
         data-recordtype={recordType}
         data-vocabulary={vocabulary}
+        tabIndex="-1"
         onClick={this.handleButtonClick}
       >
         {formattedDestinationName}
@@ -95,35 +96,37 @@ export default class QuickAdd extends Component {
 
     const destinations = parseResourceID(destinationID);
 
-    const options = destinations.map((destination) => {
-      const {
-        recordType,
-        vocabulary,
-      } = destination;
+    const options = destinations
+      .map((destination) => {
+        const {
+          recordType,
+          vocabulary,
+        } = destination;
 
-      const recordTypeConfig = get(recordTypes, recordType);
+        const recordTypeConfig = get(recordTypes, recordType);
 
-      if (!recordTypeConfig) {
-        return null;
-      }
-
-      if (vocabulary) {
-        const vocabularyConfig = get(recordTypeConfig, ['vocabularies', vocabulary]);
-
-        if (!vocabularyConfig) {
+        if (!recordTypeConfig) {
           return null;
         }
-      }
 
-      return ({
-        label: {
-          formattedDestinationName: formatDestinationName(recordTypeConfig, vocabulary),
-          vocabulary,
-          recordType,
-        },
-        value: `${recordType}/${vocabulary}`,
-      });
-    });
+        if (vocabulary) {
+          const vocabularyConfig = get(recordTypeConfig, ['vocabularies', vocabulary]);
+
+          if (!vocabularyConfig) {
+            return null;
+          }
+        }
+
+        return ({
+          label: {
+            formattedDestinationName: formatDestinationName(recordTypeConfig, vocabulary),
+            vocabulary,
+            recordType,
+          },
+          value: `${recordType}/${vocabulary}`,
+        });
+      })
+      .filter(option => !!option);
 
     return (
       <div className={styles.common}>

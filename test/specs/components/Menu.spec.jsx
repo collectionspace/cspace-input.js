@@ -399,7 +399,7 @@ describe('Menu', function suite() {
     items.item(0).className.should.match(/focused/);
   });
 
-  it('should call onSelect when enter is pressed and an item is focused', function test() {
+  it('should select the item and call onSelect when enter is pressed and an item is focused', function test() {
     let selectedOption = null;
 
     const handleSelect = (option) => {
@@ -426,6 +426,11 @@ describe('Menu', function suite() {
     Simulate.keyPress(menu, { key: 'Enter' });
 
     selectedOption.should.deep.equal({ value: 'value1', label: 'Label 1' });
+
+    const listItems = menu.querySelectorAll('li');
+    const item = listItems.item(0);
+
+    item.className.should.contain('cspace-input-MenuItem--selected');
   });
 
   it('should become focused when focus() is called', function test() {
@@ -442,6 +447,76 @@ describe('Menu', function suite() {
     const list = this.container.querySelector('ul');
 
     document.activeElement.should.equal(list);
+  });
+
+  it('should focus the indicated item the when focus() is called with a positive item index', function test() {
+    const options = [
+      { value: 'value1', label: 'Label 1' },
+      { value: 'value2', label: 'Label 2' },
+    ];
+
+    const component = render(
+      <Menu
+        options={options}
+      />, this.container);
+
+    component.focus(1);
+
+    const menu = this.container.firstElementChild;
+    const listItems = menu.querySelectorAll('li');
+    const item = listItems.item(1);
+
+    // Need to simulate focus here, since items don't get focused until the menu is focused.
+    Simulate.focus(menu);
+
+    item.className.should.contain('cspace-input-MenuItem--focused');
+  });
+
+  it('should focus the first item the when focus() is called with a zero item index', function test() {
+    const options = [
+      { value: 'value1', label: 'Label 1' },
+      { value: 'value2', label: 'Label 2' },
+    ];
+
+    const component = render(
+      <Menu
+        options={options}
+      />, this.container);
+
+    component.focus(0);
+
+    const menu = this.container.firstElementChild;
+    const listItems = menu.querySelectorAll('li');
+    const item = listItems.item(0);
+
+    // Need to simulate focus here, since items don't get focused until the menu is focused.
+    Simulate.focus(menu);
+
+    item.className.should.contain('cspace-input-MenuItem--focused');
+  });
+
+  it('should focus the indicated item, offset from the end, when focus() is called with a negative item index', function test() {
+    const options = [
+      { value: 'value1', label: 'Label 1' },
+      { value: 'value2', label: 'Label 2' },
+      { value: 'value3', label: 'Label 3' },
+    ];
+
+    const component = render(
+      <Menu
+        options={options}
+      />, this.container);
+
+    component.focus(-1);
+
+    const menu = this.container.firstElementChild;
+    const listItems = menu.querySelectorAll('li');
+    const item = listItems.item(2);
+
+    // Need to simulate focus here, since items don't get focused until the menu is focused.
+    Simulate.focus(menu);
+
+    item.className.should.contain('cspace-input-MenuItem--focused');
   });
 
   it('should do nothing when focus() is called and there are no options', function test() {
@@ -640,49 +715,7 @@ describe('Menu', function suite() {
     menu.scrollTop.should.equal(scrolledPosition);
   });
 
-  it('should handle Enter key event by selecting item in focus', function test() {
-    const options = [
-      { value: 'value1', label: 'Label 1' },
-      { value: 'value2', label: 'Label 2' },
-    ];
-
-    const component = render(
-      <Menu
-        options={options}
-      />, this.container);
-
-    const menu = this.container.firstElementChild;
-    const listItems = menu.querySelectorAll('li');
-    const item = listItems.item(1);
-
-    Simulate.keyDown(menu, { key: 'ArrowDown' });
-
-    component.handleKeyPress({ key: 'Enter' });
-
-    item.className.should.contain('cspace-input-MenuItem--selected');
-  });
-
-  it('should focus on itemIndex if greater or equal to 0', function test() {
-    const options = [
-      { value: 'value1', label: 'Label 1' },
-      { value: 'value2', label: 'Label 2' },
-    ];
-
-    const component = render(
-      <Menu
-        options={options}
-      />, this.container);
-
-    component.focus(1);
-
-    const menu = this.container.firstElementChild;
-    const listItems = menu.querySelectorAll('li');
-    const item = listItems.item(1);
-
-    item.className.should.contain('cspace-input-MenuItem--focused');
-  });
-
-  it('should use onBeforeItemFocusChange callback, if present, to determine focused index on ArrowDown key event', function test() {
+  it('should use onBeforeItemFocusChange callback, if present, to determine next focused item when down arrow is depressed', function test() {
     const options = [
       { value: 'value1', label: 'Label 1' },
       { value: 'value2', label: 'Label 2' },
@@ -709,7 +742,7 @@ describe('Menu', function suite() {
     item.className.should.contain('cspace-input-MenuItem--focused');
   });
 
-  it('should use onBeforeItemFocusChange callback, if present, to determine focused index on ArrowUp key event', function test() {
+  it('should use onBeforeItemFocusChange callback, if present, to determine next focused item when up arrow is depressed', function test() {
     const options = [
       { value: 'value1', label: 'Label 1' },
       { value: 'value2', label: 'Label 2' },
