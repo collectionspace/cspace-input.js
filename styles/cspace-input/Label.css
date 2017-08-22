@@ -15,4 +15,5 @@
 
 .required::after {
   content: "*";
+  color: rgb(220, 0, 0);
 }
