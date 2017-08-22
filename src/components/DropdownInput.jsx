@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Popup } from 'cspace-layout';
+import Popup from 'cspace-layout/lib/components/Popup';
 import classNames from 'classnames';
 import TextInput from './TextInput';
 import styles from '../../styles/cspace-input/DropdownInput.css';

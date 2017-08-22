@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Immutable from 'immutable';
-import { Row } from 'cspace-layout';
+import Row from 'cspace-layout/lib/components/Row';
 import set from 'lodash/set';
 import merge from 'lodash/merge';
 import CustomCompoundInput from './CustomCompoundInput';

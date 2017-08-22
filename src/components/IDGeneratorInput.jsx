@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Row } from 'cspace-layout';
+import Row from 'cspace-layout/lib/components/Row';
 import BaseDropdownInput from './DropdownInput';
 import Menu from './Menu';
 import changeable from '../enhancers/changeable';
