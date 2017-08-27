@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Immutable from 'immutable';
+import get from 'lodash/get';
 import MiniButton from './MiniButton';
 import normalizeLabel from '../helpers/normalizeLabel';
 import { getPath, pathPropType } from '../helpers/pathHelpers';
 import repeatingInputStyles from '../../styles/cspace-input/RepeatingInput.css';
 import moveToTopButtonStyles from '../../styles/cspace-input/MoveToTopButton.css';
 
-function normalizeValue(value) {
+const normalizeValue = (value) => {
   const defaultValue = [undefined];
 
   if (!value) {
@@ -29,7 +30,19 @@ function normalizeValue(value) {
   }
 
   return normalized;
-}
+};
+
+const renderEmbeddedHeader = label => (
+  <header>
+    <div />
+    <div>
+      {label}
+    </div>
+    <div />
+  </header>
+);
+
+const renderHeader = label => label;
 
 const propTypes = {
   children: PropTypes.node,
@@ -64,6 +77,20 @@ export default class RepeatingInput extends Component {
     this.handleAddButtonClick = this.handleAddButtonClick.bind(this);
     this.handleMoveToTopButtonClick = this.handleMoveToTopButtonClick.bind(this);
     this.handleRemoveButtonClick = this.handleRemoveButtonClick.bind(this);
+  }
+
+  getLabel() {
+    const {
+      children,
+    } = this.props;
+
+    const template = React.Children.only(children);
+
+    const {
+      label,
+    } = template.props;
+
+    return normalizeLabel(label);
   }
 
   handleAddButtonClick() {
@@ -109,34 +136,6 @@ export default class RepeatingInput extends Component {
 
       onRemoveInstance([...getPath(this.props), instanceName]);
     }
-  }
-
-  renderHeader() {
-    const {
-      children,
-    } = this.props;
-
-    const template = React.Children.only(children);
-
-    const {
-      label,
-    } = template.props;
-
-    const normalizedLabel = normalizeLabel(label);
-
-    if (!normalizedLabel) {
-      return null;
-    }
-
-    return (
-      <header>
-        <div />
-        <div>
-          {normalizedLabel}
-        </div>
-        <div />
-      </header>
-    );
   }
 
   renderInstances() {
@@ -204,7 +203,9 @@ export default class RepeatingInput extends Component {
       name,
     } = this.props;
 
-    const header = this.renderHeader();
+    const label = this.getLabel();
+    const isLabelEmbedded = get(label, ['props', 'embedded']);
+
     const instances = this.renderInstances();
 
     return (
@@ -212,8 +213,9 @@ export default class RepeatingInput extends Component {
         className={repeatingInputStyles.common}
         name={name}
       >
+        {isLabelEmbedded ? null : renderHeader(label)}
         <div>
-          {header}
+          {isLabelEmbedded ? renderEmbeddedHeader(label) : null}
           {instances}
         </div>
         <footer>
