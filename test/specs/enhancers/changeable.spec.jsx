@@ -62,5 +62,18 @@ describe('changeable', function suite() {
 
       input.value.should.equal('new value');
     });
+
+    it('should not update the base component value to the changed value when autoSyncValue is false', function test() {
+      const EnhancedComponent = changeable('input');
+
+      render(<EnhancedComponent autoSyncValue={false} />, this.container);
+
+      const input = this.container.querySelector('input');
+      input.value = 'new';
+
+      Simulate.change(input);
+
+      input.value.should.equal('');
+    });
   });
 });

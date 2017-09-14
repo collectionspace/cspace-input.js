@@ -5,7 +5,9 @@ import ComboBoxInput from './components/ComboBoxInput';
 import CompoundInput from './components/CompoundInput';
 import CustomCompoundInput from './components/CustomCompoundInput';
 import DateInput from './components/DateInput';
+import DateTimeInput from './components/DateTimeInput';
 import DropdownMenuInput from './components/DropdownMenuInput';
+import FileInput from './components/FileInput';
 import FilteringDropdownMenuInput from './components/FilteringDropdownMenuInput';
 import IDGeneratorInput from './components/IDGeneratorInput';
 import InputTable from './components/InputTable';
@@ -24,6 +26,7 @@ import TabularCompoundInput from './components/TabularCompoundInput';
 import TextInput from './components/TextInput';
 import TermPickerInput from './components/TermPickerInput';
 import VocabularyInput from './components/VocabularyInput';
+import UploadInput from './components/UploadInput';
 
 import changeable from './enhancers/changeable';
 import committable from './enhancers/committable';
@@ -43,7 +46,9 @@ export const baseComponents = {
   CompoundInput,
   CustomCompoundInput,
   DateInput,
+  DateTimeInput,
   DropdownMenuInput,
+  FileInput,
   FilteringDropdownMenuInput,
   IDGeneratorInput,
   InputTable,
@@ -62,6 +67,7 @@ export const baseComponents = {
   TextInput,
   TermPickerInput,
   VocabularyInput,
+  UploadInput,
 };
 
 export const components = {
@@ -69,14 +75,15 @@ export const components = {
   CompoundInput,
   Label,
   MiniButton,
-  ReadOnlyInput,
   RepeatingInput,
   AutocompleteInput: repeatable(labelable(AutocompleteInput)),
   CheckboxInput: labelable(CheckboxInput),
   ComboBoxInput: repeatable(labelable(withLabeledOptions(ComboBoxInput))),
   CustomCompoundInput: repeatable(labelable(CustomCompoundInput)),
   DateInput: repeatable(labelable(DateInput)),
+  DateTimeInput: labelable(DateTimeInput),
   DropdownMenuInput: repeatable(labelable(withNormalizedOptions(DropdownMenuInput))),
+  FileInput: labelable(FileInput),
   IDGeneratorInput: repeatable(labelable(IDGeneratorInput)),
   InputTable: labelable(InputTable),
   LineInput: standalone(LineInput),
@@ -85,6 +92,7 @@ export const components = {
     labelable(withLabeledOptions(withNormalizedOptions(PrefixFilteringDropdownMenuInput)))
   ),
   PasswordInput: standalone(PasswordInput),
+  ReadOnlyInput: labelable(ReadOnlyInput),
   QuickSearchInput: labelable(QuickSearchInput),
   RecordTypeInput: labelable(RecordTypeInput),
   StructuredDateInput: repeatable(labelable(StructuredDateInput)),
@@ -92,6 +100,7 @@ export const components = {
   TextInput: standalone(TextInput),
   VocabularyInput: labelable(VocabularyInput),
   TermPickerInput: repeatable(labelable(TermPickerInput)),
+  UploadInput: labelable(UploadInput),
 };
 
 export const enhancers = {

@@ -1,0 +1,28 @@
+.common {
+  display: flex;
+}
+
+.common input[type="file"] {
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+}
+
+.common label {
+
+}
+
+.common label > div {
+  background: yellow;
+  height: 22px;
+  border: 1px solid black;
+}
+
+.common > div:first-child {
+  flex: 0 0 140px;
+  margin-right: 2px;
+}
+
+.common > div:last-child {
+  flex: 1 1 auto;
+}
