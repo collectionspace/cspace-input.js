@@ -6,7 +6,7 @@
   font-family: 'Open Sans', Arial, sans-serif;
   font-size: 12px;
   line-height: 14px;
-  color: textDark;
+  color: rgb(128, 128, 128);
 }
 
 .required {

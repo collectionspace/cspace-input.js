@@ -1,0 +1,33 @@
+@value inputBg, textLight from '../colors.css';
+@value activeEdgeWidth from '../dimensions.css';
+
+.common {
+  composes: normal from './LineInput.css';
+  display: flex;
+  padding: 0;
+  background-color: textLight;
+}
+
+.common > input[type="file"] {
+  display: none;
+}
+
+.common > div {
+  flex: 1 1 auto;
+  margin-left: 1px;
+  padding: 1px 21px 1px 2px;
+  line-height: 18px;
+  background: inputBg url(../../images/attach.svg) right center no-repeat;
+}
+
+.normal {
+  composes: common;
+}
+
+.dragOver {
+  composes: common;
+}
+
+.dragOver > div {
+  outline: activeEdgeWidth dashed black;
+}

@@ -44,23 +44,21 @@ export default function changeable(BaseComponent) {
     }
 
     handleChange(event) {
-      if (event && event.target) {
-        const value = event.target.value;
+      const value = event.target.value;
 
-        const {
-          onChange,
-          autoSyncValue,
-        } = this.props;
+      const {
+        onChange,
+        autoSyncValue,
+      } = this.props;
 
-        if (autoSyncValue) {
-          this.setState({
-            value,
-          });
-        }
+      if (autoSyncValue) {
+        this.setState({
+          value,
+        });
+      }
 
-        if (onChange) {
-          onChange(value);
-        }
+      if (onChange) {
+        onChange(value);
       }
     }
 
