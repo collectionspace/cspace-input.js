@@ -1,11 +1,13 @@
 @value inputBg, textDark, textLight from '../colors.css';
 @value activeEdgeWidth, inputMargin from '../dimensions.css';
 
+.common {
+  position: relative;
+}
+
 .common > input {
   position: absolute;
-  display: none;
-  left: -20px;
-  top: -20px;
+  opacity: 0;
 }
 
 .common > span {
@@ -13,7 +15,7 @@
   width: 14px;
   height: 14px;
   outline-offset: -1px;
-  margin: 1px;
+  margin: 1px 1px 10px 1px;
   border: 1px solid;
   background-repeat: no-repeat;
 }
