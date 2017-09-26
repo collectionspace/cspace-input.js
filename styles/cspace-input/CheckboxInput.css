@@ -12,10 +12,10 @@
 
 .common > span {
   display: inline-block;
-  width: 14px;
-  height: 14px;
+  width: 20px;
+  height: 20px;
   outline-offset: -1px;
-  margin: 1px 1px 10px 1px;
+  margin: 0 0 10px 0;
   border: 1px solid;
   background-repeat: no-repeat;
 }
