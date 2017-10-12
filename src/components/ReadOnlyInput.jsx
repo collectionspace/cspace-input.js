@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 import { pathPropType } from '../helpers/pathHelpers';
 import styles from '../../styles/cspace-input/ReadOnlyInput.css';
 
@@ -8,6 +9,8 @@ const propTypes = {
   parentPath: pathPropType, // eslint-disable-line react/no-unused-prop-types
   subpath: pathPropType,    // eslint-disable-line react/no-unused-prop-types
   value: PropTypes.string,
+  embedded: PropTypes.bool,
+  multiline: PropTypes.bool,
   formatValue: PropTypes.func,
 };
 
@@ -25,12 +28,19 @@ export default function ReadOnlyInput(props) {
   const {
     name,
     value,
+    embedded,
+    multiline,
     formatValue,
   } = props;
 
+  const classes = classNames(
+    embedded ? styles.embedded : styles.normal,
+    multiline ? styles.multiline : styles.oneline
+  );
+
   return (
     <div
-      className={styles.common}
+      className={classes}
       data-name={name}
       style={preserveWhiteSpace}
     >

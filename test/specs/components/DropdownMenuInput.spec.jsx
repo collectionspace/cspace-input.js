@@ -572,7 +572,7 @@ describe('DropdownMenuInput', function suite() {
     this.container.querySelector('footer').textContent.should.equal('footer content');
   });
 
-  it('should render a ReadOnlyInput if readOnly is true', function test() {
+  it('should render a disabled LineInput if readOnly is true', function test() {
     const options = [
       { value: 'value1', label: 'Value 1' },
       { value: 'value2', label: 'Value 2' },
@@ -588,7 +588,8 @@ describe('DropdownMenuInput', function suite() {
 
     const input = this.container.firstElementChild;
 
-    input.className.should.contain('cspace-input-ReadOnlyInput--common');
-    input.textContent.should.equal('Value 2');
+    input.className.should.contain('cspace-input-LineInput--normal');
+    input.disabled.should.equal(true);
+    input.value.should.equal('Value 2');
   });
 });

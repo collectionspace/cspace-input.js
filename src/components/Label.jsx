@@ -4,6 +4,7 @@ import styles from '../../styles/cspace-input/Label.css';
 
 const propTypes = {
   children: PropTypes.node,
+  readOnly: PropTypes.bool,
   required: PropTypes.bool,
 };
 
@@ -13,10 +14,11 @@ const propTypes = {
 export default function Label(props) {
   const {
     children,
+    readOnly,
     required,
   } = props;
 
-  const className = required ? styles.required : styles.common;
+  const className = (required && !readOnly) ? styles.required : styles.common;
 
   // FIXME: Set the htmlFor prop to associate the labeled control.
 

@@ -1,4 +1,4 @@
-@value inputBg, buttonText, buttonBg, buttonBgActive, textDark from '../colors.css';
+@value inputBg, buttonText, buttonBg, buttonBgActive, textMedium, textDark from '../colors.css';
 @value activeEdgeWidth, inputHeight from '../dimensions.css';
 
 .common {
@@ -13,6 +13,11 @@
   line-height: 22px;
   background-color: transparent;
   overflow: hidden;
+  text-align: center;
+}
+
+div.common {
+  color: textMedium;
 }
 
 .common:enabled {

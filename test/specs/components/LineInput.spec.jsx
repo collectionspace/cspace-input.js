@@ -61,12 +61,13 @@ describe('LineInput', function suite() {
       .equal(measuringStick.getBoundingClientRect().height);
   });
 
-  it('should render a ReadOnlyInput if readOnly is true', function test() {
+  it('should render a disabled iput if readOnly is true', function test() {
     render(<LineInput value={'Hello world'} readOnly />, this.container);
 
     const input = this.container.firstElementChild;
 
-    input.className.should.contain('cspace-input-ReadOnlyInput--common');
-    input.textContent.should.equal('Hello world');
+    input.nodeName.should.equal('INPUT');
+    input.disabled.should.equal(true);
+    input.value.should.equal('Hello world');
   });
 });

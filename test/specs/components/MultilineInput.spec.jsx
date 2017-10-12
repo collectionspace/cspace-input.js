@@ -20,7 +20,7 @@ describe('MultilineInput', function suite() {
     isInput(<MultilineInput />).should.equal(true);
   });
 
-  it('should render as an input with type \'textarea\'', function test() {
+  it('should render as a textarea', function test() {
     render(<MultilineInput value="Test" />, this.container);
 
     this.container.firstElementChild.nodeName.should.equal('TEXTAREA');
@@ -60,12 +60,13 @@ describe('MultilineInput', function suite() {
       .be.above(measuringStick.getBoundingClientRect().height);
   });
 
-  it('should render a ReadOnlyInput if readOnly is true', function test() {
+  it('should render a disabled textarea if readOnly is true', function test() {
     render(<MultilineInput value={'Hello world\nLine 2'} readOnly />, this.container);
 
     const input = this.container.firstElementChild;
 
-    input.className.should.contain('cspace-input-ReadOnlyInput--common');
+    input.nodeName.should.equal('TEXTAREA');
+    input.disabled.should.equal(true);
     input.textContent.should.equal('Hello world\nLine 2');
   });
 });

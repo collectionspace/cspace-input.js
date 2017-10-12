@@ -344,7 +344,7 @@ describe('AutocompleteInput', function suite() {
     items[0].textContent.should.equal('Jane Doe');
   });
 
-  it('should render a ReadOnlyInput if readOnly is true', function test() {
+  it('should render a disabled LineInput if readOnly is true', function test() {
     const value = 'urn:cspace:core.collectionspace.org:personauthorities:name(person):item:name(DavidBowie1489220916785)\'David Bowie\'';
 
     render(
@@ -355,8 +355,9 @@ describe('AutocompleteInput', function suite() {
 
     const input = this.container.firstElementChild;
 
-    input.className.should.contain('cspace-input-ReadOnlyInput--common');
-    input.textContent.should.equal('David Bowie');
+    input.className.should.contain('cspace-input-LineInput--normal');
+    input.disabled.should.equal(true);
+    input.value.should.equal('David Bowie');
   });
 
   it('should update options when new matches are supplied', function test() {

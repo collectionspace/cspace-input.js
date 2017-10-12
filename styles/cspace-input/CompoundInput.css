@@ -5,3 +5,7 @@
   border: none;
   padding: 0;
 }
+
+.readOnly {
+  /* This is used as a marker class to style children. */
+}

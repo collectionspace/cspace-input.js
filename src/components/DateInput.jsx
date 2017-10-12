@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Footer, HistoryView, MonthView, NavBar } from 'react-date-picker';
 import BaseDropdownInput from './DropdownInput';
-import ReadOnlyInput from './ReadOnlyInput';
+import LineInput from './LineInput';
 import changeable from '../enhancers/changeable';
 import committable from '../enhancers/committable';
 import { normalizeDateString, normalizeISO8601DateString } from '../helpers/dateHelpers';
@@ -228,7 +228,7 @@ export default class DateInput extends Component {
 
     if (readOnly) {
       return (
-        <ReadOnlyInput value={date} />
+        <LineInput readOnly value={date} embedded={this.props.embedded} />
       );
     }
 

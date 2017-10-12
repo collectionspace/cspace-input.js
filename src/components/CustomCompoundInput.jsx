@@ -14,6 +14,7 @@ const propTypes = {
   name: PropTypes.string,
   parentPath: pathPropType,    // eslint-disable-line react/no-unused-prop-types
   subpath: pathPropType,       // eslint-disable-line react/no-unused-prop-types
+  readOnly: PropTypes.bool,
   value: PropTypes.oneOfType([
     PropTypes.object,          // eslint-disable-line react/forbid-prop-types
     PropTypes.instanceOf(Immutable.Map),
@@ -48,6 +49,10 @@ const getChildValue = (value, subpath, name) => {
 
 export default class CustomCompoundInput extends Component {
   decorateInputs(children) {
+    const {
+      readOnly,
+    } = this.props;
+
     return React.Children.map(children, (child) => {
       if (!child.type) {
         // Text node. Just return it.
@@ -73,6 +78,7 @@ export default class CustomCompoundInput extends Component {
         }
 
         return React.cloneElement(child, {
+          readOnly,
           subpath,
           parentPath: getPath(this.props),
           value: getChildValue(value, subpath, name),
@@ -90,9 +96,12 @@ export default class CustomCompoundInput extends Component {
       children,
       className,
       name,
+      readOnly,
     } = this.props;
 
-    const classes = classNames(className, styles.common);
+    const classes = classNames(className, styles.common, {
+      [styles.readOnly]: readOnly,
+    });
 
     return (
       <fieldset

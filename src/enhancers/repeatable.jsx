@@ -41,6 +41,7 @@ export default function repeatable(BaseComponent) {
       parentPath,
       subpath,
       value,
+      readOnly,
       onCommit,
       ...baseProps
     } = remainingProps;
@@ -51,6 +52,7 @@ export default function repeatable(BaseComponent) {
         parentPath={parentPath}
         subpath={subpath}
         value={value}
+        readOnly={readOnly}
         reorderable={reorderable}
         onAddInstance={onAddInstance}
         onCommit={onCommit}
