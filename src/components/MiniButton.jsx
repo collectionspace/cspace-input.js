@@ -6,6 +6,8 @@ import styles from '../../styles/cspace-input/MiniButton.css';
 const propTypes = {
   autoWidth: PropTypes.bool,
   className: PropTypes.string,
+  readOnly: PropTypes.bool,
+  children: PropTypes.node,
 };
 
 /**
@@ -15,10 +17,19 @@ export default function MiniButton(props) {
   const {
     autoWidth,
     className,
+    readOnly,
     ...remainingProps
   } = props;
 
   const classes = classNames(autoWidth ? styles.autoWidth : styles.normal, className);
+
+  if (readOnly) {
+    return (
+      <div className={classes}>
+        {props.children}
+      </div>
+    );
+  }
 
   return (
     <button

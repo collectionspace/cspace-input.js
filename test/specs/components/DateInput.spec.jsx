@@ -250,12 +250,13 @@ describe('DateInput', function suite() {
     labels.should.deep.equal(['today label', 'clear label', 'ok label', 'cancel label']);
   });
 
-  it('should render a ReadOnlyInput if readOnly is true', function test() {
+  it('should render a disabled LineInput if readOnly is true', function test() {
     render(<DateInput value={'2017-03-11'} readOnly />, this.container);
 
     const input = this.container.firstElementChild;
 
-    input.className.should.contain('cspace-input-ReadOnlyInput--common');
-    input.textContent.should.equal('2017-03-11');
+    input.className.should.contain('cspace-input-LineInput--normal');
+    input.disabled.should.equal(true);
+    input.value.should.equal('2017-03-11');
   });
 });

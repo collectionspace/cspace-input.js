@@ -1,4 +1,4 @@
-@value inputBg, textDark, textLight from '../colors.css';
+@value inputBg, textDark, textLight, readOnlyBg, readOnlyBorder from '../colors.css';
 @value activeEdgeWidth, inputMargin from '../dimensions.css';
 
 .common {
@@ -10,8 +10,13 @@
   outline: none;
   border-radius: 0;
   padding: 1px 2px;
-  background-color: inputBg;
+  background-color: readOnlyBg;
   color: textDark;
+  line-height: 18px;
+}
+
+.common:enabled {
+  background-color: inputBg;
 }
 
 .common:focus {
@@ -23,9 +28,13 @@
 
 .normal {
   composes: common;
-  border: 1px solid textLight;
+  border: 1px solid readOnlyBorder;
   outline-offset: -1px;
   margin-bottom: inputMargin;
+}
+
+.normal:enabled {
+  border-color: textLight;
 }
 
 .embedded {

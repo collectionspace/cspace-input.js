@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import ReadOnlyInput from './ReadOnlyInput';
+import LineInput from './LineInput';
 import DropdownInput from './DropdownInput';
 import Menu from './Menu';
 import { getPath } from '../helpers/pathHelpers';
@@ -217,7 +217,11 @@ export default class DropdownMenuInput extends Component {
 
     if (readOnly) {
       return (
-        <ReadOnlyInput value={inputValue} />
+        <LineInput
+          readOnly
+          value={inputValue}
+          embedded={this.props.embedded}
+        />
       );
     }
 

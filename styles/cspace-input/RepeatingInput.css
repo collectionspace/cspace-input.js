@@ -1,19 +1,35 @@
-@value textLight, inputBg from '../colors.css';
+@value textLight, inputBg, readOnlyBorder, readOnlyBg from '../colors.css';
 @value inputHeight, inputMargin from '../dimensions.css';
 
 .common {
   composes: common from './Input.css';
-  margin: 0 0 8px 0;
+  margin: 0 0 10px 0;
   border: none;
   padding: 0;
+}
+
+.normal {
+  composes: common;
+}
+
+.readOnly {
+  composes: common;
 }
 
 .common > div {
   width: 100%;
   display: table;
-  border: 1px solid textLight;
+  border: 1px solid;
   box-sizing: border-box;
   border-collapse: collapse;
+}
+
+.normal > div {
+  border-color: textLight;
+}
+
+.readOnly > div {
+  border-color: readOnlyBorder;
 }
 
 .common > div > * {
@@ -30,8 +46,16 @@
 
 .common > div > div > * {
   display: table-cell;
-  border: 1px solid textLight;
+  border: 1px solid;
   vertical-align: top;
+}
+
+.normal > div > div > * {
+  border-color: textLight;
+}
+
+.readOnly > div > div > * {
+  border-color: transparent;
 }
 
 .common > div > div > div > :global(.cspace-input-CompoundInput--common) > :global(.cspace-layout-Panel--common) {
@@ -39,10 +63,19 @@
 }
 
 .common > div > div > *:first-child,
-.common > div > div > *:last-child,
+.common > div > div > *:nth-child(3),
 .common > footer > *:first-child {
   width: calc(inputHeight - 2px);
+}
+
+.normal > div > div > *:first-child,
+.normal > div > div > *:nth-child(3),
+.normal > footer > *:first-child {
   background-color: inputBg;
+}
+
+.readOnly > div > div > *:first-child {
+  background-color: readOnlyBg;
 }
 
 .common > footer > * {

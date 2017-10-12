@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Row from 'cspace-layout/lib/components/Row';
 import BaseDropdownInput from './DropdownInput';
+import LineInput from './LineInput';
 import Menu from './Menu';
 import changeable from '../enhancers/changeable';
 import committable from '../enhancers/committable';
@@ -16,6 +17,7 @@ const propTypes = {
   generateID: PropTypes.func,
   sampleColumnLabel: PropTypes.string,
   typeColumnLabel: PropTypes.string,
+  readOnly: PropTypes.bool,
   onMount: PropTypes.func,
   onOpen: PropTypes.func,
 };
@@ -119,6 +121,7 @@ export default class IDGeneratorInput extends Component {
       patterns,
       sampleColumnLabel,
       typeColumnLabel,
+      readOnly,
       /* eslint-disable no-unused-vars */
       generateID,
       onMount,
@@ -126,6 +129,16 @@ export default class IDGeneratorInput extends Component {
       /* eslint-enable no-unused-vars */
       ...remainingProps
     } = this.props;
+
+    if (readOnly) {
+      return (
+        <LineInput
+          readOnly
+          value={this.props.value}
+          embedded={this.props.embedded}
+        />
+      );
+    }
 
     const options = patterns.map(pattern => ({
       value: pattern.name,

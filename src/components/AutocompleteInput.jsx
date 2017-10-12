@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { getDisplayName } from 'cspace-refname';
-import ReadOnlyInput from './ReadOnlyInput';
+import LineInput from './LineInput';
 import FilteringDropdownMenuInput from './FilteringDropdownMenuInput';
 import QuickAdd from './QuickAdd';
 import parseResourceID from '../helpers/parseResourceID';
@@ -323,12 +323,18 @@ export default class AutocompleteInput extends Component {
 
   renderReadOnly() {
     const {
+      embedded,
+    } = this.props;
+
+    const {
       value,
     } = this.state;
 
     return (
-      <ReadOnlyInput
+      <LineInput
+        readOnly
         value={getDisplayName(value)}
+        embedded={embedded}
       />
     );
   }

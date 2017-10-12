@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { pathPropType } from '../helpers/pathHelpers';
-import ReadOnlyInput from './ReadOnlyInput';
 import styles from '../../styles/cspace-input/MultilineInput.css';
 
 const propTypes = {
@@ -29,12 +28,6 @@ export default function MultilineInput(props) {
     ...remainingProps
   } = props;
 
-  if (readOnly) {
-    return (
-      <ReadOnlyInput value={value} />
-    );
-  }
-
   const className = embedded ? styles.embedded : styles.normal;
   const normalizedValue = (value === null || typeof value === 'undefined') ? '' : value;
 
@@ -42,6 +35,7 @@ export default function MultilineInput(props) {
     <textarea
       {...remainingProps}
       className={className}
+      disabled={readOnly}
       readOnly={!remainingProps.onChange}
       value={normalizedValue}
     />

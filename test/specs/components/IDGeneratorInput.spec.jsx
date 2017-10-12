@@ -168,4 +168,17 @@ describe('IDGeneratorInput', function suite() {
 
     ul.should.equal(document.activeElement);
   });
+
+  it('should render a disabled LineInput when readOnly is true', function test() {
+    render(
+      <IDGeneratorInput
+        patterns={patterns}
+        readOnly
+      />, this.container);
+
+    const input = this.container.firstElementChild;
+
+    input.className.should.contain('cspace-input-LineInput--normal');
+    input.disabled.should.equal(true);
+  });
 });

@@ -20,6 +20,7 @@ export default function labelable(BaseComponent) {
     ...BaseComponent.propTypes,
     label: PropTypes.node,
     msgkey: PropTypes.string,
+    readOnly: PropTypes.bool,
     required: PropTypes.bool,
   };
 
@@ -31,7 +32,10 @@ export default function labelable(BaseComponent) {
       ...remainingProps
     } = props;
 
-    const normalizedLabel = normalizeLabel(label, { required });
+    const normalizedLabel = normalizeLabel(label, {
+      required,
+      readOnly: props.readOnly,
+    });
 
     const baseComponent = (
       <BaseComponent {...remainingProps} />

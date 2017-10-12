@@ -1,4 +1,4 @@
-@value textLight from '../colors.css';
+@value textLight, inputTableReadOnlyBorder, readOnlyBorder from '../colors.css';
 
 .common {
   display: flex;
@@ -16,6 +16,10 @@
   composes: common;
   border: 1px solid textLight;
   border-bottom: none;
+}
+
+:global(.cspace-input-CompoundInput--readOnly) .normal {
+  border-color: inputTableReadOnlyBorder;
 }
 
 .embedded {

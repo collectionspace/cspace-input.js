@@ -32,16 +32,6 @@ const normalizeValue = (value) => {
   return normalized;
 };
 
-const renderEmbeddedHeader = label => (
-  <header>
-    <div />
-    <div>
-      {label}
-    </div>
-    <div />
-  </header>
-);
-
 const renderHeader = label => label;
 
 const propTypes = {
@@ -58,6 +48,7 @@ const propTypes = {
       PropTypes.object,
     ])),
   ]),
+  readOnly: PropTypes.bool,
   reorderable: PropTypes.bool,
   onAddInstance: PropTypes.func,
   onCommit: PropTypes.func,
@@ -138,19 +129,45 @@ export default class RepeatingInput extends Component {
     }
   }
 
+  renderEmbeddedHeader(label) {
+    const {
+      readOnly,
+    } = this.props;
+
+    let removeButtonCol;
+
+    if (!readOnly) {
+      removeButtonCol = <div />;
+    }
+
+    return (
+      <header>
+        <div />
+        <div>
+          {label}
+        </div>
+        {removeButtonCol}
+      </header>
+    );
+  }
+
   renderInstances() {
     const {
       children,
       value,
+      readOnly,
       reorderable,
     } = this.props;
 
     const template = React.Children.only(children);
+    const normalizedValue = normalizeValue(value);
+    const hideOrderNumber = readOnly && normalizedValue.length === 1 && !normalizedValue[0];
 
-    return normalizeValue(value).map((instanceValue, index, list) => {
+    return normalizedValue.map((instanceValue, index, list) => {
       const instanceName = `${index}`;
 
       const overrideProps = {
+        readOnly,
         embedded: true,
         label: undefined,
         name: instanceName,
@@ -161,7 +178,7 @@ export default class RepeatingInput extends Component {
       };
 
       const instance = React.cloneElement(template, overrideProps);
-      const orderNumber = index + 1;
+      const orderNumber = hideOrderNumber ? null : index + 1;
 
       const orderIndicator = (
         <MiniButton
@@ -169,20 +186,17 @@ export default class RepeatingInput extends Component {
           data-instancename={instanceName}
           disabled={index === 0 || !reorderable}
           name="moveToTop"
+          readOnly={readOnly}
           onClick={this.handleMoveToTopButtonClick}
         >
           {orderNumber}
         </MiniButton>
       );
 
-      return (
-        <div key={index}>
-          <div>
-            {orderIndicator}
-          </div>
-          <div>
-            {instance}
-          </div>
+      let removeButton;
+
+      if (!readOnly) {
+        removeButton = (
           <div>
             <MiniButton
               data-instancename={instanceName}
@@ -193,6 +207,18 @@ export default class RepeatingInput extends Component {
               −
             </MiniButton>
           </div>
+        );
+      }
+
+      return (
+        <div key={index}>
+          <div>
+            {orderIndicator}
+          </div>
+          <div>
+            {instance}
+          </div>
+          {removeButton}
         </div>
       );
     });
@@ -201,6 +227,7 @@ export default class RepeatingInput extends Component {
   render() {
     const {
       name,
+      readOnly,
     } = this.props;
 
     const label = this.getLabel();
@@ -208,16 +235,10 @@ export default class RepeatingInput extends Component {
 
     const instances = this.renderInstances();
 
-    return (
-      <fieldset
-        className={repeatingInputStyles.common}
-        name={name}
-      >
-        {isLabelEmbedded ? null : renderHeader(label)}
-        <div>
-          {isLabelEmbedded ? renderEmbeddedHeader(label) : null}
-          {instances}
-        </div>
+    let footer;
+
+    if (!readOnly) {
+      footer = (
         <footer>
           <div>
             <MiniButton
@@ -228,6 +249,22 @@ export default class RepeatingInput extends Component {
             </MiniButton>
           </div>
         </footer>
+      );
+    }
+
+    const className = readOnly ? repeatingInputStyles.readOnly : repeatingInputStyles.normal;
+
+    return (
+      <fieldset
+        className={className}
+        name={name}
+      >
+        {isLabelEmbedded ? null : renderHeader(label)}
+        <div>
+          {isLabelEmbedded ? this.renderEmbeddedHeader(label) : null}
+          {instances}
+        </div>
+        {footer}
       </fieldset>
     );
   }
