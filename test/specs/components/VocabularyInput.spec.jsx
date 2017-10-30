@@ -217,6 +217,14 @@ const recordTypes = {
           },
         },
       },
+      disabled_vocab: {
+        disabled: true,
+        messages: {
+          name: {
+            defaultMessage: 'Disabled',
+          },
+        },
+      },
     },
   },
 };
@@ -243,6 +251,24 @@ describe('VocabularyInput', function suite() {
     items[0].textContent.should.equal('All');
     items[1].textContent.should.equal('Local');
     items[2].textContent.should.equal('ULAN');
+  });
+
+  it('should not render options for disabled vocabularies', function test() {
+    render(
+      <VocabularyInput
+        recordTypes={recordTypes}
+        recordType="organization"
+      />, this.container);
+
+    const input = this.container.querySelector('input');
+
+    Simulate.mouseDown(input);
+
+    const items = this.container.querySelectorAll('li');
+
+    items.length.should.equal(3);
+
+    Array.from(items).map(item => item.textContent).should.not.include('Disabled');
   });
 
   it('should display the vocabulary name if a message is not provided', function test() {

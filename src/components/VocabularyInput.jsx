@@ -55,7 +55,10 @@ export default function VocabularyInput(props) {
   }
 
   const vocabularyNames = Object.keys(vocabularies)
-    .filter(vocabularyName => vocabularyName !== rootVocabulary)
+    .filter(
+      vocabularyName => vocabularyName !== rootVocabulary &&
+      !vocabularies[vocabularyName].disabled
+    )
     .sort((nameA, nameB) => {
       const configA = vocabularies[nameA];
       const configB = vocabularies[nameB];

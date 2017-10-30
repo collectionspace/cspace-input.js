@@ -219,6 +219,19 @@ const recordTypes = {
       },
     },
   },
+  disabled: {
+    disabled: true,
+    messages: {
+      record: {
+        collectionName: {
+          defaultMessage: 'Disabled',
+        },
+      },
+    },
+    serviceConfig: {
+      serviceType: 'procedure',
+    },
+  },
 };
 
 describe('RecordTypeInput', function suite() {
@@ -249,6 +262,23 @@ describe('RecordTypeInput', function suite() {
     items[7].textContent.should.equal('Concepts');
     items[8].textContent.should.equal('Organizations');
     items[9].textContent.should.equal('Persons');
+  });
+
+  it('should not render options for disabled record types', function test() {
+    render(
+      <RecordTypeInput
+        recordTypes={recordTypes}
+      />, this.container);
+
+    const input = this.container.querySelector('input');
+
+    Simulate.mouseDown(input);
+
+    const items = this.container.querySelectorAll('li');
+
+    items.length.should.equal(10);
+
+    Array.from(items).map(item => item.textContent).should.not.include('Disabled');
   });
 
   it('should display the record type name if a message is not provided', function test() {

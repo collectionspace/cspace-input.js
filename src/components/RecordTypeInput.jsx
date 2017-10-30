@@ -52,8 +52,14 @@ export default function RecordTypeInput(props) {
 
   serviceTypes.forEach((serviceType) => {
     const recordTypeNames = Object.keys(recordTypes)
-      .filter(recordTypeName =>
-        recordTypes[recordTypeName].serviceConfig.serviceType === serviceType)
+      .filter((recordTypeName) => {
+        const recordTypeConfig = recordTypes[recordTypeName];
+
+        return (
+          recordTypeConfig.serviceConfig.serviceType === serviceType &&
+          !recordTypeConfig.disabled
+        );
+      })
       .sort((nameA, nameB) => {
         const configA = recordTypes[nameA];
         const configB = recordTypes[nameB];
