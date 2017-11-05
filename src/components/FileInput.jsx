@@ -2,6 +2,7 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import LineInput from './LineInput';
 import { getPath, pathPropType } from '../helpers/pathHelpers';
 import styles from '../../styles/cspace-input/FileInput.css';
 import buttonStyles from '../../styles/cspace-input/MiniButton.css';
@@ -24,6 +25,7 @@ const propTypes = {
   subpath: pathPropType,
   /* eslint-enable react/no-unused-prop-types */
   value: PropTypes.arrayOf(PropTypes.instanceOf(File)),
+  readOnly: PropTypes.bool,
   formatFileInfo: PropTypes.func,
   onCommit: PropTypes.func,
 };
@@ -120,8 +122,15 @@ export default class FileInput extends Component {
       chooseButtonLabel,
       name,
       value,
+      readOnly,
       formatFileInfo,
     } = this.props;
+
+    if (readOnly) {
+      return (
+        <LineInput readOnly />
+      );
+    }
 
     const {
       isDraggedOver,

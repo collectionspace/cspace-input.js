@@ -19,6 +19,7 @@ export default function committable(BaseComponent) {
   const propTypes = {
     ...BaseComponent.propTypes,
     commitUnchanged: PropTypes.bool,
+    readOnly: PropTypes.bool,
     onBlur: PropTypes.func,
     onCommit: PropTypes.func,
     onKeyPress: PropTypes.func,
@@ -39,15 +40,16 @@ export default function committable(BaseComponent) {
     handleBlur(event) {
       const {
         onBlur,
+        readOnly,
       } = this.props;
-
-      const value = event.target.value;
 
       if (onBlur) {
         onBlur(event);
       }
 
-      this.commit(value);
+      if (!readOnly) {
+        this.commit(event.target.value);
+      }
     }
 
     handleKeyPress(event) {

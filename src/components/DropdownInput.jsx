@@ -12,6 +12,7 @@ const propTypes = {
   embedded: PropTypes.bool,
   open: PropTypes.bool,
   openOnFocus: PropTypes.bool,
+  isOpenableWhenReadOnly: PropTypes.bool,
 
   /*
    * A function that may be called to give focus to the contents of the popup. This is supplied as
@@ -209,6 +210,7 @@ export default class DropdownInput extends Component {
       children,
       className,
       focusPopup,
+      isOpenableWhenReadOnly,
       openOnFocus,
       onClose,
       onKeyDown,
@@ -261,6 +263,8 @@ export default class DropdownInput extends Component {
     const {
       className,
       embedded,
+      readOnly,
+      isOpenableWhenReadOnly,
     } = this.props;
 
     const classes = classNames(className, {
@@ -269,10 +273,23 @@ export default class DropdownInput extends Component {
       [styles.open]: open,
     });
 
+    let readOnlyProps;
+
+    if (readOnly && isOpenableWhenReadOnly) {
+      readOnlyProps = {
+        tabIndex: 0,
+        onBlur: this.handleInputBlur,
+        onFocus: this.handleInputFocus,
+        onKeyDown: this.handleInputKeyDown,
+        onMouseDown: this.handleInputMouseDown,
+      };
+    }
+
     return (
       <div
         ref={this.handleRef}
         className={classes}
+        {...readOnlyProps}
       >
         {this.renderInput()}
         {this.renderDropdown()}

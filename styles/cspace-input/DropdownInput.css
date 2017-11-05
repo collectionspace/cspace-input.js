@@ -5,6 +5,14 @@
   position: relative;
 }
 
+.common:focus {
+  outline: none;
+}
+
+.common:focus > input, .common:focus > textarea {
+  outline: 1px dotted black;
+}
+
 .normal {
   composes: common;
 }
@@ -27,10 +35,13 @@
   z-index: 2;
 }
 
-.open > input, .open > textarea {
+.open > input:enabled, .open > textarea:enabled {
   outline: 2px solid textMedium;
 }
 
+.open > input:disabled, .open > textarea:disabled {
+  outline: 1px dotted black;
+}
 .open > input:focus, .open > textarea:focus {
   outline: 2px solid textDark;
 }

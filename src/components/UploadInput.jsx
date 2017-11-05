@@ -26,6 +26,7 @@ const propTypes = {
     PropTypes.arrayOf(PropTypes.instanceOf(File)),
     PropTypes.string,
   ]),
+  readOnly: PropTypes.bool,
   typeInputLabel: PropTypes.string,
   fileOptionLabel: PropTypes.string,
   urlOptionLabel: PropTypes.string,
@@ -110,6 +111,7 @@ export default class UploadInput extends Component {
 
   renderTypeInput() {
     const {
+      readOnly,
       typeInputLabel,
       fileOptionLabel,
       urlOptionLabel,
@@ -128,6 +130,7 @@ export default class UploadInput extends Component {
       <DropdownMenuInput
         label={typeInputLabel}
         name="type"
+        readOnly={readOnly}
         options={options}
         value={type}
         onCommit={this.handleTypeInputCommit}
@@ -137,6 +140,7 @@ export default class UploadInput extends Component {
 
   renderFileInput() {
     const {
+      readOnly,
       value,
       fileInputLabel,
       fileChooseButtonLabel,
@@ -149,6 +153,7 @@ export default class UploadInput extends Component {
       <FileInput
         label={fileInputLabel}
         name="file"
+        readOnly={readOnly}
         value={fileList}
         chooseButtonLabel={fileChooseButtonLabel}
         formatFileInfo={formatFileInfo}
@@ -159,6 +164,7 @@ export default class UploadInput extends Component {
 
   renderUrlInput() {
     const {
+      readOnly,
       value,
       urlInputLabel,
     } = this.props;
@@ -169,6 +175,7 @@ export default class UploadInput extends Component {
       <TextInput
         label={urlInputLabel}
         name="url"
+        readOnly={readOnly}
         value={externalUrl}
         onCommit={this.handleUrlInputCommit}
       />

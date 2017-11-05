@@ -85,6 +85,32 @@ describe('DropdownInput', function suite() {
     this.container.querySelector('p').textContent.should.equal('content');
   });
 
+  it('should not open if readOnly is true', function test() {
+    render(
+      <DropdownInput readOnly>
+        <p>content</p>
+      </DropdownInput>, this.container);
+
+    const input = this.container.querySelector('input');
+
+    Simulate.mouseDown(input);
+
+    expect(this.container.querySelector('p')).to.equal(null);
+  });
+
+  it('should open if readOnly is true and isOpenableWhenReadOnly is true', function test() {
+    render(
+      <DropdownInput readOnly isOpenableWhenReadOnly>
+        <p>content</p>
+      </DropdownInput>, this.container);
+
+    const input = this.container.querySelector('input');
+
+    Simulate.mouseDown(input);
+
+    this.container.querySelector('p').textContent.should.equal('content');
+  });
+
   it('should open on focus if openOnFocus is true', function test() {
     render(
       <DropdownInput openOnFocus>

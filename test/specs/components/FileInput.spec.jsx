@@ -26,6 +26,12 @@ describe('FileInput', function suite() {
     this.container.firstElementChild.nodeName.should.equal('DIV');
   });
 
+  it('should render as a read only LineInput if readOnly is true', function test() {
+    render(<FileInput readOnly />, this.container);
+
+    this.container.firstElementChild.className.should.contain('cspace-input-LineInput--normal');
+  });
+
   it('should simulate a click on the file input when when the select file button is clicked', function test() {
     render(<FileInput />, this.container);
 

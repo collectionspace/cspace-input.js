@@ -20,8 +20,8 @@
   width: 100%;
   display: table;
   border: 1px solid;
-  box-sizing: border-box;
   border-collapse: collapse;
+  box-sizing: border-box;
 }
 
 .normal > div {

@@ -73,6 +73,7 @@ const propTypes = {
     PropTypes.object, // eslint-disable-line react/forbid-prop-types
     PropTypes.instanceOf(Immutable.Map),
   ]),
+  readOnly: PropTypes.bool,
   onCommit: PropTypes.func,
   onMount: PropTypes.func,
 };
@@ -214,6 +215,7 @@ export default class StructuredDateInput extends Component {
       formatOptionLabel,
       optionLists,
       terms,
+      readOnly,
       /* eslint-disable no-unused-vars */
       defaultValue,
       name,
@@ -235,16 +237,18 @@ export default class StructuredDateInput extends Component {
     return (
       <DropdownInput
         {...remainingProps}
-        className={styles.normal}
+        className={readOnly ? styles.readOnly : styles.normal}
         commitUnchanged
         open={open}
         value={primaryValue}
+        readOnly={readOnly}
+        isOpenableWhenReadOnly
         onChange={this.handlePrimaryInputChange}
         onClose={this.handleDropdownInputClose}
         onCommit={this.handlePrimaryInputCommit}
         onOpen={this.handleDropdownInputOpen}
       >
-        <CustomCompoundInput value={value}>
+        <CustomCompoundInput readOnly={readOnly} value={value}>
           <Row>
             <div>
               <LabelableTextInput
