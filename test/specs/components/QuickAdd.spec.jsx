@@ -7,6 +7,8 @@ import QuickAdd from '../../../src/components/QuickAdd';
 
 import createTestContainer from '../../helpers/createTestContainer';
 
+const expect = chai.expect;
+
 chai.should();
 
 describe('QuickAdd', function suite() {
@@ -122,6 +124,16 @@ describe('QuickAdd', function suite() {
       />, this.container);
 
     this.container.querySelectorAll('li').should.have.lengthOf(1);
+  });
+
+  it('should render nothing if there are no valid sources', function test() {
+    render(
+      <QuickAdd
+        to="badProcedure/person,person/badVocabulary"
+        recordTypes={recordTypes}
+      />, this.container);
+
+    expect(this.container.firstElementChild).to.equal(null);
   });
 
   it('should call add when an add button is clicked', function test() {

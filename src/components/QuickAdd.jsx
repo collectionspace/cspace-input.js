@@ -128,6 +128,10 @@ export default class QuickAdd extends Component {
       })
       .filter(option => !!option);
 
+    if (options.length === 0) {
+      return null;
+    }
+
     return (
       <div className={styles.common}>
         <div>{formatAddPrompt(displayName)}</div>
