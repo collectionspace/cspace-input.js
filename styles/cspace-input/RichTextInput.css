@@ -1,0 +1,43 @@
+@value inputBg, textDark, textLight, readOnlyBg, readOnlyBorder from '../colors.css';
+@value activeEdgeWidth, inputHeight, inputMargin from '../dimensions.css';
+
+.common {
+  composes: common from './Input.css';
+  position: relative;
+  width: 100%;
+  height: inputHeight;
+  line-height: 18px;
+  margin-bottom: inputMargin;
+  color: textDark;
+  background-color: readOnlyBg;
+}
+
+.common.enabled {
+  background-color: inputBg;
+}
+
+.normal {
+  composes: common;
+}
+
+.normal.multiline {
+  height: 88px;
+}
+
+.embedded {
+  composes: common;
+}
+
+.normal :global(.ql-editor) {
+  border: 1px solid readOnlyBorder;
+}
+
+.normal.enabled :global(.ql-editor) {
+  border-color: textLight;
+}
+
+/* FIXME: Edge does not yet support :focus-within */
+
+.common:focus-within :global(.ql-toolbar) {
+  display: block;
+}
