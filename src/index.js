@@ -17,6 +17,7 @@ import MiniButton from './components/MiniButton';
 import MultilineInput from './components/MultilineInput';
 import PasswordInput from './components/PasswordInput';
 import PrefixFilteringDropdownMenuInput from './components/PrefixFilteringDropdownMenuInput';
+import RichTextInput from './components/RichTextInput';
 import QuickSearchInput from './components/QuickSearchInput';
 import RecordTypeInput from './components/RecordTypeInput';
 import ReadOnlyInput from './components/ReadOnlyInput';
@@ -62,6 +63,7 @@ export const baseComponents = {
   ReadOnlyInput,
   RecordTypeInput,
   RepeatingInput,
+  RichTextInput,
   StructuredDateInput,
   TabularCompoundInput,
   TextInput,
@@ -95,6 +97,7 @@ export const components = {
   ReadOnlyInput: labelable(ReadOnlyInput),
   QuickSearchInput: labelable(QuickSearchInput),
   RecordTypeInput: labelable(RecordTypeInput),
+  RichTextInput: labelable(RichTextInput),
   StructuredDateInput: repeatable(labelable(StructuredDateInput)),
   TabularCompoundInput: labelable(TabularCompoundInput),
   TextInput: standalone(TextInput),
