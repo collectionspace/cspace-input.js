@@ -1,3 +1,5 @@
+/* global window */
+
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ReactQuill, { Quill } from 'react-quill';
@@ -41,6 +43,16 @@ const normalizeValue = (value) => {
   return normalizedValue;
 };
 
+const preventButtonMouseDown = (event) => {
+  if (event.target.nodeName === 'BUTTON') {
+    // On mouseDown on a toolbar button, Firefox fires a blur event with null relatedTarget. This
+    // would be fine, if relatedTarget were correctly set to the toolbar button. But since it's
+    // null, the toolbar disappears. Prevent this.
+
+    event.preventDefault();
+  }
+};
+
 const propTypes = {
   embedded: PropTypes.bool,
   multiline: PropTypes.bool,
@@ -70,9 +82,9 @@ export default class RichTextInput extends Component {
     this.modules = {
       keyboard: {
         bindings: {
-          enter: {
-            // Only allow newlines in content if multiline prop is true.
+          // Only allow newlines in content if multiline prop is true.
 
+          enter: {
             key: 13,
             handler: () => {
               this.commit();
@@ -80,12 +92,11 @@ export default class RichTextInput extends Component {
               return !!this.props.multiline;
             },
           },
-          tab: {
-            // Don't allow tabs in the content, just do the browser default of focusing the next
-            // field.
 
-            handler: () => true,
-          },
+          // Don't allow tabs in the content, just do the browser default of focusing the next
+          // field.
+
+          tab: null,
         },
       },
       toolbar: ['bold', 'italic', 'underline', { script: 'sub' }, { script: 'super' }, 'clean'],
@@ -99,7 +110,15 @@ export default class RichTextInput extends Component {
     };
 
     this.handleBlur = this.handleBlur.bind(this);
+    this.handleFocus = this.handleFocus.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.handleRef = this.handleRef.bind(this);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      value: nextProps.value,
+    });
   }
 
   commit() {
@@ -117,14 +136,34 @@ export default class RichTextInput extends Component {
     }
   }
 
-  handleBlur() {
-    this.commit();
+  handleBlur(event) {
+    if (!this.domNode.contains(event.relatedTarget)) {
+      window.setTimeout(() => {
+        this.setState({
+          focused: false,
+        });
+
+        this.commit();
+      }, 0);
+    }
   }
 
   handleChange(value) {
     this.setState({
       value,
     });
+  }
+
+  handleFocus(event) {
+    if (!this.domNode.contains(event.relatedTarget)) {
+      this.setState({
+        focused: true,
+      });
+    }
+  }
+
+  handleRef(ref) {
+    this.domNode = ref;
   }
 
   render() {
@@ -135,6 +174,7 @@ export default class RichTextInput extends Component {
     } = this.props;
 
     const {
+      focused,
       value,
     } = this.state;
 
@@ -145,19 +185,31 @@ export default class RichTextInput extends Component {
       [styles.normal]: !embedded,
       [styles.enabled]: !readOnly,
       [styles.multiline]: multiline,
+      [styles.focus]: focused,
     });
 
+    // The react-quill onBlur event is unreliable, so the wrapper div here is used to do our own
+    // implementation.
+    // https://github.com/zenoamaro/react-quill/issues/286
+    // https://github.com/zenoamaro/react-quill/issues/276
+
     return (
-      <ReactQuill
-        className={className}
-        formats={this.formats}
-        modules={this.modules}
-        readOnly={readOnly}
-        theme="snow"
-        value={normalizedValue}
-        onChange={this.handleChange}
+      <div
+        ref={this.handleRef}
         onBlur={this.handleBlur}
-      />
+        onFocus={this.handleFocus}
+        onMouseDown={preventButtonMouseDown}
+      >
+        <ReactQuill
+          className={className}
+          formats={this.formats}
+          modules={this.modules}
+          readOnly={readOnly}
+          theme="snow"
+          value={normalizedValue}
+          onChange={this.handleChange}
+        />
+      </div>
     );
   }
 }

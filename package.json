@@ -1,6 +1,6 @@
 {
   "name": "cspace-input",
-  "version": "0.12.18",
+  "version": "0.12.19",
   "description": "CollectionSpace input components",
   "author": "Ray Lee <rhlee@berkeley.edu>",
   "license": "ECL-2.0",
@@ -49,6 +49,7 @@
     "react-date-picker": "^5.3.28",
     "react-dom": "^15.6.2",
     "react-quill": "^1.1.0",
+    "react-shallow-testutils": "^3.0.0",
     "sugar-date": "^2.0.4"
   },
   "devDependencies": {

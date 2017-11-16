@@ -1,5 +1,5 @@
 @value inputBg, textDark, textLight, readOnlyBg, readOnlyBorder from '../colors.css';
-@value activeEdgeWidth, inputHeight, inputMargin from '../dimensions.css';
+@value activeEdgeWidth, inputHeight, inputMargin, multilineHeightMultiplier from '../dimensions.css';
 
 .common {
   composes: common from './Input.css';
@@ -7,9 +7,12 @@
   width: 100%;
   height: inputHeight;
   line-height: 18px;
-  margin-bottom: inputMargin;
   color: textDark;
   background-color: readOnlyBg;
+}
+
+.common :global(.ql-toolbar.ql-snow) {
+  display: none;
 }
 
 .common.enabled {
@@ -18,17 +21,11 @@
 
 .normal {
   composes: common;
-}
-
-.normal.multiline {
-  height: 88px;
-}
-
-.embedded {
-  composes: common;
+  margin-bottom: inputMargin;
 }
 
 .normal :global(.ql-editor) {
+  outline-offset: -1px;
   border: 1px solid readOnlyBorder;
 }
 
@@ -36,8 +33,37 @@
   border-color: textLight;
 }
 
-/* FIXME: Edge does not yet support :focus-within */
+.normal :global(.ql-toolbar.ql-snow) {
+  top: -29px;
+}
 
-.common:focus-within :global(.ql-toolbar) {
+.embedded {
+  composes: common;
+}
+
+.embedded :global(.ql-editor) {
+  outline-offset: 0;
+}
+
+.embedded :global(.ql-toolbar.ql-snow) {
+  top: -30px;
+  left: -1px;
+}
+
+.focus :global(.ql-toolbar.ql-snow) {
   display: block;
+}
+
+.focus :global(.ql-editor) {
+  outline: 2px solid rgb(70, 70, 70);
+  position: relative;
+  z-index: 2;
+}
+
+.multiline {
+  height: calc(inputHeight * multilineHeightMultiplier);
+}
+
+.multiline.embedded {
+  height: calc(inputHeight * multilineHeightMultiplier - 2px);
 }

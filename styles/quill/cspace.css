@@ -8,11 +8,16 @@
 .ql-snow .ql-toolbar button {
   background: none;
   border: none;
+  border-radius: 0;
   display: inline-block;
   float: left;
   height: 24px;
   padding: 3px 5px;
   width: 28px;
+}
+.ql-snow.ql-toolbar button::-moz-focus-inner,
+.ql-snow .ql-toolbar button::-moz-focus-inner {
+  border: 0;
 }
 .ql-snow.ql-toolbar button + button,
 .ql-snow .ql-toolbar button + button {
@@ -46,7 +51,7 @@
 }
 .ql-snow.ql-toolbar button.ql-active,
 .ql-snow .ql-toolbar button.ql-active {
-  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.4);
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
 }
 .ql-snow.ql-toolbar button:hover .ql-fill,
 .ql-snow .ql-toolbar button:hover .ql-fill,
@@ -139,9 +144,7 @@
   display: none;
 }
 .ql-toolbar.ql-snow {
-  display: none;
   position: absolute;
-  top: -29px;
   z-index: 3;
   border: none;
   background-color: white;
@@ -159,12 +162,8 @@
   font-weight: 400;
 }
 .ql-snow .ql-editor {
-  outline-offset: -1px;
   padding: 2px 2px 1px 2px;
   line-height: 18px;
   margin: 0;
 }
-.ql-snow .ql-editor:focus {
-  outline: 2px solid rgb(70, 70, 70);
-  z-index: 2;
-}
+

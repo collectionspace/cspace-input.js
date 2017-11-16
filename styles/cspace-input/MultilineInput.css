@@ -1,5 +1,4 @@
-@value inputHeight from '../dimensions.css';
-@value heightMultiplier: 4;
+@value inputHeight, multilineHeightMultiplier from '../dimensions.css';
 
 .common {
   resize: none;
@@ -8,11 +7,11 @@
 .normal {
   composes: common;
   composes: normal from './TextInput.css';
-  height: calc(inputHeight * heightMultiplier);
+  height: calc(inputHeight * multilineHeightMultiplier);
 }
 
 .embedded {
   composes: common;
   composes: embedded from './TextInput.css';
-  height: calc(inputHeight * heightMultiplier - 2px);
+  height: calc(inputHeight * multilineHeightMultiplier - 2px);
 }

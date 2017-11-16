@@ -97,7 +97,7 @@ export const components = {
   ReadOnlyInput: labelable(ReadOnlyInput),
   QuickSearchInput: labelable(QuickSearchInput),
   RecordTypeInput: labelable(RecordTypeInput),
-  RichTextInput: labelable(RichTextInput),
+  RichTextInput: repeatable(labelable(RichTextInput)),
   StructuredDateInput: repeatable(labelable(StructuredDateInput)),
   TabularCompoundInput: labelable(TabularCompoundInput),
   TextInput: standalone(TextInput),
