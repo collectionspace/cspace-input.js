@@ -553,17 +553,17 @@ describe('QuickSearchInput', function suite() {
     committedValue.should.equal('some keywords');
   });
 
-  it('should call onSearch when enter is pressed in the keyword input', function test() {
-    let handlerCalled = false;
+  it('should call search when enter is pressed in the keyword input', function test() {
+    let searchCalled = false;
 
-    const handleSearch = () => {
-      handlerCalled = true;
+    const search = () => {
+      searchCalled = true;
     };
 
     render(
       <QuickSearchInput
         recordTypes={recordTypes}
-        onSearch={handleSearch}
+        search={search}
       />, this.container);
 
     const input = this.container.querySelectorAll('input')[1];
@@ -572,7 +572,27 @@ describe('QuickSearchInput', function suite() {
 
     Simulate.keyPress(input, { key: 'Enter' });
 
-    handlerCalled.should.equal(true);
+    searchCalled.should.equal(true);
+  });
+
+  it('should call search when the search button is clicked', function test() {
+    let searchCalled = false;
+
+    const search = () => {
+      searchCalled = true;
+    };
+
+    render(
+      <QuickSearchInput
+        recordTypes={recordTypes}
+        search={search}
+      />, this.container);
+
+    const button = this.container.querySelector('button');
+
+    Simulate.click(button);
+
+    searchCalled.should.equal(true);
   });
 
   it('should call formatRecordTypeLabel to format the label for a record type item', function test() {

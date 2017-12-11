@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import Button from './Button';
 import BaseLineInput from './LineInput';
 import RecordTypeInput from './RecordTypeInput';
 import VocabularyInput from './VocabularyInput';
@@ -14,25 +15,37 @@ const propTypes = {
   formatVocabularyLabel: PropTypes.func,
   keywordValue: PropTypes.string,
   placeholder: PropTypes.string,
+  searchButtonLabel: PropTypes.string,
   recordTypes: PropTypes.object,
   recordTypeValue: PropTypes.string,
   vocabularyValue: PropTypes.string,
-  onSearch: PropTypes.func,
   onKeywordCommit: PropTypes.func,
   onRecordTypeCommit: PropTypes.func,
   onVocabularyCommit: PropTypes.func,
+  search: PropTypes.func,
 };
 
 export default class QuickSearchInput extends Component {
   constructor() {
     super();
 
+    this.handleButtonClick = this.handleButtonClick.bind(this);
     this.handleKeyPress = this.handleKeyPress.bind(this);
     this.handleKeywordInputCommit = this.handleKeywordInputCommit.bind(this);
     this.handleRecordTypeDropdownCommit = this.handleRecordTypeDropdownCommit.bind(this);
     this.handleRecordTypeDropdownUpdate = this.handleRecordTypeDropdownUpdate.bind(this);
     this.handleVocabularyDropdownCommit = this.handleVocabularyDropdownCommit.bind(this);
     this.handleVocabularyDropdownUpdate = this.handleVocabularyDropdownUpdate.bind(this);
+  }
+
+  handleButtonClick() {
+    const {
+      search,
+    } = this.props;
+
+    if (search) {
+      search();
+    }
   }
 
   handleKeywordInputCommit(path, value) {
@@ -48,11 +61,11 @@ export default class QuickSearchInput extends Component {
   handleKeyPress(event) {
     if (event.key === 'Enter') {
       const {
-        onSearch,
+        search,
       } = this.props;
 
-      if (onSearch) {
-        onSearch();
+      if (search) {
+        search();
       }
     }
   }
@@ -167,11 +180,21 @@ export default class QuickSearchInput extends Component {
   }
 
   render() {
+    const {
+      searchButtonLabel,
+    } = this.props;
+
     return (
       <div className={styles.normal}>
-        {this.renderRecordTypeDropdown()}
-        {this.renderVocabularyDropdown()}
-        {this.renderKeywordInput()}
+        <div>
+          {this.renderRecordTypeDropdown()}
+          {this.renderVocabularyDropdown()}
+          {this.renderKeywordInput()}
+        </div>
+        <Button
+          aria-label={searchButtonLabel}
+          onClick={this.handleButtonClick}
+        />
       </div>
     );
   }

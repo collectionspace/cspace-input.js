@@ -1,7 +1,8 @@
 @value inputHeight, multilineHeightMultiplier from '../dimensions.css';
 
 .common {
-  resize: none;
+  min-height: inputHeight;
+  resize: vertical;
 }
 
 .normal {

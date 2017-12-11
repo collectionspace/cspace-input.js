@@ -3,20 +3,18 @@
 .common {
   composes: common from './Input.css';
   display: flex;
-  border: 1px solid textLight;
-  border-radius: 3px;
 }
 
-.common > input {
-  padding-right: 22px;
-  background-image: url(../../images/search.svg);
-  background-repeat: no-repeat;
-  background-position: right;
+.common > div {
+  flex: 1 1 auto;
+  display: flex;
+  border: solid textLight;
+  border-width: 1px 0 1px 1px;
+  border-radius: 3px 0 0 3px;
 }
 
-.common input {
+.common > div input {
   height: 26px;
-  background-size: 20px;
   border-radius: 3px;
   padding-left: 5px;
 }
@@ -25,11 +23,21 @@
   composes: common;
 }
 
-.common > :global(.cspace-input-DropdownMenuInput--common) {
+.common > div > :global(.cspace-input-DropdownMenuInput--common) {
   border-right: 1px solid textLight;
   flex: 0 1 auto;
 }
 
-.common > :global(.cspace-input-DropdownMenuInput--common) > div {
+.common > div > :global(.cspace-input-DropdownMenuInput--common) > div {
   top: 28px;
+}
+
+.common > :global(.cspace-input-Button--common) {
+  border-radius: 0 3px 3px 0;
+  width: 28px;
+  height: 28px;
+  background-image: url(../../images/search.svg);
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: 20px;
 }
