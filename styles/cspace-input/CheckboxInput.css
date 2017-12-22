@@ -7,17 +7,28 @@
 
 .common > input {
   position: absolute;
+  width: 1px;
+  height: 1px;
   opacity: 0;
 }
 
-.common > span {
+.common > input + span {
   display: inline-block;
-  width: 20px;
-  height: 20px;
   outline-offset: -1px;
-  margin: 0 0 10px 0;
   border: 1px solid;
   background-repeat: no-repeat;
+}
+
+.embedded > input + span {
+  width: 14px;
+  height: 14px;
+  margin: 1px;
+}
+
+:not(.embedded) > input + span {
+  width: 20px;
+  height: 20px;
+  margin: 0 0 10px 0;
 }
 
 .common > input:checked + span {
@@ -33,7 +44,7 @@
   composes: common;
 }
 
-.normal > span {
+.normal > input + span {
   border-color: textLight;
   background-color: inputBg;
 }
@@ -42,10 +53,10 @@
   composes: common;
 }
 
-.readOnly > span {
+.readOnly > input + span {
   border-color: transparent;
 }
 
-.indeterminate > span {
+.indeterminate > input + span {
   background-image: url(../../images/remove.svg);
 }

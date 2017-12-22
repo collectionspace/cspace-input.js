@@ -8,6 +8,7 @@ const propTypes = {
   parentPath: pathPropType,
   subpath: pathPropType,
   value: PropTypes.string,
+  readOnly: PropTypes.bool,
 };
 
 const defaultProps = {
@@ -17,19 +18,24 @@ const defaultProps = {
 export default function PasswordInput(props) {
   const {
     name,
+    readOnly,
     value,
+    /* eslint-disable no-unused-vars */
+    parentPath,
+    subpath,
+    /* eslint-enable no-unused-vars */
     ...remainingProps
   } = props;
 
   const normalizedValue = (value === null || typeof value === 'undefined') ? '' : value;
-  const readOnly = !remainingProps.onChange;
 
   return (
     <input
       {...remainingProps}
       className={styles.normal}
+      disabled={readOnly}
       name={name}
-      readOnly={readOnly}
+      readOnly={!remainingProps.onChange}
       type="password"
       value={normalizedValue}
     />

@@ -6,6 +6,7 @@ import styles from '../../styles/cspace-input/CheckboxInput.css';
 
 const propTypes = {
   className: PropTypes.string,
+  embedded: PropTypes.bool,
   /* eslint-disable react/no-unused-prop-types */
   name: PropTypes.string,
   parentPath: pathPropType,
@@ -56,14 +57,27 @@ export default class CheckboxInput extends Component {
   render() {
     const {
       className,
+      embedded,
       readOnly,
       tristate,
       value,
       onClick,
+      /* eslint-disable no-unused-vars */
+      name,
+      parentPath,
+      subpath,
+      onCommit,
+      /* eslint-enable no-unused-vars */
+      ...remainingProps
     } = this.props;
 
     let checked;
-    let classes = classNames(readOnly ? styles.readOnly : styles.normal, className);
+
+    let classes = classNames({
+      [styles.readOnly]: readOnly,
+      [styles.normal]: !readOnly,
+      [styles.embedded]: embedded,
+    }, className);
 
     if (tristate) {
       if (value === true) {
@@ -88,6 +102,7 @@ export default class CheckboxInput extends Component {
           disabled={readOnly}
           type="checkbox"
           onChange={this.handleChange}
+          {...remainingProps}
         />
         <span />
       </label>
