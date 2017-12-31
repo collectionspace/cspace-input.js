@@ -288,6 +288,19 @@ export default class AutocompleteInput extends Component {
     }
   }
 
+  renderMenuFooter() {
+    const {
+      menuFooter,
+    } = this.props;
+
+    return (
+      <div>
+        {this.renderQuickAdd()}
+        {menuFooter}
+      </div>
+    );
+  }
+
   renderQuickAdd() {
     const {
       addTerm,
@@ -389,11 +402,12 @@ export default class AutocompleteInput extends Component {
         className={className}
         filter={this.findMatchingTerms}
         formatStatusMessage={formatStatusMessage}
-        menuFooter={this.renderQuickAdd()}
+        menuFooter={this.renderMenuFooter()}
+        openOnMouseDown={false}
         options={options}
         ref={this.handleFilteringDropdownMenuInputRef}
         value={value}
-        valueLabel={getDisplayName(value)}
+        valueLabel={getDisplayName(value) || value}
         onCommit={this.handleDropdownInputCommit}
         onBeforeItemFocusChange={this.handleDropdownBeforeItemFocusChange}
         onMount={this.handleDropdownMenuInputRef}

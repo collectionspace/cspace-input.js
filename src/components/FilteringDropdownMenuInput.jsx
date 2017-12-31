@@ -15,6 +15,7 @@ const propTypes = {
   formatStatusMessage: PropTypes.func,
   filter: PropTypes.func,
   onClose: PropTypes.func,
+  onOpen: PropTypes.func,
   onCommit: PropTypes.func,
 };
 
@@ -160,12 +161,22 @@ export default class FilteringDropdownMenuInput extends Component {
   }
 
   handleDropdownInputOpen() {
-    this.setState({
-      isFiltering: false,
-      open: true,
-    });
+    const {
+      onOpen,
+    } = this.props;
 
-    this.filter();
+    if (onOpen) {
+      onOpen();
+    }
+
+    if (!this.state.open) {
+      this.setState({
+        isFiltering: false,
+        open: true,
+      });
+
+      this.filter();
+    }
   }
 
   renderMenuHeader() {

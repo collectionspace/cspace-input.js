@@ -62,14 +62,20 @@ describe('DropdownInput', function suite() {
         <p>content</p>
       </DropdownInput>, this.container);
 
-    expect(this.container.querySelector('p')).to.equal(null);
+    return new Promise((resolve) => {
+      window.setTimeout(() => {
+        expect(this.container.querySelector('p')).to.equal(null);
 
-    render(
-      <DropdownInput open>
-        <p>content</p>
-      </DropdownInput>, this.container);
+        render(
+          <DropdownInput open>
+            <p>content</p>
+          </DropdownInput>, this.container);
 
-    this.container.querySelector('p').textContent.should.equal('content');
+        this.container.querySelector('p').textContent.should.equal('content');
+
+        resolve();
+      }, 0);
+    });
   });
 
   it('should open on mouse down', function test() {

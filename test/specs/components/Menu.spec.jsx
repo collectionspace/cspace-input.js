@@ -768,4 +768,76 @@ describe('Menu', function suite() {
 
     item.className.should.contain('cspace-input-MenuItem--focused');
   });
+
+  it('should call onItemMouseEnter when the mouse enters an item', function test() {
+    let enteredValue = null;
+    let enteredElement = null;
+    let enteredFromElement = null;
+
+    const handleItemMouseEnter = (enteredValueArg, enteredElementArg, enteredFromElementArg) => {
+      enteredValue = enteredValueArg;
+      enteredElement = enteredElementArg;
+      enteredFromElement = enteredFromElementArg;
+    };
+
+    const options = [
+      { value: 'value1', label: 'Label 1' },
+      { value: 'value2', label: 'Label 2' },
+      { value: 'value3', label: 'Label 3' },
+    ];
+
+    render(
+      <Menu
+        options={options}
+        value="value2"
+        onItemMouseEnter={handleItemMouseEnter}
+      />, this.container);
+
+    const item2 = this.container.firstElementChild.querySelectorAll('li').item(1);
+    const item3 = this.container.firstElementChild.querySelectorAll('li').item(2);
+
+    Simulate.mouseEnter(item3, {
+      relatedTarget: item2,
+    });
+
+    enteredValue.should.equal('value3');
+    enteredElement.should.equal(item3);
+    enteredFromElement.should.equal(item2);
+  });
+
+  it('should call onItemMouseLeave when the mouse leaves an item', function test() {
+    let leftValue = null;
+    let leftElement = null;
+    let leftToElement = null;
+
+    const handleItemMouseLeave = (leftValueArg, leftElementArg, leftToElementArg) => {
+      leftValue = leftValueArg;
+      leftElement = leftElementArg;
+      leftToElement = leftToElementArg;
+    };
+
+    const options = [
+      { value: 'value1', label: 'Label 1' },
+      { value: 'value2', label: 'Label 2' },
+      { value: 'value3', label: 'Label 3' },
+    ];
+
+    render(
+      <Menu
+        options={options}
+        value="value2"
+        onItemMouseLeave={handleItemMouseLeave}
+      />, this.container);
+
+    const item2 = this.container.firstElementChild.querySelectorAll('li').item(1);
+    const item3 = this.container.firstElementChild.querySelectorAll('li').item(2);
+
+    Simulate.mouseLeave(item3, {
+      relatedTarget: item2,
+    });
+
+    leftValue.should.equal('value3');
+    leftElement.should.equal(item3);
+    leftToElement.should.equal(item2);
+  });
 });

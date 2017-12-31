@@ -23,6 +23,8 @@ const propTypes = {
   valueLabel: PropTypes.string,
   onClose: PropTypes.func,
   onCommit: PropTypes.func,
+  onItemMouseEnter: PropTypes.func,
+  onItemMouseLeave: PropTypes.func,
   onMount: PropTypes.func,
   onOpen: PropTypes.func,
   onUpdate: PropTypes.func,
@@ -199,6 +201,8 @@ export default class DropdownMenuInput extends Component {
       readOnly,
       renderItemLabel,
       onBeforeItemFocusChange,
+      onItemMouseEnter,
+      onItemMouseLeave,
       focusPopup,
       /* eslint-disable no-unused-vars */
       blankable,
@@ -251,6 +255,8 @@ export default class DropdownMenuInput extends Component {
           value={value}
           onSelect={this.handleMenuSelect}
           onBeforeItemFocusChange={onBeforeItemFocusChange}
+          onItemMouseEnter={onItemMouseEnter}
+          onItemMouseLeave={onItemMouseLeave}
         />
         {renderMenuFooter(menuFooter)}
       </DropdownInput>

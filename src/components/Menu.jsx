@@ -13,6 +13,8 @@ const propTypes = {
   value: PropTypes.string,
   onSelect: PropTypes.func,
   onBeforeItemFocusChange: PropTypes.func,
+  onItemMouseEnter: PropTypes.func,
+  onItemMouseLeave: PropTypes.func,
 };
 
 const defaultProps = {
@@ -34,6 +36,8 @@ export default class Menu extends Component {
     this.handleFocus = this.handleFocus.bind(this);
     this.handleItemClick = this.handleItemClick.bind(this);
     this.handleItemMouseDownCapture = this.handleItemMouseDownCapture.bind(this);
+    this.handleItemMouseEnter = this.handleItemMouseEnter.bind(this);
+    this.handleItemMouseLeave = this.handleItemMouseLeave.bind(this);
     this.handleKeyDown = this.handleKeyDown.bind(this);
     this.handleKeyPress = this.handleKeyPress.bind(this);
     this.handleRef = this.handleRef.bind(this);
@@ -62,7 +66,7 @@ export default class Menu extends Component {
       focusedIndex,
     } = this.state;
 
-    if (focusedIndex !== null) {
+    if (focusedIndex !== null && this.domNode) {
       const focusedItem = this.domNode.querySelector(`li:nth-of-type(${focusedIndex + 1})`);
 
       const focusedItemRect = focusedItem.getBoundingClientRect();
@@ -97,19 +101,10 @@ export default class Menu extends Component {
 
       this.selectedIndex = (itemIndex >= 0) ? itemIndex : options.length + itemIndex;
     }
+
     if (this.domNode) {
       this.domNode.focus();
     }
-  }
-
-  handleRef(ref) {
-    this.domNode = ref;
-  }
-
-  handleSelectedItemRef(ref) {
-    this.selectedIndex = (ref === null)
-      ? null
-      : parseInt(ref.dataset.index, 10);
   }
 
   handleBlur() {
@@ -133,6 +128,32 @@ export default class Menu extends Component {
 
   handleItemMouseDownCapture() {
     this.isItemMouseDown = true;
+  }
+
+  handleItemMouseEnter(event) {
+    const {
+      onItemMouseEnter,
+    } = this.props;
+
+    if (onItemMouseEnter) {
+      const index = parseInt(event.target.dataset.index, 10);
+      const option = this.props.options[index];
+
+      onItemMouseEnter(option.value, event.target, event.relatedTarget);
+    }
+  }
+
+  handleItemMouseLeave(event) {
+    const {
+      onItemMouseLeave,
+    } = this.props;
+
+    if (onItemMouseLeave) {
+      const index = parseInt(event.target.dataset.index, 10);
+      const option = this.props.options[index];
+
+      onItemMouseLeave(option.value, event.target, event.relatedTarget);
+    }
   }
 
   handleKeyDown(event) {
@@ -185,6 +206,16 @@ export default class Menu extends Component {
     if (event.key === 'Enter') {
       this.selectItem(this.state.focusedIndex);
     }
+  }
+
+  handleRef(ref) {
+    this.domNode = ref;
+  }
+
+  handleSelectedItemRef(ref) {
+    this.selectedIndex = (ref === null)
+      ? null
+      : parseInt(ref.dataset.index, 10);
   }
 
   selectItem(index) {
@@ -255,6 +286,9 @@ export default class Menu extends Component {
           // Track if the mouse is down on an item, using the capture phase so that the state
           // of the mouse may be updated before onFocus fires.
           onMouseDownCapture={this.handleItemMouseDownCapture}
+
+          onMouseEnter={this.handleItemMouseEnter}
+          onMouseLeave={this.handleItemMouseLeave}
         >
           {renderItemLabel(optionLabel)}
         </li>

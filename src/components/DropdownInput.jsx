@@ -12,6 +12,7 @@ const propTypes = {
   embedded: PropTypes.bool,
   open: PropTypes.bool,
   openOnFocus: PropTypes.bool,
+  openOnMouseDown: PropTypes.bool,
   isOpenableWhenReadOnly: PropTypes.bool,
 
   /*
@@ -29,8 +30,7 @@ const propTypes = {
 };
 
 const defaultProps = {
-  className: '',
-  open: false,
+  openOnMouseDown: true,
 };
 
 export default class DropdownInput extends Component {
@@ -64,9 +64,11 @@ export default class DropdownInput extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    this.setState({
-      open: nextProps.open,
-    });
+    if (nextProps.open) {
+      this.open();
+    } else {
+      this.close();
+    }
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -153,7 +155,13 @@ export default class DropdownInput extends Component {
   }
 
   handleInputMouseDown() {
-    this.open();
+    const {
+      openOnMouseDown,
+    } = this.props;
+
+    if (openOnMouseDown) {
+      this.open();
+    }
   }
 
   handleInputKeyDown(event) {
@@ -212,6 +220,7 @@ export default class DropdownInput extends Component {
       focusPopup,
       isOpenableWhenReadOnly,
       openOnFocus,
+      openOnMouseDown,
       onClose,
       onKeyDown,
       onMount,

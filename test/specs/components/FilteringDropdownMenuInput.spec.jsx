@@ -65,6 +65,34 @@ describe('FilteringDropdownMenuInput', function suite() {
     this.container.querySelector('li').should.not.equal(null);
   });
 
+  it('should call onOpen when the popup opens', function test() {
+    let handlerCalled = false;
+
+    const handleOpen = () => {
+      handlerCalled = true;
+    };
+
+    const options = [
+      { value: 'value1', label: 'Value 1' },
+      { value: 'value2', label: 'Value 2' },
+      { value: 'value3', label: 'Value 3' },
+    ];
+
+    render(
+      <FilteringDropdownMenuInput
+        options={options}
+        value="value2"
+        onOpen={handleOpen}
+      />, this.container);
+
+    const input = this.container.querySelector('input');
+
+    Simulate.focus(input);
+    Simulate.change(input);
+
+    handlerCalled.should.equal(true);
+  });
+
   it('should call the filter function when the input value changes', function test() {
     let filterCalledValue = null;
 
@@ -237,7 +265,12 @@ describe('FilteringDropdownMenuInput', function suite() {
     Simulate.change(input);
     Simulate.keyDown(input, { key: 'Enter' });
 
-    handlerCalled.should.equal(true);
+    return new Promise((resolve) => {
+      window.setTimeout(() => {
+        handlerCalled.should.equal(true);
+        resolve();
+      }, 1);
+    });
   });
 
   it('should do nothing when enter is depressed in the input and the input value is not a valid option', function test() {
@@ -297,7 +330,12 @@ describe('FilteringDropdownMenuInput', function suite() {
 
     dropdownMenuInput.close();
 
-    this.container.querySelectorAll('li').length.should.equal(0);
+    return new Promise((resolve) => {
+      window.setTimeout(() => {
+        this.container.querySelectorAll('li').length.should.equal(0);
+        resolve();
+      }, 1);
+    });
   });
 
   it('should should allow a blank value to be committed in the input even if there is no blank option, when blankable is true', function test() {
