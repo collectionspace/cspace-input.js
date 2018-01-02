@@ -128,7 +128,6 @@ export default class ComboBoxInput extends Component {
 
   handleDropdownInputOpen() {
     this.setState({
-      isAdding: false,
       open: true,
     });
   }

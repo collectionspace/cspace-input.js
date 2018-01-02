@@ -80,6 +80,14 @@ export default class DropdownInput extends Component {
       if (onClose) {
         onClose();
       }
+    } else if (!prevState.open && this.state.open) {
+      const {
+        onOpen,
+      } = this.props;
+
+      if (onOpen) {
+        onOpen();
+      }
     }
   }
 
@@ -95,14 +103,6 @@ export default class DropdownInput extends Component {
 
   open() {
     if (!this.state.open) {
-      const {
-        onOpen,
-      } = this.props;
-
-      if (onOpen) {
-        onOpen();
-      }
-
       this.setState({
         open: true,
       });
