@@ -1,3 +1,5 @@
+/* global window */
+
 import React from 'react';
 import { render } from 'react-dom';
 import { Simulate } from 'react-dom/test-utils';
@@ -608,11 +610,9 @@ describe('StructuredDateInput', () => {
   });
 
   it('should show a warning message when date parsing fails', function test() {
-    const parseDisplayDate = () => {
-      return Promise.resolve({
-        isError: true,
-      });
-    };
+    const parseDisplayDate = () => Promise.resolve({
+      isError: true,
+    });
 
     const value = {
       dateDisplayDate: 'June 2003-February 2012',
