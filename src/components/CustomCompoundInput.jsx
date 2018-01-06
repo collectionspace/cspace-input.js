@@ -54,8 +54,8 @@ export default class CustomCompoundInput extends Component {
     } = this.props;
 
     return React.Children.map(children, (child) => {
-      if (!child.type) {
-        // Text node. Just return it.
+      if (!child || !child.type) {
+        // Undefined/null child or text node. Just return it.
         return child;
       }
 

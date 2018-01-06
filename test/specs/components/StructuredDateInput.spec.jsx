@@ -2,6 +2,7 @@ import React from 'react';
 import { render } from 'react-dom';
 import { Simulate } from 'react-dom/test-utils';
 import Immutable from 'immutable';
+import chaiImmutable from 'chai-immutable';
 import BaseStructuredDateInput from '../../../src/components/StructuredDateInput';
 import createTestContainer from '../../helpers/createTestContainer';
 import { isInput } from '../../../src/helpers/inputHelpers';
@@ -11,6 +12,7 @@ import repeatable from '../../../src/enhancers/repeatable';
 const StructuredDateInput = repeatable(labelable(BaseStructuredDateInput));
 const expect = chai.expect;
 
+chai.use(chaiImmutable);
 chai.should();
 
 const optionLists = {
@@ -443,6 +445,222 @@ describe('StructuredDateInput', () => {
     Simulate.keyPress(primaryInput, { key: 'Enter' });
 
     handlerCalled.should.equal(false);
+  });
+
+  it('should call parseDisplayDate when the display date changes and the value is immutable', function test() {
+    let parsedDisplayDate = null;
+
+    const parseDisplayDate = (displayDateArg) => {
+      parsedDisplayDate = displayDateArg;
+
+      return Promise.resolve({
+        value: Immutable.Map({
+          dateDisplayDate: displayDateArg,
+          dateEarliestSingleYear: '2000',
+        }),
+      });
+    };
+
+    let committedPath = null;
+    let committedValue = null;
+
+    const handleCommit = (pathArg, valueArg) => {
+      committedPath = pathArg;
+      committedValue = valueArg;
+    };
+
+    const value = Immutable.Map({
+      dateDisplayDate: 'June 2003-February 2012',
+      datePeriod: 'Period',
+      dateAssociation: 'Assocation',
+      dateNote: 'Note',
+      dateEarliestSingleYear: '2003',
+      dateEarliestSingleMonth: '6',
+      dateEarliestSingleDay: '1',
+      dateEarliestSingleEra: 'era1',
+      dateEarliestSingleCertainty: 'certainty1',
+      dateEarliestSingleQualifier: 'qual1',
+      dateEarliestSingleQualifierValue: '23',
+      dateEarliestSingleQualifierUnit: 'unit1',
+      dateLatestYear: '2012',
+      dateLatestMonth: '2',
+      dateLatestDay: '28',
+      dateLatestEra: 'era2',
+      dateLatestCertainty: 'certainty2',
+      dateLatestQualifier: 'qual2',
+      dateLatestQualifierValue: '45',
+      dateLatestQualifierUnit: 'unit2',
+    });
+
+    render(
+      <StructuredDateInput
+        name="birthDate"
+        optionLists={optionLists}
+        terms={terms}
+        value={value}
+        parseDisplayDate={parseDisplayDate}
+        onCommit={handleCommit}
+      />, this.container);
+
+    const primaryInput = this.container.querySelector('input');
+
+    primaryInput.value = 'new value';
+
+    Simulate.keyPress(primaryInput, { key: 'Enter' });
+
+    parsedDisplayDate.should.equal('new value');
+
+    return new Promise((resolve) => {
+      window.setTimeout(() => {
+        committedPath.should.deep.equal(['birthDate']);
+
+        committedValue.should.equal(Immutable.Map({
+          dateDisplayDate: 'new value',
+          dateEarliestSingleYear: '2000',
+          dateEarliestScalarValue: '2000-01-01',
+          dateLatestScalarValue: '2001-01-01',
+          scalarValuesComputed: true,
+        }));
+
+        resolve();
+      }, 0);
+    });
+  });
+
+  it('should call parseDisplayDate when the display date changes', function test() {
+    let parsedDisplayDate = null;
+
+    const parseDisplayDate = (displayDateArg) => {
+      parsedDisplayDate = displayDateArg;
+
+      return Promise.resolve({
+        value: {
+          dateDisplayDate: displayDateArg,
+          dateEarliestSingleYear: '2000',
+        },
+      });
+    };
+
+    let committedPath = null;
+    let committedValue = null;
+
+    const handleCommit = (pathArg, valueArg) => {
+      committedPath = pathArg;
+      committedValue = valueArg;
+    };
+
+    const value = {
+      dateDisplayDate: 'June 2003-February 2012',
+      datePeriod: 'Period',
+      dateAssociation: 'Assocation',
+      dateNote: 'Note',
+      dateEarliestSingleYear: '2003',
+      dateEarliestSingleMonth: '6',
+      dateEarliestSingleDay: '1',
+      dateEarliestSingleEra: 'era1',
+      dateEarliestSingleCertainty: 'certainty1',
+      dateEarliestSingleQualifier: 'qual1',
+      dateEarliestSingleQualifierValue: '23',
+      dateEarliestSingleQualifierUnit: 'unit1',
+      dateLatestYear: '2012',
+      dateLatestMonth: '2',
+      dateLatestDay: '28',
+      dateLatestEra: 'era2',
+      dateLatestCertainty: 'certainty2',
+      dateLatestQualifier: 'qual2',
+      dateLatestQualifierValue: '45',
+      dateLatestQualifierUnit: 'unit2',
+    };
+
+    render(
+      <StructuredDateInput
+        name="birthDate"
+        optionLists={optionLists}
+        terms={terms}
+        value={value}
+        parseDisplayDate={parseDisplayDate}
+        onCommit={handleCommit}
+      />, this.container);
+
+    const primaryInput = this.container.querySelector('input');
+
+    primaryInput.value = 'new value';
+
+    Simulate.keyPress(primaryInput, { key: 'Enter' });
+
+    parsedDisplayDate.should.equal('new value');
+
+    return new Promise((resolve) => {
+      window.setTimeout(() => {
+        committedPath.should.deep.equal(['birthDate']);
+
+        committedValue.should.deep.equal({
+          dateDisplayDate: 'new value',
+          dateEarliestSingleYear: '2000',
+          dateEarliestScalarValue: '2000-01-01',
+          dateLatestScalarValue: '2001-01-01',
+          scalarValuesComputed: true,
+        });
+
+        resolve();
+      }, 0);
+    });
+  });
+
+  it('should show a warning message when date parsing fails', function test() {
+    const parseDisplayDate = () => {
+      return Promise.resolve({
+        isError: true,
+      });
+    };
+
+    const value = {
+      dateDisplayDate: 'June 2003-February 2012',
+      datePeriod: 'Period',
+      dateAssociation: 'Assocation',
+      dateNote: 'Note',
+      dateEarliestSingleYear: '2003',
+      dateEarliestSingleMonth: '6',
+      dateEarliestSingleDay: '1',
+      dateEarliestSingleEra: 'era1',
+      dateEarliestSingleCertainty: 'certainty1',
+      dateEarliestSingleQualifier: 'qual1',
+      dateEarliestSingleQualifierValue: '23',
+      dateEarliestSingleQualifierUnit: 'unit1',
+      dateLatestYear: '2012',
+      dateLatestMonth: '2',
+      dateLatestDay: '28',
+      dateLatestEra: 'era2',
+      dateLatestCertainty: 'certainty2',
+      dateLatestQualifier: 'qual2',
+      dateLatestQualifierValue: '45',
+      dateLatestQualifierUnit: 'unit2',
+    };
+
+    render(
+      <StructuredDateInput
+        name="birthDate"
+        optionLists={optionLists}
+        terms={terms}
+        value={value}
+        parseDisplayDate={parseDisplayDate}
+      />, this.container);
+
+    const primaryInput = this.container.querySelector('input');
+
+    Simulate.mouseDown(primaryInput);
+
+    primaryInput.value = 'new value';
+
+    Simulate.keyPress(primaryInput, { key: 'Enter' });
+
+    return new Promise((resolve) => {
+      window.setTimeout(() => {
+        this.container.querySelector('.cspace-input-Message--warning').should.not.equal(null);
+
+        resolve();
+      }, 0);
+    });
   });
 
   it('should recompute scalar dates when values are changed', function test() {

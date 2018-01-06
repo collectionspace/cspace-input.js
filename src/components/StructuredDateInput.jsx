@@ -17,6 +17,7 @@ import labelable from '../enhancers/labelable';
 import { getPath, pathPropType } from '../helpers/pathHelpers';
 import { computeEarliestScalarDate, computeLatestScalarDate } from '../helpers/dateHelpers';
 import styles from '../../styles/cspace-input/StructuredDateInput.css';
+import messageStyles from '../../styles/cspace-input/Message.css';
 
 const DropdownInput = committable(changeable(BaseDropdownInput));
 const TextInput = committable(changeable(BaseTextInput));
@@ -62,8 +63,6 @@ const propTypes = {
     PropTypes.instanceOf(Immutable.Map),
   ]),
   embedded: PropTypes.bool,
-  formatFieldLabel: PropTypes.func,
-  formatOptionLabel: PropTypes.func,
   name: PropTypes.string,
   optionLists: PropTypes.object,
   parentPath: pathPropType,
@@ -74,6 +73,10 @@ const propTypes = {
     PropTypes.instanceOf(Immutable.Map),
   ]),
   readOnly: PropTypes.bool,
+  formatFieldLabel: PropTypes.func,
+  formatOptionLabel: PropTypes.func,
+  formatParseFailedMessage: PropTypes.func,
+  parseDisplayDate: PropTypes.func,
   onCommit: PropTypes.func,
   onMount: PropTypes.func,
 };
@@ -81,6 +84,7 @@ const propTypes = {
 const defaultProps = {
   defaultValue: {},
   formatFieldLabel: name => fieldLabels[name],
+  formatParseFailedMessage: () => 'Unrecognized display date format. Try a different format, or enter values in the fields below.',
   optionLists: {},
   terms: {},
 };
@@ -139,7 +143,11 @@ export default class StructuredDateInput extends Component {
     let newStructDateValue;
 
     if (Immutable.Map.isMap(structDateValue)) {
-      newStructDateValue = structDateValue.setIn(path, value);
+      if (path.length === 0) {
+        newStructDateValue = value;
+      } else {
+        newStructDateValue = structDateValue.setIn(path, value);
+      }
 
       const newStructDateValueAsObject = newStructDateValue.toJS();
       const dateEarliestScalarValue = computeEarliestScalarDate(newStructDateValueAsObject);
@@ -149,7 +157,12 @@ export default class StructuredDateInput extends Component {
       newStructDateValue = newStructDateValue.set('dateLatestScalarValue', dateLatestScalarValue);
       newStructDateValue = newStructDateValue.set('scalarValuesComputed', true);
     } else {
-      newStructDateValue = merge({}, structDateValue);
+      if (path.length === 0) {
+        newStructDateValue = value;
+      } else {
+        newStructDateValue = merge({}, structDateValue);
+      }
+
       set(newStructDateValue, path, value);
 
       const dateEarliestScalarValue = computeEarliestScalarDate(newStructDateValue);
@@ -176,18 +189,41 @@ export default class StructuredDateInput extends Component {
   }
 
   handleInputCommit(path, value) {
-    const newStructDateValue = this.setValue(path, value);
+    const nextStructDateValue = this.setValue(path, value);
 
     const {
       onCommit,
+      parseDisplayDate,
     } = this.props;
 
     if (onCommit) {
-      onCommit(getPath(this.props), newStructDateValue);
+      onCommit(getPath(this.props), nextStructDateValue);
+    }
+
+    if (parseDisplayDate) {
+      const prevDisplayDate = getStructDateFieldValue(this.state.value, 'dateDisplayDate');
+      const nextDisplayDate = getStructDateFieldValue(nextStructDateValue, 'dateDisplayDate');
+
+      if (nextDisplayDate !== prevDisplayDate) {
+        this.setState({
+          parseFailed: false,
+        });
+
+        parseDisplayDate(nextDisplayDate)
+          .then((result) => {
+            if (!result || result.isError) {
+              this.setState({
+                parseFailed: true,
+              });
+            } else {
+              this.handleInputCommit([], result.value);
+            }
+          });
+      }
     }
 
     this.setState({
-      value: newStructDateValue,
+      value: nextStructDateValue,
     });
   }
 
@@ -209,6 +245,24 @@ export default class StructuredDateInput extends Component {
     });
   }
 
+  renderParseFailedMessage() {
+    const {
+      parseFailed,
+    } = this.state;
+
+    if (!parseFailed) {
+      return null;
+    }
+
+    const {
+      formatParseFailedMessage,
+    } = this.props;
+
+    return (
+      <div className={messageStyles.warning}>{formatParseFailedMessage()}</div>
+    );
+  }
+
   render() {
     const {
       formatFieldLabel,
@@ -218,12 +272,14 @@ export default class StructuredDateInput extends Component {
       readOnly,
       /* eslint-disable no-unused-vars */
       defaultValue,
+      formatParseFailedMessage,
       name,
       parentPath,
       subpath,
       value: valueProp,
       onCommit,
       onMount,
+      parseDisplayDate,
       /* eslint-enable no-unused-vars */
       ...remainingProps
     } = this.props;
@@ -257,6 +313,7 @@ export default class StructuredDateInput extends Component {
                 onCommit={this.handleInputCommit}
               />
             </div>
+
             <div>
               <LabelableTextInput
                 name="dateAssociation"
@@ -264,6 +321,7 @@ export default class StructuredDateInput extends Component {
                 onCommit={this.handleInputCommit}
               />
             </div>
+
             <div>
               <LabelableTextInput
                 name="dateNote"
@@ -272,6 +330,9 @@ export default class StructuredDateInput extends Component {
               />
             </div>
           </Row>
+
+          {this.renderParseFailedMessage()}
+
           <table>
             <thead>
               <tr>
@@ -286,9 +347,11 @@ export default class StructuredDateInput extends Component {
                 <th><Label>{formatFieldLabel('dateQualifierUnit')}</Label></th>
               </tr>
             </thead>
+
             <tbody>
               <tr>
                 <th><Label>{formatFieldLabel('earliestSingle')}</Label></th>
+
                 <td>
                   <TextInput
                     embedded
@@ -296,6 +359,7 @@ export default class StructuredDateInput extends Component {
                     onCommit={this.handleInputCommit}
                   />
                 </td>
+
                 <td>
                   <TextInput
                     embedded
@@ -303,6 +367,7 @@ export default class StructuredDateInput extends Component {
                     onCommit={this.handleInputCommit}
                   />
                 </td>
+
                 <td>
                   <TextInput
                     embedded
@@ -310,6 +375,7 @@ export default class StructuredDateInput extends Component {
                     onCommit={this.handleInputCommit}
                   />
                 </td>
+
                 <td>
                   <TermPickerInput
                     embedded
@@ -318,6 +384,7 @@ export default class StructuredDateInput extends Component {
                     onCommit={this.handleInputCommit}
                   />
                 </td>
+
                 <td>
                   <TermPickerInput
                     embedded
@@ -326,6 +393,7 @@ export default class StructuredDateInput extends Component {
                     onCommit={this.handleInputCommit}
                   />
                 </td>
+
                 <td>
                   <PrefixFilteringDropdownMenuInput
                     embedded
@@ -335,6 +403,7 @@ export default class StructuredDateInput extends Component {
                     onCommit={this.handleInputCommit}
                   />
                 </td>
+
                 <td>
                   <TextInput
                     embedded
@@ -342,6 +411,7 @@ export default class StructuredDateInput extends Component {
                     onCommit={this.handleInputCommit}
                   />
                 </td>
+
                 <td>
                   <TermPickerInput
                     embedded
@@ -351,8 +421,10 @@ export default class StructuredDateInput extends Component {
                   />
                 </td>
               </tr>
+
               <tr>
                 <th><Label>{formatFieldLabel('latest')}</Label></th>
+
                 <td>
                   <TextInput
                     embedded
@@ -361,6 +433,7 @@ export default class StructuredDateInput extends Component {
                     onCommit={this.handleInputCommit}
                   />
                 </td>
+
                 <td>
                   <TextInput
                     embedded
@@ -369,6 +442,7 @@ export default class StructuredDateInput extends Component {
                     onCommit={this.handleInputCommit}
                   />
                 </td>
+
                 <td>
                   <TextInput
                     embedded
@@ -377,6 +451,7 @@ export default class StructuredDateInput extends Component {
                     onCommit={this.handleInputCommit}
                   />
                 </td>
+
                 <td>
                   <TermPickerInput
                     embedded
@@ -386,6 +461,7 @@ export default class StructuredDateInput extends Component {
                     onCommit={this.handleInputCommit}
                   />
                 </td>
+
                 <td>
                   <TermPickerInput
                     embedded
@@ -395,6 +471,7 @@ export default class StructuredDateInput extends Component {
                     onCommit={this.handleInputCommit}
                   />
                 </td>
+
                 <td>
                   <PrefixFilteringDropdownMenuInput
                     embedded
@@ -405,6 +482,7 @@ export default class StructuredDateInput extends Component {
                     onCommit={this.handleInputCommit}
                   />
                 </td>
+
                 <td>
                   <TextInput
                     embedded
@@ -413,6 +491,7 @@ export default class StructuredDateInput extends Component {
                     onCommit={this.handleInputCommit}
                   />
                 </td>
+
                 <td>
                   <TermPickerInput
                     embedded
