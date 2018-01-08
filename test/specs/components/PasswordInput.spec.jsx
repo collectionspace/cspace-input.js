@@ -1,10 +1,12 @@
+/* global document */
+
 import React from 'react';
-import { render } from 'react-dom';
-
+import { render, unmountComponentAtNode } from 'react-dom';
 import createTestContainer from '../../helpers/createTestContainer';
-
 import { isInput } from '../../../src/helpers/inputHelpers';
 import PasswordInput from '../../../src/components/PasswordInput';
+
+const expect = chai.expect;
 
 chai.should();
 
@@ -38,5 +40,49 @@ describe('PasswordInput', function suite() {
     render(<PasswordInput value={value} />, this.container);
 
     this.container.firstElementChild.value.should.equal(value);
+  });
+
+  it('should call the api callback when mounted', function test() {
+    let inputApi = null;
+
+    const api = (apiArg) => {
+      inputApi = apiArg;
+    };
+
+    render(<PasswordInput api={api} />, this.container);
+
+    inputApi.should.have.property('focus').that.is.a('function');
+  });
+
+  it('should call the api callback when unmounted', function test() {
+    let inputApi = null;
+
+    const api = (apiArg) => {
+      inputApi = apiArg;
+    };
+
+    render(<PasswordInput api={api} />, this.container);
+
+    inputApi.should.not.equal(null);
+
+    unmountComponentAtNode(this.container);
+
+    expect(inputApi).to.equal(null);
+  });
+
+  it('should become focused when the focus api is called', function test() {
+    let inputApi = null;
+
+    const api = (apiArg) => {
+      inputApi = apiArg;
+    };
+
+    render(<PasswordInput api={api} />, this.container);
+
+    inputApi.focus();
+
+    const input = this.container.querySelector('input');
+
+    document.activeElement.should.equal(input);
   });
 });

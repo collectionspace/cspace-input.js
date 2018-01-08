@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { pathPropType } from '../helpers/pathHelpers';
 import styles from '../../styles/cspace-input/LineInput.css';
@@ -10,6 +10,7 @@ const propTypes = {
   subpath: pathPropType,
   value: PropTypes.string,
   readOnly: PropTypes.bool,
+  api: PropTypes.func,
 };
 
 /**
@@ -18,33 +19,73 @@ const propTypes = {
  * be stripped, replaced with other characters, or retained but not displayed. If this presents a
  * problem, use TextInput or MultilineInput.
  */
-export default function LineInput(props) {
-  const {
-    embedded,
-    name,
-    readOnly,
-    value,
-    /* eslint-disable no-unused-vars */
-    parentPath,
-    subpath,
-    /* eslint-enable no-unused-vars */
-    ...remainingProps
-  } = props;
+export default class LineInput extends Component {
+  constructor() {
+    super();
 
-  const className = embedded ? styles.embedded : styles.normal;
-  const normalizedValue = (value === null || typeof value === 'undefined') ? '' : value;
+    this.handleRef = this.handleRef.bind(this);
+  }
 
-  return (
-    <input
-      {...remainingProps}
-      className={className}
-      disabled={readOnly}
-      name={name}
-      readOnly={!remainingProps.onChange}
-      type="text"
-      value={normalizedValue}
-    />
-  );
+  componentDidMount() {
+    const {
+      api,
+    } = this.props;
+
+    if (api) {
+      api({
+        focus: this.focus.bind(this),
+      });
+    }
+  }
+
+  componentWillUnmount() {
+    const {
+      api,
+    } = this.props;
+
+    if (api) {
+      api(null);
+    }
+  }
+
+  focus() {
+    this.domNode.focus();
+  }
+
+  handleRef(ref) {
+    this.domNode = ref;
+  }
+
+  render() {
+    const {
+      embedded,
+      name,
+      readOnly,
+      value,
+      /* eslint-disable no-unused-vars */
+      parentPath,
+      subpath,
+      api,
+      /* eslint-enable no-unused-vars */
+      ...remainingProps
+    } = this.props;
+
+    const className = embedded ? styles.embedded : styles.normal;
+    const normalizedValue = (value === null || typeof value === 'undefined') ? '' : value;
+
+    return (
+      <input
+        {...remainingProps}
+        className={className}
+        disabled={readOnly}
+        name={name}
+        readOnly={!remainingProps.onChange}
+        ref={this.handleRef}
+        type="text"
+        value={normalizedValue}
+      />
+    );
+  }
 }
 
 LineInput.propTypes = propTypes;
