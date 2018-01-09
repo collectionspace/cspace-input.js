@@ -1,9 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import BasePrefixFilteringDropdownMenuInput from './PrefixFilteringDropdownMenuInput';
+import BaseSubstringFilteringDropdownMenuInput from './SubstringFilteringDropdownMenuInput';
 import withLabeledOptions from '../enhancers/withLabeledOptions';
 
-const PrefixFilteringDropdownMenuInput = withLabeledOptions(BasePrefixFilteringDropdownMenuInput);
+const SubstringFilteringDropdownMenuInput =
+  withLabeledOptions(BaseSubstringFilteringDropdownMenuInput);
 
 const propTypes = {
   formatVocabularyLabel: PropTypes.func,
@@ -116,7 +117,7 @@ export default function VocabularyInput(props) {
   }
 
   return (
-    <PrefixFilteringDropdownMenuInput
+    <SubstringFilteringDropdownMenuInput
       blankable={false}
       options={options}
       value={value}

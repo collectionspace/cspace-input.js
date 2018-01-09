@@ -80,9 +80,24 @@ export const filterOptionsByPrefix = (options, prefix) => {
 
   const normalizedPrefix = prefix.toLowerCase();
 
-  // TODO: Use String.startsWith when it is supported in all browsers.
+  return options.filter(option => option.label.toLowerCase().startsWith(normalizedPrefix));
+};
 
-  return options.filter(option => option.label.toLowerCase().indexOf(normalizedPrefix, 0) === 0);
+/**
+ * Filter an option list by a given substring. An option is retained by the filter if its label
+ * contains the substring, case-insensitively.
+ * @param {Object[]} options - The options to filter
+ * @param {string} substring - The substring by which to filter
+ * @returns {Object[]} An array of options whose labels contain the substring
+ */
+export const filterOptionsBySubstring = (options, prefix) => {
+  if (!prefix) {
+    return options;
+  }
+
+  const normalizedPrefix = prefix.toLowerCase();
+
+  return options.filter(option => option.label.toLowerCase().includes(normalizedPrefix));
 };
 
 /**

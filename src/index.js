@@ -23,6 +23,7 @@ import RecordTypeInput from './components/RecordTypeInput';
 import ReadOnlyInput from './components/ReadOnlyInput';
 import RepeatingInput from './components/RepeatingInput';
 import StructuredDateInput from './components/StructuredDateInput';
+import SubstringFilteringDropdownMenuInput from './components/SubstringFilteringDropdownMenuInput';
 import TabularCompoundInput from './components/TabularCompoundInput';
 import TextInput from './components/TextInput';
 import TermPickerInput from './components/TermPickerInput';
@@ -65,6 +66,7 @@ export const baseComponents = {
   RepeatingInput,
   RichTextInput,
   StructuredDateInput,
+  SubstringFilteringDropdownMenuInput,
   TabularCompoundInput,
   TextInput,
   TermPickerInput,
@@ -91,7 +93,7 @@ export const components = {
   LineInput: standalone(LineInput),
   MultilineInput: standalone(MultilineInput),
   OptionPickerInput: repeatable(
-    labelable(withLabeledOptions(withNormalizedOptions(PrefixFilteringDropdownMenuInput)))
+    labelable(withLabeledOptions(withNormalizedOptions(SubstringFilteringDropdownMenuInput)))
   ),
   PasswordInput: standalone(PasswordInput),
   ReadOnlyInput: labelable(ReadOnlyInput),

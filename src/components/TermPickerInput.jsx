@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { getDisplayName } from 'cspace-refname';
-import PrefixFilteringDropdownMenuInput from './PrefixFilteringDropdownMenuInput';
+import SubstringFilteringDropdownMenuInput from './SubstringFilteringDropdownMenuInput';
 import withNormalizedOptions from '../enhancers/withNormalizedOptions';
 
-const BaseDropdownMenuInput = withNormalizedOptions(PrefixFilteringDropdownMenuInput);
+const BaseDropdownMenuInput = withNormalizedOptions(SubstringFilteringDropdownMenuInput);
 
 const propTypes = {
-  ...PrefixFilteringDropdownMenuInput.propTypes,
+  ...SubstringFilteringDropdownMenuInput.propTypes,
   terms: PropTypes.arrayOf(PropTypes.shape({
     refName: PropTypes.string,
     displayName: PropTypes.string,

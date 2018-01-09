@@ -8,7 +8,7 @@ import CustomCompoundInput from './CustomCompoundInput';
 import BaseDropdownInput from './DropdownInput';
 import Label from './Label';
 import BaseTextInput from './TextInput';
-import BasePrefixFilteringDropdownMenuInput from './PrefixFilteringDropdownMenuInput';
+import BaseSubstringFilteringDropdownMenuInput from './SubstringFilteringDropdownMenuInput';
 import TermPickerInput from './TermPickerInput';
 import changeable from '../enhancers/changeable';
 import committable from '../enhancers/committable';
@@ -22,7 +22,9 @@ import messageStyles from '../../styles/cspace-input/Message.css';
 const DropdownInput = committable(changeable(BaseDropdownInput));
 const TextInput = committable(changeable(BaseTextInput));
 const LabelableTextInput = labelable(TextInput);
-const PrefixFilteringDropdownMenuInput = withLabeledOptions(BasePrefixFilteringDropdownMenuInput);
+
+const SubstringFilteringDropdownMenuInput =
+  withLabeledOptions(BaseSubstringFilteringDropdownMenuInput);
 
 const primaryFieldName = 'dateDisplayDate';
 
@@ -395,7 +397,7 @@ export default class StructuredDateInput extends Component {
                 </td>
 
                 <td>
-                  <PrefixFilteringDropdownMenuInput
+                  <SubstringFilteringDropdownMenuInput
                     embedded
                     formatOptionLabel={formatOptionLabel}
                     name="dateEarliestSingleQualifier"
@@ -473,7 +475,7 @@ export default class StructuredDateInput extends Component {
                 </td>
 
                 <td>
-                  <PrefixFilteringDropdownMenuInput
+                  <SubstringFilteringDropdownMenuInput
                     embedded
                     formatOptionLabel={formatOptionLabel}
                     name="dateLatestQualifier"

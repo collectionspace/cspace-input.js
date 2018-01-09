@@ -12,14 +12,14 @@ describe('TermPickerInput', function suite() {
     this.container = createTestContainer(this);
   });
 
-  it('should render as a PrefixFilteringDropdownMenuInput', function test() {
+  it('should render as a SubstringFilteringDropdownMenuInput', function test() {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(<TermPickerInput items={[]} />, context);
 
     const result = shallowRenderer.getRenderOutput();
 
-    result.type.displayName.should.match(/PrefixFilteringDropdownMenuInput/);
+    result.type.displayName.should.match(/SubstringFilteringDropdownMenuInput/);
   });
 
   it('should turn the terms into options and pass them to the base component', function test() {
