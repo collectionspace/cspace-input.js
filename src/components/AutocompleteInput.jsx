@@ -21,6 +21,7 @@ const propTypes = {
   recordTypes: PropTypes.object,
   showQuickAdd: PropTypes.bool,
   readOnly: PropTypes.bool,
+  asText: PropTypes.bool,
   source: PropTypes.string,
   matchFilter: PropTypes.func,
 };
@@ -336,7 +337,9 @@ export default class AutocompleteInput extends Component {
 
   renderReadOnly() {
     const {
+      asText,
       embedded,
+      readOnly,
     } = this.props;
 
     const {
@@ -345,7 +348,8 @@ export default class AutocompleteInput extends Component {
 
     return (
       <LineInput
-        readOnly
+        asText={asText}
+        readOnly={readOnly}
         value={getDisplayName(value)}
         embedded={embedded}
       />
@@ -359,6 +363,7 @@ export default class AutocompleteInput extends Component {
       matches,
       minLength,
       readOnly,
+      asText,
       source,
       /* eslint-disable no-unused-vars */
       addTerm,
@@ -378,7 +383,7 @@ export default class AutocompleteInput extends Component {
       value,
     } = this.state;
 
-    if (readOnly) {
+    if (asText || readOnly) {
       return this.renderReadOnly();
     }
 

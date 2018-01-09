@@ -5,8 +5,9 @@ import get from 'lodash/get';
 import MiniButton from './MiniButton';
 import normalizeLabel from '../helpers/normalizeLabel';
 import { getPath, pathPropType } from '../helpers/pathHelpers';
-import repeatingInputStyles from '../../styles/cspace-input/RepeatingInput.css';
+import miniButtonContainerStyles from '../../styles/cspace-input/MiniButtonContainer.css';
 import moveToTopButtonStyles from '../../styles/cspace-input/MoveToTopButton.css';
+import repeatingInputStyles from '../../styles/cspace-input/RepeatingInput.css';
 
 const normalizeValue = (value) => {
   const defaultValue = [undefined];
@@ -49,7 +50,9 @@ const propTypes = {
     ])),
   ]),
   readOnly: PropTypes.bool,
+  asText: PropTypes.bool,
   reorderable: PropTypes.bool,
+  renderOrderIndicator: PropTypes.func,
   onAddInstance: PropTypes.func,
   onCommit: PropTypes.func,
   onMoveInstance: PropTypes.func,
@@ -153,20 +156,22 @@ export default class RepeatingInput extends Component {
 
   renderInstances() {
     const {
+      asText,
       children,
       value,
       readOnly,
       reorderable,
+      renderOrderIndicator,
     } = this.props;
 
     const template = React.Children.only(children);
     const normalizedValue = normalizeValue(value);
-    const hideOrderNumber = readOnly && normalizedValue.length === 1 && !normalizedValue[0];
 
     return normalizedValue.map((instanceValue, index, list) => {
       const instanceName = `${index}`;
 
       const overrideProps = {
+        asText,
         readOnly,
         embedded: true,
         label: undefined,
@@ -178,26 +183,46 @@ export default class RepeatingInput extends Component {
       };
 
       const instance = React.cloneElement(template, overrideProps);
+
+      let orderIndicator = null;
+
+      const hideOrderNumber = readOnly && normalizedValue.length === 1 && !normalizedValue[0];
       const orderNumber = hideOrderNumber ? null : index + 1;
 
-      const orderIndicator = (
-        <MiniButton
-          className={moveToTopButtonStyles.common}
-          data-instancename={instanceName}
-          disabled={index === 0 || !reorderable}
-          name="moveToTop"
-          readOnly={readOnly}
-          onClick={this.handleMoveToTopButtonClick}
-        >
-          {orderNumber}
-        </MiniButton>
-      );
+      if (renderOrderIndicator) {
+        orderIndicator = renderOrderIndicator(orderNumber);
+      } else {
+        const className = readOnly
+          ? miniButtonContainerStyles.readOnly
+          : miniButtonContainerStyles.normal;
+
+        if (asText) {
+          orderIndicator = <div>{orderNumber}</div>;
+        } else {
+          orderIndicator = (
+            <div className={className}>
+              <MiniButton
+                className={moveToTopButtonStyles.common}
+                data-instancename={instanceName}
+                disabled={index === 0 || !reorderable}
+                name="moveToTop"
+                readOnly={readOnly}
+                onClick={this.handleMoveToTopButtonClick}
+              >
+                {orderNumber}
+              </MiniButton>
+            </div>
+          );
+        }
+      }
 
       let removeButton;
 
-      if (!readOnly) {
+      if (!readOnly && !asText) {
+        const className = miniButtonContainerStyles.normal;
+
         removeButton = (
-          <div>
+          <div className={className}>
             <MiniButton
               data-instancename={instanceName}
               disabled={list.length < 2}
@@ -212,9 +237,7 @@ export default class RepeatingInput extends Component {
 
       return (
         <div key={index}>
-          <div>
-            {orderIndicator}
-          </div>
+          {orderIndicator}
           <div>
             {instance}
           </div>
@@ -226,6 +249,7 @@ export default class RepeatingInput extends Component {
 
   render() {
     const {
+      asText,
       name,
       readOnly,
     } = this.props;
@@ -235,12 +259,20 @@ export default class RepeatingInput extends Component {
 
     const instances = this.renderInstances();
 
+    if (asText) {
+      return (
+        <div>{instances}</div>
+      );
+    }
+
     let footer;
 
     if (!readOnly) {
+      const className = miniButtonContainerStyles.normal;
+
       footer = (
         <footer>
-          <div>
+          <div className={className}>
             <MiniButton
               name="add"
               onClick={this.handleAddButtonClick}
@@ -260,10 +292,12 @@ export default class RepeatingInput extends Component {
         name={name}
       >
         {isLabelEmbedded ? null : renderHeader(label)}
+
         <div>
           {isLabelEmbedded ? this.renderEmbeddedHeader(label) : null}
           {instances}
         </div>
+
         {footer}
       </fieldset>
     );

@@ -31,6 +31,12 @@ describe('LineInput', function suite() {
     this.container.firstElementChild.type.should.equal('text');
   });
 
+  it('should render as a div when asText is true', function test() {
+    render(<LineInput value="Test" asText />, this.container);
+
+    this.container.firstElementChild.nodeName.should.equal('DIV');
+  });
+
   it('should render with correct class', function test() {
     render(<LineInput value="Test" />, this.container);
 

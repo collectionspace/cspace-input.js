@@ -72,7 +72,6 @@ describe('RepeatingInput', function suite() {
     }
   });
 
-
   it('should render the template once for each element in an Immutable.List value', function test() {
     const repeatingValue = Immutable.List([ // eslint-disable-line new-cap
       '1',
@@ -218,6 +217,35 @@ describe('RepeatingInput', function suite() {
     committedValue.should.equal('New value');
   });
 
+  it('should call renderOrderIndicator to render the order indicator, if supplied', function test() {
+    const renderOrderIndicator = orderNumber =>
+      <div className="testOrderIndicator">{`order ${orderNumber}`}</div>;
+
+    const repeatingValue = [
+      'Value 1',
+      'Value 2',
+      'Value 3',
+    ];
+
+    render(
+      <RepeatingInput
+        name="rpt"
+        subpath="schema_name"
+        value={repeatingValue}
+        renderOrderIndicator={renderOrderIndicator}
+      >
+        <TextInput />
+      </RepeatingInput>, this.container);
+
+    const indicators = this.container.querySelectorAll('.testOrderIndicator');
+
+    indicators.should.have.lengthOf(3);
+
+    indicators[0].textContent.should.equal('order 1');
+    indicators[1].textContent.should.equal('order 2');
+    indicators[2].textContent.should.equal('order 3');
+  });
+
   it('should extract the label prop from the template and render it as a header', function test() {
     render(
       <RepeatingInput>
@@ -251,7 +279,7 @@ describe('RepeatingInput', function suite() {
       </RepeatingInput>, this.container);
   });
 
-  it('should extract the label prop from the template and render it as a header', function test() {
+  it('should extract a table header label prop from the template and render it as a header', function test() {
     const repeatingValue = [
       {
         title: 'Title 1',
@@ -376,5 +404,52 @@ describe('RepeatingInput', function suite() {
 
     moveInstancePath.should.deep.equal(['schema_name', 'rpt', '1']);
     moveInstanceNewPosition.should.equal(0);
+  });
+
+  context('when asText is true', function context() {
+    it('should render as a div', function test() {
+      const repeatingValue = [
+        'Value 1',
+        'Value 2',
+        'Value 3',
+      ];
+
+      render(
+        <RepeatingInput value={repeatingValue} asText>
+          <TextInput />
+        </RepeatingInput>, this.container);
+
+      this.container.firstElementChild.nodeName.should.equal('DIV');
+    });
+
+    it('should not render any control buttons', function test() {
+      const repeatingValue = [
+        'Value 1',
+        'Value 2',
+        'Value 3',
+      ];
+
+      render(
+        <RepeatingInput value={repeatingValue} asText>
+          <TextInput />
+        </RepeatingInput>, this.container);
+
+      this.container.querySelectorAll('.cspace-input-MiniButton--common').should.have.lengthOf(0);
+    });
+
+    it('should pass asText to children', function test() {
+      const repeatingValue = [
+        'Value 1',
+        'Value 2',
+        'Value 3',
+      ];
+
+      render(
+        <RepeatingInput value={repeatingValue} asText>
+          <TextInput />
+        </RepeatingInput>, this.container);
+
+      this.container.querySelectorAll('input').should.have.lengthOf(0);
+    });
   });
 });

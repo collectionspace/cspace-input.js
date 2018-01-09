@@ -62,7 +62,7 @@
   margin: 0;
 }
 
-.common > div > div > *:first-child,
+/* .common > div > div > *:first-child,
 .common > div > div > *:nth-child(3),
 .common > footer > *:first-child {
   width: calc(inputHeight - 2px);
@@ -76,7 +76,7 @@
 
 .readOnly > div > div > *:first-child {
   background-color: readOnlyBg;
-}
+} */
 
 .common > footer > * {
   border: 1px solid textLight;

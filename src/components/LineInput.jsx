@@ -4,6 +4,7 @@ import { pathPropType } from '../helpers/pathHelpers';
 import styles from '../../styles/cspace-input/LineInput.css';
 
 const propTypes = {
+  asText: PropTypes.bool,
   embedded: PropTypes.bool,
   name: PropTypes.string,
   parentPath: pathPropType,
@@ -58,8 +59,8 @@ export default class LineInput extends Component {
 
   render() {
     const {
+      asText,
       embedded,
-      name,
       readOnly,
       value,
       /* eslint-disable no-unused-vars */
@@ -73,12 +74,17 @@ export default class LineInput extends Component {
     const className = embedded ? styles.embedded : styles.normal;
     const normalizedValue = (value === null || typeof value === 'undefined') ? '' : value;
 
+    if (asText) {
+      return (
+        <div className={className}>{normalizedValue}</div>
+      );
+    }
+
     return (
       <input
         {...remainingProps}
         className={className}
         disabled={readOnly}
-        name={name}
         readOnly={!remainingProps.onChange}
         ref={this.handleRef}
         type="text"

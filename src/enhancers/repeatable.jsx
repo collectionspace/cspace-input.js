@@ -24,6 +24,7 @@ export default function repeatable(BaseComponent) {
     const {
       repeating,
       reorderable,
+      renderOrderIndicator,
       onAddInstance,
       onMoveInstance,
       onRemoveInstance,
@@ -41,6 +42,7 @@ export default function repeatable(BaseComponent) {
       parentPath,
       subpath,
       value,
+      asText,
       readOnly,
       onCommit,
       ...baseProps
@@ -52,8 +54,10 @@ export default function repeatable(BaseComponent) {
         parentPath={parentPath}
         subpath={subpath}
         value={value}
+        asText={asText}
         readOnly={readOnly}
         reorderable={reorderable}
+        renderOrderIndicator={renderOrderIndicator}
         onAddInstance={onAddInstance}
         onCommit={onCommit}
         onMoveInstance={onMoveInstance}

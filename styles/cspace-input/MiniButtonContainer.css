@@ -1,0 +1,16 @@
+@value inputBg, readOnlyBg from '../colors.css';
+@value inputHeight from '../dimensions.css';
+
+.common {
+  width: calc(inputHeight - 2px);
+}
+
+.normal {
+  composes: common;
+  background-color: inputBg;
+}
+
+.readOnly {
+  composes: common;
+  background-color: readOnlyBg;
+}
