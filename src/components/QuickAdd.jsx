@@ -31,32 +31,8 @@ export default class QuickAdd extends Component {
   constructor(props) {
     super(props);
 
-    this.handleButtonClick = this.handleButtonClick.bind(this);
     this.handleMenuRef = this.handleMenuRef.bind(this);
-    this.focusMenu = this.focusMenu.bind(this);
-    this.renderQuickAddItemLabel = this.renderQuickAddItemLabel.bind(this);
-  }
-
-  handleButtonClick(event) {
-    event.preventDefault();
-
-    const {
-      add,
-      displayName,
-    } = this.props;
-
-    if (add) {
-      const {
-        vocabulary,
-        recordtype: recordType,
-      } = event.currentTarget.dataset;
-
-      add(recordType, vocabulary, displayName);
-    }
-  }
-
-  handleMenuRef(ref) {
-    this.menu = ref;
+    this.handleMenuSelect = this.handleMenuSelect.bind(this);
   }
 
   focusMenu(itemIndex) {
@@ -65,23 +41,28 @@ export default class QuickAdd extends Component {
     }
   }
 
-  renderQuickAddItemLabel(labelData) {
-    const {
-      recordType,
-      vocabulary,
-      formattedDestinationName,
-    } = labelData;
+  handleMenuRef(ref) {
+    this.menu = ref;
+  }
 
-    return (
-      <button
-        data-recordtype={recordType}
-        data-vocabulary={vocabulary}
-        tabIndex="-1"
-        onClick={this.handleButtonClick}
-      >
-        {formattedDestinationName}
-      </button>
-    );
+  handleMenuSelect(item) {
+    const {
+      add,
+      displayName,
+    } = this.props;
+
+    if (add) {
+      const {
+        value,
+      } = item;
+
+      const [
+        recordType,
+        vocabulary,
+      ] = value.split('/');
+
+      add(recordType, vocabulary, displayName);
+    }
   }
 
   render() {
@@ -118,11 +99,7 @@ export default class QuickAdd extends Component {
         }
 
         return ({
-          label: {
-            formattedDestinationName: formatDestinationName(recordTypeConfig, vocabulary),
-            vocabulary,
-            recordType,
-          },
+          label: formatDestinationName(recordTypeConfig, vocabulary),
           value: `${recordType}/${vocabulary}`,
         });
       })
@@ -135,12 +112,13 @@ export default class QuickAdd extends Component {
     return (
       <div className={styles.common}>
         <div>{formatAddPrompt(displayName)}</div>
+
         <Menu
           options={options}
           tabIndex="-1"
           ref={this.handleMenuRef}
           onBeforeItemFocusChange={onBeforeItemFocusChange}
-          renderItemLabel={this.renderQuickAddItemLabel}
+          onSelect={this.handleMenuSelect}
         />
       </div>
     );

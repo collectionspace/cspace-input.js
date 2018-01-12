@@ -70,7 +70,7 @@ describe('QuickAdd', function suite() {
         recordTypes={recordTypes}
       />, this.container);
 
-    this.container.querySelector('button').textContent.should.equal('Local Persons');
+    this.container.querySelector('li').textContent.should.equal('Local Persons');
   });
 
   it('should use the record\'s collection name default message as the destination resource name if there is no vocabulary', function test() {
@@ -80,7 +80,7 @@ describe('QuickAdd', function suite() {
         recordTypes={recordTypes}
       />, this.container);
 
-    this.container.querySelector('button').textContent.should.equal('Objects');
+    this.container.querySelector('li').textContent.should.equal('Objects');
   });
 
   it('should call formatDestinationName to format the destination resource name', function test() {
@@ -93,7 +93,7 @@ describe('QuickAdd', function suite() {
         recordTypes={recordTypes}
       />, this.container);
 
-    this.container.querySelector('button').textContent.should.equal('formatDestinationName called');
+    this.container.querySelector('li').textContent.should.equal('formatDestinationName called');
   });
 
   it('should render a menu', function test() {
@@ -136,7 +136,7 @@ describe('QuickAdd', function suite() {
     expect(this.container.firstElementChild).to.equal(null);
   });
 
-  it('should call add when an add button is clicked', function test() {
+  it('should call add when an add item is clicked', function test() {
     let funcCalled = false;
 
     const add = () => {
@@ -150,7 +150,7 @@ describe('QuickAdd', function suite() {
         recordTypes={recordTypes}
       />, this.container);
 
-    Simulate.click(this.container.querySelector('button'));
+    Simulate.click(this.container.querySelector('li'));
 
     funcCalled.should.equal(true);
   });
