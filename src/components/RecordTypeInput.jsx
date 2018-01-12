@@ -1,10 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import BaseSubstringFilteringDropdownMenuInput from './SubstringFilteringDropdownMenuInput';
+import BaseDropdownMenuInput from './DropdownMenuInput';
 import withLabeledOptions from '../enhancers/withLabeledOptions';
 
 const SubstringFilteringDropdownMenuInput =
   withLabeledOptions(BaseSubstringFilteringDropdownMenuInput);
+
+const DropdownMenuInput =
+  withLabeledOptions(BaseDropdownMenuInput);
 
 const propTypes = {
   formatRecordTypeLabel: PropTypes.func,
@@ -13,9 +17,11 @@ const propTypes = {
   rootType: PropTypes.string,
   serviceTypes: PropTypes.arrayOf(PropTypes.string),
   value: PropTypes.string,
+  filtering: PropTypes.bool,
 };
 
 const defaultProps = {
+  filtering: true,
   formatRecordTypeLabel: (name, config) => {
     const messages = config.messages;
 
@@ -38,6 +44,7 @@ export default function RecordTypeInput(props) {
     recordTypes,
     rootType,
     serviceTypes,
+    filtering,
     value: recordTypeValue,
     ...remainingProps
   } = props;
@@ -139,8 +146,10 @@ export default function RecordTypeInput(props) {
     }
   }
 
+  const Input = filtering ? SubstringFilteringDropdownMenuInput : DropdownMenuInput;
+
   return (
-    <SubstringFilteringDropdownMenuInput
+    <Input
       blankable={false}
       options={options}
       value={value}
