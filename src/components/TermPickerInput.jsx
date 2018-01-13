@@ -36,10 +36,24 @@ export default class TermPickerInput extends Component {
       ...remainingProps
     } = this.props;
 
-    const options = terms ? terms.map(term => ({
-      value: term.refName,
-      label: term.displayName,
-    })) : [];
+    let options;
+
+    if (terms) {
+      options = terms.map((term) => {
+        const option = {
+          value: term.refName,
+          label: term.displayName,
+        };
+
+        if (term.termStatus === 'inactive') {
+          option.disabled = true;
+        }
+
+        return option;
+      });
+    } else {
+      options = [];
+    }
 
     return (
       <BaseDropdownMenuInput

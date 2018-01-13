@@ -1,9 +1,11 @@
+@value textMedium from '../colors.css';
+
 .common {
   padding: 0 18px 0 18px;
   white-space: nowrap;
 }
 
-.common:hover {
+.common:not(.disabled):hover {
   background-color: #F0F5FB;
 }
 
@@ -16,6 +18,10 @@
 .focused {
   outline-offset: -1px;
   outline: 1px dotted black;
+}
+
+.disabled {
+  color: textMedium;
 }
 
 .common + .startGroup {

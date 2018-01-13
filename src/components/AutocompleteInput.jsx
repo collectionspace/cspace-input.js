@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { getDisplayName } from 'cspace-refname';
+import { getDisplayName, setDisplayName } from 'cspace-refname';
 import LineInput from './LineInput';
 import FilteringDropdownMenuInput from './FilteringDropdownMenuInput';
 import QuickAdd from './QuickAdd';
@@ -19,6 +19,7 @@ const propTypes = {
   matches: PropTypes.object,
   minLength: PropTypes.number,
   recordTypes: PropTypes.object,
+  altTermSelectable: PropTypes.bool,
   showQuickAdd: PropTypes.bool,
   readOnly: PropTypes.bool,
   asText: PropTypes.bool,
@@ -35,12 +36,12 @@ const defaultProps = {
     return `${num} ${matches} found`;
   },
   matchFilter: () => true,
-  // TODO: Make configurable
   minLength: 3,
+  altTermSelectable: true,
   showQuickAdd: true,
 };
 
-const getOptions = (sourceID, matches, partialTerm, matchFilter) => {
+const getOptions = (sourceID, matches, partialTerm, matchFilter, altTermSelectable) => {
   const sources = parseResourceID(sourceID);
   const options = [];
 
@@ -60,13 +61,23 @@ const getOptions = (sourceID, matches, partialTerm, matchFilter) => {
           const items = sourceMatch.get('items');
 
           if (items) {
-            const sourceOptions = items.filter(matchFilter).map(item => ({
-              value: item.refName,
-              label: getDisplayName(item.refName),
-              meta: item,
-            }));
+            items.filter(matchFilter).forEach((item) => {
+              let { termDisplayName } = item;
 
-            options.push(...sourceOptions);
+              if (!Array.isArray(termDisplayName)) {
+                termDisplayName = [termDisplayName];
+              }
+
+              termDisplayName.forEach((displayName, index) => {
+                options.push({
+                  value: setDisplayName(item.refName, displayName),
+                  label: displayName,
+                  meta: item,
+                  indent: (index === 0 ? 0 : 1),
+                  disabled: (index > 0 && !altTermSelectable),
+                });
+              });
+            });
           }
         }
       });
@@ -173,7 +184,11 @@ export default class AutocompleteInput extends Component {
         nextProps.source, nextProps.matches, this.state.partialTerm
       )) {
         newState.options = getOptions(
-          nextProps.source, nextProps.matches, this.state.partialTerm, nextProps.matchFilter
+          nextProps.source,
+          nextProps.matches,
+          this.state.partialTerm,
+          nextProps.matchFilter,
+          nextProps.altTermSelectable,
         );
       }
 
@@ -205,6 +220,7 @@ export default class AutocompleteInput extends Component {
       findMatchingTerms,
       matches,
       minLength,
+      altTermSelectable,
       matchFilter,
     } = this.props;
 
@@ -221,7 +237,7 @@ export default class AutocompleteInput extends Component {
       // TODO: Pause to debounce
       findMatchingTerms(partialTerm);
     } else {
-      newState.options = getOptions(source, matches, partialTerm, matchFilter);
+      newState.options = getOptions(source, matches, partialTerm, matchFilter, altTermSelectable);
     }
 
     this.setState(newState);
@@ -371,6 +387,7 @@ export default class AutocompleteInput extends Component {
       formatAddPrompt,
       formatSourceName,
       recordTypes,
+      altTermSelectable,
       showQuickAdd,
       matchFilter,
       /* eslint-enable no-unused-vars */

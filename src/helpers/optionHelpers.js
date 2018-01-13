@@ -127,10 +127,16 @@ export const normalizeOptions = (options, blankable) => {
         label = value;
       }
 
-      normalizedOptions.push({
+      const normalizedOption = {
         value,
         label,
-      });
+      };
+
+      if (option.disabled) {
+        normalizedOption.disabled = true;
+      }
+
+      normalizedOptions.push(normalizedOption);
     });
   }
 

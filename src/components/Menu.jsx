@@ -219,20 +219,23 @@ export default class Menu extends Component {
   }
 
   selectItem(index) {
-    const selectedOption = this.props.options[index];
-    const value = selectedOption.value;
+    const option = this.props.options[index];
 
-    this.setState({
-      value,
-      focusedIndex: index,
-    });
+    if (!option.disabled) {
+      const value = option.value;
 
-    const {
-      onSelect,
-    } = this.props;
+      this.setState({
+        value,
+        focusedIndex: index,
+      });
 
-    if (onSelect) {
-      onSelect(selectedOption);
+      const {
+        onSelect,
+      } = this.props;
+
+      if (onSelect) {
+        onSelect(option);
+      }
     }
   }
 
@@ -251,6 +254,7 @@ export default class Menu extends Component {
       const {
         value: optionValue,
         label: optionLabel,
+        disabled: optionDisabled,
         indent: optionIndent,
         startGroup: optionStartGroup,
       } = option;
@@ -258,6 +262,7 @@ export default class Menu extends Component {
       const className = classNames(optionIndent ? itemStyles[`indent${optionIndent}`] : null, {
         [itemStyles.common]: true,
         [itemStyles.startGroup]: !!optionStartGroup,
+        [itemStyles.disabled]: optionDisabled,
         [itemStyles.selected]: optionValue === value,
         [itemStyles.focused]: focusedIndex === index,
       });

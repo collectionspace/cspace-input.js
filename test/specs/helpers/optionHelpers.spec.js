@@ -3,6 +3,7 @@ import {
   getLabelForValue,
   getOptionForLabel,
   filterOptionsByPrefix,
+  filterOptionsBySubstring,
   normalizeOptions,
 } from '../../../src/helpers/optionHelpers';
 
@@ -110,20 +111,48 @@ describe('optionHelpers', function suite() {
     });
   });
 
+  describe('filterOptionsBySubstring', function funcSuite() {
+    it('should return an array of options whose labels contain the given filter', function test() {
+      filterOptionsBySubstring(options, 'bel 1').should.deep.equal([
+        options[0],
+        options[9],
+        options[10],
+        options[12],
+        options[13],
+      ]);
+    });
+
+    it('should use case insensitive comparison', function test() {
+      filterOptionsBySubstring(options, 'BEL 1').should.deep.equal([
+        options[0],
+        options[9],
+        options[10],
+        options[12],
+        options[13],
+      ]);
+    });
+
+    it('should return all options when filter is empty, null, or undefined', function test() {
+      filterOptionsBySubstring(options, '').should.equal(options);
+      filterOptionsBySubstring(options, null).should.equal(options);
+      filterOptionsBySubstring(options).should.equal(options);
+    });
+  });
+
   describe('normalizeOptions', function funcSuite() {
     const uglyOptions = [
       { value: 'value1', label: 'Label 1' },
-      { value: 'value2', label: '' },
-      { value: 'value3' },
+      { value: 'value2', label: '', disabled: false },
+      { value: 'value3', disabled: true },
       { value: 'value4', label: null },
       { value: 'value5', label: undefined },
     ];
 
-    it('should set null and undefined labels to the value', function test() {
+    it('should set null and undefined labels to the value, and normalize disabled settings', function test() {
       normalizeOptions(uglyOptions).should.deep.equal([
         { value: 'value1', label: 'Label 1' },
         { value: 'value2', label: '' },
-        { value: 'value3', label: 'value3' },
+        { value: 'value3', label: 'value3', disabled: true },
         { value: 'value4', label: 'value4' },
         { value: 'value5', label: 'value5' },
       ]);
@@ -134,7 +163,7 @@ describe('optionHelpers', function suite() {
         { value: '', label: '' },
         { value: 'value1', label: 'Label 1' },
         { value: 'value2', label: '' },
-        { value: 'value3', label: 'value3' },
+        { value: 'value3', label: 'value3', disabled: true },
         { value: 'value4', label: 'value4' },
         { value: 'value5', label: 'value5' },
       ]);
@@ -144,7 +173,7 @@ describe('optionHelpers', function suite() {
       normalizeOptions(uglyOptions, false).should.deep.equal([
         { value: 'value1', label: 'Label 1' },
         { value: 'value2', label: '' },
-        { value: 'value3', label: 'value3' },
+        { value: 'value3', label: 'value3', disabled: true },
         { value: 'value4', label: 'value4' },
         { value: 'value5', label: 'value5' },
       ]);

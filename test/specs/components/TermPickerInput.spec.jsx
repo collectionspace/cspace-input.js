@@ -34,6 +34,11 @@ describe('TermPickerInput', function suite() {
         refName: 'urn:cspace:core.collectionspace.org:vocabularies:name(languages):item:name(eng)\'English\'',
         displayName: 'English',
       },
+      {
+        refName: 'urn:cspace:core.collectionspace.org:vocabularies:name(languages):item:name(swe)\'Swedish\'',
+        displayName: 'Swedish',
+        termStatus: 'inactive',
+      },
     ];
 
     shallowRenderer.render(<TermPickerInput terms={terms} />, context);
@@ -48,6 +53,11 @@ describe('TermPickerInput', function suite() {
       {
         value: 'urn:cspace:core.collectionspace.org:vocabularies:name(languages):item:name(eng)\'English\'',
         label: 'English',
+      },
+      {
+        value: 'urn:cspace:core.collectionspace.org:vocabularies:name(languages):item:name(swe)\'Swedish\'',
+        label: 'Swedish',
+        disabled: true,
       },
     ]);
   });

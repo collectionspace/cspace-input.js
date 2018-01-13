@@ -46,6 +46,9 @@ const janMatches = Immutable.Map().setIn(['jan', 'person', 'local', 'items'], [
   {
     refName: 'urn:cspace:core.collectionspace.org:personauthorities:name(person):item:name(JaneDoe)\'Jane Doe\'',
     uri: '/personauthorities/fbe3019a-f8d4-4f84-a900/items/7fc7c8ca-8ca0-4a29-8e2e',
+    termDisplayName: [
+      'Jane Doe',
+    ],
   },
 ]);
 
@@ -53,6 +56,10 @@ const johMatches = Immutable.Map().setIn(['joh', 'person', 'local', 'items'], [
   {
     refName: 'urn:cspace:core.collectionspace.org:personauthorities:name(person):item:name(JohnDoe)\'John Doe\'',
     uri: '/personauthorities/fbe3019a-f8d4-4f84-a900/items/7fc7c8ca-8ca0-4a29-8e2e',
+    termDisplayName: [
+      'John Doe',
+      'J. Doe',
+    ],
   },
 ]);
 
@@ -60,10 +67,14 @@ const samMatches = Immutable.Map().setIn(['sam', 'person', 'local', 'items'], [
   {
     refName: 'urn:cspace:core.collectionspace.org:personauthorities:name(person):item:name(SamuelSmith)\'Samuel Smith\'',
     uri: '/personauthorities/fbe3019a-f8d4-4f84-a901/items/7fc7c8ca-8ca0-4a29-8e2d',
+    termDisplayName: 'Samuel Smith',
   },
   {
     refName: 'urn:cspace:core.collectionspace.org:personauthorities:name(person):item:name(SamanthaSmith)\'Samantha Smith\'',
     uri: '/personauthorities/fbe3019a-f8d4-4f84-a902/items/7fc7c8ca-8ca0-4a29-8e2f',
+    termDisplayName: [
+      'Samantha Smith',
+    ],
   },
 ]);
 
@@ -76,6 +87,7 @@ const newTermMatches = Immutable.fromJS({
             'ns2:collectionspace_core': {
               refName: 'urn:cspace:core.collectionspace.org:personauthorities:name(person):item:name(JohnDoe)\'John Doe\'',
               uri: '/personauthorities/fbe3019a-f8d4-4f84-a900/items/7fc7c8ca-8ca0-4a29-8e2e',
+              termDisplayName: 'John Doe',
             },
           },
         },
@@ -212,8 +224,9 @@ describe('AutocompleteInput', function suite() {
     const menu = this.container.querySelector('.cspace-input-Menu--common');
     const items = menu.querySelectorAll('li');
 
-    items.length.should.equal(1);
+    items.length.should.equal(2);
     items[0].textContent.should.equal('John Doe');
+    items[1].textContent.should.equal('J. Doe');
   });
 
   it('should call findMatchingTerms when a partial term is entered that does not exist in matches', function test() {

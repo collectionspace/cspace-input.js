@@ -56,7 +56,7 @@ describe('Menu', function suite() {
   it('should render options', function test() {
     const options = [
       { value: 'value1', label: 'Label 1' },
-      { value: 'value2', label: 'Label 2' },
+      { value: 'value2', label: 'Label 2', disabled: true },
       { value: 'value3', label: 'Label 3' },
     ];
 
@@ -145,6 +145,25 @@ describe('Menu', function suite() {
     listItems.item(1).className.should.not.contain('cspace-input-MenuItem--indent');
   });
 
+  it('should render a disabled option with the correct class', function test() {
+    const options = [
+      { value: 'value1', label: 'Label 1' },
+      { value: 'value2', label: 'Label 2', disabled: true },
+      { value: 'value3', label: 'Label 3', disabled: true },
+    ];
+
+    render(
+      <Menu
+        options={options}
+        value="value2"
+      />, this.container);
+
+    const listItems = this.container.firstElementChild.querySelectorAll('li');
+
+    listItems.item(1).className.should.equal('cspace-input-MenuItem--common cspace-input-MenuItem--disabled cspace-input-MenuItem--selected');
+    listItems.item(2).className.should.equal('cspace-input-MenuItem--common cspace-input-MenuItem--disabled');
+  });
+
   it('should render the selected option with the correct class', function test() {
     const options = [
       { value: 'value1', label: 'Label 1' },
@@ -183,6 +202,27 @@ describe('Menu', function suite() {
     item3.className.should
       .match(/cspace-input-MenuItem--selected/)
       .and.match(/cspace-input-MenuItem--focused/);
+  });
+
+  it('should not select a disabled option when clicked', function test() {
+    const options = [
+      { value: 'value1', label: 'Label 1' },
+      { value: 'value2', label: 'Label 2' },
+      { value: 'value3', label: 'Label 3', disabled: true },
+    ];
+
+    render(
+      <Menu
+        options={options}
+        value="value2"
+      />, this.container);
+
+    const item3 = this.container.firstElementChild.querySelectorAll('li').item(2);
+
+    Simulate.click(item3);
+
+    item3.className.should
+      .not.match(/cspace-input-MenuItem--selected/);
   });
 
   it('should unfocus all items when losing focus', function test() {
