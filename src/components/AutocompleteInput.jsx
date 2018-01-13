@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import get from 'lodash/get';
 import { getDisplayName, setDisplayName } from 'cspace-refname';
 import LineInput from './LineInput';
 import FilteringDropdownMenuInput from './FilteringDropdownMenuInput';
@@ -19,7 +20,7 @@ const propTypes = {
   matches: PropTypes.object,
   minLength: PropTypes.number,
   recordTypes: PropTypes.object,
-  altTermSelectable: PropTypes.bool,
+  disableAltTerms: PropTypes.bool,
   showQuickAdd: PropTypes.bool,
   readOnly: PropTypes.bool,
   asText: PropTypes.bool,
@@ -37,11 +38,18 @@ const defaultProps = {
   },
   matchFilter: () => true,
   minLength: 3,
-  altTermSelectable: true,
   showQuickAdd: true,
 };
 
-const getOptions = (sourceID, matches, partialTerm, matchFilter, altTermSelectable) => {
+const getOptions = (partialTerm, props) => {
+  const {
+    recordTypes,
+    matches,
+    matchFilter,
+    disableAltTerms,
+    source: sourceID,
+  } = props;
+
   const sources = parseResourceID(sourceID);
   const options = [];
 
@@ -58,6 +66,7 @@ const getOptions = (sourceID, matches, partialTerm, matchFilter, altTermSelectab
         const sourceMatch = partialTermMatch.getIn([recordType, vocabulary]);
 
         if (sourceMatch) {
+          const vocabDisableAltTerms = get(recordTypes, [recordType, 'vocabularies', vocabulary, 'disableAltTerms']);
           const items = sourceMatch.get('items');
 
           if (items) {
@@ -74,7 +83,7 @@ const getOptions = (sourceID, matches, partialTerm, matchFilter, altTermSelectab
                   label: displayName,
                   meta: item,
                   indent: (index === 0 ? 0 : 1),
-                  disabled: (index > 0 && !altTermSelectable),
+                  disabled: (index > 0 && (disableAltTerms || vocabDisableAltTerms)),
                 });
               });
             });
@@ -184,11 +193,8 @@ export default class AutocompleteInput extends Component {
         nextProps.source, nextProps.matches, this.state.partialTerm
       )) {
         newState.options = getOptions(
-          nextProps.source,
-          nextProps.matches,
           this.state.partialTerm,
-          nextProps.matchFilter,
-          nextProps.altTermSelectable,
+          nextProps,
         );
       }
 
@@ -216,12 +222,9 @@ export default class AutocompleteInput extends Component {
 
   findMatchingTerms(partialTerm) {
     const {
-      source,
       findMatchingTerms,
       matches,
       minLength,
-      altTermSelectable,
-      matchFilter,
     } = this.props;
 
     const newState = {
@@ -237,7 +240,7 @@ export default class AutocompleteInput extends Component {
       // TODO: Pause to debounce
       findMatchingTerms(partialTerm);
     } else {
-      newState.options = getOptions(source, matches, partialTerm, matchFilter, altTermSelectable);
+      newState.options = getOptions(partialTerm, this.props);
     }
 
     this.setState(newState);
@@ -387,7 +390,6 @@ export default class AutocompleteInput extends Component {
       formatAddPrompt,
       formatSourceName,
       recordTypes,
-      altTermSelectable,
       showQuickAdd,
       matchFilter,
       /* eslint-enable no-unused-vars */
