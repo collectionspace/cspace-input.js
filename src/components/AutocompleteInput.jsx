@@ -157,7 +157,7 @@ export default class AutocompleteInput extends Component {
   constructor(props) {
     super(props);
 
-    this.delayedFindMatchingTerms = this.delayedFindMatchingTerms.bind(this);
+    this.findMatchingTerms = this.findMatchingTerms.bind(this);
     this.handleDropdownInputCommit = this.handleDropdownInputCommit.bind(this);
     this.handleFilteringDropdownMenuInputRef = this.handleFilteringDropdownMenuInputRef.bind(this);
     this.handleQuickAddBeforeItemFocusChange = this.handleQuickAddBeforeItemFocusChange.bind(this);
@@ -224,22 +224,15 @@ export default class AutocompleteInput extends Component {
     }
   }
 
-  delayedFindMatchingTerms(partialTerm) {
-    const {
-      findDelay,
-    } = this.props;
-
+  findMatchingTerms(partialTerm) {
     if (this.findTimer) {
       window.clearTimeout(this.findTimer);
+
+      this.findTimer = null;
     }
 
-    this.findTimer = window.setTimeout(() => {
-      this.findMatchingTerms(partialTerm);
-    }, findDelay);
-  }
-
-  findMatchingTerms(partialTerm) {
     const {
+      findDelay,
       findMatchingTerms,
       matches,
       minLength,
@@ -255,7 +248,11 @@ export default class AutocompleteInput extends Component {
       && (!matches || !matches.has(partialTerm));
 
     if (searchNeeded) {
-      findMatchingTerms(partialTerm);
+      this.findTimer = window.setTimeout(() => {
+        findMatchingTerms(partialTerm);
+
+        this.findTimer = null;
+      }, findDelay);
     } else {
       newState.options = getOptions(partialTerm, this.props);
     }
@@ -434,7 +431,7 @@ export default class AutocompleteInput extends Component {
       ? formatMoreCharsRequiredMessage
       : formatSearchResultMessage;
 
-    const className = isPending(source, matches, partialTerm)
+    const className = (this.findTimer || isPending(source, matches, partialTerm))
       ? styles.searching
       : styles.normal;
 
@@ -442,7 +439,7 @@ export default class AutocompleteInput extends Component {
       <FilteringDropdownMenuInput
         {...remainingProps}
         className={className}
-        filter={this.delayedFindMatchingTerms}
+        filter={this.findMatchingTerms}
         formatStatusMessage={formatStatusMessage}
         menuFooter={this.renderMenuFooter()}
         openOnMouseDown={false}

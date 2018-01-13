@@ -297,6 +297,47 @@ describe('AutocompleteInput', function suite() {
     });
   });
 
+  it('should only call findMatchingTerms once if the partial term is changed within the find delay', function test() {
+    let partialTerm = null;
+    let findMatchingTermsCallCount = 0;
+
+    const findMatchingTerms = (partialTermArg) => {
+      partialTerm = partialTermArg;
+      findMatchingTermsCallCount += 1;
+    };
+
+    render(
+      <AutocompleteInput
+        source="person/local"
+        recordTypes={recordTypes}
+        findMatchingTerms={findMatchingTerms}
+      />, this.container);
+
+    const input = this.container.querySelector('input');
+
+    input.value = 'abc';
+
+    Simulate.change(input);
+
+    return new Promise((resolve) => {
+      window.setTimeout(() => {
+        input.value = 'def';
+
+        Simulate.change(input);
+
+        resolve();
+      }, 100);
+    })
+    .then(() => new Promise((resolve) => {
+      window.setTimeout(() => {
+        partialTerm.should.equal('def');
+        findMatchingTermsCallCount.should.equal(1);
+
+        resolve();
+      }, findTestDelay);
+    }));
+  });
+
   it('should call onCommit when a value is committed', function test() {
     let committedPath = null;
     let committedValue = null;
