@@ -1,3 +1,5 @@
+/* global window */
+
 import React from 'react';
 import { render } from 'react-dom';
 import { Simulate } from 'react-dom/test-utils';
@@ -96,6 +98,8 @@ const newTermMatches = Immutable.fromJS({
   },
 });
 
+const findTestDelay = 600;
+
 describe('AutocompleteInput', function suite() {
   beforeEach(function before() {
     this.container = createTestContainer(this);
@@ -126,6 +130,8 @@ describe('AutocompleteInput', function suite() {
   });
 
   it('should show a continue typing prompt if the value is changed to something shorter than the min length', function test() {
+    this.timeout(3000);
+
     render(
       <AutocompleteInput
         source="person/local"
@@ -138,36 +144,51 @@ describe('AutocompleteInput', function suite() {
 
     Simulate.change(input);
 
-    menuHeader = this.container.querySelector('.cspace-layout-Popup--common > header');
-    menuHeader.textContent.should.match(/^Continue typing/);
+    return new Promise((resolve) => {
+      window.setTimeout(() => {
+        menuHeader = this.container.querySelector('.cspace-layout-Popup--common > header');
+        menuHeader.textContent.should.match(/^Continue typing/);
 
-    input.value = '1';
+        resolve();
+      }, findTestDelay);
+    })
+    .then(() => new Promise((resolve) => {
+      input.value = '1';
 
-    Simulate.change(input);
+      Simulate.change(input);
 
-    menuHeader = this.container.querySelector('.cspace-layout-Popup--common > header');
-    menuHeader.textContent.should.match(/^Continue typing/);
+      window.setTimeout(() => {
+        menuHeader = this.container.querySelector('.cspace-layout-Popup--common > header');
+        menuHeader.textContent.should.match(/^Continue typing/);
 
-    input.value = '12';
+        resolve();
+      }, findTestDelay);
+    }))
+    .then(() => new Promise((resolve) => {
+      input.value = '12';
 
-    Simulate.change(input);
+      Simulate.change(input);
 
-    menuHeader = this.container.querySelector('.cspace-layout-Popup--common > header');
-    menuHeader.textContent.should.match(/^Continue typing/);
+      window.setTimeout(() => {
+        menuHeader = this.container.querySelector('.cspace-layout-Popup--common > header');
+        menuHeader.textContent.should.match(/^Continue typing/);
 
-    input.value = '12';
+        resolve();
+      }, findTestDelay);
+    }))
+    .then(() => new Promise((resolve) => {
+      input.value = '123';
 
-    Simulate.change(input);
+      Simulate.change(input);
 
-    menuHeader = this.container.querySelector('.cspace-layout-Popup--common > header');
-    menuHeader.textContent.should.match(/^Continue typing/);
 
-    input.value = '123';
+      window.setTimeout(() => {
+        menuHeader = this.container.querySelector('.cspace-layout-Popup--common > header');
+        menuHeader.textContent.should.match(/^No matching terms/);
 
-    Simulate.change(input);
-
-    menuHeader = this.container.querySelector('.cspace-layout-Popup--common > header');
-    menuHeader.textContent.should.match(/^No matching terms/);
+        resolve();
+      }, findTestDelay);
+    }));
   });
 
   it('should show a quick add menu when the minimum number of characters is entered', function test() {
@@ -183,9 +204,15 @@ describe('AutocompleteInput', function suite() {
 
     Simulate.change(input);
 
-    const quickAdd = this.container.querySelector('.cspace-input-QuickAdd--common');
+    return new Promise((resolve) => {
+      window.setTimeout(() => {
+        const quickAdd = this.container.querySelector('.cspace-input-QuickAdd--common');
 
-    quickAdd.should.not.equal(null);
+        quickAdd.should.not.equal(null);
+
+        resolve();
+      }, findTestDelay);
+    });
   });
 
   it('should not show the quick add menu when showQuickAdd is false', function test() {
@@ -202,9 +229,15 @@ describe('AutocompleteInput', function suite() {
 
     Simulate.change(input);
 
-    const quickAdd = this.container.querySelector('.cspace-input-QuickAdd--common');
+    return new Promise((resolve) => {
+      window.setTimeout(() => {
+        const quickAdd = this.container.querySelector('.cspace-input-QuickAdd--common');
 
-    expect(quickAdd).to.equal(null);
+        expect(quickAdd).to.equal(null);
+
+        resolve();
+      }, findTestDelay);
+    });
   });
 
   it('should show options when a partial term is entered that has items in matches', function test() {
@@ -221,12 +254,18 @@ describe('AutocompleteInput', function suite() {
 
     Simulate.change(input);
 
-    const menu = this.container.querySelector('.cspace-input-Menu--common');
-    const items = menu.querySelectorAll('li');
+    return new Promise((resolve) => {
+      window.setTimeout(() => {
+        const menu = this.container.querySelector('.cspace-input-Menu--common');
+        const items = menu.querySelectorAll('li');
 
-    items.length.should.equal(2);
-    items[0].textContent.should.equal('John Doe');
-    items[1].textContent.should.equal('J. Doe');
+        items.length.should.equal(2);
+        items[0].textContent.should.equal('John Doe');
+        items[1].textContent.should.equal('J. Doe');
+
+        resolve();
+      }, findTestDelay);
+    });
   });
 
   it('should call findMatchingTerms when a partial term is entered that does not exist in matches', function test() {
@@ -249,7 +288,13 @@ describe('AutocompleteInput', function suite() {
 
     Simulate.change(input);
 
-    partialTerm.should.equal('abc');
+    return new Promise((resolve) => {
+      window.setTimeout(() => {
+        partialTerm.should.equal('abc');
+
+        resolve();
+      }, findTestDelay);
+    });
   });
 
   it('should call onCommit when a value is committed', function test() {
@@ -277,13 +322,19 @@ describe('AutocompleteInput', function suite() {
 
     Simulate.change(input);
 
-    const menu = this.container.querySelector('.cspace-input-Menu--common');
-    const items = menu.querySelectorAll('li');
+    return new Promise((resolve) => {
+      window.setTimeout(() => {
+        const menu = this.container.querySelector('.cspace-input-Menu--common');
+        const items = menu.querySelectorAll('li');
 
-    Simulate.click(items[0]);
+        Simulate.click(items[0]);
 
-    committedPath.should.deep.equal(['collectionobjects_common', 'owner']);
-    committedValue.should.equal('urn:cspace:core.collectionspace.org:personauthorities:name(person):item:name(JohnDoe)\'John Doe\'');
+        committedPath.should.deep.equal(['collectionobjects_common', 'owner']);
+        committedValue.should.equal('urn:cspace:core.collectionspace.org:personauthorities:name(person):item:name(JohnDoe)\'John Doe\'');
+
+        resolve();
+      }, findTestDelay);
+    });
   });
 
   it('should call onCommit when a new term has been created', function test() {
@@ -311,18 +362,24 @@ describe('AutocompleteInput', function suite() {
 
     Simulate.change(input);
 
-    render(
-      <AutocompleteInput
-        parentPath={['collectionobjects_common']}
-        name="owner"
-        source="person/local"
-        matches={newTermMatches}
-        recordTypes={recordTypes}
-        onCommit={handleCommit}
-      />, this.container);
+    return new Promise((resolve) => {
+      window.setTimeout(() => {
+        render(
+          <AutocompleteInput
+            parentPath={['collectionobjects_common']}
+            name="owner"
+            source="person/local"
+            matches={newTermMatches}
+            recordTypes={recordTypes}
+            onCommit={handleCommit}
+          />, this.container);
 
-    committedPath.should.deep.equal(['collectionobjects_common', 'owner']);
-    committedValue.should.equal('urn:cspace:core.collectionspace.org:personauthorities:name(person):item:name(JohnDoe)\'John Doe\'');
+        committedPath.should.deep.equal(['collectionobjects_common', 'owner']);
+        committedValue.should.equal('urn:cspace:core.collectionspace.org:personauthorities:name(person):item:name(JohnDoe)\'John Doe\'');
+
+        resolve();
+      }, findTestDelay);
+    });
   });
 
   it('should update options when new matches are supplied', function test() {
@@ -341,20 +398,26 @@ describe('AutocompleteInput', function suite() {
 
     Simulate.change(input);
 
-    render(
-      <AutocompleteInput
-        parentPath={['collectionobjects_common']}
-        name="owner"
-        source="person/local"
-        matches={janMatches}
-        recordTypes={recordTypes}
-      />, this.container);
+    return new Promise((resolve) => {
+      window.setTimeout(() => {
+        render(
+          <AutocompleteInput
+            parentPath={['collectionobjects_common']}
+            name="owner"
+            source="person/local"
+            matches={janMatches}
+            recordTypes={recordTypes}
+          />, this.container);
 
-    const menu = this.container.querySelector('.cspace-input-Menu--common');
-    const items = menu.querySelectorAll('li');
+        const menu = this.container.querySelector('.cspace-input-Menu--common');
+        const items = menu.querySelectorAll('li');
 
-    items.length.should.equal(1);
-    items[0].textContent.should.equal('Jane Doe');
+        items.length.should.equal(1);
+        items[0].textContent.should.equal('Jane Doe');
+
+        resolve();
+      }, findTestDelay);
+    });
   });
 
   it('should render a disabled LineInput if readOnly is true', function test() {
@@ -389,14 +452,20 @@ describe('AutocompleteInput', function suite() {
 
     Simulate.change(input);
 
-    render(
-      <AutocompleteInput
-        parentPath={['collectionobjects_common']}
-        name="owner"
-        source="person/local,person/ulan"
-        matches={samMatches}
-        recordTypes={recordTypes}
-      />, this.container);
+    return new Promise((resolve) => {
+      window.setTimeout(() => {
+        render(
+          <AutocompleteInput
+            parentPath={['collectionobjects_common']}
+            name="owner"
+            source="person/local,person/ulan"
+            matches={samMatches}
+            recordTypes={recordTypes}
+          />, this.container);
+
+        resolve();
+      }, findTestDelay);
+    });
   });
 
   it('should focus the first item in the match menu when matches are present', function test() {
@@ -414,16 +483,23 @@ describe('AutocompleteInput', function suite() {
     input.value = 'sam';
 
     Simulate.change(input);
-    Simulate.keyDown(input, { key: 'ArrowDown' });
 
-    const menu = this.container.querySelector('.cspace-input-Menu--common');
+    return new Promise((resolve) => {
+      window.setTimeout(() => {
+        Simulate.keyDown(input, { key: 'ArrowDown' });
 
-    // Need to simulate focus here, since items don't get focused until the menu is focused.
-    Simulate.focus(menu);
+        const menu = this.container.querySelector('.cspace-input-Menu--common');
 
-    const item = menu.querySelector('li');
+        // Need to simulate focus here, since items don't get focused until the menu is focused.
+        Simulate.focus(menu);
 
-    item.className.should.contain('cspace-input-MenuItem--focused');
+        const item = menu.querySelector('li');
+
+        item.className.should.contain('cspace-input-MenuItem--focused');
+
+        resolve();
+      }, findTestDelay);
+    });
   });
 
   it('should focus the first item in the add menu when matches are not present', function test() {
@@ -440,16 +516,23 @@ describe('AutocompleteInput', function suite() {
     input.value = 'sam';
 
     Simulate.change(input);
-    Simulate.keyDown(input, { key: 'ArrowDown' });
 
-    const menu = this.container.querySelector('.cspace-input-QuickAdd--common .cspace-input-Menu--common');
+    return new Promise((resolve) => {
+      window.setTimeout(() => {
+        Simulate.keyDown(input, { key: 'ArrowDown' });
 
-    // Need to simulate focus here, since items don't get focused until the menu is focused.
-    Simulate.focus(menu);
+        const menu = this.container.querySelector('.cspace-input-QuickAdd--common .cspace-input-Menu--common');
 
-    const item = menu.querySelector('li');
+        // Need to simulate focus here, since items don't get focused until the menu is focused.
+        Simulate.focus(menu);
 
-    item.className.should.contain('cspace-input-MenuItem--focused');
+        const item = menu.querySelector('li');
+
+        item.className.should.contain('cspace-input-MenuItem--focused');
+
+        resolve();
+      }, findTestDelay);
+    });
   });
 
   it('should transfer focus the last item in the add menu when up arrow is depressed on first item in the match menu', function test() {
@@ -467,21 +550,28 @@ describe('AutocompleteInput', function suite() {
     input.value = 'sam';
 
     Simulate.change(input);
-    Simulate.keyDown(input, { key: 'ArrowDown' });
 
-    const dropdownMenu = this.container.querySelector('.cspace-input-Menu--common');
+    return new Promise((resolve) => {
+      window.setTimeout(() => {
+        Simulate.keyDown(input, { key: 'ArrowDown' });
 
-    Simulate.keyDown(dropdownMenu, { key: 'ArrowUp' });
+        const dropdownMenu = this.container.querySelector('.cspace-input-Menu--common');
 
-    const menu = this.container.querySelector('.cspace-input-QuickAdd--common .cspace-input-Menu--common');
+        Simulate.keyDown(dropdownMenu, { key: 'ArrowUp' });
 
-    // Need to simulate focus here, since items don't get focused until the menu is focused.
-    Simulate.focus(menu);
+        const menu = this.container.querySelector('.cspace-input-QuickAdd--common .cspace-input-Menu--common');
 
-    const items = menu.querySelectorAll('li');
-    const focusItem = items[items.length - 1];
+        // Need to simulate focus here, since items don't get focused until the menu is focused.
+        Simulate.focus(menu);
 
-    focusItem.className.should.contain('cspace-input-MenuItem--focused');
+        const items = menu.querySelectorAll('li');
+        const focusItem = items[items.length - 1];
+
+        focusItem.className.should.contain('cspace-input-MenuItem--focused');
+
+        resolve();
+      }, findTestDelay);
+    });
   });
 
   it('should transfer focus to the first item in the add menu when down arrow is depressed on the last item in the match menu', function test() {
@@ -499,22 +589,29 @@ describe('AutocompleteInput', function suite() {
     input.value = 'sam';
 
     Simulate.change(input);
-    Simulate.keyDown(input, { key: 'ArrowDown' });
 
-    const dropdownMenu = this.container.querySelector('.cspace-input-Menu--common');
+    return new Promise((resolve) => {
+      window.setTimeout(() => {
+        Simulate.keyDown(input, { key: 'ArrowDown' });
 
-    Simulate.keyDown(dropdownMenu, { key: 'ArrowDown' });
-    Simulate.keyDown(dropdownMenu, { key: 'ArrowDown' });
+        const dropdownMenu = this.container.querySelector('.cspace-input-Menu--common');
 
-    const menu = this.container.querySelector('.cspace-input-QuickAdd--common .cspace-input-Menu--common');
+        Simulate.keyDown(dropdownMenu, { key: 'ArrowDown' });
+        Simulate.keyDown(dropdownMenu, { key: 'ArrowDown' });
 
-    // Need to simulate focus here, since items don't get focused until the menu is focused.
-    Simulate.focus(menu);
+        const menu = this.container.querySelector('.cspace-input-QuickAdd--common .cspace-input-Menu--common');
 
-    const items = menu.querySelectorAll('li');
-    const focusItem = items[0];
+        // Need to simulate focus here, since items don't get focused until the menu is focused.
+        Simulate.focus(menu);
 
-    focusItem.className.should.contain('cspace-input-MenuItem--focused');
+        const items = menu.querySelectorAll('li');
+        const focusItem = items[0];
+
+        focusItem.className.should.contain('cspace-input-MenuItem--focused');
+
+        resolve();
+      }, findTestDelay);
+    });
   });
 
   it('should transfer focus the last item in the match menu when up arrow is depressed on first item in the add menu', function test() {
@@ -532,21 +629,28 @@ describe('AutocompleteInput', function suite() {
     input.value = 'sam';
 
     Simulate.change(input);
-    Simulate.keyDown(input, { key: 'ArrowDown' });
 
-    const addMenu = this.container.querySelector('.cspace-input-QuickAdd--common .cspace-input-Menu--common');
+    return new Promise((resolve) => {
+      window.setTimeout(() => {
+        Simulate.keyDown(input, { key: 'ArrowDown' });
 
-    Simulate.keyDown(addMenu, { key: 'ArrowUp' });
+        const addMenu = this.container.querySelector('.cspace-input-QuickAdd--common .cspace-input-Menu--common');
 
-    const menu = this.container.querySelector('.cspace-input-Menu--common');
+        Simulate.keyDown(addMenu, { key: 'ArrowUp' });
 
-    // Need to simulate focus here, since items don't get focused until the menu is focused.
-    Simulate.focus(menu);
+        const menu = this.container.querySelector('.cspace-input-Menu--common');
 
-    const items = menu.querySelectorAll('li');
-    const focusItem = items[items.length - 1];
+        // Need to simulate focus here, since items don't get focused until the menu is focused.
+        Simulate.focus(menu);
 
-    focusItem.className.should.contain('cspace-input-MenuItem--focused');
+        const items = menu.querySelectorAll('li');
+        const focusItem = items[items.length - 1];
+
+        focusItem.className.should.contain('cspace-input-MenuItem--focused');
+
+        resolve();
+      }, findTestDelay);
+    });
   });
 
   it('should transfer focus to the first item in the match menu when down arrow is depressed on the last item in the add menu', function test() {
@@ -564,21 +668,28 @@ describe('AutocompleteInput', function suite() {
     input.value = 'sam';
 
     Simulate.change(input);
-    Simulate.keyDown(input, { key: 'ArrowDown' });
 
-    const addMenu = this.container.querySelector('.cspace-input-QuickAdd--common .cspace-input-Menu--common');
+    return new Promise((resolve) => {
+      window.setTimeout(() => {
+        Simulate.keyDown(input, { key: 'ArrowDown' });
 
-    Simulate.keyDown(addMenu, { key: 'ArrowDown' });
-    Simulate.keyDown(addMenu, { key: 'ArrowDown' });
+        const addMenu = this.container.querySelector('.cspace-input-QuickAdd--common .cspace-input-Menu--common');
 
-    const menu = this.container.querySelector('.cspace-input-Menu--common');
+        Simulate.keyDown(addMenu, { key: 'ArrowDown' });
+        Simulate.keyDown(addMenu, { key: 'ArrowDown' });
 
-    // Need to simulate focus here, since items don't get focused until the menu is focused.
-    Simulate.focus(menu);
+        const menu = this.container.querySelector('.cspace-input-Menu--common');
 
-    const items = menu.querySelectorAll('li');
-    const focusItem = items[0];
+        // Need to simulate focus here, since items don't get focused until the menu is focused.
+        Simulate.focus(menu);
 
-    focusItem.className.should.contain('cspace-input-MenuItem--focused');
+        const items = menu.querySelectorAll('li');
+        const focusItem = items[0];
+
+        focusItem.className.should.contain('cspace-input-MenuItem--focused');
+
+        resolve();
+      }, findTestDelay);
+    });
   });
 });

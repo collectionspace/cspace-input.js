@@ -1,3 +1,5 @@
+/* global window */
+
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import get from 'lodash/get';
@@ -11,12 +13,7 @@ import styles from '../../styles/cspace-input/AutocompleteInput.css';
 
 const propTypes = {
   ...FilteringDropdownMenuInput.propTypes,
-  addTerm: PropTypes.func,
-  findMatchingTerms: PropTypes.func,
-  formatAddPrompt: PropTypes.func,
-  formatMoreCharsRequiredMessage: PropTypes.func,
-  formatSearchResultMessage: PropTypes.func,
-  formatSourceName: PropTypes.func,
+  findDelay: PropTypes.number,
   matches: PropTypes.object,
   minLength: PropTypes.number,
   recordTypes: PropTypes.object,
@@ -25,10 +22,20 @@ const propTypes = {
   readOnly: PropTypes.bool,
   asText: PropTypes.bool,
   source: PropTypes.string,
+  addTerm: PropTypes.func,
+  findMatchingTerms: PropTypes.func,
+  formatAddPrompt: PropTypes.func,
+  formatMoreCharsRequiredMessage: PropTypes.func,
+  formatSearchResultMessage: PropTypes.func,
+  formatSourceName: PropTypes.func,
   matchFilter: PropTypes.func,
 };
 
 const defaultProps = {
+  findDelay: 500, // ms
+  matchFilter: () => true,
+  minLength: 3,
+  showQuickAdd: true,
   formatMoreCharsRequiredMessage: () => 'Continue typing to find matching terms',
   formatSearchResultMessage: (count) => {
     const matches = count === 1 ? 'matching term' : 'matching terms';
@@ -36,9 +43,6 @@ const defaultProps = {
 
     return `${num} ${matches} found`;
   },
-  matchFilter: () => true,
-  minLength: 3,
-  showQuickAdd: true,
 };
 
 const getOptions = (partialTerm, props) => {
@@ -153,7 +157,7 @@ export default class AutocompleteInput extends Component {
   constructor(props) {
     super(props);
 
-    this.findMatchingTerms = this.findMatchingTerms.bind(this);
+    this.delayedFindMatchingTerms = this.delayedFindMatchingTerms.bind(this);
     this.handleDropdownInputCommit = this.handleDropdownInputCommit.bind(this);
     this.handleFilteringDropdownMenuInputRef = this.handleFilteringDropdownMenuInputRef.bind(this);
     this.handleQuickAddBeforeItemFocusChange = this.handleQuickAddBeforeItemFocusChange.bind(this);
@@ -220,6 +224,20 @@ export default class AutocompleteInput extends Component {
     }
   }
 
+  delayedFindMatchingTerms(partialTerm) {
+    const {
+      findDelay,
+    } = this.props;
+
+    if (this.findTimer) {
+      window.clearTimeout(this.findTimer);
+    }
+
+    this.findTimer = window.setTimeout(() => {
+      this.findMatchingTerms(partialTerm);
+    }, findDelay);
+  }
+
   findMatchingTerms(partialTerm) {
     const {
       findMatchingTerms,
@@ -237,7 +255,6 @@ export default class AutocompleteInput extends Component {
       && (!matches || !matches.has(partialTerm));
 
     if (searchNeeded) {
-      // TODO: Pause to debounce
       findMatchingTerms(partialTerm);
     } else {
       newState.options = getOptions(partialTerm, this.props);
@@ -386,12 +403,13 @@ export default class AutocompleteInput extends Component {
       source,
       /* eslint-disable no-unused-vars */
       addTerm,
+      findDelay,
       findMatchingTerms,
       formatAddPrompt,
       formatSourceName,
+      matchFilter,
       recordTypes,
       showQuickAdd,
-      matchFilter,
       /* eslint-enable no-unused-vars */
       ...remainingProps
     } = this.props;
@@ -424,7 +442,7 @@ export default class AutocompleteInput extends Component {
       <FilteringDropdownMenuInput
         {...remainingProps}
         className={className}
-        filter={this.findMatchingTerms}
+        filter={this.delayedFindMatchingTerms}
         formatStatusMessage={formatStatusMessage}
         menuFooter={this.renderMenuFooter()}
         openOnMouseDown={false}
