@@ -21,7 +21,17 @@ export default function InputTableRow(props) {
     embedded: true,
   }));
 
-  const inputContainers = modifiedInputs.map(input => <div key={input.props.name}>{input}</div>);
+  const inputContainers = modifiedInputs.map((input) => {
+    const {
+      flex,
+    } = input.props;
+
+    const style = flex ? { flex } : undefined;
+
+    return (
+      <div key={input.props.name} style={style}>{input}</div>
+    );
+  });
 
   const className = embedded ? styles.embedded : styles.normal;
 

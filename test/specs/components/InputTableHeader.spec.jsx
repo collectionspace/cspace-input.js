@@ -7,6 +7,8 @@ import labelable from '../../../src/enhancers/labelable';
 
 const LineInput = labelable(BaseLineInput);
 
+const expect = chai.expect;
+
 chai.should();
 
 describe('InputTableHeader', function suite() {
@@ -36,5 +38,29 @@ describe('InputTableHeader', function suite() {
     nodes[0].textContent.should.equal('1');
     nodes[1].textContent.should.equal('2');
     nodes[2].textContent.should.equal('3');
+  });
+
+  it('should render nothing if all child input labels are empty', function test() {
+    render(
+      <InputTableHeader>
+        <LineInput label="" />
+        <LineInput label={null} />
+        <LineInput />
+      </InputTableHeader>, this.container);
+
+    expect(this.container.firstElementChild).to.equal(null);
+  });
+
+  it('should set the flex style on a label container to the flex prop of the input', function test() {
+    render(
+      <InputTableHeader>
+        <LineInput label="1" />
+        <LineInput label="2" flex="0 0 16px" />
+        <LineInput label="3" />
+      </InputTableHeader>, this.container);
+
+    const nodes = this.container.querySelectorAll('div');
+
+    nodes[2].style.should.have.property('flex', '0 0 16px');
   });
 });

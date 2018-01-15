@@ -28,9 +28,24 @@ export default function InputTableHeader(props) {
     return null;
   }
 
-  const labelContainers = labels.map(
-    (label, index) => <div key={inputs[index].props.name || index}>{label}</div>
-  );
+  const labelContainers = labels.map((label, index) => {
+    const input = inputs[index];
+
+    const {
+      flex,
+    } = input.props;
+
+    const style = flex ? { flex } : undefined;
+
+    return (
+      <div
+        key={inputs[index].props.name || index}
+        style={style}
+      >
+        {label}
+      </div>
+    );
+  });
 
   const className = embedded ? styles.embedded : styles.normal;
 

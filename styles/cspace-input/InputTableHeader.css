@@ -9,6 +9,7 @@
 
 .common > div {
   padding: 0 2px;
+  box-sizing: border-box;
   flex: 1;
 }
 
