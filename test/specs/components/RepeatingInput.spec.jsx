@@ -18,6 +18,8 @@ import committable from '../../../src/enhancers/committable';
 
 const TextInput = committable(BaseTextInput);
 
+const expect = chai.expect;
+
 chai.should();
 
 const StubTemplateComponent = props => (
@@ -404,6 +406,189 @@ describe('RepeatingInput', function suite() {
 
     moveInstancePath.should.deep.equal(['schema_name', 'rpt', '1']);
     moveInstanceNewPosition.should.equal(0);
+  });
+
+  context('when shift + down arrow is depressed in the move to top button', function context() {
+    let moveInstancePath;
+    let moveInstanceNewPosition;
+
+    beforeEach(function before() {
+      moveInstancePath = null;
+      moveInstanceNewPosition = null;
+
+      const handleMoveInstance = (path, newPosition) => {
+        moveInstancePath = path;
+        moveInstanceNewPosition = newPosition;
+      };
+
+      const repeatingValue = [
+        'Value 1',
+        'Value 2',
+        'Value 3',
+      ];
+
+      render(
+        <RepeatingInput
+          name="rpt"
+          subpath="schema_name"
+          value={repeatingValue}
+          onMoveInstance={handleMoveInstance}
+        >
+          <TextInput />
+        </RepeatingInput>, this.container);
+    });
+
+    it('should call onMoveInstance, incrementing the position by one', function test() {
+      const moveButton = this.container.querySelectorAll('button[name="moveToTop"]')[1];
+
+      Simulate.keyDown(moveButton, {
+        shiftKey: true,
+        key: 'ArrowDown',
+      });
+
+      moveInstancePath.should.deep.equal(['schema_name', 'rpt', '1']);
+      moveInstanceNewPosition.should.equal(2);
+    });
+
+    it('should wrap to position 0 if the next position is past the end of the list', function test() {
+      const moveButton = this.container.querySelectorAll('button[name="moveToTop"]')[2];
+
+      Simulate.keyDown(moveButton, {
+        shiftKey: true,
+        key: 'ArrowDown',
+      });
+
+      moveInstancePath.should.deep.equal(['schema_name', 'rpt', '2']);
+      moveInstanceNewPosition.should.equal(0);
+    });
+
+    it('should not call onMoveInstance if down arrow is depressed without shift', function test() {
+      const moveButton = this.container.querySelectorAll('button[name="moveToTop"]')[2];
+
+      Simulate.keyDown(moveButton, {
+        key: 'ArrowDown',
+      });
+
+      expect(moveInstancePath).to.equal(null);
+    });
+  });
+
+  context('when shift + up arrow is depressed in the move to top button', function context() {
+    let moveInstancePath;
+    let moveInstanceNewPosition;
+
+    beforeEach(function before() {
+      moveInstancePath = null;
+      moveInstanceNewPosition = null;
+
+      const handleMoveInstance = (path, newPosition) => {
+        moveInstancePath = path;
+        moveInstanceNewPosition = newPosition;
+      };
+
+      const repeatingValue = [
+        'Value 1',
+        'Value 2',
+        'Value 3',
+      ];
+
+      render(
+        <RepeatingInput
+          name="rpt"
+          subpath="schema_name"
+          value={repeatingValue}
+          onMoveInstance={handleMoveInstance}
+        >
+          <TextInput />
+        </RepeatingInput>, this.container);
+    });
+
+    it('should call onMoveInstance, incrementing the position by one', function test() {
+      const moveButton = this.container.querySelectorAll('button[name="moveToTop"]')[1];
+
+      Simulate.keyDown(moveButton, {
+        shiftKey: true,
+        key: 'ArrowUp',
+      });
+
+      moveInstancePath.should.deep.equal(['schema_name', 'rpt', '1']);
+      moveInstanceNewPosition.should.equal(0);
+    });
+
+    it('should wrap to the last position if the next position is 0', function test() {
+      const moveButton = this.container.querySelectorAll('button[name="moveToTop"]')[0];
+
+      Simulate.keyDown(moveButton, {
+        shiftKey: true,
+        key: 'ArrowUp',
+      });
+
+      moveInstancePath.should.deep.equal(['schema_name', 'rpt', '0']);
+      moveInstanceNewPosition.should.equal(2);
+    });
+
+    it('should not call onMoveInstance if up arrow is depressed without shift', function test() {
+      const moveButton = this.container.querySelectorAll('button[name="moveToTop"]')[2];
+
+      Simulate.keyDown(moveButton, {
+        key: 'ArrowUp',
+      });
+
+      expect(moveInstancePath).to.equal(null);
+    });
+  });
+
+  context('when shift + plus is depressed in the move to top button', function context() {
+    let addInstancePath;
+    let addInstancePosition;
+
+    beforeEach(function before() {
+      addInstancePath = null;
+      addInstancePosition = null;
+
+      const handleAddInstance = (path, position) => {
+        addInstancePath = path;
+        addInstancePosition = position;
+      };
+
+      const repeatingValue = [
+        'Value 1',
+        'Value 2',
+        'Value 3',
+      ];
+
+      render(
+        <RepeatingInput
+          name="rpt"
+          subpath="schema_name"
+          value={repeatingValue}
+          onAddInstance={handleAddInstance}
+        >
+          <TextInput />
+        </RepeatingInput>, this.container);
+    });
+
+    it('should call onAddInstance, passing the next higher position', function test() {
+      const moveButton = this.container.querySelectorAll('button[name="moveToTop"]')[1];
+
+      Simulate.keyDown(moveButton, {
+        shiftKey: true,
+        key: '+',
+      });
+
+      addInstancePath.should.deep.equal(['schema_name', 'rpt']);
+      addInstancePosition.should.equal(2);
+    });
+
+    it('should not call onAddInstance if up arrow is depressed without shift', function test() {
+      const moveButton = this.container.querySelectorAll('button[name="moveToTop"]')[2];
+
+      Simulate.keyDown(moveButton, {
+        key: '+',
+      });
+
+      expect(addInstancePath).to.equal(null);
+    });
   });
 
   context('when asText is true', function context() {

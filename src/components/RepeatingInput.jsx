@@ -7,7 +7,7 @@ import normalizeLabel from '../helpers/normalizeLabel';
 import { getPath, pathPropType } from '../helpers/pathHelpers';
 import miniButtonContainerStyles from '../../styles/cspace-input/MiniButtonContainer.css';
 import moveToTopButtonStyles from '../../styles/cspace-input/MoveToTopButton.css';
-import repeatingInputStyles from '../../styles/cspace-input/RepeatingInput.css';
+import styles from '../../styles/cspace-input/RepeatingInput.css';
 
 const normalizeValue = (value) => {
   const defaultValue = [undefined];
@@ -70,6 +70,8 @@ export default class RepeatingInput extends Component {
     this.handleInstanceCommit = this.handleInstanceCommit.bind(this);
     this.handleAddButtonClick = this.handleAddButtonClick.bind(this);
     this.handleMoveToTopButtonClick = this.handleMoveToTopButtonClick.bind(this);
+    this.handleMoveToTopButtonKeyDown = this.handleMoveToTopButtonKeyDown.bind(this);
+    this.handleInstancesContainerRef = this.handleInstancesContainerRef.bind(this);
     this.handleRemoveButtonClick = this.handleRemoveButtonClick.bind(this);
   }
 
@@ -85,6 +87,19 @@ export default class RepeatingInput extends Component {
     } = template.props;
 
     return normalizeLabel(label);
+  }
+
+  focus(position) {
+    if (this.instancesContainerNode) {
+      // FIXME: This is a bit of a hack. It should use refs to track the move to top button nodes.
+
+      const instance = this.instancesContainerNode.querySelector(`div[data-instancename="${position}"]`);
+      const moveToTopButtonInstance = instance.querySelector('.cspace-input-MoveToTopButton--common');
+
+      if (moveToTopButtonInstance) {
+        moveToTopButtonInstance.focus();
+      }
+    }
   }
 
   handleAddButtonClick() {
@@ -107,6 +122,10 @@ export default class RepeatingInput extends Component {
     }
   }
 
+  handleInstancesContainerRef(ref) {
+    this.instancesContainerNode = ref;
+  }
+
   handleMoveToTopButtonClick(event) {
     const {
       onMoveInstance,
@@ -117,6 +136,56 @@ export default class RepeatingInput extends Component {
       const newPosition = 0;
 
       onMoveInstance([...getPath(this.props), instanceName], newPosition);
+    }
+  }
+
+  handleMoveToTopButtonKeyDown(event) {
+    const {
+      value,
+      onAddInstance,
+      onMoveInstance,
+    } = this.props;
+
+    if (event.shiftKey) {
+      const {
+        key,
+        currentTarget,
+      } = event;
+
+      if (key === 'ArrowDown' || key === 'ArrowUp') {
+        if (onMoveInstance) {
+          const instanceName = currentTarget.dataset.instancename;
+          const position = parseInt(instanceName, 10);
+          const normalizedValue = normalizeValue(value);
+
+          let newPosition;
+
+          if (key === 'ArrowDown') {
+            newPosition = position + 1;
+
+            if (newPosition > normalizedValue.length - 1) {
+              newPosition = 0;
+            }
+          } else {
+            newPosition = position - 1;
+
+            if (newPosition < 0) {
+              newPosition = normalizedValue.length - 1;
+            }
+          }
+
+          onMoveInstance([...getPath(this.props), instanceName], newPosition);
+
+          this.focus(newPosition);
+        }
+      } else if (key === '+') {
+        if (onAddInstance) {
+          const instanceName = currentTarget.dataset.instancename;
+          const position = parseInt(instanceName, 10);
+
+          onAddInstance(getPath(this.props), position + 1);
+        }
+      }
     }
   }
 
@@ -182,7 +251,7 @@ export default class RepeatingInput extends Component {
         onCommit: this.handleInstanceCommit,
       };
 
-      const instance = React.cloneElement(template, overrideProps);
+      const inputInstance = React.cloneElement(template, overrideProps);
 
       let orderIndicator = null;
 
@@ -204,10 +273,11 @@ export default class RepeatingInput extends Component {
               <MiniButton
                 className={moveToTopButtonStyles.common}
                 data-instancename={instanceName}
-                disabled={index === 0 || !reorderable}
+                disabled={!reorderable}
                 name="moveToTop"
                 readOnly={readOnly}
                 onClick={this.handleMoveToTopButtonClick}
+                onKeyDown={this.handleMoveToTopButtonKeyDown}
               >
                 {orderNumber}
               </MiniButton>
@@ -236,10 +306,13 @@ export default class RepeatingInput extends Component {
       }
 
       return (
-        <div key={index}>
+        <div
+          data-instancename={instanceName}
+          key={index}
+        >
           {orderIndicator}
           <div>
-            {instance}
+            {inputInstance}
           </div>
           {removeButton}
         </div>
@@ -284,7 +357,7 @@ export default class RepeatingInput extends Component {
       );
     }
 
-    const className = readOnly ? repeatingInputStyles.readOnly : repeatingInputStyles.normal;
+    const className = readOnly ? styles.readOnly : styles.normal;
 
     return (
       <fieldset
@@ -293,7 +366,7 @@ export default class RepeatingInput extends Component {
       >
         {isLabelEmbedded ? null : renderHeader(label)}
 
-        <div>
+        <div ref={this.handleInstancesContainerRef}>
           {isLabelEmbedded ? this.renderEmbeddedHeader(label) : null}
           {instances}
         </div>
