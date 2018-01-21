@@ -450,6 +450,78 @@ describe('FilteringDropdownMenuInput', function suite() {
     });
   });
 
+  it('should set the value when the popup is closed while filtering and the filter value is blank (when there is a blank option)', function test() {
+    let committedValue = null;
+
+    const handleCommit = (path, value) => {
+      committedValue = value;
+    };
+
+    const options = [
+      { value: '', label: '' },
+      { value: 'value1', label: 'abcd' },
+    ];
+
+    render(
+      <FilteringDropdownMenuInput
+        options={options}
+        onCommit={handleCommit}
+      />, this.container);
+
+    const input = this.container.querySelector('input');
+
+    Simulate.mouseDown(input);
+
+    input.value = '';
+
+    Simulate.change(input);
+    Simulate.blur(input, { relatedTarget: document.body });
+
+    return new Promise((resolve) => {
+      window.setTimeout(() => {
+        committedValue.should.equal('');
+
+        resolve();
+      }, 0);
+    });
+  });
+
+  it('should set the value when the popup is closed while filtering and the filter value is blank (when blankable is true)', function test() {
+    let committedValue = null;
+
+    const handleCommit = (path, value) => {
+      committedValue = value;
+    };
+
+    const options = [
+      { value: 'value1', label: 'abcd' },
+    ];
+
+    render(
+      <FilteringDropdownMenuInput
+        blankable
+        options={options}
+        onCommit={handleCommit}
+      />, this.container);
+
+    const input = this.container.querySelector('input');
+
+    Simulate.mouseDown(input);
+
+    input.value = '';
+
+    Simulate.change(input);
+    Simulate.blur(input, { relatedTarget: document.body });
+
+    return new Promise((resolve) => {
+      window.setTimeout(() => {
+        committedValue.should.equal('');
+
+        resolve();
+      }, 0);
+    });
+  });
+
   it('should display a message showing the current number of matching items', function test() {
     const options = [
       { value: 'value1', label: 'Value 1' },

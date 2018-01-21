@@ -146,10 +146,49 @@ export default class FilteringDropdownMenuInput extends Component {
   }
 
   handleDropdownInputClose() {
-    this.setState({
+    const nextState = {
       isFiltering: false,
       open: false,
-    });
+    };
+
+    const {
+      isFiltering,
+      valueLabel,
+    } = this.state;
+
+    if (isFiltering && valueLabel === '') {
+      // Normally enter must be pressed on the value being filtered in order to select a matching
+      // option, but make an exception for the blank value. If the dropdown is closed while
+      // filtering, and the filter value is blank, autmatically select the corresponding option
+      // if there is one, or if blankable is true. This allows fields to be cleared without ever
+      // pressing enter. This is required by DRYD-227.
+
+      const {
+        blankable,
+        options,
+      } = this.props;
+
+      let matchingOption = getOptionForLabel(options, valueLabel);
+
+      if (!matchingOption && blankable) {
+        // If blankable, and the current content of the input is empty, allow it to be
+        // committed even if there is no empty option.
+
+        matchingOption = {
+          value: '',
+          valueLabel: '',
+        };
+      }
+
+      if (matchingOption) {
+        nextState.value = matchingOption.value;
+        nextState.valueLabel = matchingOption.label;
+
+        this.commit(matchingOption.value, matchingOption.meta);
+      }
+    }
+
+    this.setState(nextState);
 
     const {
       onClose,
