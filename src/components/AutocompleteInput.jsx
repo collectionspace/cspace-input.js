@@ -22,6 +22,7 @@ const propTypes = {
   readOnly: PropTypes.bool,
   asText: PropTypes.bool,
   source: PropTypes.string,
+  quickAddTo: PropTypes.string,
   addTerm: PropTypes.func,
   findMatchingTerms: PropTypes.func,
   formatAddPrompt: PropTypes.func,
@@ -75,19 +76,32 @@ const getOptions = (partialTerm, props) => {
 
           if (items) {
             items.filter(matchFilter).forEach((item) => {
-              let { termDisplayName } = item;
+              let {
+                termDisplayName,
+              } = item;
+
+              const {
+                workflowState,
+              } = item;
+
+              const deprecated = workflowState && workflowState.includes('deprecated');
 
               if (!Array.isArray(termDisplayName)) {
                 termDisplayName = [termDisplayName];
               }
 
               termDisplayName.forEach((displayName, index) => {
+                const disabled = (
+                  deprecated ||
+                  (index > 0 && (disableAltTerms || vocabDisableAltTerms))
+                );
+
                 options.push({
+                  disabled,
                   value: setDisplayName(item.refName, displayName),
                   label: displayName,
                   meta: item,
                   indent: (index === 0 ? 0 : 1),
-                  disabled: (index > 0 && (disableAltTerms || vocabDisableAltTerms)),
                 });
               });
             });
@@ -169,6 +183,7 @@ export default class AutocompleteInput extends Component {
     this.state = {
       partialTerm: null,
       value: props.value,
+      isFindTimerActive: false,
     };
   }
 
@@ -236,6 +251,7 @@ export default class AutocompleteInput extends Component {
       findMatchingTerms,
       matches,
       minLength,
+      source,
     } = this.props;
 
     const newState = {
@@ -249,13 +265,19 @@ export default class AutocompleteInput extends Component {
 
     if (searchNeeded) {
       this.findTimer = window.setTimeout(() => {
-        findMatchingTerms(partialTerm);
+        findMatchingTerms(source, partialTerm);
 
         this.findTimer = null;
+
+        this.setState({
+          isFindTimerActive: false,
+        });
       }, findDelay);
     } else {
       newState.options = getOptions(partialTerm, this.props);
     }
+
+    newState.isFindTimerActive = !!this.findTimer;
 
     this.setState(newState);
   }
@@ -341,10 +363,13 @@ export default class AutocompleteInput extends Component {
       formatAddPrompt,
       formatSourceName,
       minLength,
+      quickAddTo,
       recordTypes,
       showQuickAdd,
       source,
     } = this.props;
+
+    const to = (typeof quickAddTo === 'undefined') ? source : quickAddTo;
 
     const {
       partialTerm,
@@ -358,7 +383,7 @@ export default class AutocompleteInput extends Component {
           formatAddPrompt={formatAddPrompt}
           formatDestinationName={formatSourceName}
           recordTypes={recordTypes}
-          to={source}
+          to={to}
           onBeforeItemFocusChange={this.handleQuickAddBeforeItemFocusChange}
           ref={this.handleQuickAddRef}
         />
@@ -406,12 +431,14 @@ export default class AutocompleteInput extends Component {
       formatSourceName,
       matchFilter,
       recordTypes,
+      quickAddTo,
       showQuickAdd,
       /* eslint-enable no-unused-vars */
       ...remainingProps
     } = this.props;
 
     const {
+      isFindTimerActive,
       options,
       partialTerm,
       value,
@@ -431,7 +458,7 @@ export default class AutocompleteInput extends Component {
       ? formatMoreCharsRequiredMessage
       : formatSearchResultMessage;
 
-    const className = (this.findTimer || isPending(source, matches, partialTerm))
+    const className = (isFindTimerActive || isPending(source, matches, partialTerm))
       ? styles.searching
       : styles.normal;
 

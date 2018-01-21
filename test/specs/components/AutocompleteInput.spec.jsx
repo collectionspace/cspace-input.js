@@ -269,10 +269,12 @@ describe('AutocompleteInput', function suite() {
   });
 
   it('should call findMatchingTerms when a partial term is entered that does not exist in matches', function test() {
-    let partialTerm = null;
+    let findSource = null;
+    let findPartialTerm = null;
 
-    const findMatchingTerms = (partialTermArg) => {
-      partialTerm = partialTermArg;
+    const findMatchingTerms = (sourceArg, partialTermArg) => {
+      findSource = sourceArg;
+      findPartialTerm = partialTermArg;
     };
 
     render(
@@ -290,7 +292,8 @@ describe('AutocompleteInput', function suite() {
 
     return new Promise((resolve) => {
       window.setTimeout(() => {
-        partialTerm.should.equal('abc');
+        findSource.should.equal('person/local');
+        findPartialTerm.should.equal('abc');
 
         resolve();
       }, findTestDelay);
@@ -298,11 +301,14 @@ describe('AutocompleteInput', function suite() {
   });
 
   it('should only call findMatchingTerms once if the partial term is changed within the find delay', function test() {
-    let partialTerm = null;
+    let findSource = null;
+    let findPartialTerm = null;
     let findMatchingTermsCallCount = 0;
 
-    const findMatchingTerms = (partialTermArg) => {
-      partialTerm = partialTermArg;
+    const findMatchingTerms = (sourceArg, partialTermArg) => {
+      findSource = sourceArg;
+      findPartialTerm = partialTermArg;
+
       findMatchingTermsCallCount += 1;
     };
 
@@ -330,7 +336,8 @@ describe('AutocompleteInput', function suite() {
     })
     .then(() => new Promise((resolve) => {
       window.setTimeout(() => {
-        partialTerm.should.equal('def');
+        findSource.should.equal('person/local');
+        findPartialTerm.should.equal('def');
         findMatchingTermsCallCount.should.equal(1);
 
         resolve();
