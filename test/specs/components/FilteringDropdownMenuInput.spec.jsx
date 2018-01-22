@@ -9,6 +9,8 @@ import createTestContainer from '../../helpers/createTestContainer';
 import { isInput } from '../../../src/helpers/inputHelpers';
 import FilteringDropdownMenuInput from '../../../src/components/FilteringDropdownMenuInput';
 
+const expect = chai.expect;
+
 chai.should();
 
 describe('FilteringDropdownMenuInput', function suite() {
@@ -234,6 +236,42 @@ describe('FilteringDropdownMenuInput', function suite() {
       this.container.querySelectorAll('li').length.should.equal(0);
 
       committedValue.should.equal('value1');
+    });
+  });
+
+  it('should not select a disabled option when it is matched by filtering', function test() {
+    let committedValue = null;
+
+    const handleCommit = (path, value) => {
+      committedValue = value;
+    };
+
+    const options = [
+      { value: 'value1', label: 'abcd', disabled: true },
+    ];
+
+    render(
+      <FilteringDropdownMenuInput
+        options={options}
+        onCommit={handleCommit}
+      />, this.container);
+
+    const input = this.container.querySelector('input');
+
+    Simulate.mouseDown(input);
+
+    input.value = 'abc';
+
+    Simulate.change(input);
+    Simulate.keyDown(input, { key: 'Enter' });
+
+    return new Promise((resolve) => {
+      window.setTimeout(() => {
+        resolve();
+      }, 0);
+    })
+    .then(() => {
+      expect(committedValue).to.equal(null);
     });
   });
 

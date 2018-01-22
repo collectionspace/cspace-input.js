@@ -133,6 +133,12 @@ export default class FilteringDropdownMenuInput extends Component {
         };
       }
 
+      // The matching option must not be disabled.
+
+      if (matchingOption && matchingOption.disabled) {
+        matchingOption = null;
+      }
+
       if (matchingOption) {
         this.setState({
           open: false,
