@@ -11,6 +11,7 @@ const propTypes = {
   tabIndex: PropTypes.string,
   renderItemLabel: PropTypes.func,
   value: PropTypes.string,
+  ignoreDisabledOptions: PropTypes.bool,
   onSelect: PropTypes.func,
   onBeforeItemFocusChange: PropTypes.func,
   onItemMouseEnter: PropTypes.func,
@@ -219,9 +220,14 @@ export default class Menu extends Component {
   }
 
   selectItem(index) {
-    const option = this.props.options[index];
+    const {
+      options,
+      ignoreDisabledOptions,
+    } = this.props;
 
-    if (!option.disabled) {
+    const option = options[index];
+
+    if (ignoreDisabledOptions || !option.disabled) {
       const value = option.value;
 
       this.setState({
@@ -246,6 +252,7 @@ export default class Menu extends Component {
     } = this.state;
 
     const {
+      ignoreDisabledOptions,
       options,
       renderItemLabel,
     } = this.props;
@@ -262,7 +269,7 @@ export default class Menu extends Component {
       const className = classNames(optionIndent ? itemStyles[`indent${optionIndent}`] : null, {
         [itemStyles.common]: true,
         [itemStyles.startGroup]: !!optionStartGroup,
-        [itemStyles.disabled]: optionDisabled,
+        [itemStyles.disabled]: optionDisabled && !ignoreDisabledOptions,
         [itemStyles.selected]: optionValue === value,
         [itemStyles.focused]: focusedIndex === index,
       });

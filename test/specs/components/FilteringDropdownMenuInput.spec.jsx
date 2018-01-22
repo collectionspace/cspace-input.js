@@ -275,6 +275,43 @@ describe('FilteringDropdownMenuInput', function suite() {
     });
   });
 
+  it('should allow a disabled option to be matched by filtering when ignoreDisabledOptions is true', function test() {
+    let committedValue = null;
+
+    const handleCommit = (path, value) => {
+      committedValue = value;
+    };
+
+    const options = [
+      { value: 'value1', label: 'abcd', disabled: true },
+    ];
+
+    render(
+      <FilteringDropdownMenuInput
+        options={options}
+        onCommit={handleCommit}
+        ignoreDisabledOptions
+      />, this.container);
+
+    const input = this.container.querySelector('input');
+
+    Simulate.mouseDown(input);
+
+    input.value = 'abc';
+
+    Simulate.change(input);
+    Simulate.keyDown(input, { key: 'Enter' });
+
+    return new Promise((resolve) => {
+      window.setTimeout(() => {
+        resolve();
+      }, 0);
+    })
+    .then(() => {
+      expect(committedValue).to.equal('value1');
+    });
+  });
+
   it('should call onClose when the popup is closed', function test() {
     let handlerCalled = false;
 

@@ -114,6 +114,7 @@ export default class FilteringDropdownMenuInput extends Component {
       const {
         blankable,
         options,
+        ignoreDisabledOptions,
       } = this.props;
 
       // If there is only one option, select it. Otherwise, if the current content of the
@@ -135,7 +136,7 @@ export default class FilteringDropdownMenuInput extends Component {
 
       // The matching option must not be disabled.
 
-      if (matchingOption && matchingOption.disabled) {
+      if (matchingOption && matchingOption.disabled && !ignoreDisabledOptions) {
         matchingOption = null;
       }
 

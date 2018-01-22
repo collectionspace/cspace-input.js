@@ -18,6 +18,7 @@ const propTypes = {
     value: PropTypes.string,
     label: PropTypes.string,
   })),
+  ignoreDisabledOptions: PropTypes.bool,
   readOnly: PropTypes.bool,
   renderItemLabel: PropTypes.func,
   valueLabel: PropTypes.string,
@@ -198,6 +199,7 @@ export default class DropdownMenuInput extends Component {
       menuHeader,
       menuFooter,
       options,
+      ignoreDisabledOptions,
       readOnly,
       renderItemLabel,
       onBeforeItemFocusChange,
@@ -249,6 +251,7 @@ export default class DropdownMenuInput extends Component {
         {renderMenuHeader(menuHeader)}
         <Menu
           options={options}
+          ignoreDisabledOptions={ignoreDisabledOptions}
           ref={this.handleMenuRef}
           tabIndex="-1"
           renderItemLabel={renderItemLabel}

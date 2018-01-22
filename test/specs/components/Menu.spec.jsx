@@ -164,6 +164,26 @@ describe('Menu', function suite() {
     listItems.item(2).className.should.equal('cspace-input-MenuItem--common cspace-input-MenuItem--disabled');
   });
 
+  it('should not render disabled options with disabled class if ignoreDisabledOptions is true', function test() {
+    const options = [
+      { value: 'value1', label: 'Label 1' },
+      { value: 'value2', label: 'Label 2', disabled: true },
+      { value: 'value3', label: 'Label 3', disabled: true },
+    ];
+
+    render(
+      <Menu
+        options={options}
+        value="value2"
+        ignoreDisabledOptions
+      />, this.container);
+
+    const listItems = this.container.firstElementChild.querySelectorAll('li');
+
+    listItems.item(1).className.should.equal('cspace-input-MenuItem--common cspace-input-MenuItem--selected');
+    listItems.item(2).className.should.equal('cspace-input-MenuItem--common');
+  });
+
   it('should render the selected option with the correct class', function test() {
     const options = [
       { value: 'value1', label: 'Label 1' },
@@ -224,6 +244,28 @@ describe('Menu', function suite() {
     item3.className.should
       .not.match(/cspace-input-MenuItem--selected/);
   });
+
+  it('should allow a disabled option to be selected when ignoreDisabledOptions is true', function test() {
+    const options = [
+      { value: 'value1', label: 'Label 1' },
+      { value: 'value2', label: 'Label 2' },
+      { value: 'value3', label: 'Label 3', disabled: true },
+    ];
+
+    render(
+      <Menu
+        options={options}
+        value="value2"
+        ignoreDisabledOptions
+      />, this.container);
+
+    const item3 = this.container.firstElementChild.querySelectorAll('li').item(2);
+
+    Simulate.click(item3);
+
+    item3.className.should.match(/cspace-input-MenuItem--selected/);
+  });
+
 
   it('should unfocus all items when losing focus', function test() {
     const options = [
