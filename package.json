@@ -1,6 +1,6 @@
 {
   "name": "cspace-input",
-  "version": "0.12.32",
+  "version": "0.12.33",
   "description": "CollectionSpace input components",
   "author": "Ray Lee <rhlee@berkeley.edu>",
   "license": "ECL-2.0",

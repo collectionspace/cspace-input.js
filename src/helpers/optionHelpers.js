@@ -7,63 +7,37 @@
  * @param {Object[]} options - The options
  * @param {string} value - The value
  * @returns {Object} The option whose value exactly equals the given value. If more than one option
- * has the value, the first is returned. If no option has the value, null is returned.
+ * has the value, the first is returned. If no option has the value, undefined is returned.
  */
-export const getOptionForValue = (options, value) => {
-  let option = null;
-
-  // TODO: Use Array.find when it is supported in all browsers.
-
-  if (options) {
-    for (let i = 0; i < options.length; i += 1) {
-      const candidateOption = options[i];
-
-      if (candidateOption.value === value) {
-        option = candidateOption;
-        break;
-      }
-    }
-  }
-
-  return option;
-};
+export const getOptionForValue = (options, value) =>
+  (options ? options.find(option => option.value === value) : undefined);
 
 /**
  * Retrieve the label for a given value in an option list.
  * @param {Object[]} options - The options
  * @param {string} value - The value
  * @returns {string} The label of the option whose value exactly equals the given value. If more
- * than one option has the value, the first is returned. If no option has the value, null is
+ * than one option has the value, the first is returned. If no option has the value, undefined is
  * returned.
  */
 export const getLabelForValue = (options, value) => {
   const option = getOptionForValue(options, value);
 
-  return (option ? option.label : null);
+  return (option ? option.label : undefined);
 };
 
 /**
  * Retrieve the option for a given label in an option list.
  * @param {Object[]} options - The options
  * @param {string} label - The label
- * @returns {Object} The option whose label exactly equals the given label. If more than one option
- * has the label, the first is returned. If no option has the label, null is returned.
+ * @returns {Object} The option whose label equals the given label, case insensitively. If more
+ * than one option has the label, the first is returned. If no option has the label, undefined is
+ * returned.
  */
 export const getOptionForLabel = (options, label) => {
-  let option = null;
+  const lowerCaseLabel = label.toLowerCase();
 
-  // TODO: Use Array.find when it is supported in all browsers.
-
-  for (let i = 0; i < options.length; i += 1) {
-    const candidateOption = options[i];
-
-    if (candidateOption.label === label) {
-      option = candidateOption;
-      break;
-    }
-  }
-
-  return option;
+  return options.find(option => option.label.toLowerCase() === lowerCaseLabel);
 };
 
 /**

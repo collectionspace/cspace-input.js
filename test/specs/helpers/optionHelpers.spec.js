@@ -34,12 +34,12 @@ describe('optionHelpers', function suite() {
       getOptionForValue(options, 'value8').should.equal(options[7]);
     });
 
-    it('should return null if no option has the value', function test() {
-      expect(getOptionForValue(options, 'foo')).to.equal(null);
+    it('should return undefined if no option has the value', function test() {
+      expect(getOptionForValue(options, 'foo')).to.equal(undefined);
     });
 
     it('should use case sensitive comparison', function test() {
-      expect(getOptionForValue(options, 'Value8')).to.equal(null);
+      expect(getOptionForValue(options, 'Value8')).to.equal(undefined);
     });
 
     it('should return the first option if more than one has the given value', function test() {
@@ -52,12 +52,12 @@ describe('optionHelpers', function suite() {
       getLabelForValue(options, 'value8').should.equal('Label 8');
     });
 
-    it('should return null if no option has the value', function test() {
-      expect(getLabelForValue(options, 'foo')).to.equal(null);
+    it('should return undefined if no option has the value', function test() {
+      expect(getLabelForValue(options, 'foo')).to.equal(undefined);
     });
 
     it('should use case sensitive comparison', function test() {
-      expect(getLabelForValue(options, 'Value8')).to.equal(null);
+      expect(getLabelForValue(options, 'Value8')).to.equal(undefined);
     });
 
     it('should return the first option if more than one has the given value', function test() {
@@ -70,12 +70,12 @@ describe('optionHelpers', function suite() {
       getOptionForLabel(options, 'Label 13').should.equal(options[12]);
     });
 
-    it('should return null if no option has the label', function test() {
-      expect(getOptionForLabel(options, 'Foo')).to.equal(null);
+    it('should return undefined if no option has the label', function test() {
+      expect(getOptionForLabel(options, 'Foo')).to.equal(undefined);
     });
 
-    it('should use case sensitive comparison', function test() {
-      expect(getOptionForLabel(options, 'LABEL 2')).to.equal(null);
+    it('should use case insensitive comparison', function test() {
+      expect(getOptionForLabel(options, 'LABEL 7')).to.equal(options[6]);
     });
 
     it('should return the first option if more than one has the given label', function test() {
