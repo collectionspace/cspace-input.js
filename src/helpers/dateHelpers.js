@@ -65,6 +65,11 @@ export const normalizeDateString = (dateString, locale = 'en') => {
   );
 };
 
+export const formatDate = date => (date ? moment(date).format(normalizedDateFormat) : null);
+
+export const parseNormalizedDate = dateString =>
+  (dateString ? moment(dateString, normalizedDateFormat).toDate() : null);
+
 const momentFromYearMonthDay = (year, month, day /* , era */) => {
   if (
     (!year && (month || day)) ||

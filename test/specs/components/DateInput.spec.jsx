@@ -1,3 +1,5 @@
+/* global window */
+
 import React from 'react';
 import { render } from 'react-dom';
 import { Simulate } from 'react-dom/test-utils';
@@ -21,7 +23,7 @@ describe('DateInput', function suite() {
   it('should be closed initially', function test() {
     render(<DateInput />, this.container);
 
-    expect(this.container.querySelector('.react-date-picker__month-view')).to.equal(null);
+    expect(this.container.querySelector('.react-calendar')).to.equal(null);
   });
 
   it('should not open on focus', function test() {
@@ -31,7 +33,7 @@ describe('DateInput', function suite() {
 
     Simulate.focus(input);
 
-    expect(this.container.querySelector('.react-date-picker__month-view')).to.equal(null);
+    expect(this.container.querySelector('.react-calendar')).to.equal(null);
   });
 
   it('should open on mouse down', function test() {
@@ -41,7 +43,7 @@ describe('DateInput', function suite() {
 
     Simulate.mouseDown(input);
 
-    this.container.querySelector('.react-date-picker__month-view').should.not.equal(null);
+    this.container.querySelector('.react-calendar').should.not.equal(null);
   });
 
   it('should open when the input value changes', function test() {
@@ -51,7 +53,7 @@ describe('DateInput', function suite() {
 
     Simulate.change(input);
 
-    this.container.querySelector('.react-date-picker__month-view').should.not.equal(null);
+    this.container.querySelector('.react-calendar').should.not.equal(null);
   });
 
   it('should call onCommit when a value is committed in the dropdown input', function test() {
@@ -79,33 +81,6 @@ describe('DateInput', function suite() {
 
     committedPath.should.deep.equal(['birthDate']);
     committedValue.should.equal('1999-04-22');
-  });
-
-  it('should commit a blank value entered in the dropdown input', function test() {
-    let committedPath = null;
-    let committedValue = null;
-
-    const handleCommit = (path, value) => {
-      committedPath = path;
-      committedValue = value;
-    };
-
-    render(
-      <DateInput
-        name="birthDate"
-        value="2011-11-02T00:00:00.000Z"
-        onCommit={handleCommit}
-      />, this.container);
-
-    const input = this.container.querySelector('input');
-
-    input.value = '';
-
-    Simulate.change(input);
-    Simulate.keyPress(input, { key: 'Enter' });
-
-    committedPath.should.deep.equal(['birthDate']);
-    committedValue.should.equal('');
   });
 
   it('should not call onCommit when the dropdown input value is unchanged from the initial value', function test() {
@@ -152,10 +127,9 @@ describe('DateInput', function suite() {
 
     Simulate.keyDown(input, { key: 'ArrowDown' });
 
-    const calendar = this.container.querySelector('.react-date-picker__month-view');
+    const dateButton = this.container.querySelector('button.react-calendar__month-view__days__day');
 
-    Simulate.keyDown(calendar, { key: 'ArrowDown' });
-    Simulate.keyDown(calendar, { key: 'Enter' });
+    Simulate.click(dateButton);
 
     committedPath.should.deep.equal(['birthDate']);
     committedValue.should.not.equal(null);
@@ -179,11 +153,44 @@ describe('DateInput', function suite() {
 
     Simulate.keyDown(input, { key: 'ArrowDown' });
 
-    const calendar = this.container.querySelector('.react-date-picker__month-view');
+    const calendar = this.container.querySelector('.react-calendar');
 
-    Simulate.keyDown(calendar, { key: 'Enter' });
+    Simulate.keyDown(calendar, { key: 'Escape' });
 
     handlerCalled.should.equal(false);
+  });
+
+  it('should commit a blank value when the calendar closes, even if enter was not pressed', function test() {
+    let committedPath = null;
+    let committedValue = null;
+
+    const handleCommit = (path, value) => {
+      committedPath = path;
+      committedValue = value;
+    };
+
+    render(
+      <DateInput
+        name="birthDate"
+        value="2011-11-02T00:00:00.000Z"
+        onCommit={handleCommit}
+      />, this.container);
+
+    const input = this.container.querySelector('input');
+
+    input.value = '';
+
+    Simulate.change(input);
+    Simulate.keyDown(input, { key: 'Escape' });
+
+    return new Promise((resolve) => {
+      window.setTimeout(() => {
+        committedPath.should.deep.equal(['birthDate']);
+        committedValue.should.equal('');
+
+        resolve();
+      }, 0);
+    });
   });
 
   it('should label weekdays based on locale', function test() {
@@ -193,8 +200,8 @@ describe('DateInput', function suite() {
 
     Simulate.keyDown(input, { key: 'ArrowDown' });
 
-    this.container.querySelector('.react-date-picker__month-view-week-day-name').textContent
-      .should.equal('lun.');
+    this.container.querySelector('.react-calendar__month-view__weekdays__weekday').textContent
+      .should.equal('lun');
   });
 
   it('should normalize the value', function test() {
@@ -215,48 +222,36 @@ describe('DateInput', function suite() {
     input.value.should.equal('1974-04-25');
   });
 
-  it('should label footer buttons using props', function test() {
-    render(
-      <DateInput
-        todayButtonLabel="today label"
-        clearButtonLabel="clear label"
-        okButtonLabel="ok label"
-        cancelButtonLabel="cancel label"
-      />, this.container);
-
-    const input = this.container.querySelector('input');
-
-    Simulate.keyDown(input, { key: 'ArrowDown' });
-
-    const labels = [];
-    let buttons;
-
-    buttons = this.container.querySelectorAll('.react-date-picker__footer-button');
-
-    for (let i = 0; i < buttons.length; i += 1) {
-      labels.push(buttons[i].textContent);
-    }
-
-    const navBarDate = this.container.querySelector('.react-date-picker__nav-bar-date');
-
-    Simulate.mouseDown(navBarDate);
-
-    buttons = this.container.querySelectorAll('.react-date-picker__history-view .react-date-picker__footer-button');
-
-    for (let i = 0; i < buttons.length; i += 1) {
-      labels.push(buttons[i].textContent);
-    }
-
-    labels.should.deep.equal(['today label', 'clear label', 'ok label', 'cancel label']);
-  });
-
   it('should render a disabled LineInput if readOnly is true', function test() {
-    render(<DateInput value={'2017-03-11'} readOnly />, this.container);
+    render(<DateInput value="2017-03-11T00:00:00.000Z" readOnly />, this.container);
 
     const input = this.container.firstElementChild;
 
     input.className.should.contain('cspace-input-LineInput--normal');
     input.disabled.should.equal(true);
     input.value.should.equal('2017-03-11');
+  });
+
+  it('should close when enter is pressed in the input and the input is blank', function test() {
+    render(
+      <DateInput
+        name="birthDate"
+      />, this.container);
+
+    const input = this.container.querySelector('input');
+
+    Simulate.mouseDown(input);
+
+    this.container.querySelector('.react-calendar').should.not.equal(null);
+
+    Simulate.keyPress(input, { key: 'Enter' });
+
+    return new Promise((resolve) => {
+      window.setTimeout(() => {
+        expect(this.container.querySelector('.react-calendar')).to.equal(null);
+
+        resolve();
+      }, 0);
+    });
   });
 });

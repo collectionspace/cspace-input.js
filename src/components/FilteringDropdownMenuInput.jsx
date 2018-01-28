@@ -166,7 +166,7 @@ export default class FilteringDropdownMenuInput extends Component {
     if (isFiltering && valueLabel === '') {
       // Normally enter must be pressed on the value being filtered in order to select a matching
       // option, but make an exception for the blank value. If the dropdown is closed while
-      // filtering, and the filter value is blank, autmatically select the corresponding option
+      // filtering, and the filter value is blank, automatically select the corresponding option
       // if there is one, or if blankable is true. This allows fields to be cleared without ever
       // pressing enter. This is required by DRYD-227.
 

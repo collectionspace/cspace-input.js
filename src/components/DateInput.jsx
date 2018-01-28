@@ -1,17 +1,22 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Footer, HistoryView, MonthView, NavBar } from 'react-date-picker';
+import Calendar from 'react-calendar';
 import BaseDropdownInput from './DropdownInput';
 import LineInput from './LineInput';
 import changeable from '../enhancers/changeable';
 import committable from '../enhancers/committable';
-import { normalizeDateString, normalizeISO8601DateString } from '../helpers/dateHelpers';
 import { getPath } from '../helpers/pathHelpers';
 import styles from '../../styles/cspace-input/DateInput.css';
 /* eslint-disable import/imports-first, import/no-unresolved */
-import '!style-loader!css-loader!react-date-picker/base.css';
-import '!style-loader!css-loader!../../styles/react-date-picker/cspace.css';
+import '!style-loader!css-loader!../../styles/react-calendar/calendar.css';
 /* eslint-enable import/imports-first, import/no-unresolved */
+
+import {
+  formatDate,
+  normalizeDateString,
+  normalizeISO8601DateString,
+  parseNormalizedDate,
+} from '../helpers/dateHelpers';
 
 const DropdownInput = committable(changeable(BaseDropdownInput));
 
@@ -19,19 +24,11 @@ const propTypes = {
   ...BaseDropdownInput.propTypes,
   locale: PropTypes.string,
   onCommit: PropTypes.func,
-  todayButtonLabel: PropTypes.string,
-  clearButtonLabel: PropTypes.string,
-  okButtonLabel: PropTypes.string,
-  cancelButtonLabel: PropTypes.string,
   readOnly: PropTypes.bool,
 };
 
 const defaultProps = {
-  locale: 'en',
-  todayButtonLabel: 'Today',
-  clearButtonLabel: 'Clear',
-  okButtonLabel: 'OK',
-  cancelButtonLabel: 'Cancel',
+  locale: 'en-US',
 };
 
 export default class DateInput extends Component {
@@ -39,201 +36,206 @@ export default class DateInput extends Component {
     super(props);
 
     this.focusCalendar = this.focusCalendar.bind(this);
-    this.handleCalendarActiveDateChange = this.handleCalendarActiveDateChange.bind(this);
     this.handleCalendarChange = this.handleCalendarChange.bind(this);
-    this.handleCalendarRef = this.handleCalendarRef.bind(this);
-    this.handleCalendarViewDateChange = this.handleCalendarViewDateChange.bind(this);
+    this.handleCalendarContainerRef = this.handleCalendarContainerRef.bind(this);
+    // this.handleCalendarRef = this.handleCalendarRef.bind(this);
     this.handleDropdownInputChange = this.handleDropdownInputChange.bind(this);
     this.handleDropdownInputClose = this.handleDropdownInputClose.bind(this);
     this.handleDropdownInputCommit = this.handleDropdownInputCommit.bind(this);
     this.handleDropdownInputKeyPress = this.handleDropdownInputKeyPress.bind(this);
+    this.handleDropdownInputMount = this.handleDropdownInputMount.bind(this);
     this.handleDropdownInputOpen = this.handleDropdownInputOpen.bind(this);
-    this.renderHistoryView = this.renderHistoryView.bind(this);
+
+    const value = normalizeISO8601DateString(props.value);
 
     this.state = {
-      date: normalizeISO8601DateString(props.value),
+      value,
+      date: parseNormalizedDate(value),
       open: false,
     };
   }
 
   componentWillReceiveProps(nextProps) {
+    const nextValue = normalizeISO8601DateString(nextProps.value);
+
     this.setState({
-      date: normalizeISO8601DateString(nextProps.value),
+      value: nextValue,
+      date: parseNormalizedDate(nextValue),
     });
   }
 
-  commit(value) {
+  commit(date) {
     const {
       onCommit,
     } = this.props;
 
-    let {
+    const {
       value: initialValue,
     } = this.props;
 
-    initialValue = normalizeISO8601DateString(initialValue);
+    const normalizedInitialValue = normalizeISO8601DateString(initialValue);
+    const nextValue = formatDate(date);
 
     if (
       onCommit &&
-      (value || initialValue) &&
-      (value !== initialValue)
+      (nextValue || normalizedInitialValue) &&
+      (nextValue !== normalizedInitialValue)
     ) {
-      onCommit(getPath(this.props), value);
+      onCommit(getPath(this.props), nextValue);
     }
+
+    this.setState({
+      value: nextValue,
+      provisionalDate: undefined,
+    });
   }
 
   focusCalendar() {
-    if (this.calendar) {
-      this.calendar.focus();
+    // TODO: react-calendar v6 no longer has the focus method. Maybe it will come back?
+
+    // if (this.calendar) {
+    //   this.calendar.focus();
+    // }
+
+    // For now do a bit of a DOM hack to focus.
+
+    if (this.calendarContainerDomNode) {
+      const button = this.calendarContainerDomNode.querySelector('button');
+
+      if (button) {
+        button.focus();
+      }
     }
   }
 
-  handleCalendarActiveDateChange(dateString) {
+  handleCalendarChange(date) {
     this.setState({
-      activeDate: dateString || Date.now(),
-      provisionalDate: dateString,
-    });
-  }
-
-  handleCalendarChange(dateString) {
-    this.setState({
-      date: dateString,
       open: false,
-      provisionalDate: undefined,
     });
 
-    this.commit(dateString);
+    this.commit(date);
   }
 
-  handleCalendarRef(ref) {
-    this.calendar = ref;
-  }
+  // handleCalendarRef(ref) {
+  //   this.calendar = ref;
+  // }
 
-  handleCalendarViewDateChange(dateString) {
-    this.setState({
-      viewDate: dateString || Date.now(),
-    });
+  handleCalendarContainerRef(ref) {
+    this.calendarContainerDomNode = ref;
   }
 
   handleDropdownInputChange(value) {
-    const dateString = normalizeDateString(value, this.props.locale);
+    const date = parseNormalizedDate(normalizeDateString(value, this.props.locale));
 
-    const newState = {
-      activeDate: dateString,
-      provisionalDate: value,
-      open: true,
-    };
-
-    if (dateString !== null) {
-      newState.viewDate = dateString;
-    }
-
-    this.setState(newState);
-  }
-
-  handleDropdownInputClose() {
     this.setState({
-      open: false,
-      provisionalDate: undefined,
+      value,
+      provisionalDate: date,
+      open: true,
     });
   }
 
+  handleDropdownInputClose() {
+    const {
+      value,
+    } = this.state;
+
+    if (value === '') {
+      // Normally enter must be pressed on the provisional value in order to select a matching
+      // date, but make an exception for the blank value. This allows fields to be cleared
+      // without ever pressing enter. This is required by DRYD-227.
+
+      const {
+        onCommit,
+      } = this.props;
+
+      if (onCommit) {
+        onCommit(getPath(this.props), '');
+      }
+    }
+
+    this.setState({
+      open: false,
+      provisionalDate: undefined,
+      value: normalizeISO8601DateString(this.props.value),
+    });
+
+    this.focusInput();
+  }
+
   handleDropdownInputCommit() {
-    const { provisionalDate } = this.state;
+    const {
+      value,
+    } = this.props;
+
+    const {
+      provisionalDate,
+    } = this.state;
 
     if (typeof provisionalDate !== 'undefined') {
-      let dateString;
+      this.setState({
+        open: false,
+      });
 
-      if (provisionalDate === '') {
-        dateString = '';
-      } else {
-        dateString = normalizeDateString(provisionalDate, this.props.locale);
-      }
+      this.commit(provisionalDate);
+    } else if (typeof value === 'undefined') {
+      // The calendar is open, but the user hasn't typed at all, so there's no provisional date.
+      // If enter is pressed, just close the calendar.
 
-      if (dateString !== null) {
-        this.setState({
-          date: dateString,
-          open: false,
-          provisionalDate: undefined,
-        });
-
-        this.commit(dateString);
-      }
+      this.setState({
+        open: false,
+      });
     }
   }
 
   handleDropdownInputKeyPress(event) {
     if (event.key === 'Enter') {
-      const { provisionalDate } = this.state;
+      const {
+        provisionalDate,
+      } = this.state;
 
-      if (typeof provisionalDate !== 'undefined') {
+      if (provisionalDate) {
         event.preventDefault();
       }
     }
   }
 
-  handleDropdownInputOpen() {
-    const {
-      date,
-      provisionalDate,
-    } = this.state;
-
-    const activeDate = provisionalDate || date || Date.now();
-
-    this.setState({
-      activeDate,
-      viewDate: activeDate,
-      open: true,
-    });
+  handleDropdownInputMount({ focusInput }) {
+    this.focusInput = focusInput;
   }
 
-  renderHistoryView(historyViewProps) {
-    const {
-      okButtonLabel,
-      cancelButtonLabel,
-    } = this.props;
-
-    return (
-      <HistoryView {...historyViewProps}>
-        <Footer
-          todayButton={false}
-          clearButton={false}
-          okButtonText={okButtonLabel}
-          cancelButtonText={cancelButtonLabel}
-        />
-      </HistoryView>
-    );
+  handleDropdownInputOpen() {
+    this.setState({
+      open: true,
+    });
   }
 
   render() {
     const {
       locale,
-      todayButtonLabel,
-      clearButtonLabel,
       readOnly,
-      /* eslint-disable no-unused-vars */
-      okButtonLabel,
-      cancelButtonLabel,
-      /* eslint-enable no-unused-vars */
       ...remainingProps
     } = this.props;
 
     const {
       open,
       date,
-      activeDate,
       provisionalDate,
-      viewDate,
+      value,
     } = this.state;
 
     if (readOnly) {
       return (
-        <LineInput readOnly value={date} embedded={this.props.embedded} />
+        <LineInput readOnly value={value} embedded={this.props.embedded} />
       );
     }
 
-    const value = typeof provisionalDate === 'undefined' ? date : provisionalDate;
-    const className = typeof provisionalDate === 'undefined' ? styles.normal : styles.provisional;
+    let calendarValue;
+
+    if (value) {
+      calendarValue = (typeof provisionalDate !== 'undefined') ? provisionalDate : date;
+    }
+
+    const className = (typeof provisionalDate !== 'undefined') ? styles.provisional : styles.normal;
 
     return (
       <DropdownInput
@@ -246,34 +248,18 @@ export default class DateInput extends Component {
         onClose={this.handleDropdownInputClose}
         onCommit={this.handleDropdownInputCommit}
         onKeyPress={this.handleDropdownInputKeyPress}
+        onMount={this.handleDropdownInputMount}
         onOpen={this.handleDropdownInputOpen}
         value={value}
       >
-        <MonthView
-          activeDate={activeDate}
-          date={date}
-          footer
-          highlightToday={false}
-          highlightWeekends={false}
-          locale={locale}
-          ref={this.handleCalendarRef}
-          theme="cspace"
-          viewDate={viewDate}
-          weekNumbers={false}
-          onChange={this.handleCalendarChange}
-          onViewDateChange={this.handleCalendarViewDateChange}
-          onActiveDateChange={this.handleCalendarActiveDateChange}
-        >
-          <NavBar
-            renderHistoryView={this.renderHistoryView}
-            secondary
+        <div ref={this.handleCalendarContainerRef}>
+          <Calendar
+            locale={locale}
+            // ref={this.handleCalendarRef}
+            value={calendarValue}
+            onChange={this.handleCalendarChange}
           />
-          <Footer
-            todayButtonText={todayButtonLabel}
-            clearButtonText={clearButtonLabel}
-            theme="cspace"
-          />
-        </MonthView>
+        </div>
       </DropdownInput>
     );
   }
