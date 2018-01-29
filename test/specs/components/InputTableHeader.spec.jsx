@@ -63,4 +63,20 @@ describe('InputTableHeader', function suite() {
 
     nodes[2].style.should.have.property('flex', '0 0 16px');
   });
+
+  it('should render a button for fields that are sortable', function test() {
+    render(
+      <InputTableHeader
+        sortableFields={{
+          field2: true,
+        }}
+        onSortButtonClick={() => {}}
+      >
+        <LineInput name="field1" label="1" />
+        <LineInput name="field2" label="2" />
+        <LineInput name="field3" label="3" />
+      </InputTableHeader>, this.container);
+
+    this.container.querySelector('button[name="field2"]').should.not.equal(null);
+  });
 });

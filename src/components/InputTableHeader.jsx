@@ -8,6 +8,8 @@ const propTypes = {
   children: PropTypes.node,
   embedded: PropTypes.bool,
   renderLabel: PropTypes.func,
+  sortableFields: PropTypes.object,
+  onSortButtonClick: PropTypes.func,
 };
 
 const defaultProps = {
@@ -19,6 +21,8 @@ export default function InputTableHeader(props) {
     children,
     embedded,
     renderLabel,
+    sortableFields,
+    onSortButtonClick,
   } = props;
 
   const inputs = extractInputs(children);
@@ -33,16 +37,25 @@ export default function InputTableHeader(props) {
 
     const {
       flex,
+      name,
     } = input.props;
 
     const style = flex ? { flex } : undefined;
 
+    let wrappedLabel = label;
+
+    if (onSortButtonClick && sortableFields && sortableFields[name]) {
+      wrappedLabel = (
+        <button name={name} type="button" onClick={onSortButtonClick}>{label}</button>
+      );
+    }
+
     return (
       <div
-        key={inputs[index].props.name || index}
+        key={name || index}
         style={style}
       >
-        {label}
+        {wrappedLabel}
       </div>
     );
   });

@@ -1,5 +1,6 @@
 import React from 'react';
 import { render } from 'react-dom';
+import { Simulate } from 'react-dom/test-utils';
 
 import createTestContainer from '../../helpers/createTestContainer';
 
@@ -35,5 +36,42 @@ describe('TabularCompoundInput', function suite() {
 
     this.container.querySelector('input').value.should.equal(compoundValue.objectNumber);
     this.container.querySelector('textarea').value.should.equal(compoundValue.comment);
+  });
+
+  it('should call onSortInstances when a sort header button is clicked', function test() {
+    const compoundValue = {
+      objectNumber: '1-200',
+      comment: 'Hello world!',
+    };
+
+    let sortPath = null;
+    let sortByFieldName = null;
+
+    const handleSortInstances = (pathArg, fieldNameArg) => {
+      sortPath = pathArg;
+      sortByFieldName = fieldNameArg;
+    };
+
+    render(
+      <TabularCompoundInput
+        name="objectNumberGroup"
+        value={compoundValue}
+        sortableFields={{
+          objectNumber: true,
+        }}
+        onSortInstances={handleSortInstances}
+      >
+        <TextInput name="objectNumber" label="Object number" />
+        <div>
+          <TextInput name="comment" multiline label={<Label>Comment</Label>} />
+        </div>
+      </TabularCompoundInput>, this.container);
+
+    const objectNumberSortButton = this.container.querySelector('button[name="objectNumber"]');
+
+    Simulate.click(objectNumberSortButton);
+
+    sortPath.should.deep.equal(['objectNumberGroup']);
+    sortByFieldName.should.equal('objectNumber');
   });
 });

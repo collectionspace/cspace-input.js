@@ -1,6 +1,7 @@
 @value textDark: rgb(70, 70, 70);
 @value textMedium: rgb(160, 160, 160);
 @value textLight: rgb(220, 220, 220);
+@value textLabel: rgb(128, 128, 128);
 
 @value buttonText: rgb(255, 255, 255);
 @value buttonBg: #73AA4F;

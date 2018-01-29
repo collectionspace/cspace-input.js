@@ -1,4 +1,4 @@
-@value textLight, inputTableReadOnlyBorder, readOnlyBorder from '../colors.css';
+@value textLabel, textLight, inputTableReadOnlyBorder, readOnlyBorder from '../colors.css';
 
 .common {
   display: flex;
@@ -11,6 +11,24 @@
   padding: 0 2px;
   box-sizing: border-box;
   flex: 1;
+}
+
+.common > div > button {
+  background: transparent;
+  border: none;
+  padding: 0;
+}
+
+.common > div > button::-moz-focus-inner {
+  border: 0;
+}
+
+.common > div > button:focus {
+  outline: 1px dotted black;
+}
+
+.common > div > button > label {
+  text-decoration: underline;
 }
 
 .normal {

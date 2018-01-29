@@ -1,4 +1,4 @@
-@value textDark from '../colors.css';
+@value textDark, textLabel from '../colors.css';
 
 .common {
   display: block;
@@ -6,7 +6,7 @@
   font-family: 'Open Sans', Arial, sans-serif;
   font-size: 12px;
   line-height: 14px;
-  color: rgb(128, 128, 128);
+  color: textLabel;
 }
 
 .required {
