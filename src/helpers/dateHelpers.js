@@ -158,6 +158,8 @@ export const computeLatestScalarDate = (structuredDate) => {
     date.endOf('month');
   }
 
+  // The old UI added one day to the latest date. I'm not sure why.
+
   date.add(1, 'days');
 
   return date.format(normalizedDateFormat);
