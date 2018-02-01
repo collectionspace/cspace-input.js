@@ -4,6 +4,7 @@ import React from 'react';
 import { render } from 'react-dom';
 import { Simulate } from 'react-dom/test-utils';
 import DateInput from '../../../src/components/DateInput';
+import commitHandler from '../../helpers/commitHandler';
 import createTestContainer from '../../helpers/createTestContainer';
 import { isInput } from '../../../src/helpers/inputHelpers';
 
@@ -21,7 +22,8 @@ describe('DateInput', function suite() {
   });
 
   it('should be closed initially', function test() {
-    render(<DateInput />, this.container);
+    const EnhancedDateInput = commitHandler(DateInput);
+    render(<EnhancedDateInput />, this.container);
 
     expect(this.container.querySelector('.react-calendar')).to.equal(null);
   });
@@ -56,7 +58,7 @@ describe('DateInput', function suite() {
     this.container.querySelector('.react-calendar').should.not.equal(null);
   });
 
-  it('should call onCommit when a value is committed in the dropdown input', function test() {
+  it('should call onCommit when enter is depressed in the dropdown input', function test() {
     let committedPath = null;
     let committedValue = null;
 
@@ -77,7 +79,34 @@ describe('DateInput', function suite() {
     input.value = '1999-04-22';
 
     Simulate.change(input);
-    Simulate.keyPress(input, { key: 'Enter' });
+    Simulate.keyDown(input, { key: 'Enter' });
+
+    committedPath.should.deep.equal(['birthDate']);
+    committedValue.should.equal('1999-04-22');
+  });
+
+  it('should call onCommit when the dropdown input', function test() {
+    let committedPath = null;
+    let committedValue = null;
+
+    const handleCommit = (path, value) => {
+      committedPath = path;
+      committedValue = value;
+    };
+
+    render(
+      <DateInput
+        name="birthDate"
+        value="2011-11-02T00:00:00.000Z"
+        onCommit={handleCommit}
+      />, this.container);
+
+    const input = this.container.querySelector('input');
+
+    input.value = '1999-04-22';
+
+    Simulate.change(input);
+    Simulate.keyDown(input, { key: 'Enter' });
 
     committedPath.should.deep.equal(['birthDate']);
     committedValue.should.equal('1999-04-22');
@@ -181,12 +210,45 @@ describe('DateInput', function suite() {
     input.value = '';
 
     Simulate.change(input);
-    Simulate.keyDown(input, { key: 'Escape' });
+    Simulate.blur(input);
 
     return new Promise((resolve) => {
       window.setTimeout(() => {
         committedPath.should.deep.equal(['birthDate']);
         committedValue.should.equal('');
+
+        resolve();
+      }, 0);
+    });
+  });
+
+  it('should not commit a blank value if the calendar closes due to escape being depressed', function test() {
+    let committedPath = null;
+    let committedValue = null;
+
+    const handleCommit = (path, value) => {
+      committedPath = path;
+      committedValue = value;
+    };
+
+    render(
+      <DateInput
+        name="birthDate"
+        value="2011-11-02T00:00:00.000Z"
+        onCommit={handleCommit}
+      />, this.container);
+
+    const input = this.container.querySelector('input');
+
+    input.value = '';
+
+    Simulate.change(input);
+    Simulate.keyDown(input, { key: 'Escape' });
+
+    return new Promise((resolve) => {
+      window.setTimeout(() => {
+        expect(committedPath).to.equal(null);
+        expect(committedValue).to.equal(null);
 
         resolve();
       }, 0);
@@ -230,28 +292,5 @@ describe('DateInput', function suite() {
     input.className.should.contain('cspace-input-LineInput--normal');
     input.disabled.should.equal(true);
     input.value.should.equal('2017-03-11');
-  });
-
-  it('should close when enter is pressed in the input and the input is blank', function test() {
-    render(
-      <DateInput
-        name="birthDate"
-      />, this.container);
-
-    const input = this.container.querySelector('input');
-
-    Simulate.mouseDown(input);
-
-    this.container.querySelector('.react-calendar').should.not.equal(null);
-
-    Simulate.keyPress(input, { key: 'Enter' });
-
-    return new Promise((resolve) => {
-      window.setTimeout(() => {
-        expect(this.container.querySelector('.react-calendar')).to.equal(null);
-
-        resolve();
-      }, 0);
-    });
   });
 });

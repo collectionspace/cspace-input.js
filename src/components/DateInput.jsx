@@ -39,10 +39,10 @@ export default class DateInput extends Component {
     this.handleCalendarChange = this.handleCalendarChange.bind(this);
     this.handleCalendarContainerRef = this.handleCalendarContainerRef.bind(this);
     // this.handleCalendarRef = this.handleCalendarRef.bind(this);
+    this.handleDropdownInputBeforeClose = this.handleDropdownInputBeforeClose.bind(this);
     this.handleDropdownInputChange = this.handleDropdownInputChange.bind(this);
     this.handleDropdownInputClose = this.handleDropdownInputClose.bind(this);
-    this.handleDropdownInputCommit = this.handleDropdownInputCommit.bind(this);
-    this.handleDropdownInputKeyPress = this.handleDropdownInputKeyPress.bind(this);
+    this.handleDropdownInputKeyDown = this.handleDropdownInputKeyDown.bind(this);
     this.handleDropdownInputMount = this.handleDropdownInputMount.bind(this);
     this.handleDropdownInputOpen = this.handleDropdownInputOpen.bind(this);
 
@@ -83,11 +83,6 @@ export default class DateInput extends Component {
     ) {
       onCommit(getPath(this.props), nextValue);
     }
-
-    this.setState({
-      value: nextValue,
-      provisionalDate: undefined,
-    });
   }
 
   focusCalendar() {
@@ -110,10 +105,12 @@ export default class DateInput extends Component {
 
   handleCalendarChange(date) {
     this.setState({
+      value: formatDate(date),
       open: false,
     });
 
     this.commit(date);
+    this.focusInput();
   }
 
   // handleCalendarRef(ref) {
@@ -122,6 +119,15 @@ export default class DateInput extends Component {
 
   handleCalendarContainerRef(ref) {
     this.calendarContainerDomNode = ref;
+  }
+
+  handleDropdownInputBeforeClose(isCancelled) {
+    if (isCancelled) {
+      this.setState({
+        provisionalDate: undefined,
+        value: normalizeISO8601DateString(this.props.value),
+      });
+    }
   }
 
   handleDropdownInputChange(value) {
@@ -135,14 +141,22 @@ export default class DateInput extends Component {
   }
 
   handleDropdownInputClose() {
+    const nextState = {
+      provisionalDate: undefined,
+      open: false,
+    };
+
     const {
+      provisionalDate,
       value,
     } = this.state;
 
-    if (value === '') {
+    if (typeof provisionalDate !== 'undefined' && value === '') {
       // Normally enter must be pressed on the provisional value in order to select a matching
       // date, but make an exception for the blank value. This allows fields to be cleared
       // without ever pressing enter. This is required by DRYD-227.
+
+      nextState.value = '';
 
       const {
         onCommit,
@@ -151,50 +165,28 @@ export default class DateInput extends Component {
       if (onCommit) {
         onCommit(getPath(this.props), '');
       }
+    } else {
+      nextState.value = normalizeISO8601DateString(this.props.value);
     }
 
-    this.setState({
-      open: false,
-      provisionalDate: undefined,
-      value: normalizeISO8601DateString(this.props.value),
-    });
-
-    this.focusInput();
+    this.setState(nextState);
   }
 
-  handleDropdownInputCommit() {
-    const {
-      value,
-    } = this.props;
-
+  handleDropdownInputKeyDown(event) {
     const {
       provisionalDate,
+      value,
     } = this.state;
 
-    if (typeof provisionalDate !== 'undefined') {
-      this.setState({
-        open: false,
-      });
+    if (typeof provisionalDate !== 'undefined' && event.key === 'Enter') {
+      event.preventDefault();
 
-      this.commit(provisionalDate);
-    } else if (typeof value === 'undefined') {
-      // The calendar is open, but the user hasn't typed at all, so there's no provisional date.
-      // If enter is pressed, just close the calendar.
+      if (provisionalDate !== null || value === '') {
+        this.setState({
+          open: false,
+        });
 
-      this.setState({
-        open: false,
-      });
-    }
-  }
-
-  handleDropdownInputKeyPress(event) {
-    if (event.key === 'Enter') {
-      const {
-        provisionalDate,
-      } = this.state;
-
-      if (provisionalDate) {
-        event.preventDefault();
+        this.commit(provisionalDate);
       }
     }
   }
@@ -204,9 +196,12 @@ export default class DateInput extends Component {
   }
 
   handleDropdownInputOpen() {
-    this.setState({
-      open: true,
-    });
+    if (!this.state.open) {
+      this.setState({
+        open: true,
+        provisionalDate: undefined,
+      });
+    }
   }
 
   render() {
@@ -241,13 +236,12 @@ export default class DateInput extends Component {
       <DropdownInput
         {...remainingProps}
         className={className}
-        commitUnchanged
         focusPopup={this.focusCalendar}
         open={open}
         onChange={this.handleDropdownInputChange}
+        onBeforeClose={this.handleDropdownInputBeforeClose}
         onClose={this.handleDropdownInputClose}
-        onCommit={this.handleDropdownInputCommit}
-        onKeyPress={this.handleDropdownInputKeyPress}
+        onKeyDown={this.handleDropdownInputKeyDown}
         onMount={this.handleDropdownInputMount}
         onOpen={this.handleDropdownInputOpen}
         value={value}

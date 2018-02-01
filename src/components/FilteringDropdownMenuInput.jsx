@@ -33,6 +33,7 @@ export default class FilteringDropdownMenuInput extends Component {
   constructor(props) {
     super(props);
 
+    this.handleDropdownInputBeforeClose = this.handleDropdownInputBeforeClose.bind(this);
     this.handleDropdownInputChange = this.handleDropdownInputChange.bind(this);
     this.handleDropdownInputClose = this.handleDropdownInputClose.bind(this);
     this.handleDropdownInputCommit = this.handleDropdownInputCommit.bind(this);
@@ -75,6 +76,14 @@ export default class FilteringDropdownMenuInput extends Component {
 
     if (filter) {
       filter(filterByValue);
+    }
+  }
+
+  handleDropdownInputBeforeClose(isCancelled) {
+    if (isCancelled) {
+      this.setState({
+        isFiltering: false,
+      });
     }
   }
 
@@ -274,6 +283,7 @@ export default class FilteringDropdownMenuInput extends Component {
         className={classes}
         menuHeader={this.renderMenuHeader()}
         open={open}
+        onBeforeClose={this.handleDropdownInputBeforeClose}
         onChange={this.handleDropdownInputChange}
         onClose={this.handleDropdownInputClose}
         onCommit={this.handleDropdownInputCommit}

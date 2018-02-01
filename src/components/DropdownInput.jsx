@@ -23,6 +23,7 @@ const propTypes = {
   focusPopup: PropTypes.func,
 
   onBlur: PropTypes.func,
+  onBeforeClose: PropTypes.func,
   onClose: PropTypes.func,
   onKeyDown: PropTypes.func,
   onMount: PropTypes.func,
@@ -91,9 +92,17 @@ export default class DropdownInput extends Component {
     }
   }
 
-  close() {
+  close(isCancelled) {
     if (this.state.open) {
       setTimeout(() => {
+        const {
+          onBeforeClose,
+        } = this.props;
+
+        if (onBeforeClose) {
+          onBeforeClose(isCancelled);
+        }
+
         this.setState({
           open: false,
         });
@@ -180,7 +189,7 @@ export default class DropdownInput extends Component {
         this.focusPopupNeeded = true;
       }
     } else if (event.key === 'Escape') {
-      this.close();
+      this.close(true);
     }
 
     if (onKeyDown) {
@@ -221,6 +230,7 @@ export default class DropdownInput extends Component {
       isOpenableWhenReadOnly,
       openOnFocus,
       openOnMouseDown,
+      onBeforeClose,
       onClose,
       onKeyDown,
       onMount,
