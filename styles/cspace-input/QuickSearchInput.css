@@ -45,3 +45,7 @@
   background-position: center center;
   background-size: 16px;
 }
+
+.common :global(.cspace-input-Menu--common) {
+  max-height: 240px;
+}
