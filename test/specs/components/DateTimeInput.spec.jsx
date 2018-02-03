@@ -1,7 +1,7 @@
 import React from 'react';
 import { createRenderer } from 'react-test-renderer/shallow';
 import DateTimeInput from '../../../src/components/DateTimeInput';
-import ReadOnlyInput from '../../../src/components/ReadOnlyInput';
+import LineInput from '../../../src/components/LineInput';
 import { isInput } from '../../../src/helpers/inputHelpers';
 
 chai.should();
@@ -11,14 +11,15 @@ describe('DateTimeInput', function suite() {
     isInput(<DateTimeInput />).should.equal(true);
   });
 
-  it('should render a ReadOnlyInput', function test() {
+  it('should render a read only LineInput', function test() {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(<DateTimeInput />);
 
     const result = shallowRenderer.getRenderOutput();
 
-    result.type.should.equal(ReadOnlyInput);
+    result.type.should.equal(LineInput);
+    result.props.readOnly.should.equal(true);
   });
 
   it('should use formatValue to format the value', function test() {

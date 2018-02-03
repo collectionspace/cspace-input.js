@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import ReadOnlyInput from './ReadOnlyInput';
+import LineInput from './LineInput';
 import { pathPropType } from '../helpers/pathHelpers';
 
 /*
@@ -27,8 +27,9 @@ export default function DateTimeInput(props) {
   } = props;
 
   return (
-    <ReadOnlyInput
+    <LineInput
       name={name}
+      readOnly
       value={formatValue ? formatValue(value) : value}
     />
   );
