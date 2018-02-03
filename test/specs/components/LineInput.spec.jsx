@@ -109,6 +109,22 @@ describe('LineInput', function suite() {
     expect(inputApi).to.equal(null);
   });
 
+  it('should render a link alongside the input if showLink is true', function test() {
+    const value = 'http://collectionspace.org/';
+
+    render(<LineInput value={value} showLink />, this.container);
+
+    this.container.querySelector('a').should.have.property('href', value);
+  });
+
+  it('should not render a link alongside the input if showLink is true but the value is not a URL', function test() {
+    const value = 'foo';
+
+    render(<LineInput value={value} showLink />, this.container);
+
+    expect(this.container.querySelector('a')).to.equal(null);
+  });
+
   it('should become focused when the focus api is called', function test() {
     let inputApi = null;
 
