@@ -50,6 +50,10 @@
   vertical-align: top;
 }
 
+.common > div > div:nth-of-type(even) {
+  background-color: #EBF4FF;
+}
+
 .normal > div > div > * {
   border-color: textLight;
 }
