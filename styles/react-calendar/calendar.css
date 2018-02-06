@@ -17,12 +17,17 @@
   box-sizing: border-box;
 }
 .react-calendar button {
+  margin: 0;
   border: 0;
   outline: none;
   font-family: 'Open Sans', Arial, sans-serif;
   font-size: 14px;
   font-weight: 400;
   color: rgb(70, 70, 70);
+}
+.react-calendar button::-moz-focus-inner {
+  border: 0;
+  padding: 0;
 }
 .react-calendar__navigation {
   border-bottom: 1px solid rgb(220, 220, 220);
