@@ -47,7 +47,6 @@
     "prop-types": "^15.6.0",
     "react": "^15.6.2",
     "react-calendar": "^2.13.0",
-    "react-date-picker": "^5.3.28",
     "react-dom": "^15.6.2",
     "react-quill": "^1.2.3",
     "react-shallow-testutils": "^3.0.1",
