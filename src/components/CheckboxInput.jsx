@@ -100,6 +100,7 @@ export default class CheckboxInput extends Component {
         <input
           checked={checked}
           disabled={readOnly}
+          name={name}
           type="checkbox"
           onChange={this.handleChange}
           {...remainingProps}
