@@ -167,6 +167,22 @@ const getNewTerm = (sourceID, matches, partialTerm) => {
   return newTerm;
 };
 
+/**
+ * Remove anchor and wildcard operators from partial terms.
+ */
+const removePartialTermOperators = (partialTerm) => {
+  if (!partialTerm) {
+    return partialTerm;
+  }
+
+  return (
+    partialTerm
+      .replace(/^\^/, '')
+      .replace(/\^$/, '')
+      .replace(/\*/g, '')
+  );
+};
+
 export default class AutocompleteInput extends Component {
   constructor(props) {
     super(props);
@@ -260,7 +276,7 @@ export default class AutocompleteInput extends Component {
 
     const searchNeeded =
       findMatchingTerms && partialTerm
-      && partialTerm.length >= minLength
+      && removePartialTermOperators(partialTerm).length >= minLength
       && (!matches || !matches.has(partialTerm));
 
     if (searchNeeded) {
@@ -375,11 +391,17 @@ export default class AutocompleteInput extends Component {
       partialTerm,
     } = this.state;
 
-    if (showQuickAdd && partialTerm && partialTerm.length >= minLength) {
+    const partialTermText = removePartialTermOperators(partialTerm);
+
+    if (
+      showQuickAdd && partialTerm &&
+      partialTermText.length >= minLength
+    ) {
       return (
         <QuickAdd
           add={addTerm}
-          displayName={partialTerm}
+          displayName={partialTermText}
+          partialTerm={partialTerm}
           formatAddPrompt={formatAddPrompt}
           formatDestinationName={formatSourceName}
           recordTypes={recordTypes}
@@ -451,7 +473,7 @@ export default class AutocompleteInput extends Component {
     const moreCharsRequired = (
       typeof partialTerm !== 'undefined' &&
       partialTerm !== null &&
-      partialTerm.length < minLength
+      removePartialTermOperators(partialTerm).length < minLength
     );
 
     const formatStatusMessage = moreCharsRequired

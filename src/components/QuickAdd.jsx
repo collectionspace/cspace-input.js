@@ -8,6 +8,7 @@ import styles from '../../styles/cspace-input/QuickAdd.css';
 const propTypes = {
   add: PropTypes.func,
   displayName: PropTypes.string,
+  partialTerm: PropTypes.string,
   formatDestinationName: PropTypes.func,
   formatAddPrompt: PropTypes.func,
   recordTypes: PropTypes.object,
@@ -49,6 +50,7 @@ export default class QuickAdd extends Component {
     const {
       add,
       displayName,
+      partialTerm,
     } = this.props;
 
     if (add) {
@@ -61,7 +63,7 @@ export default class QuickAdd extends Component {
         vocabulary,
       ] = value.split('/');
 
-      add(recordType, vocabulary, displayName);
+      add(recordType, vocabulary, displayName, partialTerm);
     }
   }
 
