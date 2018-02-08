@@ -106,7 +106,10 @@ export default class LineInput extends Component {
 
     if (showLink) {
       const url = linkUrl(value);
-      const link = url ? <a href={url} target="_blank">{linkContent}</a> : null;
+
+      const link = url
+        ? <a href={url} target="_blank" rel="noopener noreferrer">{linkContent}</a>
+        : null;
 
       return (
         <div className={wrapperStyles.common}>
