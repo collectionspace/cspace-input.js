@@ -19,7 +19,7 @@ const propTypes = {
 };
 
 const defaultProps = {
-  linkContent: 'Go',
+  linkContent: 'Open',
   linkUrl: value => ((value && value.startsWith('http://')) ? value : null),
 };
 
@@ -106,7 +106,7 @@ export default class LineInput extends Component {
 
     if (showLink) {
       const url = linkUrl(value);
-      const link = url ? <a href={url}>{linkContent}</a> : null;
+      const link = url ? <a href={url} target="_blank">{linkContent}</a> : null;
 
       return (
         <div className={wrapperStyles.common}>
