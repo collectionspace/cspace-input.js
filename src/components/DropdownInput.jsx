@@ -14,7 +14,7 @@ const propTypes = {
   openOnFocus: PropTypes.bool,
   openOnMouseDown: PropTypes.bool,
   isOpenableWhenReadOnly: PropTypes.bool,
-
+  api: PropTypes.func,
   /*
    * A function that may be called to give focus to the contents of the popup. This is supplied as
    * a prop because DropdownInput does not know the contents of the popup. Only the caller knows
@@ -54,8 +54,15 @@ export default class DropdownInput extends Component {
 
   componentDidMount() {
     const {
+      api,
       onMount,
     } = this.props;
+
+    if (api) {
+      api({
+        close: this.close.bind(this),
+      });
+    }
 
     if (onMount) {
       onMount({
@@ -68,7 +75,7 @@ export default class DropdownInput extends Component {
     if (nextProps.open) {
       this.open();
     } else {
-      this.close();
+      this.asyncClose();
     }
   }
 
@@ -94,20 +101,24 @@ export default class DropdownInput extends Component {
 
   close(isCancelled) {
     if (this.state.open) {
-      setTimeout(() => {
-        const {
-          onBeforeClose,
-        } = this.props;
+      const {
+        onBeforeClose,
+      } = this.props;
 
-        if (onBeforeClose) {
-          onBeforeClose(isCancelled);
-        }
+      if (onBeforeClose) {
+        onBeforeClose(isCancelled);
+      }
 
-        this.setState({
-          open: false,
-        });
-      }, 0);
+      this.setState({
+        open: false,
+      });
     }
+  }
+
+  asyncClose(isCancelled) {
+    setTimeout(() => {
+      this.close(isCancelled);
+    }, 0);
   }
 
   open() {
@@ -149,7 +160,7 @@ export default class DropdownInput extends Component {
     }
 
     if (!this.domNode.contains(event.relatedTarget)) {
-      this.close();
+      this.asyncClose();
     }
   }
 
@@ -189,7 +200,7 @@ export default class DropdownInput extends Component {
         this.focusPopupNeeded = true;
       }
     } else if (event.key === 'Escape') {
-      this.close(true);
+      this.asyncClose(true);
     }
 
     if (onKeyDown) {
@@ -199,13 +210,13 @@ export default class DropdownInput extends Component {
 
   handlePopupBlur(event) {
     if (!this.domNode.contains(event.relatedTarget)) {
-      this.close();
+      this.asyncClose();
     }
   }
 
   handlePopupKeyDown(event) {
     if (event.key === 'Escape') {
-      this.close();
+      this.asyncClose();
       this.focusInput();
     }
   }

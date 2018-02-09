@@ -58,34 +58,29 @@ describe('DateInput', function suite() {
     this.container.querySelector('.react-calendar').should.not.equal(null);
   });
 
-  it('should call onCommit when enter is depressed in the dropdown input', function test() {
-    let committedPath = null;
-    let committedValue = null;
-
-    const handleCommit = (path, value) => {
-      committedPath = path;
-      committedValue = value;
-    };
-
+  it('should close the calendar dropdown when tab is pressed in the input', function test() {
     render(
       <DateInput
         name="birthDate"
         value="2011-11-02T00:00:00.000Z"
-        onCommit={handleCommit}
       />, this.container);
 
     const input = this.container.querySelector('input');
 
+    Simulate.focus(input);
+
     input.value = '1999-04-22';
 
     Simulate.change(input);
-    Simulate.keyDown(input, { key: 'Enter' });
 
-    committedPath.should.deep.equal(['birthDate']);
-    committedValue.should.equal('1999-04-22');
+    this.container.querySelector('.react-calendar').should.not.equal(null);
+
+    Simulate.keyDown(input, { key: 'Tab' });
+
+    expect(this.container.querySelector('.react-calendar')).to.equal(null);
   });
 
-  it('should call onCommit when the dropdown input', function test() {
+  it('should call onCommit when enter is depressed in the dropdown input', function test() {
     let committedPath = null;
     let committedValue = null;
 

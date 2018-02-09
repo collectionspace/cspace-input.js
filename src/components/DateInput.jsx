@@ -39,6 +39,7 @@ export default class DateInput extends Component {
     this.handleCalendarChange = this.handleCalendarChange.bind(this);
     this.handleCalendarContainerRef = this.handleCalendarContainerRef.bind(this);
     // this.handleCalendarRef = this.handleCalendarRef.bind(this);
+    this.handleDropdownInputApi = this.handleDropdownInputApi.bind(this);
     this.handleDropdownInputBeforeClose = this.handleDropdownInputBeforeClose.bind(this);
     this.handleDropdownInputChange = this.handleDropdownInputChange.bind(this);
     this.handleDropdownInputClose = this.handleDropdownInputClose.bind(this);
@@ -121,6 +122,10 @@ export default class DateInput extends Component {
     this.calendarContainerDomNode = ref;
   }
 
+  handleDropdownInputApi(api) {
+    this.dropdownInputApi = api;
+  }
+
   handleDropdownInputBeforeClose(isCancelled) {
     if (isCancelled) {
       this.setState({
@@ -178,7 +183,19 @@ export default class DateInput extends Component {
       value,
     } = this.state;
 
-    if (typeof provisionalDate !== 'undefined' && event.key === 'Enter') {
+    if (event.key === 'Tab') {
+      // DRYD-264: Close the dropdown when tab is depressed. The calendar is still keyboard
+      // accessible by pressing down arrow. Need to close immediately (synchronously) -- otherwise
+      // the calendar will receive focus before closing, leaving nothing focused. To do this, the
+      // close() method of the dropdown needs to be called, rather than just passing open={false}
+      // as a prop.
+
+      this.dropdownInputApi.close();
+
+      this.setState({
+        open: false,
+      });
+    } else if (typeof provisionalDate !== 'undefined' && event.key === 'Enter') {
       event.preventDefault();
 
       if (provisionalDate !== null || value === '') {
@@ -238,13 +255,14 @@ export default class DateInput extends Component {
         className={className}
         focusPopup={this.focusCalendar}
         open={open}
+        value={value}
+        api={this.handleDropdownInputApi}
         onChange={this.handleDropdownInputChange}
         onBeforeClose={this.handleDropdownInputBeforeClose}
         onClose={this.handleDropdownInputClose}
         onKeyDown={this.handleDropdownInputKeyDown}
         onMount={this.handleDropdownInputMount}
         onOpen={this.handleDropdownInputOpen}
-        value={value}
       >
         <div ref={this.handleCalendarContainerRef}>
           <Calendar
