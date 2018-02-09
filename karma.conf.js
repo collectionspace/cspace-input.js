@@ -4,35 +4,35 @@
 const webpack = require('webpack');
 
 const sauceLaunchers = {
-  'chrome-latest-mac': {
+  'chrome-latest-osx': {
     base: 'SauceLabs',
     browserName: 'chrome',
     version: 'latest',
-    platform: 'macOS 10.12',
+    platform: 'OS X 10.13',
   },
-  'chrome-previous-mac': {
+  'chrome-previous-osx': {
     base: 'SauceLabs',
     browserName: 'chrome',
     version: 'latest-1',
-    platform: 'macOS 10.12',
+    platform: 'OS X 10.13',
   },
-  'firefox-latest-mac': {
+  'firefox-latest-osx': {
     base: 'SauceLabs',
     browserName: 'firefox',
     version: 'latest',
-    platform: 'macOS 10.12',
+    platform: 'OS X 10.13',
   },
-  'firefox-previous-mac': {
+  'firefox-previous-osx': {
     base: 'SauceLabs',
     browserName: 'firefox',
     version: 'latest-1',
-    platform: 'macOS 10.12',
+    platform: 'OS X 10.13',
   },
-  // 'safari-latest-mac': {
+  // 'safari-latest-osx': {
   //   base: 'SauceLabs',
   //   browserName: 'safari',
   //   version: 'latest',
-  //   platform: 'macOS 10.12',
+  //   platform: 'OS X 10.13',
   // },
   // 'edge-latest-win10': {
   //   base: 'SauceLabs',
@@ -40,13 +40,12 @@ const sauceLaunchers = {
   //   version: 'latest',
   //   platform: 'Windows 10',
   // },
-  // 'safari-ios-10.0': {
+  // 'safari-ios-11.2': {
   //   base: 'SauceLabs',
   //   browserName: 'safari',
   //   platformName: 'iOS',
-  //   platformVersion: '10.0',
-  //   deviceName: 'iPad Air 2 Simulator',
-  //   appiumVersion: '1.6.0',
+  //   platformVersion: '11.2',
+  //   deviceName: 'iPad Simulator',
   // },
 };
 
