@@ -1,6 +1,6 @@
 {
   "name": "cspace-input",
-  "version": "0.12.45",
+  "version": "0.12.46",
   "description": "CollectionSpace input components",
   "author": "Ray Lee <rhlee@berkeley.edu>",
   "license": "ECL-2.0",
@@ -39,7 +39,7 @@
   },
   "dependencies": {
     "classnames": "^2.2.5",
-    "cspace-layout": "^0.2.2",
+    "cspace-layout": "^0.2.3",
     "cspace-refname": "^0.0.8",
     "immutable": "^3.8.2",
     "lodash": "^4.17.5",
