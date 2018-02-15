@@ -76,9 +76,8 @@ const getOptions = (partialTerm, props) => {
 
           if (items) {
             items.filter(matchFilter).forEach((item) => {
-              let {
-                termDisplayName,
-              } = item;
+              // TODO: Use a prop to specify the name of the item's display name field.
+              let displayNames = item.termDisplayName || item.objectNumber;
 
               const {
                 workflowState,
@@ -86,11 +85,11 @@ const getOptions = (partialTerm, props) => {
 
               const deprecated = workflowState && workflowState.includes('deprecated');
 
-              if (!Array.isArray(termDisplayName)) {
-                termDisplayName = [termDisplayName];
+              if (!Array.isArray(displayNames)) {
+                displayNames = [displayNames];
               }
 
-              termDisplayName.forEach((displayName, index) => {
+              displayNames.forEach((displayName, index) => {
                 const disabled = (
                   deprecated ||
                   (index > 0 && (disableAltTerms || vocabDisableAltTerms))
