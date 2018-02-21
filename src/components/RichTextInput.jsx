@@ -105,20 +105,37 @@ export default class RichTextInput extends Component {
     // TODO: Make a custom HTML toolbar for accessibility:
     // https://github.com/zenoamaro/react-quill#html-toolbar
 
-    this.state = {
-      value: this.props.value,
-    };
-
     this.handleBlur = this.handleBlur.bind(this);
     this.handleFocus = this.handleFocus.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleRef = this.handleRef.bind(this);
+
+    this.state = {
+      value: this.props.value,
+    };
   }
 
   componentWillReceiveProps(nextProps) {
     this.setState({
       value: nextProps.value,
     });
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    const {
+      embedded,
+      multiline,
+      readOnly,
+      value,
+    } = this.props;
+
+    return (
+      nextProps.embedded !== embedded ||
+      nextProps.multiline !== multiline ||
+      nextProps.readOnly !== readOnly ||
+      nextProps.value !== value ||
+      nextState.focused !== this.state.focused
+    );
   }
 
   commit() {
