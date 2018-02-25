@@ -160,8 +160,8 @@ describe('Menu', function suite() {
 
     const listItems = this.container.firstElementChild.querySelectorAll('li');
 
-    listItems.item(1).className.should.equal('cspace-input-MenuItem--common cspace-input-MenuItem--disabled cspace-input-MenuItem--selected');
-    listItems.item(2).className.should.equal('cspace-input-MenuItem--common cspace-input-MenuItem--disabled');
+    listItems.item(1).className.should.contain('cspace-input-MenuItem--disabled');
+    listItems.item(2).className.should.contain('cspace-input-MenuItem--disabled');
   });
 
   it('should not render disabled options with disabled class if ignoreDisabledOptions is true', function test() {
@@ -180,8 +180,8 @@ describe('Menu', function suite() {
 
     const listItems = this.container.firstElementChild.querySelectorAll('li');
 
-    listItems.item(1).className.should.equal('cspace-input-MenuItem--common cspace-input-MenuItem--selected');
-    listItems.item(2).className.should.equal('cspace-input-MenuItem--common');
+    listItems.item(1).className.should.not.contain('cspace-input-MenuItem--disabled');
+    listItems.item(2).className.should.not.contain('cspace-input-MenuItem--disabled');
   });
 
   it('should render the selected option with the correct class', function test() {
@@ -199,7 +199,7 @@ describe('Menu', function suite() {
 
     const listItems = this.container.firstElementChild.querySelectorAll('li');
 
-    listItems.item(1).className.should.equal('cspace-input-MenuItem--common cspace-input-MenuItem--selected');
+    listItems.item(1).className.should.contain('cspace-input-MenuItem--selected');
   });
 
   it('should focus and select an option when clicked', function test() {

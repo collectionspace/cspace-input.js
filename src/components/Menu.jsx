@@ -261,6 +261,7 @@ export default class Menu extends Component {
       const {
         value: optionValue,
         label: optionLabel,
+        className: optionClassName,
         disabled: optionDisabled,
         indent: optionIndent,
         startGroup: optionStartGroup,
@@ -272,6 +273,7 @@ export default class Menu extends Component {
         [itemStyles.disabled]: optionDisabled && !ignoreDisabledOptions,
         [itemStyles.selected]: optionValue === value,
         [itemStyles.focused]: focusedIndex === index,
+        [optionClassName]: true,
       });
 
       const ref = (optionValue === value)

@@ -136,6 +136,22 @@ describe('QuickAdd', function suite() {
     expect(this.container.firstElementChild).to.equal(null);
   });
 
+  it('should render create new and clone options if showCloneOption is true and there is one destination', function test() {
+    render(
+      <QuickAdd
+        to="person/person"
+        recordTypes={recordTypes}
+        showCloneOption
+      />, this.container);
+
+    const options = this.container.querySelectorAll('.cspace-input-MenuItem--common');
+
+    options.should.have.lengthOf(2);
+
+    options[0].className.should.contain('cspace-input-QuickAddItem--add');
+    options[1].className.should.contain('cspace-input-QuickAddItem--clone');
+  });
+
   it('should call add when an add item is clicked', function test() {
     let funcCalled = false;
 

@@ -19,6 +19,7 @@ const propTypes = {
   recordTypes: PropTypes.object,
   disableAltTerms: PropTypes.bool,
   showQuickAdd: PropTypes.bool,
+  showQuickAddCloneOption: PropTypes.bool,
   readOnly: PropTypes.bool,
   asText: PropTypes.bool,
   source: PropTypes.string,
@@ -26,6 +27,8 @@ const propTypes = {
   addTerm: PropTypes.func,
   findMatchingTerms: PropTypes.func,
   formatAddPrompt: PropTypes.func,
+  formatCloneOptionLabel: PropTypes.func,
+  formatCreateNewOptionLabel: PropTypes.func,
   formatMoreCharsRequiredMessage: PropTypes.func,
   formatSearchResultMessage: PropTypes.func,
   formatSourceName: PropTypes.func,
@@ -376,11 +379,14 @@ export default class AutocompleteInput extends Component {
     const {
       addTerm,
       formatAddPrompt,
+      formatCloneOptionLabel,
+      formatCreateNewOptionLabel,
       formatSourceName,
       minLength,
       quickAddTo,
       recordTypes,
       showQuickAdd,
+      showQuickAddCloneOption,
       source,
     } = this.props;
 
@@ -402,8 +408,11 @@ export default class AutocompleteInput extends Component {
           displayName={partialTermText}
           partialTerm={partialTerm}
           formatAddPrompt={formatAddPrompt}
+          formatCloneOptionLabel={formatCloneOptionLabel}
+          formatCreateNewOptionLabel={formatCreateNewOptionLabel}
           formatDestinationName={formatSourceName}
           recordTypes={recordTypes}
+          showCloneOption={showQuickAddCloneOption}
           to={to}
           onBeforeItemFocusChange={this.handleQuickAddBeforeItemFocusChange}
           ref={this.handleQuickAddRef}
@@ -449,11 +458,14 @@ export default class AutocompleteInput extends Component {
       findDelay,
       findMatchingTerms,
       formatAddPrompt,
+      formatCloneOptionLabel,
+      formatCreateNewOptionLabel,
       formatSourceName,
       matchFilter,
       recordTypes,
       quickAddTo,
       showQuickAdd,
+      showQuickAddCloneOption,
       /* eslint-enable no-unused-vars */
       ...remainingProps
     } = this.props;

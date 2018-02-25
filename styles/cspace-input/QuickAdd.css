@@ -4,10 +4,3 @@
   padding: 4px 4px 2px 4px;
   box-sizing: border-box;
 }
-
-.common :global(.cspace-input-MenuItem--common) {
-  background-image: url(../../images/addTerm.svg);
-  background-repeat: no-repeat;
-  background-position: 2px center;
-  background-size: 14px;
-}

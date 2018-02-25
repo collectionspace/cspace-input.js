@@ -4,20 +4,26 @@ import get from 'lodash/get';
 import Menu from './Menu';
 import parseResourceID from '../helpers/parseResourceID';
 import styles from '../../styles/cspace-input/QuickAdd.css';
+import itemStyles from '../../styles/cspace-input/QuickAddItem.css';
 
 const propTypes = {
   add: PropTypes.func,
   displayName: PropTypes.string,
   partialTerm: PropTypes.string,
-  formatDestinationName: PropTypes.func,
   formatAddPrompt: PropTypes.func,
+  formatCloneOptionLabel: PropTypes.func,
+  formatCreateNewOptionLabel: PropTypes.func,
+  formatDestinationName: PropTypes.func,
   recordTypes: PropTypes.object,
+  showCloneOption: PropTypes.bool,
   to: PropTypes.string,
   onBeforeItemFocusChange: PropTypes.func,
 };
 
 const defaultProps = {
-  formatAddPrompt: displayName => `Add ${displayName} to`,
+  formatAddPrompt: (displayName, destinationName) => `Add "${displayName}" to ${destinationName}`,
+  formatCloneOptionLabel: () => 'Clone current record',
+  formatCreateNewOptionLabel: () => 'Create new record',
   formatDestinationName: (recordTypeConfig, vocabulary) => {
     if (vocabulary) {
       return get(recordTypeConfig,
@@ -55,6 +61,7 @@ export default class QuickAdd extends Component {
 
     if (add) {
       const {
+        clone,
         value,
       } = item;
 
@@ -63,7 +70,7 @@ export default class QuickAdd extends Component {
         vocabulary,
       ] = value.split('/');
 
-      add(recordType, vocabulary, displayName, partialTerm);
+      add(recordType, vocabulary, displayName, partialTerm, clone);
     }
   }
 
@@ -71,8 +78,11 @@ export default class QuickAdd extends Component {
     const {
       displayName,
       formatAddPrompt,
+      formatCloneOptionLabel,
+      formatCreateNewOptionLabel,
       formatDestinationName,
       recordTypes,
+      showCloneOption,
       to: destinationID,
       onBeforeItemFocusChange,
     } = this.props;
@@ -103,6 +113,7 @@ export default class QuickAdd extends Component {
         return ({
           label: formatDestinationName(recordTypeConfig, vocabulary),
           value: `${recordType}/${vocabulary}`,
+          className: itemStyles.add,
         });
       })
       .filter(option => !!option);
@@ -111,9 +122,26 @@ export default class QuickAdd extends Component {
       return null;
     }
 
+    // If showCloneOption is true and there is only one destination, the options should be to
+    // create new or clone into the source.
+
+    let singleDestinationName;
+
+    if (options.length === 1 && showCloneOption) {
+      singleDestinationName = options[0].label;
+
+      options[0].label = formatCreateNewOptionLabel();
+
+      options.push(Object.assign({}, options[0], {
+        clone: true,
+        label: formatCloneOptionLabel(),
+        className: itemStyles.clone,
+      }));
+    }
+
     return (
       <div className={styles.common}>
-        <div>{formatAddPrompt(displayName)}</div>
+        <div>{formatAddPrompt(displayName, singleDestinationName)}</div>
 
         <Menu
           options={options}

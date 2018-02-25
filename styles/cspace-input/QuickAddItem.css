@@ -1,0 +1,15 @@
+.common {
+  background-repeat: no-repeat;
+  background-position: 2px center;
+  background-size: 14px;
+}
+
+.add {
+  composes: common;
+  background-image: url(../../images/addTerm.svg);
+}
+
+.clone {
+  composes: common;
+  background-image: url(../../images/cloneTerm.svg);
+}
