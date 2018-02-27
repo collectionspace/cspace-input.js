@@ -20,6 +20,7 @@ const propTypes = {
   disableAltTerms: PropTypes.bool,
   showQuickAdd: PropTypes.bool,
   showQuickAddCloneOption: PropTypes.bool,
+  quickAddCloneOptionDisabled: PropTypes.bool,
   readOnly: PropTypes.bool,
   asText: PropTypes.bool,
   source: PropTypes.string,
@@ -169,10 +170,7 @@ const getNewTerm = (sourceID, matches, partialTerm) => {
   return newTerm;
 };
 
-/**
- * Remove anchor and wildcard operators from partial terms.
- */
-const removePartialTermOperators = (partialTerm) => {
+const removeAnchorOperators = (partialTerm) => {
   if (!partialTerm) {
     return partialTerm;
   }
@@ -181,9 +179,25 @@ const removePartialTermOperators = (partialTerm) => {
     partialTerm
       .replace(/^\^/, '')
       .replace(/\^$/, '')
-      .replace(/\*/g, '')
   );
 };
+
+const removeWildcardOperators = (partialTerm) => {
+  if (!partialTerm) {
+    return partialTerm;
+  }
+
+  return (
+    partialTerm
+      .replace(/[*%_]/g, '')
+  );
+};
+
+/**
+ * Remove anchor and wildcard operators from partial terms.
+ */
+const removePartialTermOperators = partialTerm =>
+  removeAnchorOperators(removeWildcardOperators(partialTerm));
 
 export default class AutocompleteInput extends Component {
   constructor(props) {
@@ -387,6 +401,7 @@ export default class AutocompleteInput extends Component {
       recordTypes,
       showQuickAdd,
       showQuickAddCloneOption,
+      quickAddCloneOptionDisabled,
       source,
     } = this.props;
 
@@ -396,7 +411,7 @@ export default class AutocompleteInput extends Component {
       partialTerm,
     } = this.state;
 
-    const partialTermText = removePartialTermOperators(partialTerm);
+    const partialTermText = removeAnchorOperators(partialTerm);
 
     if (
       showQuickAdd && partialTerm &&
@@ -413,6 +428,7 @@ export default class AutocompleteInput extends Component {
           formatDestinationName={formatSourceName}
           recordTypes={recordTypes}
           showCloneOption={showQuickAddCloneOption}
+          cloneOptionDisabled={quickAddCloneOptionDisabled}
           to={to}
           onBeforeItemFocusChange={this.handleQuickAddBeforeItemFocusChange}
           ref={this.handleQuickAddRef}
@@ -466,6 +482,7 @@ export default class AutocompleteInput extends Component {
       quickAddTo,
       showQuickAdd,
       showQuickAddCloneOption,
+      quickAddCloneOptionDisabled,
       /* eslint-enable no-unused-vars */
       ...remainingProps
     } = this.props;

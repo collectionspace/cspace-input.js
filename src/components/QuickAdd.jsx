@@ -16,6 +16,7 @@ const propTypes = {
   formatDestinationName: PropTypes.func,
   recordTypes: PropTypes.object,
   showCloneOption: PropTypes.bool,
+  cloneOptionDisabled: PropTypes.bool,
   to: PropTypes.string,
   onBeforeItemFocusChange: PropTypes.func,
 };
@@ -83,6 +84,7 @@ export default class QuickAdd extends Component {
       formatDestinationName,
       recordTypes,
       showCloneOption,
+      cloneOptionDisabled,
       to: destinationID,
       onBeforeItemFocusChange,
     } = this.props;
@@ -136,6 +138,7 @@ export default class QuickAdd extends Component {
         clone: true,
         label: formatCloneOptionLabel(),
         className: itemStyles.clone,
+        disabled: cloneOptionDisabled,
       }));
     }
 
