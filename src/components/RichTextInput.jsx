@@ -172,7 +172,7 @@ export default class RichTextInput extends Component {
   }
 
   handleFocus(event) {
-    if (!this.domNode.contains(event.relatedTarget)) {
+    if (this.domNode && !this.domNode.contains(event.relatedTarget)) {
       this.setState({
         focused: true,
       });
