@@ -321,6 +321,36 @@ describe('RepeatingInput', function suite() {
     labels[2].textContent.should.equal('Language');
   });
 
+  it('should call disableRemoveButton to determine if the remove button should be disabled for each instance', function test() {
+    const disableRemoveButton = data => data.includes('nope');
+
+    const repeatingValue = [
+      '1 yup',
+      '2 nope',
+      '3 nope',
+      '4 yup',
+      '5 nope',
+    ];
+
+    render(
+      <RepeatingInput
+        name="rpt"
+        subpath="schema_name"
+        value={repeatingValue}
+        disableRemoveButton={disableRemoveButton}
+      >
+        <TextInput />
+      </RepeatingInput>, this.container);
+
+    const removeButtons = this.container.querySelectorAll('button[name="remove"]');
+
+    removeButtons[0].disabled.should.equal(false);
+    removeButtons[1].disabled.should.equal(true);
+    removeButtons[2].disabled.should.equal(true);
+    removeButtons[3].disabled.should.equal(false);
+    removeButtons[4].disabled.should.equal(true);
+  });
+
   it('should call the onAddInstance callback when the add button is clicked', function test() {
     let addInstancePath = null;
 

@@ -1,4 +1,4 @@
-@value inputBg, buttonText, buttonBg, buttonBgActive, textMedium, textDark from '../colors.css';
+@value inputBg, buttonText, buttonBg, buttonBgActive, miniButtonBgDisabled, textMedium, textDark from '../colors.css';
 @value activeEdgeWidth, inputHeight from '../dimensions.css';
 
 .common {
@@ -19,6 +19,11 @@
 
 div.common {
   color: textMedium;
+}
+
+.common:disabled {
+  color: textMedium;
+  background-color: miniButtonBgDisabled;
 }
 
 .common:enabled {

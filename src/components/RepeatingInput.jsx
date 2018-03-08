@@ -52,6 +52,7 @@ const propTypes = {
   readOnly: PropTypes.bool,
   asText: PropTypes.bool,
   reorderable: PropTypes.bool,
+  disableRemoveButton: PropTypes.func,
   renderOrderIndicator: PropTypes.func,
   onAddInstance: PropTypes.func,
   onCommit: PropTypes.func,
@@ -230,6 +231,7 @@ export default class RepeatingInput extends Component {
       value,
       readOnly,
       reorderable,
+      disableRemoveButton,
       renderOrderIndicator,
     } = this.props;
 
@@ -295,7 +297,10 @@ export default class RepeatingInput extends Component {
           <div className={className}>
             <MiniButton
               data-instancename={instanceName}
-              disabled={list.length < 2}
+              disabled={
+                list.length < 2 ||
+                (disableRemoveButton && disableRemoveButton(instanceValue))
+              }
               name="remove"
               onClick={this.handleRemoveButtonClick}
             >

@@ -25,6 +25,7 @@ export default function repeatable(BaseComponent) {
       repeating,
       reorderable,
       renderOrderIndicator,
+      disableRemoveButton,
       onAddInstance,
       onMoveInstance,
       onRemoveInstance,
@@ -57,6 +58,7 @@ export default function repeatable(BaseComponent) {
         asText={asText}
         readOnly={readOnly}
         reorderable={reorderable}
+        disableRemoveButton={disableRemoveButton}
         renderOrderIndicator={renderOrderIndicator}
         onAddInstance={onAddInstance}
         onCommit={onCommit}
