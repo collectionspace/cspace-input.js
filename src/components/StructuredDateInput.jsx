@@ -146,7 +146,7 @@ export default class StructuredDateInput extends Component {
 
     if (Immutable.Map.isMap(structDateValue)) {
       if (path.length === 0) {
-        newStructDateValue = value;
+        newStructDateValue = structDateValue.merge(value);
       } else {
         newStructDateValue = structDateValue.setIn(path, value);
       }
@@ -160,12 +160,12 @@ export default class StructuredDateInput extends Component {
       newStructDateValue = newStructDateValue.set('scalarValuesComputed', true);
     } else {
       if (path.length === 0) {
-        newStructDateValue = value;
+        newStructDateValue = merge(structDateValue, value);
       } else {
         newStructDateValue = merge({}, structDateValue);
-      }
 
-      set(newStructDateValue, path, value);
+        set(newStructDateValue, path, value);
+      }
 
       const dateEarliestScalarValue = computeEarliestScalarDate(newStructDateValue);
       const dateLatestScalarValue = computeLatestScalarDate(newStructDateValue);
