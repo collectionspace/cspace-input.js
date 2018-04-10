@@ -58,5 +58,5 @@
 }
 
 .indeterminate > input + span {
-  background-image: url(../../images/remove.svg);
+  background-image: url(../../images/square.svg);
 }

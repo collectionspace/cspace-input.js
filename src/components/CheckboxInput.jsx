@@ -5,6 +5,7 @@ import { getPath, pathPropType } from '../helpers/pathHelpers';
 import styles from '../../styles/cspace-input/CheckboxInput.css';
 
 const propTypes = {
+  asText: PropTypes.bool,
   className: PropTypes.string,
   embedded: PropTypes.bool,
   /* eslint-disable react/no-unused-prop-types */
@@ -13,10 +14,24 @@ const propTypes = {
   subpath: pathPropType,
   /* eslint-enable react/no-unused-prop-types */
   readOnly: PropTypes.bool,
-  tristate: PropTypes.bool,
+  transition: PropTypes.object,
+  trueLabel: PropTypes.string,
+  falseLabel: PropTypes.string,
+  indeterminateLabel: PropTypes.string,
   value: PropTypes.any,
   onCommit: PropTypes.func,
   onClick: PropTypes.func,
+};
+
+const defaultProps = {
+  transition: {
+    null: true,
+    true: false,
+    false: true,
+  },
+  trueLabel: 'yes',
+  falseLabel: 'no',
+  indeterminateLabel: 'indeterminate',
 };
 
 export default class CheckboxInput extends Component {
@@ -28,27 +43,14 @@ export default class CheckboxInput extends Component {
 
   handleChange() {
     const {
-      tristate,
+      transition,
       value,
       onCommit,
     } = this.props;
 
     if (onCommit) {
-      let newValue;
-
-      if (tristate) {
-        if (value === false) {
-          // Unchecked goes to checked.
-
-          newValue = true;
-        } else {
-          // Checked and indeterminate go to false.
-
-          newValue = false;
-        }
-      } else {
-        newValue = !value;
-      }
+      const normalizedValue = (typeof value === 'undefined') ? null : value;
+      const newValue = transition[normalizedValue];
 
       onCommit(getPath(this.props), newValue);
     }
@@ -56,22 +58,27 @@ export default class CheckboxInput extends Component {
 
   render() {
     const {
+      asText,
       className,
       embedded,
       readOnly,
-      tristate,
       value,
+      trueLabel,
+      falseLabel,
+      indeterminateLabel,
       onClick,
       /* eslint-disable no-unused-vars */
       name,
       parentPath,
       subpath,
+      transition,
       onCommit,
       /* eslint-enable no-unused-vars */
       ...remainingProps
     } = this.props;
 
     let checked;
+    let textValue;
 
     let classes = classNames({
       [styles.readOnly]: readOnly,
@@ -79,17 +86,22 @@ export default class CheckboxInput extends Component {
       [styles.embedded]: embedded,
     }, className);
 
-    if (tristate) {
-      if (value === true) {
-        checked = true;
-      } else if (value === false) {
-        checked = false;
-      } else {
-        checked = false;
-        classes = classNames(classes, styles.indeterminate);
-      }
+    if (value === true) {
+      checked = true;
+      textValue = trueLabel;
+    } else if (value === false) {
+      checked = false;
+      textValue = falseLabel;
     } else {
-      checked = !!value;
+      checked = false;
+      textValue = indeterminateLabel;
+      classes = classNames(classes, styles.indeterminate);
+    }
+
+    if (asText) {
+      return (
+        <div className={classes}>{textValue}</div>
+      );
     }
 
     // FIXME: Don't break these lint rules.
@@ -113,3 +125,5 @@ export default class CheckboxInput extends Component {
 }
 
 CheckboxInput.propTypes = propTypes;
+CheckboxInput.defaultProps = defaultProps;
+

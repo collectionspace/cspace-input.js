@@ -9,7 +9,7 @@ import CheckboxInput from '../../../src/components/CheckboxInput';
 
 chai.should();
 
-const expectedClassName = 'cspace-input-CheckboxInput--normal cspace-input-CheckboxInput--common';
+const expectedClassName = 'cspace-input-CheckboxInput--normal cspace-input-CheckboxInput--common cspace-input-CheckboxInput--indeterminate';
 
 describe('CheckboxInput', function suite() {
   beforeEach(function before() {
@@ -33,161 +33,78 @@ describe('CheckboxInput', function suite() {
       .equal(expectedClassName);
   });
 
-  context('when tristate is false', () => {
-    it('should render truthy values as checked', function test() {
-      render(<CheckboxInput value />, this.container);
+  it('should render as a div when asText is true', function test() {
+    render(<CheckboxInput value asText />, this.container);
 
-      this.container.querySelector('input').checked.should.equal(true);
-
-      render(<CheckboxInput value="foo" />, this.container);
-
-      this.container.querySelector('input').checked.should.equal(true);
-
-      render(<CheckboxInput value={1} />, this.container);
-
-      this.container.querySelector('input').checked.should.equal(true);
-    });
-
-    it('should render falsy values as unchecked', function test() {
-      render(<CheckboxInput value={false} />, this.container);
-
-      this.container.querySelector('input').checked.should.equal(false);
-
-      render(<CheckboxInput value={null} />, this.container);
-
-      this.container.querySelector('input').checked.should.equal(false);
-
-      render(<CheckboxInput value={undefined} />, this.container);
-
-      this.container.querySelector('input').checked.should.equal(false);
-
-      render(<CheckboxInput value="" />, this.container);
-
-      this.container.querySelector('input').checked.should.equal(false);
-
-      render(<CheckboxInput value={0} />, this.container);
-
-      this.container.querySelector('input').checked.should.equal(false);
-    });
-
-    it('should call onCommit with value of true when the value is changed from something falsy', function test() {
-      let committedPath = null;
-      let committedValue = null;
-
-      const handleCommit = (pathArg, valueArg) => {
-        committedPath = pathArg;
-        committedValue = valueArg;
-      };
-
-      render(
-        <CheckboxInput
-          name="checkbox1"
-          value={false}
-          onCommit={handleCommit}
-        />, this.container);
-
-      const checkbox = this.container.querySelector('input');
-
-      Simulate.change(checkbox);
-
-      committedPath.should.deep.equal(['checkbox1']);
-      committedValue.should.equal(true);
-    });
-
-    it('should call onCommit with value of false when the value is changed from something truthy', function test() {
-      let committedPath = null;
-      let committedValue = null;
-
-      const handleCommit = (pathArg, valueArg) => {
-        committedPath = pathArg;
-        committedValue = valueArg;
-      };
-
-      render(
-        <CheckboxInput
-          name="checkbox1"
-          value
-          onCommit={handleCommit}
-        />, this.container);
-
-      const checkbox = this.container.querySelector('input');
-
-      Simulate.change(checkbox);
-
-      committedPath.should.deep.equal(['checkbox1']);
-      committedValue.should.equal(false);
-    });
+    this.container.firstElementChild.nodeName.should.equal('DIV');
   });
 
-  context('when tristate is true', () => {
-    it('should render as checked when value === true', function test() {
-      render(<CheckboxInput tristate value />, this.container);
+  it('should render as checked when value === true', function test() {
+    render(<CheckboxInput value />, this.container);
 
-      this.container.querySelector('input').checked.should.equal(true);
-    });
+    this.container.querySelector('input').checked.should.equal(true);
+  });
 
-    it('should render as unchecked when value === false', function test() {
-      render(<CheckboxInput tristate value={false} />, this.container);
+  it('should render as unchecked when value === false', function test() {
+    render(<CheckboxInput value={false} />, this.container);
 
-      this.container.querySelector('input').checked.should.equal(false);
-    });
+    this.container.querySelector('input').checked.should.equal(false);
+  });
 
-    it('should render as indeterminate when value is anything else', function test() {
-      render(<CheckboxInput tristate value={undefined} />, this.container);
+  it('should render as indeterminate when value is anything else', function test() {
+    render(<CheckboxInput value={undefined} />, this.container);
 
-      this.container.firstElementChild.className.should
-        .match(/ cspace-input-CheckboxInput--indeterminate$/);
+    this.container.firstElementChild.className.should
+      .match(/ cspace-input-CheckboxInput--indeterminate$/);
 
-      render(<CheckboxInput tristate value={null} />, this.container);
+    render(<CheckboxInput value={null} />, this.container);
 
-      this.container.firstElementChild.className.should
-        .match(/ cspace-input-CheckboxInput--indeterminate$/);
+    this.container.firstElementChild.className.should
+      .match(/ cspace-input-CheckboxInput--indeterminate$/);
 
-      render(<CheckboxInput tristate value="" />, this.container);
+    render(<CheckboxInput value="" />, this.container);
 
-      this.container.firstElementChild.className.should
-        .match(/ cspace-input-CheckboxInput--indeterminate$/);
+    this.container.firstElementChild.className.should
+      .match(/ cspace-input-CheckboxInput--indeterminate$/);
 
-      render(<CheckboxInput tristate value="foo" />, this.container);
+    render(<CheckboxInput value="foo" />, this.container);
 
-      this.container.firstElementChild.className.should
-        .match(/ cspace-input-CheckboxInput--indeterminate$/);
+    this.container.firstElementChild.className.should
+      .match(/ cspace-input-CheckboxInput--indeterminate$/);
 
-      render(<CheckboxInput tristate value={0} />, this.container);
+    render(<CheckboxInput value={0} />, this.container);
 
-      this.container.firstElementChild.className.should
-        .match(/ cspace-input-CheckboxInput--indeterminate$/);
+    this.container.firstElementChild.className.should
+      .match(/ cspace-input-CheckboxInput--indeterminate$/);
 
-      render(<CheckboxInput tristate value={1} />, this.container);
+    render(<CheckboxInput value={1} />, this.container);
 
-      this.container.firstElementChild.className.should
-        .match(/ cspace-input-CheckboxInput--indeterminate$/);
-    });
+    this.container.firstElementChild.className.should
+      .match(/ cspace-input-CheckboxInput--indeterminate$/);
+  });
 
-    it('should call onCommit with value of true when the value is changed from false', function test() {
-      let committedPath = null;
-      let committedValue = null;
+  it('should call onCommit with value of true when the value is changed from false', function test() {
+    let committedPath = null;
+    let committedValue = null;
 
-      const handleCommit = (pathArg, valueArg) => {
-        committedPath = pathArg;
-        committedValue = valueArg;
-      };
+    const handleCommit = (pathArg, valueArg) => {
+      committedPath = pathArg;
+      committedValue = valueArg;
+    };
 
-      render(
-        <CheckboxInput
-          tristate
-          name="checkbox1"
-          value={false}
-          onCommit={handleCommit}
-        />, this.container);
+    render(
+      <CheckboxInput
+        name="checkbox1"
+        value={false}
+        onCommit={handleCommit}
+      />, this.container);
 
-      const checkbox = this.container.querySelector('input');
+    const checkbox = this.container.querySelector('input');
 
-      Simulate.change(checkbox);
+    Simulate.change(checkbox);
 
-      committedPath.should.deep.equal(['checkbox1']);
-      committedValue.should.equal(true);
-    });
+    committedPath.should.deep.equal(['checkbox1']);
+    committedValue.should.equal(true);
   });
 
   it('should call onCommit with value of false when the value is changed from true', function test() {
@@ -201,7 +118,6 @@ describe('CheckboxInput', function suite() {
 
     render(
       <CheckboxInput
-        tristate
         name="checkbox1"
         value
         onCommit={handleCommit}
@@ -215,7 +131,7 @@ describe('CheckboxInput', function suite() {
     committedValue.should.equal(false);
   });
 
-  it('should call onCommit with value of false when the value is changed from something indeterminate', function test() {
+  it('should call onCommit with value of true when the value is changed from something indeterminate', function test() {
     let committedPath = null;
     let committedValue = null;
 
@@ -226,7 +142,6 @@ describe('CheckboxInput', function suite() {
 
     render(
       <CheckboxInput
-        tristate
         name="checkbox1"
         value={null}
         onCommit={handleCommit}
@@ -237,6 +152,6 @@ describe('CheckboxInput', function suite() {
     Simulate.change(checkbox);
 
     committedPath.should.deep.equal(['checkbox1']);
-    committedValue.should.equal(false);
+    committedValue.should.equal(true);
   });
 });
