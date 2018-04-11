@@ -1,5 +1,5 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import { pathPropType } from '../helpers/pathHelpers';
 
 /**
  * Enhances an input component so that it may be nested within another input component.
@@ -15,10 +15,7 @@ export default function nestable(BaseComponent) {
 
   const propTypes = {
     ...BaseComponent.propTypes,
-    subpath: PropTypes.oneOfType([
-      PropTypes.arrayOf(PropTypes.string),
-      PropTypes.string,
-    ]),
+    subpath: pathPropType,
   };
 
   function Nestable(props) {

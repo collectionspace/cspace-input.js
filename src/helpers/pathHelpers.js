@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types';
 
 export const pathPropType = PropTypes.oneOfType([
-  PropTypes.arrayOf(PropTypes.string),
   PropTypes.string,
+  PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number])),
 ]);
 
 export const getPath = (props) => {
