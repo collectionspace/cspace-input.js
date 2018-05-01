@@ -6,7 +6,8 @@
 }
 
 .common > a {
-  margin: 1px 1px 1px 4px;
+  font-size: 12px;
+  padding: 0 4px;
   height: calc(inputHeight - 2px);
   line-height: calc(inputHeight - 2px);
 }
