@@ -1,6 +1,6 @@
 {
   "name": "cspace-input",
-  "version": "1.0.0-rc.3",
+  "version": "1.0.0-rc.4",
   "description": "CollectionSpace input components",
   "author": "Ray Lee <rhlee@berkeley.edu>",
   "license": "ECL-2.0",
@@ -39,8 +39,8 @@
   },
   "dependencies": {
     "classnames": "^2.2.5",
-    "cspace-layout": "^1.0.0-rc.1",
-    "cspace-refname": "^1.0.0-rc.1",
+    "cspace-layout": "^1.0.0-rc.2",
+    "cspace-refname": "^1.0.0-rc.2",
     "immutable": "^3.8.2",
     "lodash": "^4.17.5",
     "moment": "^2.21.0",
@@ -64,7 +64,7 @@
     "chai": "^3.5.0",
     "chai-as-promised": "^5.3.0",
     "chai-immutable": "^1.6.0",
-    "coveralls": "^2.13.3",
+    "coveralls": "^3.0.0",
     "cross-env": "^2.0.0",
     "css-loader": "^0.28.10",
     "eslint": "^3.2.2",
