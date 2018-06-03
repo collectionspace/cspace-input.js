@@ -16,6 +16,7 @@ const TextInput = labelable(committable(changeable(BaseTextInput)));
 const FileInput = labelable(BaseFileInput);
 
 const propTypes = {
+  accept: PropTypes.string,
   /* eslint-disable react/no-unused-prop-types */
   name: PropTypes.string,
   parentPath: pathPropType,
@@ -140,6 +141,7 @@ export default class UploadInput extends Component {
 
   renderFileInput() {
     const {
+      accept,
       readOnly,
       value,
       fileInputLabel,
@@ -151,6 +153,7 @@ export default class UploadInput extends Component {
 
     return (
       <FileInput
+        accept={accept}
         label={fileInputLabel}
         name="file"
         readOnly={readOnly}

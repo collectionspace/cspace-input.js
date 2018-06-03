@@ -18,6 +18,7 @@ const fileListToArray = (fileList) => {
 };
 
 const propTypes = {
+  accept: PropTypes.string,
   chooseButtonLabel: PropTypes.string,
   name: PropTypes.string,
   /* eslint-disable react/no-unused-prop-types */
@@ -119,6 +120,7 @@ export default class FileInput extends Component {
 
   render() {
     const {
+      accept,
       chooseButtonLabel,
       name,
       value,
@@ -153,6 +155,7 @@ export default class FileInput extends Component {
         className={className}
       >
         <input
+          accept={accept}
           name={name}
           ref={this.handleFileInputRef}
           tabIndex="-1"
