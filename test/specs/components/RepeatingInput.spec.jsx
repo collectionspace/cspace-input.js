@@ -321,6 +321,21 @@ describe('RepeatingInput', function suite() {
     labels[2].textContent.should.equal('Language');
   });
 
+  it('should display three digit column numbers without truncation', function test() {
+    const repeatingValue = Array(100).fill('foo');
+
+    render(
+      <RepeatingInput
+        name="rpt"
+        subpath="schema_name"
+        value={repeatingValue}
+      >
+        <TextInput />
+      </RepeatingInput>, this.container);
+
+    return true;
+  });
+
   it('should call disableRemoveButton to determine if the remove button should be disabled for each instance', function test() {
     const disableRemoveButton = data => data.includes('nope');
 
