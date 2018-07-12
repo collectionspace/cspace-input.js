@@ -6,7 +6,7 @@
 }
 
 .common > input, .common > textarea {
-  padding-right: 21px;
+  padding-right: calc(inputHeight - 1px);
   background-image: url(../../images/dropdown.svg);
   background-repeat: no-repeat;
   background-position: right;

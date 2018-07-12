@@ -64,6 +64,7 @@
 
 .common > div > div > div > :global(.cspace-input-CompoundInput--common) > :global(.cspace-layout-Panel--common) {
   margin: 0;
+  border: none;
 }
 
 /* .common > div > div > *:first-child,

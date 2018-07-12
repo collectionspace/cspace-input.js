@@ -10,7 +10,7 @@
   height: calc(inputHeight - 2px);
   display: block;
   font-size: 12px;
-  line-height: 22px;
+  line-height: calc(inputHeight - 2px);
   background-color: transparent;
   color: textDark;
   overflow: hidden;

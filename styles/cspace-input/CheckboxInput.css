@@ -1,5 +1,5 @@
 @value inputBg, textDark, textLight from '../colors.css';
-@value activeEdgeWidth, inputMargin from '../dimensions.css';
+@value activeEdgeWidth, inputHeight, inputMargin from '../dimensions.css';
 
 .common {
   position: relative;
@@ -20,14 +20,14 @@
 }
 
 .embedded > input + span {
-  width: 14px;
-  height: 14px;
+  width: 15px;
+  height: 15px;
   margin: 1px;
 }
 
 :not(.embedded) > input + span {
-  width: 20px;
-  height: 20px;
+  width: calc(inputHeight - 2px);
+  height: calc(inputHeight - 2px);
   margin: 0 0 10px 0;
 }
 

@@ -1,3 +1,5 @@
+@value inputHeight from '../dimensions.css';
+
 .common {
   composes: common from './Input.css';
   display: inline-block;
@@ -7,10 +9,10 @@
 .normal {
   composes: common;
   margin-bottom: 10px;
-  height: 22px;
+  height: inputHeight;
 }
 
 .embedded {
   composes: common;
-  height: 20px;
+  height: calc(inputHeight - 2px);
 }
