@@ -6,7 +6,7 @@
   margin: 0;
   border-radius: 0;
   border: none;
-  padding: 0 4px;
+  padding: 0;
   height: calc(inputHeight - 2px);
   display: block;
   font-size: 12px;
@@ -66,4 +66,5 @@ div.common {
 
 .autoWidth {
   composes: common;
+  padding: 0 4px;
 }
