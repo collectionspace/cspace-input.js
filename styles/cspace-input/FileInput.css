@@ -8,6 +8,11 @@
   background-color: textLight;
 }
 
+.common > button {
+  padding: 0 4px;
+  line-height: inputHeight;
+}
+
 .common > input[type="file"] {
   display: none;
 }
