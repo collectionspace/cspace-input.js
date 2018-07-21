@@ -11,6 +11,7 @@ const propTypes = {
   subpath: pathPropType,
   value: PropTypes.string,
   readOnly: PropTypes.bool,
+  height: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   api: PropTypes.func,
 };
 
@@ -59,6 +60,7 @@ export default class MultilineInput extends Component {
     const {
       asText,
       embedded,
+      height,
       value,
       readOnly,
       /* eslint-disable no-unused-vars */
@@ -71,10 +73,11 @@ export default class MultilineInput extends Component {
 
     const className = embedded ? styles.embedded : styles.normal;
     const normalizedValue = (value === null || typeof value === 'undefined') ? '' : value;
+    const style = (typeof height !== 'undefined') ? { height } : undefined;
 
     if (asText) {
       return (
-        <div className={className}>{normalizedValue}</div>
+        <div className={className} style={style}>{normalizedValue}</div>
       );
     }
 
@@ -85,6 +88,7 @@ export default class MultilineInput extends Component {
         disabled={readOnly}
         readOnly={!remainingProps.onChange}
         ref={this.handleRef}
+        style={style}
         value={normalizedValue}
       />
     );
