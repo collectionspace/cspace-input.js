@@ -309,10 +309,13 @@ export default class StructuredDateInput extends Component {
       readOnly,
       /* eslint-disable no-unused-vars */
       defaultValue,
+      formatOptionLabel,
       formatParseFailedMessage,
       name,
+      optionLists,
       parentPath,
       subpath,
+      terms,
       value: valueProp,
       onCommit,
       onMount,
