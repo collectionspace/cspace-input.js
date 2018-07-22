@@ -265,12 +265,47 @@ export default class StructuredDateInput extends Component {
     );
   }
 
-  render() {
+  renderDropdownInput(fieldName, listName) {
+    // Render an appropriate dropdown input for the given list name. If the name is the name of a
+    // term list provided in the terms prop, a TermPickerInput is rendered. Otherwise, if the name
+    // is the name of an option list provided in the optionLists prop, a
+    // SubstringFilteringDropdownMenuInput is rendered.
+
     const {
-      formatFieldLabel,
       formatOptionLabel,
       optionLists,
       terms,
+    } = this.props;
+
+    const matchingTermList = terms[listName];
+
+    if (matchingTermList) {
+      return (
+        <TermPickerInput
+          embedded
+          name={fieldName}
+          terms={matchingTermList}
+          onCommit={this.handleInputCommit}
+        />
+      );
+    }
+
+    const matchingOptionList = optionLists[listName] || [];
+
+    return (
+      <SubstringFilteringDropdownMenuInput
+        embedded
+        formatOptionLabel={formatOptionLabel}
+        name={fieldName}
+        options={matchingOptionList}
+        onCommit={this.handleInputCommit}
+      />
+    );
+  }
+
+  render() {
+    const {
+      formatFieldLabel,
       readOnly,
       /* eslint-disable no-unused-vars */
       defaultValue,
@@ -379,31 +414,15 @@ export default class StructuredDateInput extends Component {
                 </td>
 
                 <td>
-                  <TermPickerInput
-                    embedded
-                    name="dateEarliestSingleEra"
-                    terms={terms.dateera}
-                    onCommit={this.handleInputCommit}
-                  />
+                  {this.renderDropdownInput('dateEarliestSingleEra', 'dateera')}
                 </td>
 
                 <td>
-                  <TermPickerInput
-                    embedded
-                    name="dateEarliestSingleCertainty"
-                    terms={terms.datecertainty}
-                    onCommit={this.handleInputCommit}
-                  />
+                  {this.renderDropdownInput('dateEarliestSingleCertainty', 'datecertainty')}
                 </td>
 
                 <td>
-                  <SubstringFilteringDropdownMenuInput
-                    embedded
-                    formatOptionLabel={formatOptionLabel}
-                    name="dateEarliestSingleQualifier"
-                    options={optionLists.dateQualifiers}
-                    onCommit={this.handleInputCommit}
-                  />
+                  {this.renderDropdownInput('dateEarliestSingleQualifier', 'dateQualifiers')}
                 </td>
 
                 <td>
@@ -415,12 +434,7 @@ export default class StructuredDateInput extends Component {
                 </td>
 
                 <td>
-                  <TermPickerInput
-                    embedded
-                    name="dateEarliestSingleQualifierUnit"
-                    terms={terms.datequalifier}
-                    onCommit={this.handleInputCommit}
-                  />
+                  {this.renderDropdownInput('dateEarliestSingleQualifierUnit', 'datequalifier')}
                 </td>
               </tr>
 
@@ -431,7 +445,6 @@ export default class StructuredDateInput extends Component {
                   <TextInput
                     embedded
                     name="dateLatestYear"
-                    value={this.getValue('dateLatestYear')}
                     onCommit={this.handleInputCommit}
                   />
                 </td>
@@ -440,7 +453,6 @@ export default class StructuredDateInput extends Component {
                   <TextInput
                     embedded
                     name="dateLatestMonth"
-                    value={this.getValue('dateLatestMonth')}
                     onCommit={this.handleInputCommit}
                   />
                 </td>
@@ -449,59 +461,32 @@ export default class StructuredDateInput extends Component {
                   <TextInput
                     embedded
                     name="dateLatestDay"
-                    value={this.getValue('dateLatestDay')}
                     onCommit={this.handleInputCommit}
                   />
                 </td>
 
                 <td>
-                  <TermPickerInput
-                    embedded
-                    name="dateLatestEra"
-                    terms={terms.dateera}
-                    value={this.getValue('dateLatestEra')}
-                    onCommit={this.handleInputCommit}
-                  />
+                  {this.renderDropdownInput('dateLatestEra', 'dateera')}
                 </td>
 
                 <td>
-                  <TermPickerInput
-                    embedded
-                    name="dateLatestCertainty"
-                    terms={terms.datecertainty}
-                    value={this.getValue('dateLatestCertainty')}
-                    onCommit={this.handleInputCommit}
-                  />
+                  {this.renderDropdownInput('dateLatestCertainty', 'datecertainty')}
                 </td>
 
                 <td>
-                  <SubstringFilteringDropdownMenuInput
-                    embedded
-                    formatOptionLabel={formatOptionLabel}
-                    name="dateLatestQualifier"
-                    options={optionLists.dateQualifiers}
-                    value={this.getValue('dateLatestQualifier')}
-                    onCommit={this.handleInputCommit}
-                  />
+                  {this.renderDropdownInput('dateLatestQualifier', 'dateQualifiers')}
                 </td>
 
                 <td>
                   <TextInput
                     embedded
                     name="dateLatestQualifierValue"
-                    value={this.getValue('dateLatestQualifierValue')}
                     onCommit={this.handleInputCommit}
                   />
                 </td>
 
                 <td>
-                  <TermPickerInput
-                    embedded
-                    name="dateLatestQualifierUnit"
-                    terms={terms.datequalifier}
-                    value={this.getValue('dateLatestQualifierUnit')}
-                    onCommit={this.handleInputCommit}
-                  />
+                  {this.renderDropdownInput('dateLatestQualifierUnit', 'datequalifier')}
                 </td>
               </tr>
             </tbody>
