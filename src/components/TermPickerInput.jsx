@@ -2,17 +2,28 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { getDisplayName } from 'cspace-refname';
 import SubstringFilteringDropdownMenuInput from './SubstringFilteringDropdownMenuInput';
+import PrefixFilteringDropdownMenuInput from './PrefixFilteringDropdownMenuInput';
 import withNormalizedOptions from '../enhancers/withNormalizedOptions';
 
-const BaseDropdownMenuInput = withNormalizedOptions(SubstringFilteringDropdownMenuInput);
+const BaseSubstringFilteringDropdownMenuInput =
+  withNormalizedOptions(SubstringFilteringDropdownMenuInput);
+
+const BasePrefixFilteringDropdownMenuInput =
+  withNormalizedOptions(PrefixFilteringDropdownMenuInput);
 
 const propTypes = {
   ...SubstringFilteringDropdownMenuInput.propTypes,
+  ...PrefixFilteringDropdownMenuInput.propTypes,
+  filter: PropTypes.string,
   terms: PropTypes.arrayOf(PropTypes.shape({
     refName: PropTypes.string,
     displayName: PropTypes.string,
   })),
   onMount: PropTypes.func,
+};
+
+const defaultProps = {
+  filter: 'substring', // or 'prefix'
 };
 
 export default class TermPickerInput extends Component {
@@ -28,6 +39,7 @@ export default class TermPickerInput extends Component {
 
   render() {
     const {
+      filter,
       terms,
       value,
       /* eslint-disable no-unused-vars */
@@ -55,6 +67,10 @@ export default class TermPickerInput extends Component {
       options = [];
     }
 
+    const BaseDropdownMenuInput = (filter === 'prefix')
+      ? BasePrefixFilteringDropdownMenuInput
+      : BaseSubstringFilteringDropdownMenuInput;
+
     return (
       <BaseDropdownMenuInput
         options={options}
@@ -67,3 +83,4 @@ export default class TermPickerInput extends Component {
 }
 
 TermPickerInput.propTypes = propTypes;
+TermPickerInput.defaultProps = defaultProps;

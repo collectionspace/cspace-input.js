@@ -15,6 +15,7 @@ import Label from './components/Label';
 import LineInput from './components/LineInput';
 import MiniButton from './components/MiniButton';
 import MultilineInput from './components/MultilineInput';
+import OptionPickerInput from './components/OptionPickerInput';
 import PasswordInput from './components/PasswordInput';
 import PrefixFilteringDropdownMenuInput from './components/PrefixFilteringDropdownMenuInput';
 import RichTextInput from './components/RichTextInput';
@@ -58,6 +59,7 @@ export const baseComponents = {
   LineInput,
   MiniButton,
   MultilineInput,
+  OptionPickerInput,
   PasswordInput,
   PrefixFilteringDropdownMenuInput,
   QuickSearchInput,
@@ -92,9 +94,7 @@ export const components = {
   InputTable: labelable(InputTable),
   LineInput: standalone(LineInput),
   MultilineInput: standalone(MultilineInput),
-  OptionPickerInput: repeatable(
-    labelable(withLabeledOptions(withNormalizedOptions(SubstringFilteringDropdownMenuInput)))
-  ),
+  OptionPickerInput: repeatable(labelable(OptionPickerInput)),
   PasswordInput: standalone(PasswordInput),
   ReadOnlyInput: labelable(ReadOnlyInput),
   QuickSearchInput: labelable(QuickSearchInput),

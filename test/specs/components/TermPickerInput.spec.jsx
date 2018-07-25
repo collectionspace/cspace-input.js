@@ -22,6 +22,16 @@ describe('TermPickerInput', function suite() {
     result.type.displayName.should.match(/SubstringFilteringDropdownMenuInput/);
   });
 
+  it('should render as a PrefixFilteringDropdownMenuInput if filter is \'prefix\'', function test() {
+    const shallowRenderer = createRenderer();
+
+    shallowRenderer.render(<TermPickerInput items={[]} filter="prefix" />, context);
+
+    const result = shallowRenderer.getRenderOutput();
+
+    result.type.displayName.should.match(/PrefixFilteringDropdownMenuInput/);
+  });
+
   it('should turn the terms into options and pass them to the base component', function test() {
     const shallowRenderer = createRenderer();
 
