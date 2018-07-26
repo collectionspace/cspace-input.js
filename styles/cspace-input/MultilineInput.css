@@ -1,7 +1,7 @@
 @value inputHeight, multilineHeightMultiplier from '../dimensions.css';
 
 .common {
-  min-height: inputHeight;
+  min-height: calc(inputHeight - 2px);
   resize: vertical;
 }
 
