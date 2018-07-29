@@ -20,7 +20,7 @@
 .common > div {
   flex: 1 1 auto;
   margin-left: 1px;
-  padding: 1px calc(inputHeight - 1px) 1px 2px;
+  padding: 2px calc(inputHeight - 1px) 2px 2px;
   line-height: 18px;
   background: inputBg url(../../images/attach.svg) right center no-repeat;
 }
