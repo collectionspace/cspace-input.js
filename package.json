@@ -1,6 +1,6 @@
 {
   "name": "cspace-input",
-  "version": "1.0.0-rc.17",
+  "version": "1.0.0",
   "description": "CollectionSpace input components",
   "author": "Ray Lee <rhlee@berkeley.edu>",
   "license": "ECL-2.0",
@@ -39,8 +39,8 @@
   },
   "dependencies": {
     "classnames": "^2.2.6",
-    "cspace-layout": "^1.0.0-rc.6",
-    "cspace-refname": "^1.0.0-rc.2",
+    "cspace-layout": "^1.0.0",
+    "cspace-refname": "^1.0.0",
     "immutable": "^3.8.2",
     "lodash": "^4.17.5",
     "moment": "^2.22.2",
@@ -92,7 +92,7 @@
     "rimraf": "^2.6.2",
     "style-loader": "^0.13.1",
     "uglifyjs-webpack-plugin": "^1.2.7",
-    "url-loader": "^0.5.7",
+    "url-loader": "^1.0.1",
     "webpack": "^3.12.0",
     "webpack-dev-server": "^2.11.2"
   },
