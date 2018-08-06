@@ -59,7 +59,7 @@
 }
 
 .readOnly > div > div > * {
-  border-color: transparent;
+  border-color: readOnlyBorder;
 }
 
 .common > div > div > div > :global(.cspace-input-CompoundInput--common) > :global(.cspace-layout-Panel--common) {

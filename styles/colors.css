@@ -12,5 +12,5 @@
 @value inputBg: rgb(255, 255, 255);
 
 @value readOnlyBg: rgba(255, 255, 255, .3);
-@value readOnlyBorder: transparent;
-@value inputTableReadOnlyBorder: transparent;
+@value readOnlyBorder: textLight;
+@value inputTableReadOnlyBorder: textLight;

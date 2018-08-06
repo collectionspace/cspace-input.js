@@ -1,4 +1,4 @@
-@value textLight from '../colors.css';
+@value textLight, inputTableReadOnlyBorder from '../colors.css';
 @value inputHeight from '../dimensions.css';
 
 .common > input, .common > textarea {
@@ -42,9 +42,9 @@
 }
 
 .readOnly > div table {
-  border-color: transparent;
+  border-color: inputTableReadOnlyBorder;
 }
 
 .readOnly > div table tbody td, .readOnly > div table tbody th {
-  border-color: transparent;
+  border-color: inputTableReadOnlyBorder;
 }

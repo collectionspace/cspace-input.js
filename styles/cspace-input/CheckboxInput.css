@@ -1,4 +1,4 @@
-@value inputBg, textDark, textLight from '../colors.css';
+@value inputBg, textDark, textLight, readOnlyBorder from '../colors.css';
 @value activeEdgeWidth, inputHeight, inputMargin from '../dimensions.css';
 
 .common {
@@ -54,7 +54,7 @@
 }
 
 .readOnly > input + span {
-  border-color: transparent;
+  border-color: readOnlyBorder;
 }
 
 .indeterminate > input + span {
