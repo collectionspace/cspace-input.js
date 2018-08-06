@@ -20,6 +20,25 @@ import {
 
 const DropdownInput = committable(changeable(BaseDropdownInput));
 
+const getCalendarTileClassName = ({ date }) => {
+  const today = new Date();
+
+  today.setHours(0);
+  today.setMinutes(0);
+  today.setSeconds(0);
+  today.setMilliseconds(0);
+
+  if (
+    date.getUTCDate() === today.getUTCDate() &&
+    date.getUTCMonth() === today.getUTCMonth() &&
+    date.getUTCFullYear() === today.getUTCFullYear()
+  ) {
+    return 'react-calendar__tile--today';
+  }
+
+  return null;
+};
+
 const propTypes = {
   ...BaseDropdownInput.propTypes,
   locale: PropTypes.string,
@@ -269,6 +288,7 @@ export default class DateInput extends Component {
             locale={locale}
             // ref={this.handleCalendarRef}
             value={calendarValue}
+            tileClassName={getCalendarTileClassName}
             onChange={this.handleCalendarChange}
           />
         </div>
