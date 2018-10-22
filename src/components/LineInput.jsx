@@ -20,7 +20,13 @@ const propTypes = {
 
 const defaultProps = {
   linkContent: 'Open',
-  linkUrl: value => ((value && value.startsWith('http://')) ? value : null),
+  linkUrl: (value) => {
+    if (value && (value.startsWith('https://') || value.startsWith('http://'))) {
+      return value;
+    }
+
+    return null;
+  },
 };
 
 /**

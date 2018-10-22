@@ -109,7 +109,15 @@ describe('LineInput', function suite() {
     expect(inputApi).to.equal(null);
   });
 
-  it('should render a link alongside the input if showLink is true', function test() {
+  it('should render a link alongside the input if showLink is true and the value starts with https://', function test() {
+    const value = 'https://collectionspace.org/';
+
+    render(<LineInput value={value} showLink />, this.container);
+
+    this.container.querySelector('a').should.have.property('href', value);
+  });
+
+  it('should render a link alongside the input if showLink is true and the value starts with http://', function test() {
     const value = 'http://collectionspace.org/';
 
     render(<LineInput value={value} showLink />, this.container);
