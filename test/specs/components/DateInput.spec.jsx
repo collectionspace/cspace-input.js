@@ -288,4 +288,41 @@ describe('DateInput', function suite() {
     input.disabled.should.equal(true);
     input.value.should.equal('2017-03-11');
   });
+
+  it('should display year-last dates', function test() {
+    render(<DateInput value="01/01/1995" />, this.container);
+
+    const input = this.container.querySelector('input');
+
+    input.value.should.equal('01/01/1995');
+  });
+
+  it('should display year only dates', function test() {
+    render(<DateInput value="2005" />, this.container);
+
+    const input = this.container.querySelector('input');
+
+    input.value.should.equal('2005');
+  });
+
+  it('should display year/month only dates', function test() {
+    render(<DateInput value="04-1995" />, this.container);
+
+    const input = this.container.querySelector('input');
+
+    input.value.should.equal('04-1995');
+  });
+
+  it('shouild display invalid dates and persist if the field is clicked on', function test() {
+    render(<DateInput value="01/01/1995" />, this.container);
+
+    const input = this.container.querySelector('input');
+
+    input.value.should.equal("01/01/1995");
+    Simulate.mouseDown(input);
+    this.container.querySelector('.react-calendar').should.not.equal(null);
+
+    Simulate.keyDown(input, { key: 'Escape' });
+    input.value.should.equal("01/01/1995");
+  });
 });
