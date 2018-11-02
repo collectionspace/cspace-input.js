@@ -318,11 +318,11 @@ describe('DateInput', function suite() {
 
     const input = this.container.querySelector('input');
 
-    input.value.should.equal("01/01/1995");
+    input.value.should.equal('01/01/1995');
     Simulate.mouseDown(input);
     this.container.querySelector('.react-calendar').should.not.equal(null);
 
     Simulate.keyDown(input, { key: 'Escape' });
-    input.value.should.equal("01/01/1995");
+    input.value.should.equal('01/01/1995');
   });
 });
