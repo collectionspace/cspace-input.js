@@ -66,7 +66,7 @@ export default class DateInput extends Component {
     this.handleDropdownInputMount = this.handleDropdownInputMount.bind(this);
     this.handleDropdownInputOpen = this.handleDropdownInputOpen.bind(this);
 
-    const value = normalizeISO8601DateString(props.value);
+    const value = normalizeISO8601DateString(props.value) || props.value;
 
     this.state = {
       value,
@@ -76,7 +76,7 @@ export default class DateInput extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const nextValue = normalizeISO8601DateString(nextProps.value);
+    const nextValue = normalizeISO8601DateString(nextProps.value) || nextProps.value;
 
     this.setState({
       value: nextValue,
@@ -190,7 +190,7 @@ export default class DateInput extends Component {
         onCommit(getPath(this.props), '');
       }
     } else {
-      nextState.value = normalizeISO8601DateString(this.props.value);
+      nextState.value = normalizeISO8601DateString(this.props.value) || this.props.value;
     }
 
     this.setState(nextState);
