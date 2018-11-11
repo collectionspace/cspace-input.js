@@ -101,10 +101,7 @@ export default class LineInput extends Component {
     const input = (
       <input
         // In Chrome, having autocomplete="off" on the parent form doesn't seem to be enough.
-        // Setting autocomplete="off" on the input also doesn't work. Use the autocomplete="nope"
-        // hack, as suggested here:
-        // https://developer.mozilla.org/en-US/docs/Web/Security/Securing_your_site/Turning_off_form_autocompletion
-        autoComplete="nope"
+        autoComplete="off"
         {...remainingProps}
         className={className}
         disabled={readOnly}
