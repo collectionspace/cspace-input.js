@@ -146,9 +146,9 @@ describe('RepeatingInput', function suite() {
         <TextInput label="Inner label" />
       </RepeatingInput>, this.container);
 
-    this.container.querySelector('input[name="0"]').value.should.equal(repeatingValue[0]);
-    this.container.querySelector('input[name="1"]').value.should.equal(repeatingValue[1]);
-    this.container.querySelector('input[name="2"]').value.should.equal(repeatingValue[2]);
+    this.container.querySelector('input[data-name="0"]').value.should.equal(repeatingValue[0]);
+    this.container.querySelector('input[data-name="1"]').value.should.equal(repeatingValue[1]);
+    this.container.querySelector('input[data-name="2"]').value.should.equal(repeatingValue[2]);
   });
 
   it('should set parentPath on instances', function test() {
@@ -175,7 +175,7 @@ describe('RepeatingInput', function suite() {
         <TextInput label="Inner label" />
       </RepeatingInput>, this.container);
 
-    const input = this.container.querySelector('input[name="0"]');
+    const input = this.container.querySelector('input[data-name="0"]');
 
     input.value = 'something';
 
@@ -357,7 +357,7 @@ describe('RepeatingInput', function suite() {
         <TextInput />
       </RepeatingInput>, this.container);
 
-    const removeButtons = this.container.querySelectorAll('button[name="remove"]');
+    const removeButtons = this.container.querySelectorAll('button[data-name="remove"]');
 
     removeButtons[0].disabled.should.equal(false);
     removeButtons[1].disabled.should.equal(true);
@@ -383,7 +383,7 @@ describe('RepeatingInput', function suite() {
         <TextInput />
       </RepeatingInput>, this.container);
 
-    const addButton = this.container.querySelector('button[name="add"]');
+    const addButton = this.container.querySelector('button[data-name="add"]');
 
     Simulate.click(addButton);
 
@@ -413,7 +413,7 @@ describe('RepeatingInput', function suite() {
         <TextInput />
       </RepeatingInput>, this.container);
 
-    const removeButton = this.container.querySelectorAll('button[name="remove"]')[1];
+    const removeButton = this.container.querySelectorAll('button[data-name="remove"]')[1];
 
     Simulate.click(removeButton);
 
@@ -445,7 +445,7 @@ describe('RepeatingInput', function suite() {
         <TextInput />
       </RepeatingInput>, this.container);
 
-    const moveButton = this.container.querySelectorAll('button[name="moveToTop"]')[1];
+    const moveButton = this.container.querySelectorAll('button[data-name="moveToTop"]')[1];
 
     Simulate.click(moveButton);
 
@@ -484,7 +484,7 @@ describe('RepeatingInput', function suite() {
     });
 
     it('should call onMoveInstance, incrementing the position by one', function test() {
-      const moveButton = this.container.querySelectorAll('button[name="moveToTop"]')[1];
+      const moveButton = this.container.querySelectorAll('button[data-name="moveToTop"]')[1];
 
       Simulate.keyDown(moveButton, {
         shiftKey: true,
@@ -496,7 +496,7 @@ describe('RepeatingInput', function suite() {
     });
 
     it('should wrap to position 0 if the next position is past the end of the list', function test() {
-      const moveButton = this.container.querySelectorAll('button[name="moveToTop"]')[2];
+      const moveButton = this.container.querySelectorAll('button[data-name="moveToTop"]')[2];
 
       Simulate.keyDown(moveButton, {
         shiftKey: true,
@@ -508,7 +508,7 @@ describe('RepeatingInput', function suite() {
     });
 
     it('should not call onMoveInstance if down arrow is depressed without shift', function test() {
-      const moveButton = this.container.querySelectorAll('button[name="moveToTop"]')[2];
+      const moveButton = this.container.querySelectorAll('button[data-name="moveToTop"]')[2];
 
       Simulate.keyDown(moveButton, {
         key: 'ArrowDown',
@@ -549,7 +549,7 @@ describe('RepeatingInput', function suite() {
     });
 
     it('should call onMoveInstance, incrementing the position by one', function test() {
-      const moveButton = this.container.querySelectorAll('button[name="moveToTop"]')[1];
+      const moveButton = this.container.querySelectorAll('button[data-name="moveToTop"]')[1];
 
       Simulate.keyDown(moveButton, {
         shiftKey: true,
@@ -561,7 +561,7 @@ describe('RepeatingInput', function suite() {
     });
 
     it('should wrap to the last position if the next position is 0', function test() {
-      const moveButton = this.container.querySelectorAll('button[name="moveToTop"]')[0];
+      const moveButton = this.container.querySelectorAll('button[data-name="moveToTop"]')[0];
 
       Simulate.keyDown(moveButton, {
         shiftKey: true,
@@ -573,7 +573,7 @@ describe('RepeatingInput', function suite() {
     });
 
     it('should not call onMoveInstance if up arrow is depressed without shift', function test() {
-      const moveButton = this.container.querySelectorAll('button[name="moveToTop"]')[2];
+      const moveButton = this.container.querySelectorAll('button[data-name="moveToTop"]')[2];
 
       Simulate.keyDown(moveButton, {
         key: 'ArrowUp',
@@ -614,7 +614,7 @@ describe('RepeatingInput', function suite() {
     });
 
     it('should call onAddInstance, passing the next higher position', function test() {
-      const moveButton = this.container.querySelectorAll('button[name="moveToTop"]')[1];
+      const moveButton = this.container.querySelectorAll('button[data-name="moveToTop"]')[1];
 
       Simulate.keyDown(moveButton, {
         shiftKey: true,
@@ -626,7 +626,7 @@ describe('RepeatingInput', function suite() {
     });
 
     it('should not call onAddInstance if up arrow is depressed without shift', function test() {
-      const moveButton = this.container.querySelectorAll('button[name="moveToTop"]')[2];
+      const moveButton = this.container.querySelectorAll('button[data-name="moveToTop"]')[2];
 
       Simulate.keyDown(moveButton, {
         key: '+',

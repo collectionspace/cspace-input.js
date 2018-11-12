@@ -46,7 +46,7 @@ export default function InputTableHeader(props) {
 
     if (onSortButtonClick && sortableFields && sortableFields[name]) {
       wrappedLabel = (
-        <button name={name} type="button" onClick={onSortButtonClick}>{label}</button>
+        <button data-name={name} type="button" onClick={onSortButtonClick}>{label}</button>
       );
     }
 

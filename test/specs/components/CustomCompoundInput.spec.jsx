@@ -106,16 +106,16 @@ describe('CustomCompoundInput', function suite() {
         </div>
       </CustomCompoundInput>, this.container);
 
-    this.container.querySelector('input[name="objectNumber"]').value.should
+    this.container.querySelector('input[data-name="objectNumber"]').value.should
       .equal(compoundValue.objectNumber);
 
     this.container.querySelector('textarea').value.should
       .equal(compoundValue.comment);
 
-    this.container.querySelector('input[name="nested"]').value.should
+    this.container.querySelector('input[data-name="nested"]').value.should
       .equal(compoundValue.group.nested);
 
-    this.container.querySelector('input[name="deeplyNested"]').value.should
+    this.container.querySelector('input[data-name="deeplyNested"]').value.should
       .equal(compoundValue.group.deepGroup.deeplyNested);
   });
 
@@ -186,13 +186,13 @@ describe('CustomCompoundInput', function suite() {
         <NestableTextInput name="comment" subpath="collectionobjects_extension" />
       </CustomCompoundInput>, this.container);
 
-    this.container.querySelector('input[name="objectNumber"]').value.should
+    this.container.querySelector('input[data-name="objectNumber"]').value.should
       .equal(compoundValue.collectionobjects_common.objectNumber);
 
-    this.container.querySelector('input[name="color"]').value.should
+    this.container.querySelector('input[data-name="color"]').value.should
       .equal(compoundValue.collectionobjects_extension.color);
 
-    this.container.querySelector('input[name="comment"]').value.should
+    this.container.querySelector('input[data-name="comment"]').value.should
       .equal(compoundValue.collectionobjects_extension.comment);
   });
 
@@ -249,13 +249,13 @@ describe('CustomCompoundInput', function suite() {
         />
       </CustomCompoundInput>, this.container);
 
-    this.container.querySelector('input[name="objectNumber"]').value.should
+    this.container.querySelector('input[data-name="objectNumber"]').value.should
       .equal(compoundValue.collectionobjects_common.objectNumber);
 
-    this.container.querySelector('input[name="comment"]').value.should
+    this.container.querySelector('input[data-name="comment"]').value.should
       .equal(compoundValue.collectionobjects_common.comment);
 
-    this.container.querySelectorAll('input[name="comment"]')[1].value.should
+    this.container.querySelectorAll('input[data-name="comment"]')[1].value.should
       .equal(compoundValue.collectionobjects_extension.comment);
   });
 });

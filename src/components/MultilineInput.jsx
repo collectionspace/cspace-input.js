@@ -61,6 +61,7 @@ export default class MultilineInput extends Component {
       asText,
       embedded,
       height,
+      name,
       value,
       readOnly,
       /* eslint-disable no-unused-vars */
@@ -85,6 +86,7 @@ export default class MultilineInput extends Component {
       <textarea
         {...remainingProps}
         className={className}
+        data-name={name}
         disabled={readOnly}
         readOnly={!remainingProps.onChange}
         ref={this.handleRef}

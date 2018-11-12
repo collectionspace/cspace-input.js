@@ -73,7 +73,7 @@ export default class PasswordInput extends Component {
         {...remainingProps}
         className={styles.normal}
         disabled={readOnly}
-        name={name}
+        data-name={name}
         readOnly={!remainingProps.onChange}
         ref={this.handleRef}
         type="password"

@@ -113,25 +113,25 @@ describe('StructuredDateInput', () => {
 
     Simulate.mouseDown(primaryInput);
 
-    this.container.querySelector('input[name=datePeriod]').value.should.equal(value.datePeriod);
-    this.container.querySelector('input[name=dateAssociation]').value.should.equal(value.dateAssociation);
-    this.container.querySelector('input[name=dateNote]').value.should.equal(value.dateNote);
-    this.container.querySelector('input[name=dateEarliestSingleYear]').value.should.equal(value.dateEarliestSingleYear);
-    this.container.querySelector('input[name=dateEarliestSingleMonth]').value.should.equal(value.dateEarliestSingleMonth);
-    this.container.querySelector('input[name=dateEarliestSingleDay]').value.should.equal(value.dateEarliestSingleDay);
-    this.container.querySelector('input[name=dateEarliestSingleEra]').value.should.equal('Era 1');
-    this.container.querySelector('input[name=dateEarliestSingleCertainty]').value.should.equal('Certainty 1');
-    this.container.querySelector('input[name=dateEarliestSingleQualifier]').value.should.equal('Qual 1');
-    this.container.querySelector('input[name=dateEarliestSingleQualifierValue]').value.should.equal(value.dateEarliestSingleQualifierValue);
-    this.container.querySelector('input[name=dateEarliestSingleQualifierUnit]').value.should.equal('Unit 1');
-    this.container.querySelector('input[name=dateLatestYear]').value.should.equal(value.dateLatestYear);
-    this.container.querySelector('input[name=dateLatestMonth]').value.should.equal(value.dateLatestMonth);
-    this.container.querySelector('input[name=dateLatestDay]').value.should.equal(value.dateLatestDay);
-    this.container.querySelector('input[name=dateLatestEra]').value.should.equal('Era 2');
-    this.container.querySelector('input[name=dateLatestCertainty]').value.should.equal('Certainty 2');
-    this.container.querySelector('input[name=dateLatestQualifier]').value.should.equal('Qual 2');
-    this.container.querySelector('input[name=dateLatestQualifierValue]').value.should.equal(value.dateLatestQualifierValue);
-    this.container.querySelector('input[name=dateLatestQualifierUnit]').value.should.equal('Unit 2');
+    this.container.querySelector('input[data-name=datePeriod]').value.should.equal(value.datePeriod);
+    this.container.querySelector('input[data-name=dateAssociation]').value.should.equal(value.dateAssociation);
+    this.container.querySelector('input[data-name=dateNote]').value.should.equal(value.dateNote);
+    this.container.querySelector('input[data-name=dateEarliestSingleYear]').value.should.equal(value.dateEarliestSingleYear);
+    this.container.querySelector('input[data-name=dateEarliestSingleMonth]').value.should.equal(value.dateEarliestSingleMonth);
+    this.container.querySelector('input[data-name=dateEarliestSingleDay]').value.should.equal(value.dateEarliestSingleDay);
+    this.container.querySelector('input[data-name=dateEarliestSingleEra]').value.should.equal('Era 1');
+    this.container.querySelector('input[data-name=dateEarliestSingleCertainty]').value.should.equal('Certainty 1');
+    this.container.querySelector('input[data-name=dateEarliestSingleQualifier]').value.should.equal('Qual 1');
+    this.container.querySelector('input[data-name=dateEarliestSingleQualifierValue]').value.should.equal(value.dateEarliestSingleQualifierValue);
+    this.container.querySelector('input[data-name=dateEarliestSingleQualifierUnit]').value.should.equal('Unit 1');
+    this.container.querySelector('input[data-name=dateLatestYear]').value.should.equal(value.dateLatestYear);
+    this.container.querySelector('input[data-name=dateLatestMonth]').value.should.equal(value.dateLatestMonth);
+    this.container.querySelector('input[data-name=dateLatestDay]').value.should.equal(value.dateLatestDay);
+    this.container.querySelector('input[data-name=dateLatestEra]').value.should.equal('Era 2');
+    this.container.querySelector('input[data-name=dateLatestCertainty]').value.should.equal('Certainty 2');
+    this.container.querySelector('input[data-name=dateLatestQualifier]').value.should.equal('Qual 2');
+    this.container.querySelector('input[data-name=dateLatestQualifierValue]').value.should.equal(value.dateLatestQualifierValue);
+    this.container.querySelector('input[data-name=dateLatestQualifierUnit]').value.should.equal('Unit 2');
 
     const newValue = {
       dateDisplayDate: '1998',
@@ -150,7 +150,7 @@ describe('StructuredDateInput', () => {
 
     Simulate.mouseDown(primaryInput);
 
-    this.container.querySelector('input[name=datePeriod]').value.should.equal('');
+    this.container.querySelector('input[data-name=datePeriod]').value.should.equal('');
   });
 
   it('should accept an Immutable map value, and distribute values to nested inputs', function test() {
@@ -192,25 +192,25 @@ describe('StructuredDateInput', () => {
 
     Simulate.mouseDown(primaryInput);
 
-    this.container.querySelector('input[name=datePeriod]').value.should.equal(value.get('datePeriod'));
-    this.container.querySelector('input[name=dateAssociation]').value.should.equal(value.get('dateAssociation'));
-    this.container.querySelector('input[name=dateNote]').value.should.equal(value.get('dateNote'));
-    this.container.querySelector('input[name=dateEarliestSingleYear]').value.should.equal(value.get('dateEarliestSingleYear'));
-    this.container.querySelector('input[name=dateEarliestSingleMonth]').value.should.equal(value.get('dateEarliestSingleMonth'));
-    this.container.querySelector('input[name=dateEarliestSingleDay]').value.should.equal(value.get('dateEarliestSingleDay'));
-    this.container.querySelector('input[name=dateEarliestSingleEra]').value.should.equal('Era 1');
-    this.container.querySelector('input[name=dateEarliestSingleCertainty]').value.should.equal('Certainty 1');
-    this.container.querySelector('input[name=dateEarliestSingleQualifier]').value.should.equal('Qual 1');
-    this.container.querySelector('input[name=dateEarliestSingleQualifierValue]').value.should.equal(value.get('dateEarliestSingleQualifierValue'));
-    this.container.querySelector('input[name=dateEarliestSingleQualifierUnit]').value.should.equal('Unit 1');
-    this.container.querySelector('input[name=dateLatestYear]').value.should.equal(value.get('dateLatestYear'));
-    this.container.querySelector('input[name=dateLatestMonth]').value.should.equal(value.get('dateLatestMonth'));
-    this.container.querySelector('input[name=dateLatestDay]').value.should.equal(value.get('dateLatestDay'));
-    this.container.querySelector('input[name=dateLatestEra]').value.should.equal('Era 2');
-    this.container.querySelector('input[name=dateLatestCertainty]').value.should.equal('Certainty 2');
-    this.container.querySelector('input[name=dateLatestQualifier]').value.should.equal('Qual 2');
-    this.container.querySelector('input[name=dateLatestQualifierValue]').value.should.equal(value.get('dateLatestQualifierValue'));
-    this.container.querySelector('input[name=dateLatestQualifierUnit]').value.should.equal('Unit 2');
+    this.container.querySelector('input[data-name=datePeriod]').value.should.equal(value.get('datePeriod'));
+    this.container.querySelector('input[data-name=dateAssociation]').value.should.equal(value.get('dateAssociation'));
+    this.container.querySelector('input[data-name=dateNote]').value.should.equal(value.get('dateNote'));
+    this.container.querySelector('input[data-name=dateEarliestSingleYear]').value.should.equal(value.get('dateEarliestSingleYear'));
+    this.container.querySelector('input[data-name=dateEarliestSingleMonth]').value.should.equal(value.get('dateEarliestSingleMonth'));
+    this.container.querySelector('input[data-name=dateEarliestSingleDay]').value.should.equal(value.get('dateEarliestSingleDay'));
+    this.container.querySelector('input[data-name=dateEarliestSingleEra]').value.should.equal('Era 1');
+    this.container.querySelector('input[data-name=dateEarliestSingleCertainty]').value.should.equal('Certainty 1');
+    this.container.querySelector('input[data-name=dateEarliestSingleQualifier]').value.should.equal('Qual 1');
+    this.container.querySelector('input[data-name=dateEarliestSingleQualifierValue]').value.should.equal(value.get('dateEarliestSingleQualifierValue'));
+    this.container.querySelector('input[data-name=dateEarliestSingleQualifierUnit]').value.should.equal('Unit 1');
+    this.container.querySelector('input[data-name=dateLatestYear]').value.should.equal(value.get('dateLatestYear'));
+    this.container.querySelector('input[data-name=dateLatestMonth]').value.should.equal(value.get('dateLatestMonth'));
+    this.container.querySelector('input[data-name=dateLatestDay]').value.should.equal(value.get('dateLatestDay'));
+    this.container.querySelector('input[data-name=dateLatestEra]').value.should.equal('Era 2');
+    this.container.querySelector('input[data-name=dateLatestCertainty]').value.should.equal('Certainty 2');
+    this.container.querySelector('input[data-name=dateLatestQualifier]').value.should.equal('Qual 2');
+    this.container.querySelector('input[data-name=dateLatestQualifierValue]').value.should.equal(value.get('dateLatestQualifierValue'));
+    this.container.querySelector('input[data-name=dateLatestQualifierUnit]').value.should.equal('Unit 2');
 
     const newValue = Immutable.fromJS({
       dateDisplayDate: '1998',
@@ -229,7 +229,7 @@ describe('StructuredDateInput', () => {
 
     Simulate.mouseDown(primaryInput);
 
-    this.container.querySelector('input[name=datePeriod]').value.should.equal('');
+    this.container.querySelector('input[data-name=datePeriod]').value.should.equal('');
   });
 
   it('should use defaultValue as the value when value prop is not defined', function test() {
@@ -299,7 +299,7 @@ describe('StructuredDateInput', () => {
 
     primaryInput.value.should.equal('June 2004');
 
-    this.container.querySelector('input[name=datePeriod]').should.not.equal(null);
+    this.container.querySelector('input[data-name=datePeriod]').should.not.equal(null);
   });
 
   it('should call onCommit when a dropdown input is committed', function test() {
@@ -347,7 +347,7 @@ describe('StructuredDateInput', () => {
 
     Simulate.mouseDown(primaryInput);
 
-    const datePeriodInput = this.container.querySelector('input[name=datePeriod]');
+    const datePeriodInput = this.container.querySelector('input[data-name=datePeriod]');
 
     datePeriodInput.value = 'new period';
 
@@ -772,7 +772,7 @@ describe('StructuredDateInput', () => {
 
     Simulate.mouseDown(primaryInput);
 
-    const datePeriodInput = this.container.querySelector('input[name=dateLatestDay]');
+    const datePeriodInput = this.container.querySelector('input[data-name=dateLatestDay]');
 
     datePeriodInput.value = '13';
 
@@ -826,7 +826,7 @@ describe('StructuredDateInput', () => {
 
     Simulate.mouseDown(primaryInput);
 
-    const datePeriodInput = this.container.querySelector('input[name=dateLatestDay]');
+    const datePeriodInput = this.container.querySelector('input[data-name=dateLatestDay]');
 
     datePeriodInput.value = '13';
 
@@ -862,7 +862,7 @@ describe('StructuredDateInput', () => {
 
     Simulate.mouseDown(primaryInput);
 
-    const qualifierInput = this.container.querySelector('input[name=dateEarliestSingleQualifier]');
+    const qualifierInput = this.container.querySelector('input[data-name=dateEarliestSingleQualifier]');
 
     Simulate.mouseDown(qualifierInput);
 

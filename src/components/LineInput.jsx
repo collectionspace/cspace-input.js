@@ -76,6 +76,7 @@ export default class LineInput extends Component {
     const {
       asText,
       embedded,
+      name,
       readOnly,
       value,
       showLink,
@@ -104,6 +105,7 @@ export default class LineInput extends Component {
         autoComplete="off"
         {...remainingProps}
         className={className}
+        data-name={name}
         disabled={readOnly}
         readOnly={!remainingProps.onChange}
         ref={this.handleRef}

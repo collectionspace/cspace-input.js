@@ -67,7 +67,7 @@ describe('TabularCompoundInput', function suite() {
         </div>
       </TabularCompoundInput>, this.container);
 
-    const objectNumberSortButton = this.container.querySelector('button[name="objectNumber"]');
+    const objectNumberSortButton = this.container.querySelector('button[data-name="objectNumber"]');
 
     Simulate.click(objectNumberSortButton);
 

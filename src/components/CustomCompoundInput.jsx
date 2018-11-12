@@ -106,7 +106,7 @@ export default class CustomCompoundInput extends Component {
     return (
       <fieldset
         className={classes}
-        name={name}
+        data-name={name}
       >
         {this.decorateInputs(children)}
       </fieldset>

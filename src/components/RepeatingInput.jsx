@@ -274,9 +274,9 @@ export default class RepeatingInput extends Component {
             <div className={className}>
               <MiniButton
                 className={moveToTopButtonStyles.common}
+                data-name="moveToTop"
                 data-instancename={instanceName}
                 disabled={!reorderable}
-                name="moveToTop"
                 readOnly={readOnly}
                 onClick={this.handleMoveToTopButtonClick}
                 onKeyDown={this.handleMoveToTopButtonKeyDown}
@@ -297,11 +297,11 @@ export default class RepeatingInput extends Component {
           <div className={className}>
             <MiniButton
               data-instancename={instanceName}
+              data-name="remove"
               disabled={
                 list.length < 2 ||
                 (disableRemoveButton && disableRemoveButton(instanceValue))
               }
-              name="remove"
               onClick={this.handleRemoveButtonClick}
             >
               −
@@ -352,7 +352,7 @@ export default class RepeatingInput extends Component {
         <footer>
           <div className={className}>
             <MiniButton
-              name="add"
+              data-name="add"
               onClick={this.handleAddButtonClick}
             >
               +
@@ -367,7 +367,7 @@ export default class RepeatingInput extends Component {
     return (
       <fieldset
         className={className}
-        name={name}
+        data-name={name}
       >
         {isLabelEmbedded ? null : renderHeader(label)}
 

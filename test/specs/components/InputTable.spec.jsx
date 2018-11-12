@@ -51,9 +51,9 @@ describe('InputTable', function suite() {
 
     inputs.length.should.equal(3);
 
-    inputs[0].name.should.equal('input1');
-    inputs[1].name.should.equal('input2');
-    inputs[2].name.should.equal('input3');
+    inputs[0].dataset.name.should.equal('input1');
+    inputs[1].dataset.name.should.equal('input2');
+    inputs[2].dataset.name.should.equal('input3');
   });
 
   it('should set the flex style of the label container and input container to the flex prop of the input', function test() {

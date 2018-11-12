@@ -31,7 +31,7 @@ export default class TabularCompoundInput extends Component {
     } = this.props;
 
     if (onSortInstances) {
-      onSortInstances(getPath(this.props), event.currentTarget.name);
+      onSortInstances(getPath(this.props), event.currentTarget.dataset.name);
     }
   }
 

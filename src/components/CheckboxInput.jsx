@@ -111,8 +111,8 @@ export default class CheckboxInput extends Component {
       <label className={classes} onClick={onClick}>
         <input
           checked={checked}
+          data-name={name}
           disabled={readOnly}
-          name={name}
           type="checkbox"
           onChange={this.handleChange}
           {...remainingProps}

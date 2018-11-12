@@ -35,7 +35,7 @@ describe('UploadInput', function suite() {
     it('should not accept a value that is not an array', function test() {
       render(<UploadInput type="file" value="foo" />, this.container);
 
-      this.container.querySelector('input[name="file"]').files.should.have.lengthOf(0);
+      this.container.querySelector('input[data-name="file"]').files.should.have.lengthOf(0);
     });
 
     it('should call onCommit when the file is changed', function test() {
@@ -51,7 +51,7 @@ describe('UploadInput', function suite() {
           onCommit={handleCommit}
         />, this.container);
 
-      const input = this.container.querySelector('input[name="file"]');
+      const input = this.container.querySelector('input[data-name="file"]');
 
       Simulate.change(input);
 
@@ -70,7 +70,7 @@ describe('UploadInput', function suite() {
     it('should not accept a value that is not a string', function test() {
       render(<UploadInput type="url" value={{}} />, this.container);
 
-      this.container.querySelector('input[name="url"]').value.should.equal('');
+      this.container.querySelector('input[data-name="url"]').value.should.equal('');
     });
 
     it('should call onCommit when the url is committed', function test() {
@@ -86,7 +86,7 @@ describe('UploadInput', function suite() {
           onCommit={handleCommit}
         />, this.container);
 
-      const input = this.container.querySelector('input[name="url"]');
+      const input = this.container.querySelector('input[data-name="url"]');
       const newValue = input.value = 'http://collectionspace.org';
 
       Simulate.blur(input);
@@ -120,7 +120,7 @@ describe('UploadInput', function suite() {
         onCommit={handleCommit}
       />, this.container);
 
-    const dropdown = this.container.querySelector('input[name="type"]');
+    const dropdown = this.container.querySelector('input[data-name="type"]');
 
     Simulate.focus(dropdown);
     Simulate.keyDown(dropdown, { key: 'ArrowDown' });
@@ -146,7 +146,7 @@ describe('UploadInput', function suite() {
         onTypeChanged={handleTypeChanged}
       />, this.container);
 
-    const dropdown = this.container.querySelector('input[name="type"]');
+    const dropdown = this.container.querySelector('input[data-name="type"]');
 
     Simulate.focus(dropdown);
     Simulate.keyDown(dropdown, { key: 'ArrowDown' });

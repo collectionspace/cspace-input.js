@@ -77,6 +77,6 @@ describe('InputTableHeader', function suite() {
         <LineInput name="field3" label="3" />
       </InputTableHeader>, this.container);
 
-    this.container.querySelector('button[name="field2"]').should.not.equal(null);
+    this.container.querySelector('button[data-name="field2"]').should.not.equal(null);
   });
 });

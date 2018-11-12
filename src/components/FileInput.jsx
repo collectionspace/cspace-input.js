@@ -156,7 +156,7 @@ export default class FileInput extends Component {
       >
         <input
           accept={accept}
-          name={name}
+          data-name={name}
           ref={this.handleFileInputRef}
           tabIndex="-1"
           type="file"
