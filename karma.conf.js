@@ -4,12 +4,12 @@
 const webpack = require('webpack');
 
 const sauceLaunchers = {
-  'chrome-latest-macos': {
-    base: 'SauceLabs',
-    browserName: 'chrome',
-    version: 'latest',
-    platform: 'macOS 10.13',
-  },
+  // 'chrome-latest-macos': {
+  //   base: 'SauceLabs',
+  //   browserName: 'chrome',
+  //   version: 'latest',
+  //   platform: 'macOS 10.13',
+  // },
   'chrome-previous-macos': {
     base: 'SauceLabs',
     browserName: 'chrome',
