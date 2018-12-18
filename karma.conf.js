@@ -205,7 +205,7 @@ module.exports = function karma(config) {
 
     // Tolerate Sauce Labs slowness/flakiness.
 
-    browserDisconnectTimeout: 10000,
+    browserDisconnectTimeout: 20000,
     browserDisconnectTolerance: 1,
     browserNoActivityTimeout: 4 * 60 * 1000,
     captureTimeout: 4 * 60 * 1000,
