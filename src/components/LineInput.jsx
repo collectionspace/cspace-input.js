@@ -6,6 +6,7 @@ import wrapperStyles from '../../styles/cspace-input/LineInputWrapper.css';
 
 const propTypes = {
   asText: PropTypes.bool,
+  autoComplete: PropTypes.string,
   embedded: PropTypes.bool,
   name: PropTypes.string,
   parentPath: pathPropType,
@@ -75,6 +76,7 @@ export default class LineInput extends Component {
   render() {
     const {
       asText,
+      autoComplete,
       embedded,
       name,
       readOnly,
@@ -102,7 +104,7 @@ export default class LineInput extends Component {
     const input = (
       <input
         // In Chrome, having autocomplete="off" on the parent form doesn't seem to be enough.
-        autoComplete="off"
+        autoComplete={autoComplete || 'off'}
         {...remainingProps}
         className={className}
         data-name={name}
