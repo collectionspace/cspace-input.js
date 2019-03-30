@@ -5,6 +5,7 @@ import MultilineInput from './MultilineInput';
 import { pathPropType } from '../helpers/pathHelpers';
 
 const propTypes = {
+  'aria-label': PropTypes.string,
   autoComplete: PropTypes.string,
   embedded: PropTypes.bool,
   name: PropTypes.string,

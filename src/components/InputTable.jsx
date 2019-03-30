@@ -8,6 +8,7 @@ const propTypes = {
   children: PropTypes.node,
   embedded: PropTypes.bool,
   renderLabel: PropTypes.func,
+  renderAriaLabel: PropTypes.func,
 };
 
 export default function InputTable(props) {
@@ -15,12 +16,18 @@ export default function InputTable(props) {
     children,
     embedded,
     renderLabel,
+    renderAriaLabel,
   } = props;
 
   return (
     <div className={styles.common}>
-      <InputTableHeader embedded={embedded} renderLabel={renderLabel}>{children}</InputTableHeader>
-      <InputTableRow embedded={embedded}>{children}</InputTableRow>
+      <InputTableHeader embedded={embedded} renderLabel={renderLabel}>
+        {children}
+      </InputTableHeader>
+
+      <InputTableRow embedded={embedded} renderAriaLabel={renderAriaLabel}>
+        {children}
+      </InputTableRow>
     </div>
   );
 }

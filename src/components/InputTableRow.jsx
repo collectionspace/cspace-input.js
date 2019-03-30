@@ -6,12 +6,22 @@ import styles from '../../styles/cspace-input/InputTableRow.css';
 const propTypes = {
   children: PropTypes.node,
   embedded: PropTypes.bool,
+  renderAriaLabel: PropTypes.func,
+};
+
+const defaultProps = {
+  renderAriaLabel: (input) => {
+    const label = input.props.label;
+
+    return (typeof label === 'string') ? label : undefined;
+  },
 };
 
 export default function InputTableRow(props) {
   const {
     children,
     embedded,
+    renderAriaLabel,
   } = props;
 
   const inputs = extractInputs(children);
@@ -19,6 +29,7 @@ export default function InputTableRow(props) {
   const modifiedInputs = inputs.map(input => React.cloneElement(input, {
     label: undefined,
     embedded: true,
+    'aria-label': renderAriaLabel(input),
   }));
 
   const inputContainers = modifiedInputs.map((input) => {
@@ -43,3 +54,4 @@ export default function InputTableRow(props) {
 }
 
 InputTableRow.propTypes = propTypes;
+InputTableRow.defaultProps = defaultProps;

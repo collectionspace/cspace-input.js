@@ -6,6 +6,7 @@ import wrapperStyles from '../../styles/cspace-input/LineInputWrapper.css';
 
 const propTypes = {
   asText: PropTypes.bool,
+  'aria-label': PropTypes.string,
   autoComplete: PropTypes.string,
   embedded: PropTypes.bool,
   name: PropTypes.string,
