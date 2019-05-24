@@ -2,12 +2,12 @@
 /* eslint no-console: "off" */
 
 const sauceLaunchers = {
-  // 'chrome-latest-macos': {
-  //   base: 'SauceLabs',
-  //   browserName: 'chrome',
-  //   version: 'latest',
-  //   platform: 'macOS 10.13',
-  // },
+  'chrome-latest-macos': {
+    base: 'SauceLabs',
+    browserName: 'chrome',
+    version: 'latest',
+    platform: 'macOS 10.13',
+  },
   'chrome-previous-macos': {
     base: 'SauceLabs',
     browserName: 'chrome',
@@ -26,18 +26,18 @@ const sauceLaunchers = {
     version: 'latest-1',
     platform: 'macOS 10.13',
   },
-  // 'safari-latest-macos': {
-  //   base: 'SauceLabs',
-  //   browserName: 'safari',
-  //   version: 'latest',
-  //   platform: 'macOS 10.13',
-  // },
-  // 'edge-latest-win10': {
-  //   base: 'SauceLabs',
-  //   browserName: 'microsoftedge',
-  //   version: 'latest',
-  //   platform: 'Windows 10',
-  // },
+  'safari-latest-macos': {
+    base: 'SauceLabs',
+    browserName: 'safari',
+    version: 'latest',
+    platform: 'macOS 10.13',
+  },
+  'edge-latest-win10': {
+    base: 'SauceLabs',
+    browserName: 'microsoftedge',
+    version: 'latest',
+    platform: 'Windows 10',
+  },
   // 'safari-ios-11.2': {
   //   base: 'SauceLabs',
   //   browserName: 'safari',
