@@ -39,8 +39,10 @@ describe('FileInput', function suite() {
 
     let inputClicked = false;
 
-    input.onclick = () => {
+    input.onclick = (event) => {
       inputClicked = true;
+
+      event.preventDefault();
     };
 
     const button = this.container.querySelector('button');
