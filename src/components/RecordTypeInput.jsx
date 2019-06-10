@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import BaseSubstringFilteringDropdownMenuInput from './SubstringFilteringDropdownMenuInput';
 import BaseDropdownMenuInput from './DropdownMenuInput';
 import withLabeledOptions from '../enhancers/withLabeledOptions';
+import { getPath } from '../helpers/pathHelpers';
 
 const SubstringFilteringDropdownMenuInput =
   withLabeledOptions(BaseSubstringFilteringDropdownMenuInput);
@@ -37,125 +38,192 @@ const defaultProps = {
   serviceTypes: ['object', 'procedure', 'authority'],
 };
 
-export default function RecordTypeInput(props) {
-  const {
-    formatRecordTypeLabel,
-    indentItems,
-    recordTypes,
-    rootType,
-    serviceTypes,
-    filtering,
-    value: recordTypeValue,
-    ...remainingProps
-  } = props;
+export default class RecordTypeInput extends Component {
+  constructor(props) {
+    super(props);
 
-  const options = [];
-
-  if (recordTypes[rootType]) {
-    options.push({
-      value: rootType,
-      label: formatRecordTypeLabel(rootType, recordTypes[rootType]),
-    });
+    this.state = {};
   }
 
-  serviceTypes.forEach((serviceType) => {
-    const recordTypeNames = Object.keys(recordTypes)
-      .filter((recordTypeName) => {
-        const recordTypeConfig = recordTypes[recordTypeName];
+  componentDidMount() {
+    this.initOptions(this.props);
+  }
 
-        return (
-          recordTypeConfig.serviceConfig.serviceType === serviceType &&
-          !recordTypeConfig.disabled
-        );
-      })
-      .sort((nameA, nameB) => {
-        const configA = recordTypes[nameA];
-        const configB = recordTypes[nameB];
+  componentWillReceiveProps(nextProps) {
+    const {
+      formatRecordTypeLabel,
+      indentItems,
+      recordTypes,
+      rootType,
+      serviceTypes,
+    } = this.props;
 
-        // Primary sort by sortOrder
+    const {
+      formatRecordTypeLabel: nextFormatRecordTypeLabel,
+      indentItems: nextIndentItems,
+      recordTypes: nextRecordTypes,
+      rootType: nextRootType,
+      serviceTypes: nextServiceTypes,
+    } = nextProps;
 
-        let sortOrderA = configA.sortOrder;
-        let sortOrderB = configB.sortOrder;
+    if (
+      formatRecordTypeLabel !== nextFormatRecordTypeLabel
+      || indentItems !== nextIndentItems
+      || recordTypes !== nextRecordTypes
+      || rootType !== nextRootType
+      || serviceTypes !== nextServiceTypes
+    ) {
+      this.initOptions(nextProps);
+    }
+  }
 
-        if (typeof sortOrderA !== 'number') {
-          sortOrderA = Number.MAX_VALUE;
-        }
+  initOptions(props) {
+    const {
+      formatRecordTypeLabel,
+      indentItems,
+      recordTypes,
+      rootType,
+      serviceTypes,
+      value,
+    } = props;
 
-        if (typeof sortOrderB !== 'number') {
-          sortOrderB = Number.MAX_VALUE;
-        }
+    const options = [];
 
-        if (sortOrderA !== sortOrderB) {
-          return (sortOrderA > sortOrderB ? 1 : -1);
-        }
-
-        // Secondary sort by label
-
-        const labelA = formatRecordTypeLabel(nameA, configA);
-        const labelB = formatRecordTypeLabel(nameB, configB);
-
-        // FIXME: This should be locale aware
-        return labelA.localeCompare(labelB);
+    if (recordTypes[rootType]) {
+      options.push({
+        value: rootType,
+        label: formatRecordTypeLabel(rootType, recordTypes[rootType]),
       });
+    }
 
-    let indent = 0;
+    serviceTypes.forEach((serviceType) => {
+      const recordTypeNames = Object.keys(recordTypes)
+        .filter((recordTypeName) => {
+          const recordTypeConfig = recordTypes[recordTypeName];
 
-    if (recordTypeNames.length > 1 && recordTypes[serviceType]) {
-      // If there is more than one record type within this service type, and the service type is
-      // itself a record type, add the service type as a parent option.
+          return (
+            recordTypeConfig.serviceConfig.serviceType === serviceType &&
+            !recordTypeConfig.disabled
+          );
+        })
+        .sort((nameA, nameB) => {
+          const configA = recordTypes[nameA];
+          const configB = recordTypes[nameB];
+
+          // Primary sort by sortOrder
+
+          let sortOrderA = configA.sortOrder;
+          let sortOrderB = configB.sortOrder;
+
+          if (typeof sortOrderA !== 'number') {
+            sortOrderA = Number.MAX_VALUE;
+          }
+
+          if (typeof sortOrderB !== 'number') {
+            sortOrderB = Number.MAX_VALUE;
+          }
+
+          if (sortOrderA !== sortOrderB) {
+            return (sortOrderA > sortOrderB ? 1 : -1);
+          }
+
+          // Secondary sort by label
+
+          const labelA = formatRecordTypeLabel(nameA, configA);
+          const labelB = formatRecordTypeLabel(nameB, configB);
+
+          // FIXME: This should be locale aware
+          return labelA.localeCompare(labelB);
+        });
+
+      let indent = 0;
+
+      if (recordTypeNames.length > 1 && recordTypes[serviceType]) {
+        // If there is more than one record type within this service type, and the service type is
+        // itself a record type, add the service type as a parent option.
+
+        if (indentItems) {
+          indent += 1;
+        }
+
+        options.push({
+          indent,
+          value: serviceType,
+          label: formatRecordTypeLabel(serviceType, recordTypes[serviceType]),
+        });
+      }
 
       if (indentItems) {
         indent += 1;
       }
 
-      options.push({
-        indent,
-        value: serviceType,
-        label: formatRecordTypeLabel(serviceType, recordTypes[serviceType]),
-      });
-    }
-
-    if (indentItems) {
-      indent += 1;
-    }
-
-    recordTypeNames.forEach((recordTypeName) => {
-      options.push({
-        indent,
-        value: recordTypeName,
-        label: formatRecordTypeLabel(recordTypeName, recordTypes[recordTypeName]),
+      recordTypeNames.forEach((recordTypeName) => {
+        options.push({
+          indent,
+          value: recordTypeName,
+          label: formatRecordTypeLabel(recordTypeName, recordTypes[recordTypeName]),
+        });
       });
     });
-  });
 
-  let value = recordTypeValue;
+    this.setState({
+      options,
+    });
 
-  if (!value) {
-    for (let i = 0; i < options.length; i += 1) {
-      const recordTypeName = options[i].value;
-      const recordType = recordTypes[recordTypeName];
+    if (typeof value === 'undefined') {
+      let defaultValue;
 
-      if (recordType.defaultForSearch) {
-        value = recordTypeName;
-        break;
+      for (let i = 0; i < options.length; i += 1) {
+        const recordTypeName = options[i].value;
+        const recordType = recordTypes[recordTypeName];
+
+        if (recordType.defaultForSearch) {
+          defaultValue = recordTypeName;
+          break;
+        }
       }
-    }
 
-    if (!value && options.length > 0) {
-      value = options[0].value;
+      if (!defaultValue && options.length > 0) {
+        defaultValue = options[0].value;
+      }
+
+      if (defaultValue) {
+        const { onCommit } = props;
+
+        if (onCommit) {
+          onCommit(getPath(props), defaultValue);
+        }
+      }
     }
   }
 
-  const Input = filtering ? SubstringFilteringDropdownMenuInput : DropdownMenuInput;
+  render() {
+    const {
+      /* eslint-disable no-unused-vars */
+      formatRecordTypeLabel,
+      indentItems,
+      recordTypes,
+      rootType,
+      serviceTypes,
+      /* eslint-enable no-unused-vars */
+      filtering,
+      ...remainingProps
+    } = this.props;
 
-  return (
-    <Input
-      blankable={false}
-      options={options}
-      value={value}
-      {...remainingProps}
-    />
-  );
+    const {
+      options,
+    } = this.state;
+
+    const Input = filtering ? SubstringFilteringDropdownMenuInput : DropdownMenuInput;
+
+    return (
+      <Input
+        blankable={false}
+        options={options}
+        {...remainingProps}
+      />
+    );
+  }
 }
 
 RecordTypeInput.propTypes = propTypes;

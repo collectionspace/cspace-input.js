@@ -314,34 +314,44 @@ describe('RecordTypeInput', function suite() {
     input.value.should.equal('Groups');
   });
 
-  it('should select the record type with defaultForSearch set to true if value is not supplied', function test() {
+  it('should call onCommit with the record type that has defaultForSearch set to true if value is not supplied', function test() {
     recordTypes.collectionobject.defaultForSearch = false;
     recordTypes.media.defaultForSearch = true;
+
+    let committedValue;
+
+    const handleCommit = (pathArg, valueArg) => {
+      committedValue = valueArg;
+    };
 
     render(
       <RecordTypeInput
         recordTypes={recordTypes}
+        onCommit={handleCommit}
       />, this.container);
 
-    const input = this.container.querySelector('input');
-
-    input.value.should.equal('Media Handling');
+    committedValue.should.equal('media');
 
     recordTypes.object.defaultForSearch = true;
     recordTypes.media.defaultForSearch = false;
   });
 
-  it('should select the first record type option if value is not supplied and no record types have defaultForSearch set to true', function test() {
+  it('should call onCommit with the first record type option if value is not supplied and no record types have defaultForSearch set to true', function test() {
     recordTypes.object.defaultForSearch = false;
+
+    let committedValue;
+
+    const handleCommit = (pathArg, valueArg) => {
+      committedValue = valueArg;
+    };
 
     render(
       <RecordTypeInput
         recordTypes={recordTypes}
+        onCommit={handleCommit}
       />, this.container);
 
-    const input = this.container.querySelector('input');
-
-    input.value.should.equal('All Records');
+    committedValue.should.equal('all');
 
     recordTypes.object.defaultForSearch = true;
   });
@@ -403,5 +413,38 @@ describe('RecordTypeInput', function suite() {
     items[7].textContent.should.equal('formatRecordTypeLabel concept');
     items[8].textContent.should.equal('formatRecordTypeLabel organization');
     items[9].textContent.should.equal('formatRecordTypeLabel person');
+  });
+
+  it('should update options if recordTypes is changed', function test() {
+    render(
+      <RecordTypeInput
+        recordTypes={recordTypes}
+      />, this.container);
+
+    const newRecordTypes = Object.assign({}, recordTypes);
+
+    delete newRecordTypes.group;
+
+    render(
+      <RecordTypeInput
+        recordTypes={newRecordTypes}
+      />, this.container);
+
+    const input = this.container.querySelector('input');
+
+    Simulate.mouseDown(input);
+
+    const items = this.container.querySelectorAll('li');
+
+    items.length.should.equal(9);
+    items[0].textContent.should.equal('All Records');
+    items[1].textContent.should.equal('Objects');
+    items[2].textContent.should.equal('All Procedures');
+    items[3].textContent.should.equal('Loans In');
+    items[4].textContent.should.equal('Media Handling');
+    items[5].textContent.should.equal('All Authorities');
+    items[6].textContent.should.equal('Concepts');
+    items[7].textContent.should.equal('Organizations');
+    items[8].textContent.should.equal('Persons');
   });
 });

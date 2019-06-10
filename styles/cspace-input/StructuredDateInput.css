@@ -2,7 +2,7 @@
 @value inputHeight from '../dimensions.css';
 
 .common > input, .common > textarea {
-  padding-right: calc(inputHeight - 1px);;
+  padding-right: calc(inputHeight - 1px);
   background-image: url(../../images/structDate.svg);
   background-repeat: no-repeat;
   background-position: right;

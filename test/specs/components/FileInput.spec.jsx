@@ -7,8 +7,6 @@ import createTestContainer from '../../helpers/createTestContainer';
 import { isInput } from '../../../src/helpers/inputHelpers';
 import FileInput from '../../../src/components/FileInput';
 
-const expect = chai.expect;
-
 chai.should();
 
 describe('FileInput', function suite() {
@@ -20,16 +18,10 @@ describe('FileInput', function suite() {
     isInput(<FileInput />).should.equal(true);
   });
 
-  it('should render as a div', function test() {
+  it('should render as a ChooserInput', function test() {
     render(<FileInput />, this.container);
 
-    this.container.firstElementChild.nodeName.should.equal('DIV');
-  });
-
-  it('should render as a read only LineInput if readOnly is true', function test() {
-    render(<FileInput readOnly />, this.container);
-
-    this.container.firstElementChild.className.should.contain('cspace-input-LineInput--normal');
+    this.container.firstElementChild.className.should.contain('cspace-input-ChooserInput--common');
   });
 
   it('should simulate a click on the file input when when the select file button is clicked', function test() {
@@ -52,83 +44,6 @@ describe('FileInput', function suite() {
     inputClicked.should.equal(true);
   });
 
-  it('should apply the dragOver class when drag enters', function test() {
-    render(<FileInput />, this.container);
-
-    const infoDiv = this.container.querySelector('.cspace-input-FileInput--common > div');
-
-    Simulate.dragEnter(infoDiv);
-
-    this.container.querySelector('.cspace-input-FileInput--dragOver').should.not.equal(null);
-  });
-
-  it('should stop event propagation when drag enters', function test() {
-    let containerHandlerCalled = false;
-
-    const handleContainerDragEnter = () => {
-      containerHandlerCalled = true;
-    };
-
-    render(
-      <div onDragEnter={handleContainerDragEnter}>
-        <FileInput />
-      </div>, this.container);
-
-    const infoDiv = this.container.querySelector('.cspace-input-FileInput--common > div');
-
-    Simulate.dragEnter(infoDiv);
-
-    containerHandlerCalled.should.equal(false);
-  });
-
-  it('should remove the dragOver class when drag leaves', function test() {
-    render(<FileInput />, this.container);
-
-    const infoDiv = this.container.querySelector('.cspace-input-FileInput--common > div');
-
-    Simulate.dragLeave(infoDiv);
-
-    expect(this.container.querySelector('.cspace-input-FileInput--dragOver')).to.equal(null);
-  });
-
-  it('should stop event propagation when drag leaves', function test() {
-    let containerHandlerCalled = false;
-
-    const handleContainerDragLeave = () => {
-      containerHandlerCalled = true;
-    };
-
-    render(
-      <div onDragLeave={handleContainerDragLeave}>
-        <FileInput />
-      </div>, this.container);
-
-    const infoDiv = this.container.querySelector('.cspace-input-FileInput--common > div');
-
-    Simulate.dragLeave(infoDiv);
-
-    containerHandlerCalled.should.equal(false);
-  });
-
-  it('should stop event propagation when dragged over', function test() {
-    let containerHandlerCalled = false;
-
-    const handleContainerDragOver = () => {
-      containerHandlerCalled = true;
-    };
-
-    render(
-      <div onDragOver={handleContainerDragOver}>
-        <FileInput />
-      </div>, this.container);
-
-    const infoDiv = this.container.querySelector('.cspace-input-FileInput--common > div');
-
-    Simulate.dragOver(infoDiv);
-
-    containerHandlerCalled.should.equal(false);
-  });
-
   it('should call onCommit when a file is dropped', function test() {
     let committedValue = null;
 
@@ -138,7 +53,7 @@ describe('FileInput', function suite() {
 
     render(<FileInput onCommit={handleCommit} />, this.container);
 
-    const infoDiv = this.container.querySelector('.cspace-input-FileInput--common > div');
+    const infoDiv = this.container.querySelector('.cspace-input-ChooserInput--common > div');
 
     Simulate.drop(infoDiv, {
       dataTransfer: {
@@ -147,29 +62,6 @@ describe('FileInput', function suite() {
     });
 
     committedValue.should.deep.equal(['1', '2']);
-  });
-
-  it('should stop event propagation when a file is dropped', function test() {
-    let containerHandlerCalled = false;
-
-    const handleContainerDrop = () => {
-      containerHandlerCalled = true;
-    };
-
-    render(
-      <div onDrop={handleContainerDrop}>
-        <FileInput />
-      </div>, this.container);
-
-    const infoDiv = this.container.querySelector('.cspace-input-FileInput--common > div');
-
-    Simulate.drop(infoDiv, {
-      dataTransfer: {
-        files: ['1', '2'],
-      },
-    });
-
-    containerHandlerCalled.should.equal(false);
   });
 
   it('should call onCommit when the file is changed', function test() {
@@ -228,7 +120,7 @@ describe('FileInput', function suite() {
     formattedType.should.equal(fileType);
     formattedSize.should.equal(fileSize);
 
-    const infoDiv = this.container.querySelector('.cspace-input-FileInput--common > div');
+    const infoDiv = this.container.querySelector('.cspace-input-ChooserInput--common > div');
 
     infoDiv.textContent.should.equal([formattedName, formattedType, formattedSize].join(' - '));
   });
@@ -256,7 +148,7 @@ describe('FileInput', function suite() {
         value={[file]}
       />, this.container);
 
-    const infoDiv = this.container.querySelector('.cspace-input-FileInput--common > div');
+    const infoDiv = this.container.querySelector('.cspace-input-ChooserInput--common > div');
 
     infoDiv.textContent.should.equal(`${fileName} (${fileType}, ${fileSize} bytes)`);
   });

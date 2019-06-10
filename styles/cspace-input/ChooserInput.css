@@ -1,0 +1,41 @@
+@value inputBg, textLight from '../colors.css';
+@value activeEdgeWidth, inputHeight from '../dimensions.css';
+
+.common {
+  composes: normal from './LineInput.css';
+  display: flex;
+  padding: 0;
+  background-color: inputBg;
+  height: auto;
+}
+
+.common > button {
+  flex: 0 0 auto;
+  padding: 0 4px;
+  line-height: inputHeight;
+  outline: 1px solid textLight;
+}
+
+.common > input[type="file"] {
+  display: none;
+}
+
+.common > div {
+  flex: 1 1 auto;
+  margin-left: 1px;
+  padding: 2px calc(inputHeight - 1px) 1px 2px;
+  line-height: 18px;
+  background-color: inputBg;
+}
+
+.normal {
+  composes: common;
+}
+
+.dragOver {
+  composes: common;
+}
+
+.dragOver > div {
+  outline: activeEdgeWidth dashed black;
+}

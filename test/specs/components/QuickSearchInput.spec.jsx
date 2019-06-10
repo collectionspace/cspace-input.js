@@ -337,34 +337,44 @@ describe('QuickSearchInput', function suite() {
     input.value.should.equal('Groups');
   });
 
-  it('should select the record type with defaultForSearch set to true if recordTypeValue is not supplied', function test() {
+  it('should call onRecordTypeCommit with the record type that has defaultForSearch set to true if recordTypeValue is not supplied', function test() {
     recordTypes.collectionobject.defaultForSearch = false;
     recordTypes.media.defaultForSearch = true;
+
+    let committedValue;
+
+    const handleCommit = (valueArg) => {
+      committedValue = valueArg;
+    };
 
     render(
       <QuickSearchInput
         recordTypes={recordTypes}
+        onRecordTypeCommit={handleCommit}
       />, this.container);
 
-    const input = this.container.querySelector('input');
-
-    input.value.should.equal('Media Handling');
+    committedValue.should.equal('media');
 
     recordTypes.object.defaultForSearch = true;
     recordTypes.media.defaultForSearch = false;
   });
 
-  it('should select the first record type option if recordTypeValue is not supplied and no record types have defaultForSearch set to true', function test() {
+  it('should call onRecordTypeCommit with the first record type option if recordTypeValue is not supplied and no record types have defaultForSearch set to true', function test() {
     recordTypes.object.defaultForSearch = false;
+
+    let committedValue;
+
+    const handleCommit = (valueArg) => {
+      committedValue = valueArg;
+    };
 
     render(
       <QuickSearchInput
         recordTypes={recordTypes}
+        onRecordTypeCommit={handleCommit}
       />, this.container);
 
-    const input = this.container.querySelector('input');
-
-    input.value.should.equal('All Records');
+    committedValue.should.equal('all');
 
     recordTypes.object.defaultForSearch = true;
   });

@@ -33,7 +33,6 @@ export default class QuickSearchInput extends Component {
     this.handleKeyPress = this.handleKeyPress.bind(this);
     this.handleKeywordInputCommit = this.handleKeywordInputCommit.bind(this);
     this.handleRecordTypeDropdownCommit = this.handleRecordTypeDropdownCommit.bind(this);
-    this.handleRecordTypeDropdownUpdate = this.handleRecordTypeDropdownUpdate.bind(this);
     this.handleVocabularyDropdownCommit = this.handleVocabularyDropdownCommit.bind(this);
     this.handleVocabularyDropdownUpdate = this.handleVocabularyDropdownUpdate.bind(this);
   }
@@ -80,20 +79,6 @@ export default class QuickSearchInput extends Component {
     }
   }
 
-  handleRecordTypeDropdownUpdate({ value }) {
-    if (value !== this.props.recordTypeValue) {
-      // A default was selected.
-
-      const {
-        onRecordTypeCommit,
-      } = this.props;
-
-      if (onRecordTypeCommit) {
-        onRecordTypeCommit(value);
-      }
-    }
-  }
-
   handleVocabularyDropdownCommit(path, value) {
     const {
       onVocabularyCommit,
@@ -133,8 +118,6 @@ export default class QuickSearchInput extends Component {
         value={recordTypeValue}
         onCommit={this.handleRecordTypeDropdownCommit}
         onKeyPress={this.handleKeyPress}
-        onMount={this.handleRecordTypeDropdownUpdate}
-        onUpdate={this.handleRecordTypeDropdownUpdate}
       />
     );
   }

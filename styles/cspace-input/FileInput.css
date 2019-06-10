@@ -1,38 +1,6 @@
-@value inputBg, textLight from '../colors.css';
-@value activeEdgeWidth, inputHeight from '../dimensions.css';
-
-.common {
-  composes: normal from './LineInput.css';
-  display: flex;
-  padding: 0;
-  background-color: textLight;
-}
-
-.common > button {
-  padding: 0 4px;
-  line-height: inputHeight;
-}
-
-.common > input[type="file"] {
-  display: none;
-}
-
 .common > div {
-  flex: 1 1 auto;
-  margin-left: 1px;
-  padding: 2px calc(inputHeight - 1px) 2px 2px;
-  line-height: 18px;
-  background: inputBg url(../../images/attach.svg) right center no-repeat;
-}
-
-.normal {
-  composes: common;
-}
-
-.dragOver {
-  composes: common;
-}
-
-.dragOver > div {
-  outline: activeEdgeWidth dashed black;
+  background-image: url(../../images/attach.svg);
+  background-position: right top;
+  background-repeat: no-repeat;
+  background-size: 20px 20px;
 }
