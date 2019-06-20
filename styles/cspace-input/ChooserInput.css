@@ -7,6 +7,7 @@
   padding: 0;
   background-color: inputBg;
   height: auto;
+  min-height: inputHeight;
 }
 
 .common > button {
