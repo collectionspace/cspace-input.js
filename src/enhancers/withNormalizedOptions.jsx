@@ -15,9 +15,11 @@ export default function withNormalizedOptions(BaseComponent) {
   const propTypes = {
     ...BaseComponent.propTypes,
     blankable: PropTypes.bool,
+    prefilter: PropTypes.func,
     options: PropTypes.arrayOf(PropTypes.shape({
       value: PropTypes.string,
     })),
+    sortComparator: PropTypes.func,
   };
 
   const defaultProps = {
@@ -28,10 +30,20 @@ export default function withNormalizedOptions(BaseComponent) {
     const {
       blankable,
       options,
+      prefilter,
+      sortComparator,
       ...remainingProps
     } = props;
 
-    const normalizedOptions = normalizeOptions(options, blankable);
+    let normalizedOptions = normalizeOptions(options, blankable);
+
+    if (prefilter) {
+      normalizedOptions = normalizedOptions.filter(prefilter);
+    }
+
+    if (sortComparator) {
+      normalizedOptions.sort(sortComparator);
+    }
 
     return (
       <BaseComponent
