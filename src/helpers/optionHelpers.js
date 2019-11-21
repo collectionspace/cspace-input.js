@@ -85,13 +85,6 @@ export const filterOptionsBySubstring = (options, prefix) => {
 export const normalizeOptions = (options, blankable) => {
   const normalizedOptions = [];
 
-  if (blankable) {
-    normalizedOptions.push({
-      value: '',
-      label: '',
-    });
-  }
-
   if (options) {
     options.forEach((option) => {
       const value = option.value;
@@ -112,6 +105,17 @@ export const normalizeOptions = (options, blankable) => {
 
       normalizedOptions.push(normalizedOption);
     });
+  }
+
+  if (blankable) {
+    const blankOption = normalizedOptions.find(option => !option.value);
+
+    if (!blankOption) {
+      normalizedOptions.unshift({
+        value: '',
+        label: '',
+      });
+    }
   }
 
   return normalizedOptions;
