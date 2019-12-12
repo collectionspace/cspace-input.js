@@ -10,16 +10,16 @@ import createTestContainer from '../../helpers/createTestContainer';
 import { isInput } from '../../../src/helpers/inputHelpers';
 import RichTextInput from '../../../src/components/RichTextInput';
 
-const expect = chai.expect;
+const { expect } = chai;
 
 chai.should();
 
-describe('RichTextInput', function suite() {
+describe('RichTextInput', () => {
   beforeEach(function before() {
     this.container = createTestContainer(this);
   });
 
-  it('should be considered an input by isInput()', function test() {
+  it('should be considered an input by isInput()', () => {
     isInput(<RichTextInput />).should.equal(true);
   });
 
@@ -27,7 +27,8 @@ describe('RichTextInput', function suite() {
     render(
       <RichTextInput
         value="Hello <i>world</i>"
-      />, this.container);
+      />, this.container,
+    );
 
     this.container.querySelector('.quill').should.not.equal(null);
   });
@@ -36,7 +37,8 @@ describe('RichTextInput', function suite() {
     render(
       <RichTextInput
         value="Hello <i>world</i>"
-      />, this.container);
+      />, this.container,
+    );
 
     this.container.querySelector('.quill').className.should.contain('--enabled');
   });
@@ -46,7 +48,8 @@ describe('RichTextInput', function suite() {
       <RichTextInput
         readOnly
         value="Hello <i>world</i>"
-      />, this.container);
+      />, this.container,
+    );
 
     this.container.querySelector('.quill').className.should.not.contain('--enabled');
   });
@@ -56,7 +59,8 @@ describe('RichTextInput', function suite() {
       <RichTextInput
         multiline
         value="Hello <i>world</i>"
-      />, this.container);
+      />, this.container,
+    );
 
     this.container.querySelector('.quill').className.should.contain('--multiline');
   });
@@ -74,7 +78,8 @@ describe('RichTextInput', function suite() {
           <p><b>Line 5</b></p>
           <p>Line 6</p>
         `}
-      />, this.container);
+      />, this.container,
+    );
 
 
     this.container.querySelector('.quill').className.should.not.contain('--enabled');
@@ -85,35 +90,39 @@ describe('RichTextInput', function suite() {
     render(
       <RichTextInput
         value="Hello <i>world</i>"
-      />, this.container);
+      />, this.container,
+    );
 
     render(
       <RichTextInput
         value="new value"
-      />, this.container);
+      />, this.container,
+    );
 
     this.container.querySelector('div[contenteditable]').innerHTML.should
       .equal('<p>new value</p>');
   });
 
-  it('should render a ReactQuill component', function test() {
+  it('should render a ReactQuill component', () => {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
       <RichTextInput
         value="Hello <i>world</i>"
-      />);
+      />,
+    );
 
     const result = shallowRenderer.getRenderOutput();
 
     findWithType(result, ReactQuill).should.not.equal(null);
   });
 
-  it('should set the value to empty string if value is undefined', function test() {
+  it('should set the value to empty string if value is undefined', () => {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
-      <RichTextInput />);
+      <RichTextInput />,
+    );
 
     const result = shallowRenderer.getRenderOutput();
     const reactQuill = findWithType(result, ReactQuill);
@@ -121,11 +130,12 @@ describe('RichTextInput', function suite() {
     reactQuill.props.value.should.equal('');
   });
 
-  it('should set the Quill tab binding to null', function test() {
+  it('should set the Quill tab binding to null', () => {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
-      <RichTextInput />);
+      <RichTextInput />,
+    );
 
     const result = shallowRenderer.getRenderOutput();
     const reactQuill = findWithType(result, ReactQuill);
@@ -134,7 +144,7 @@ describe('RichTextInput', function suite() {
     expect(tabHandler).to.equal(null);
   });
 
-  it('should set the Quill enter handler to a function that calls onCommit', function test() {
+  it('should set the Quill enter handler to a function that calls onCommit', () => {
     let committedValue = null;
 
     const handleCommit = (pathArg, valueArg) => {
@@ -146,7 +156,8 @@ describe('RichTextInput', function suite() {
     shallowRenderer.render(
       <RichTextInput
         onCommit={handleCommit}
-      />);
+      />,
+    );
 
     const result = shallowRenderer.getRenderOutput();
     const reactQuill = findWithType(result, ReactQuill);
@@ -161,13 +172,14 @@ describe('RichTextInput', function suite() {
     committedValue.should.equal('new value');
   });
 
-  it('should set the Quill enter handler to return true if multiline is true', function test() {
+  it('should set the Quill enter handler to return true if multiline is true', () => {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
       <RichTextInput
         multiline
-      />);
+      />,
+    );
 
     const result = shallowRenderer.getRenderOutput();
     const reactQuill = findWithType(result, ReactQuill);
@@ -176,11 +188,12 @@ describe('RichTextInput', function suite() {
     enterHandler().should.equal(true);
   });
 
-  it('should set the Quill enter handler to return false if multiline is falsy', function test() {
+  it('should set the Quill enter handler to return false if multiline is falsy', () => {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
-      <RichTextInput />);
+      <RichTextInput />,
+    );
 
     const result = shallowRenderer.getRenderOutput();
     const reactQuill = findWithType(result, ReactQuill);
@@ -203,7 +216,8 @@ describe('RichTextInput', function suite() {
         name="title"
         value="hello"
         onCommit={handleCommit}
-      />, this.container);
+      />, this.container,
+    );
 
     const quill = this.container.querySelector('.quill');
 
@@ -241,7 +255,8 @@ describe('RichTextInput', function suite() {
         name="title"
         value="hello"
         onCommit={handleCommit}
-      />, this.container);
+      />, this.container,
+    );
 
     const quill = this.container.querySelector('.quill');
 
@@ -267,7 +282,7 @@ describe('RichTextInput', function suite() {
     });
   });
 
-  it('should remove the outer <p> tag if there is only one paragraph in the content', function test() {
+  it('should remove the outer <p> tag if there is only one paragraph in the content', () => {
     let committedValue = null;
 
     const handleCommit = (pathArg, valueArg) => {
@@ -279,7 +294,8 @@ describe('RichTextInput', function suite() {
     shallowRenderer.render(
       <RichTextInput
         onCommit={handleCommit}
-      />);
+      />,
+    );
 
     const result = shallowRenderer.getRenderOutput();
     const reactQuill = findWithType(result, ReactQuill);
@@ -292,7 +308,7 @@ describe('RichTextInput', function suite() {
     committedValue.should.equal('hello <i>world</i>');
   });
 
-  it('should normalize <br> with no other content to empty string', function test() {
+  it('should normalize <br> with no other content to empty string', () => {
     let committedValue = null;
 
     const handleCommit = (pathArg, valueArg) => {
@@ -304,7 +320,8 @@ describe('RichTextInput', function suite() {
     shallowRenderer.render(
       <RichTextInput
         onCommit={handleCommit}
-      />);
+      />,
+    );
 
     const result = shallowRenderer.getRenderOutput();
     const reactQuill = findWithType(result, ReactQuill);
@@ -317,7 +334,7 @@ describe('RichTextInput', function suite() {
     committedValue.should.equal('');
   });
 
-  it('should not call onCommit when the value has not changed', function test() {
+  it('should not call onCommit when the value has not changed', () => {
     let committedValue = null;
 
     const handleCommit = (pathArg, valueArg) => {
@@ -330,7 +347,8 @@ describe('RichTextInput', function suite() {
       <RichTextInput
         value="hello <i>world</i>"
         onCommit={handleCommit}
-      />);
+      />,
+    );
 
     const result = shallowRenderer.getRenderOutput();
     const reactQuill = findWithType(result, ReactQuill);
@@ -348,7 +366,8 @@ describe('RichTextInput', function suite() {
       <RichTextInput
         readOnly
         value="Hello <i>world</i>"
-      />, this.container);
+      />, this.container,
+    );
 
     Simulate.focus(this.container.querySelector('.quill'));
 
@@ -360,7 +379,8 @@ describe('RichTextInput', function suite() {
       <RichTextInput
         readOnly
         value="Hello <i>world</i>"
-      />, this.container);
+      />, this.container,
+    );
 
     Simulate.focus(this.container.querySelector('.quill'), {
       relatedTarget: this.container.querySelector('.ql-editor'),
@@ -369,11 +389,12 @@ describe('RichTextInput', function suite() {
     this.container.querySelector('.quill').className.should.not.contain('--focus');
   });
 
-  it('should prevent the default when the mouse is depressed on a button', function test() {
+  it('should prevent the default when the mouse is depressed on a button', () => {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
-      <RichTextInput />);
+      <RichTextInput />,
+    );
 
     const result = shallowRenderer.getRenderOutput();
 

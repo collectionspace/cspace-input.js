@@ -35,7 +35,6 @@ import UploadInput from './components/UploadInput';
 import changeable from './enhancers/changeable';
 import committable from './enhancers/committable';
 import labelable from './enhancers/labelable';
-import nestable from './enhancers/nestable';
 import repeatable from './enhancers/repeatable';
 import standalone from './enhancers/standalone';
 import withLabeledOptions from './enhancers/withLabeledOptions';
@@ -115,7 +114,6 @@ export const enhancers = {
   changeable,
   committable,
   labelable,
-  nestable,
   repeatable,
   standalone,
   withLabeledOptions,

@@ -11,12 +11,12 @@ chai.should();
 
 const expectedClassName = 'cspace-input-CheckboxInput--normal cspace-input-CheckboxInput--common cspace-input-CheckboxInput--indeterminate';
 
-describe('CheckboxInput', function suite() {
+describe('CheckboxInput', () => {
   beforeEach(function before() {
     this.container = createTestContainer(this);
   });
 
-  it('should be considered an input by isInput()', function test() {
+  it('should be considered an input by isInput()', () => {
     isInput(<CheckboxInput />).should.equal(true);
   });
 
@@ -97,7 +97,8 @@ describe('CheckboxInput', function suite() {
         name="checkbox1"
         value={false}
         onCommit={handleCommit}
-      />, this.container);
+      />, this.container,
+    );
 
     const checkbox = this.container.querySelector('input');
 
@@ -121,7 +122,8 @@ describe('CheckboxInput', function suite() {
         name="checkbox1"
         value
         onCommit={handleCommit}
-      />, this.container);
+      />, this.container,
+    );
 
     const checkbox = this.container.querySelector('input');
 
@@ -145,7 +147,8 @@ describe('CheckboxInput', function suite() {
         name="checkbox1"
         value={null}
         onCommit={handleCommit}
-      />, this.container);
+      />, this.container,
+    );
 
     const checkbox = this.container.querySelector('input');
 

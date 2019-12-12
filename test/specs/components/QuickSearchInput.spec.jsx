@@ -221,7 +221,7 @@ const recordTypes = {
   },
 };
 
-describe('QuickSearchInput', function suite() {
+describe('QuickSearchInput', () => {
   beforeEach(function before() {
     this.container = createTestContainer(this);
   });
@@ -230,7 +230,8 @@ describe('QuickSearchInput', function suite() {
     render(
       <QuickSearchInput
         recordTypes={recordTypes}
-      />, this.container);
+      />, this.container,
+    );
 
     const input = this.container.querySelector('input');
 
@@ -252,14 +253,15 @@ describe('QuickSearchInput', function suite() {
   });
 
   it('should display the record type name if a message is not provided', function test() {
-    const messages = recordTypes.loanin.messages;
+    const { messages } = recordTypes.loanin;
 
     recordTypes.loanin.messages = null;
 
     render(
       <QuickSearchInput
         recordTypes={recordTypes}
-      />, this.container);
+      />, this.container,
+    );
 
     const input = this.container.querySelector('input');
 
@@ -277,7 +279,8 @@ describe('QuickSearchInput', function suite() {
       <QuickSearchInput
         recordTypes={recordTypes}
         recordTypeValue="organization"
-      />, this.container);
+      />, this.container,
+    );
 
     const input = this.container.querySelectorAll('input')[1];
 
@@ -292,7 +295,7 @@ describe('QuickSearchInput', function suite() {
   });
 
   it('should display the vocabulary name if a message is not provided', function test() {
-    const messages = recordTypes.organization.vocabularies.ulan_oa.messages;
+    const { messages } = recordTypes.organization.vocabularies.ulan_oa;
 
     recordTypes.organization.vocabularies.ulan_oa.messages = null;
 
@@ -300,7 +303,8 @@ describe('QuickSearchInput', function suite() {
       <QuickSearchInput
         recordTypes={recordTypes}
         recordTypeValue="organization"
-      />, this.container);
+      />, this.container,
+    );
 
     const input = this.container.querySelectorAll('input')[1];
 
@@ -318,7 +322,8 @@ describe('QuickSearchInput', function suite() {
       <QuickSearchInput
         recordTypes={recordTypes}
         keywordValue="some keywords"
-      />, this.container);
+      />, this.container,
+    );
 
     const input = this.container.querySelectorAll('input')[1];
 
@@ -330,7 +335,8 @@ describe('QuickSearchInput', function suite() {
       <QuickSearchInput
         recordTypes={recordTypes}
         recordTypeValue="group"
-      />, this.container);
+      />, this.container,
+    );
 
     const input = this.container.querySelector('input');
 
@@ -351,7 +357,8 @@ describe('QuickSearchInput', function suite() {
       <QuickSearchInput
         recordTypes={recordTypes}
         onRecordTypeCommit={handleCommit}
-      />, this.container);
+      />, this.container,
+    );
 
     committedValue.should.equal('media');
 
@@ -372,7 +379,8 @@ describe('QuickSearchInput', function suite() {
       <QuickSearchInput
         recordTypes={recordTypes}
         onRecordTypeCommit={handleCommit}
-      />, this.container);
+      />, this.container,
+    );
 
     committedValue.should.equal('all');
 
@@ -385,7 +393,8 @@ describe('QuickSearchInput', function suite() {
         recordTypes={recordTypes}
         recordTypeValue="concept"
         vocabularyValue="material_ca"
-      />, this.container);
+      />, this.container,
+    );
 
     const inputs = this.container.querySelectorAll('input');
 
@@ -400,7 +409,8 @@ describe('QuickSearchInput', function suite() {
       <QuickSearchInput
         recordTypes={recordTypes}
         recordTypeValue="concept"
-      />, this.container);
+      />, this.container,
+    );
 
     const inputs = this.container.querySelectorAll('input');
 
@@ -415,7 +425,8 @@ describe('QuickSearchInput', function suite() {
       <QuickSearchInput
         recordTypes={recordTypes}
         recordTypeValue="concept"
-      />, this.container);
+      />, this.container,
+    );
 
     const inputs = this.container.querySelectorAll('input');
 
@@ -428,7 +439,8 @@ describe('QuickSearchInput', function suite() {
       <QuickSearchInput
         recordTypes={recordTypes}
         recordTypeValue="media"
-      />, this.container);
+      />, this.container,
+    );
 
     const dropdowns = this.container.querySelectorAll('.cspace-input-DropdownMenuInput--common');
 
@@ -442,7 +454,8 @@ describe('QuickSearchInput', function suite() {
     render(
       <QuickSearchInput
         recordTypes={recordTypes}
-      />, this.container);
+      />, this.container,
+    );
 
     const input = this.container.querySelector('input');
 
@@ -474,7 +487,8 @@ describe('QuickSearchInput', function suite() {
       <QuickSearchInput
         recordTypes={recordTypes}
         recordTypeValue="concept"
-      />, this.container);
+      />, this.container,
+    );
 
     const input = this.container.querySelectorAll('input')[1];
 
@@ -503,7 +517,8 @@ describe('QuickSearchInput', function suite() {
       <QuickSearchInput
         recordTypes={recordTypes}
         onRecordTypeCommit={handleCommit}
-      />, this.container);
+      />, this.container,
+    );
 
     const input = this.container.querySelector('input');
 
@@ -528,7 +543,8 @@ describe('QuickSearchInput', function suite() {
         recordTypes={recordTypes}
         recordTypeValue="concept"
         onVocabularyCommit={handleCommit}
-      />, this.container);
+      />, this.container,
+    );
 
     const input = this.container.querySelectorAll('input')[1];
 
@@ -552,7 +568,8 @@ describe('QuickSearchInput', function suite() {
       <QuickSearchInput
         recordTypes={recordTypes}
         onKeywordCommit={handleCommit}
-      />, this.container);
+      />, this.container,
+    );
 
     const input = this.container.querySelectorAll('input')[1];
 
@@ -574,7 +591,8 @@ describe('QuickSearchInput', function suite() {
       <QuickSearchInput
         recordTypes={recordTypes}
         search={search}
-      />, this.container);
+      />, this.container,
+    );
 
     const input = this.container.querySelectorAll('input')[1];
 
@@ -596,7 +614,8 @@ describe('QuickSearchInput', function suite() {
       <QuickSearchInput
         recordTypes={recordTypes}
         search={search}
-      />, this.container);
+      />, this.container,
+    );
 
     const button = this.container.querySelector('button');
 
@@ -606,13 +625,14 @@ describe('QuickSearchInput', function suite() {
   });
 
   it('should call formatRecordTypeLabel to format the label for a record type item', function test() {
-    const formatRecordTypeLabel = name => `formatRecordTypeLabel ${name}`;
+    const formatRecordTypeLabel = (name) => `formatRecordTypeLabel ${name}`;
 
     render(
       <QuickSearchInput
         recordTypes={recordTypes}
         formatRecordTypeLabel={formatRecordTypeLabel}
-      />, this.container);
+      />, this.container,
+    );
 
     const input = this.container.querySelector('input');
 
@@ -634,14 +654,15 @@ describe('QuickSearchInput', function suite() {
   });
 
   it('should call formatVocabularyLabel to format the label for a vocabulary item', function test() {
-    const formatVocabularyLabel = name => `formatVocabularyLabel ${name}`;
+    const formatVocabularyLabel = (name) => `formatVocabularyLabel ${name}`;
 
     render(
       <QuickSearchInput
         recordTypes={recordTypes}
         recordTypeValue="concept"
         formatVocabularyLabel={formatVocabularyLabel}
-      />, this.container);
+      />, this.container,
+    );
 
     const input = this.container.querySelectorAll('input')[1];
 

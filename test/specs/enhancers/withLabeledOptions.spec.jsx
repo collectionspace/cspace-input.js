@@ -5,9 +5,9 @@ import withLabeledOptions from '../../../src/enhancers/withLabeledOptions';
 
 chai.should();
 
-describe('withLabeledOptions', function suite() {
-  context('enhanced component', function context() {
-    it('should lift propTypes from the base component', function test() {
+describe('withLabeledOptions', () => {
+  context('enhanced component', () => {
+    it('should lift propTypes from the base component', () => {
       const StubComponent = () => null;
 
       StubComponent.propTypes = {
@@ -17,11 +17,12 @@ describe('withLabeledOptions', function suite() {
 
       const EnhancedComponent = withLabeledOptions(StubComponent);
 
+      // eslint-disable-next-line react/forbid-foreign-prop-types
       EnhancedComponent.propTypes.should.include.keys(Object.keys(StubComponent.propTypes));
     });
 
 
-    it('should label the options and pass them to the base component', function test() {
+    it('should label the options and pass them to the base component', () => {
       const EnhancedComponent = withLabeledOptions(DropdowMenuInput);
       const shallowRenderer = createRenderer();
 
@@ -44,10 +45,10 @@ describe('withLabeledOptions', function suite() {
       ]);
     });
 
-    it('should call formatOptionLabel to format the label', function test() {
+    it('should call formatOptionLabel to format the label', () => {
       const EnhancedComponent = withLabeledOptions(DropdowMenuInput);
       const shallowRenderer = createRenderer();
-      const formatOptionLabel = option => `formatted ${option.value}`;
+      const formatOptionLabel = (option) => `formatted ${option.value}`;
 
       const options = [
         { value: 'cm' },
@@ -59,7 +60,8 @@ describe('withLabeledOptions', function suite() {
         <EnhancedComponent
           formatOptionLabel={formatOptionLabel}
           options={options}
-        />);
+        />,
+      );
 
       const result = shallowRenderer.getRenderOutput();
 

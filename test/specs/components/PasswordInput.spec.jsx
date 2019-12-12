@@ -6,18 +6,18 @@ import createTestContainer from '../../helpers/createTestContainer';
 import { isInput } from '../../../src/helpers/inputHelpers';
 import PasswordInput from '../../../src/components/PasswordInput';
 
-const expect = chai.expect;
+const { expect } = chai;
 
 chai.should();
 
 const expectedClassName = 'cspace-input-LineInput--normal cspace-input-TextInput--normal cspace-input-TextInput--common cspace-input-Input--common';
 
-describe('PasswordInput', function suite() {
+describe('PasswordInput', () => {
   beforeEach(function before() {
     this.container = createTestContainer(this);
   });
 
-  it('should be considered an input by isInput()', function test() {
+  it('should be considered an input by isInput()', () => {
     isInput(<PasswordInput />).should.equal(true);
   });
 

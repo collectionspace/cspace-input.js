@@ -9,12 +9,12 @@ import PrefixFilteringDropdownMenuInput from '../../../src/components/PrefixFilt
 
 chai.should();
 
-describe('PrefixFilteringDropdownMenuInput', function suite() {
+describe('PrefixFilteringDropdownMenuInput', () => {
   beforeEach(function before() {
     this.container = createTestContainer(this);
   });
 
-  it('should be considered an input by isInput()', function test() {
+  it('should be considered an input by isInput()', () => {
     isInput(<PrefixFilteringDropdownMenuInput />).should.equal(true);
   });
 
@@ -28,7 +28,8 @@ describe('PrefixFilteringDropdownMenuInput', function suite() {
     render(
       <PrefixFilteringDropdownMenuInput
         options={options}
-      />, this.container);
+      />, this.container,
+    );
 
     const input = this.container.querySelector('input');
 
@@ -77,7 +78,8 @@ describe('PrefixFilteringDropdownMenuInput', function suite() {
     render(
       <PrefixFilteringDropdownMenuInput
         options={options}
-      />, this.container);
+      />, this.container,
+    );
 
     const input = this.container.querySelector('input');
 
@@ -119,7 +121,8 @@ describe('PrefixFilteringDropdownMenuInput', function suite() {
     render(
       <PrefixFilteringDropdownMenuInput
         options={options}
-      />, this.container);
+      />, this.container,
+    );
 
     const input = this.container.querySelector('input');
 
@@ -141,7 +144,8 @@ describe('PrefixFilteringDropdownMenuInput', function suite() {
     render(
       <PrefixFilteringDropdownMenuInput
         options={newOptions}
-      />, this.container);
+      />, this.container,
+    );
 
     this.container.querySelectorAll('li').length.should.equal(1);
   });
@@ -167,7 +171,8 @@ describe('PrefixFilteringDropdownMenuInput', function suite() {
         options={options}
         value="value2"
         onCommit={handleCommit}
-      />, this.container);
+      />, this.container,
+    );
 
     const input = this.container.querySelector('input');
 
@@ -185,7 +190,8 @@ describe('PrefixFilteringDropdownMenuInput', function suite() {
         name="color"
         options={options}
         value="value2"
-      />, this.container);
+      />, this.container,
+    );
 
     Simulate.mouseDown(input);
 

@@ -10,8 +10,10 @@ const propTypes = {
 };
 
 const defaultProps = {
+  children: undefined,
+  embedded: undefined,
   renderAriaLabel: (input) => {
-    const label = input.props.label;
+    const { label } = input.props;
 
     return (typeof label === 'string') ? label : undefined;
   },
@@ -26,21 +28,22 @@ export default function InputTableRow(props) {
 
   const inputs = extractInputs(children);
 
-  const modifiedInputs = inputs.map(input => React.cloneElement(input, {
-    label: undefined,
-    embedded: true,
-    'aria-label': renderAriaLabel(input),
-  }));
-
-  const inputContainers = modifiedInputs.map((input) => {
+  const inputContainers = inputs.map((input) => {
     const {
       flex,
     } = input.props;
 
     const style = flex ? { flex } : undefined;
 
+    const modifiedInput = React.cloneElement(input, {
+      flex: undefined,
+      label: undefined,
+      embedded: true,
+      'aria-label': renderAriaLabel(input),
+    });
+
     return (
-      <div key={input.props.name} style={style}>{input}</div>
+      <div key={input.props.name} style={style}>{modifiedInput}</div>
     );
   });
 

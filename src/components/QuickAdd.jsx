@@ -14,7 +14,7 @@ const propTypes = {
   formatCloneOptionLabel: PropTypes.func,
   formatCreateNewOptionLabel: PropTypes.func,
   formatDestinationName: PropTypes.func,
-  recordTypes: PropTypes.object,
+  recordTypes: PropTypes.objectOf(PropTypes.object),
   showCloneOption: PropTypes.bool,
   cloneOptionDisabled: PropTypes.bool,
   to: PropTypes.string,
@@ -22,6 +22,9 @@ const propTypes = {
 };
 
 const defaultProps = {
+  add: undefined,
+  displayName: undefined,
+  partialTerm: undefined,
   formatAddPrompt: (displayName, destinationName) => `Add "${displayName}" to ${destinationName}`,
   formatCloneOptionLabel: () => 'Clone current record',
   formatCreateNewOptionLabel: () => 'Create new record',
@@ -33,6 +36,11 @@ const defaultProps = {
 
     return get(recordTypeConfig, ['messages', 'record', 'collectionName', 'defaultMessage']);
   },
+  recordTypes: undefined,
+  showCloneOption: undefined,
+  cloneOptionDisabled: undefined,
+  to: undefined,
+  onBeforeItemFocusChange: undefined,
 };
 
 export default class QuickAdd extends Component {
@@ -118,7 +126,7 @@ export default class QuickAdd extends Component {
           className: itemStyles.add,
         });
       })
-      .filter(option => !!option);
+      .filter((option) => !!option);
 
     if (options.length === 0) {
       return null;
@@ -134,12 +142,14 @@ export default class QuickAdd extends Component {
 
       options[0].label = formatCreateNewOptionLabel();
 
-      options.push(Object.assign({}, options[0], {
+      options.push({
+        ...options[0],
         clone: true,
         label: formatCloneOptionLabel(),
         className: itemStyles.clone,
         disabled: cloneOptionDisabled,
-      }));
+        value: `clone:${options[0].value}`,
+      });
     }
 
     return (

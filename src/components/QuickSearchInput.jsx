@@ -8,15 +8,13 @@ import changeable from '../enhancers/changeable';
 import committable from '../enhancers/committable';
 import styles from '../../styles/cspace-input/QuickSearchInput.css';
 
-const LineInput = committable(changeable(BaseLineInput));
-
 const propTypes = {
   formatRecordTypeLabel: PropTypes.func,
   formatVocabularyLabel: PropTypes.func,
   keywordValue: PropTypes.string,
   placeholder: PropTypes.string,
   searchButtonLabel: PropTypes.string,
-  recordTypes: PropTypes.object,
+  recordTypes: PropTypes.objectOf(PropTypes.object),
   recordTypeValue: PropTypes.string,
   vocabularyValue: PropTypes.string,
   onKeywordCommit: PropTypes.func,
@@ -24,6 +22,23 @@ const propTypes = {
   onVocabularyCommit: PropTypes.func,
   search: PropTypes.func,
 };
+
+const defaultProps = {
+  formatRecordTypeLabel: undefined,
+  formatVocabularyLabel: undefined,
+  keywordValue: undefined,
+  placeholder: undefined,
+  searchButtonLabel: undefined,
+  recordTypes: undefined,
+  recordTypeValue: undefined,
+  vocabularyValue: undefined,
+  onKeywordCommit: undefined,
+  onRecordTypeCommit: undefined,
+  onVocabularyCommit: undefined,
+  search: undefined,
+};
+
+const LineInput = committable(changeable(BaseLineInput));
 
 export default class QuickSearchInput extends Component {
   constructor() {
@@ -90,16 +105,13 @@ export default class QuickSearchInput extends Component {
   }
 
   handleVocabularyDropdownUpdate({ value }) {
-    if (value !== this.props.vocabularyValue) {
-      // A default was selected.
+    const {
+      vocabularyValue,
+      onVocabularyCommit,
+    } = this.props;
 
-      const {
-        onVocabularyCommit,
-      } = this.props;
-
-      if (onVocabularyCommit) {
-        onVocabularyCommit(value);
-      }
+    if (onVocabularyCommit && value !== vocabularyValue) {
+      onVocabularyCommit(value);
     }
   }
 
@@ -184,3 +196,4 @@ export default class QuickSearchInput extends Component {
 }
 
 QuickSearchInput.propTypes = propTypes;
+QuickSearchInput.defaultProps = defaultProps;

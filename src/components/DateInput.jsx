@@ -7,9 +7,7 @@ import changeable from '../enhancers/changeable';
 import committable from '../enhancers/committable';
 import { getPath } from '../helpers/pathHelpers';
 import styles from '../../styles/cspace-input/DateInput.css';
-/* eslint-disable import/imports-first, import/no-unresolved */
-import '!style-loader!css-loader!../../styles/react-calendar/calendar.css';
-/* eslint-enable import/imports-first, import/no-unresolved */
+import '../../styles/react-calendar/calendar.css';
 
 import {
   formatDate,
@@ -21,6 +19,9 @@ import {
 const DropdownInput = committable(changeable(BaseDropdownInput));
 
 const propTypes = {
+  // TODO: Stop using propTypes in isInput, and in render method of cspace-ui Field component.
+  // Until then, propTypes need to be hoisted from the base component.
+  // eslint-disable-next-line react/forbid-foreign-prop-types
   ...BaseDropdownInput.propTypes,
   locale: PropTypes.string,
   onCommit: PropTypes.func,
@@ -29,6 +30,8 @@ const propTypes = {
 
 const defaultProps = {
   locale: 'en-US',
+  onCommit: undefined,
+  readOnly: undefined,
 };
 
 export default class DateInput extends Component {
@@ -78,9 +81,9 @@ export default class DateInput extends Component {
     const nextValue = formatDate(date);
 
     if (
-      onCommit &&
-      (nextValue || normalizedInitialValue) &&
-      (nextValue !== normalizedInitialValue)
+      onCommit
+      && (nextValue || normalizedInitialValue)
+      && (nextValue !== normalizedInitialValue)
     ) {
       onCommit(getPath(this.props), nextValue);
     }
@@ -128,15 +131,23 @@ export default class DateInput extends Component {
 
   handleDropdownInputBeforeClose(isCancelled) {
     if (isCancelled) {
+      const {
+        value,
+      } = this.props;
+
       this.setState({
         provisionalDate: undefined,
-        value: normalizeISO8601DateString(this.props.value),
+        value: normalizeISO8601DateString(value),
       });
     }
   }
 
   handleDropdownInputChange(value) {
-    const date = parseNormalizedDate(normalizeDateString(value, this.props.locale));
+    const {
+      locale,
+    } = this.props;
+
+    const date = parseNormalizedDate(normalizeDateString(value, locale));
 
     this.setState({
       value,
@@ -171,7 +182,11 @@ export default class DateInput extends Component {
         onCommit(getPath(this.props), '');
       }
     } else {
-      nextState.value = normalizeISO8601DateString(this.props.value) || this.props.value;
+      const {
+        value: origValue,
+      } = this.props;
+
+      nextState.value = normalizeISO8601DateString(origValue) || origValue;
     }
 
     this.setState(nextState);
@@ -213,7 +228,11 @@ export default class DateInput extends Component {
   }
 
   handleDropdownInputOpen() {
-    if (!this.state.open) {
+    const {
+      open,
+    } = this.state;
+
+    if (!open) {
       this.setState({
         open: true,
         provisionalDate: undefined,
@@ -236,8 +255,12 @@ export default class DateInput extends Component {
     } = this.state;
 
     if (readOnly) {
+      const {
+        embedded,
+      } = remainingProps;
+
       return (
-        <LineInput readOnly value={value} embedded={this.props.embedded} />
+        <LineInput readOnly value={value} embedded={embedded} />
       );
     }
 
@@ -251,6 +274,7 @@ export default class DateInput extends Component {
 
     return (
       <DropdownInput
+        // eslint-disable-next-line react/jsx-props-no-spreading
         {...remainingProps}
         className={className}
         focusPopup={this.focusCalendar}

@@ -5,14 +5,12 @@ import SubstringFilteringDropdownMenuInput from './SubstringFilteringDropdownMen
 import PrefixFilteringDropdownMenuInput from './PrefixFilteringDropdownMenuInput';
 import withNormalizedOptions from '../enhancers/withNormalizedOptions';
 
-const BaseSubstringFilteringDropdownMenuInput =
-  withNormalizedOptions(SubstringFilteringDropdownMenuInput);
-
-const BasePrefixFilteringDropdownMenuInput =
-  withNormalizedOptions(PrefixFilteringDropdownMenuInput);
-
 const propTypes = {
+  // TODO: Stop using propTypes in isInput, and in render method of cspace-ui Field component.
+  // Until then, propTypes need to be hoisted from the base component.
+  // eslint-disable-next-line react/forbid-foreign-prop-types
   ...SubstringFilteringDropdownMenuInput.propTypes,
+  // eslint-disable-next-line react/forbid-foreign-prop-types
   ...PrefixFilteringDropdownMenuInput.propTypes,
   filter: PropTypes.string,
   terms: PropTypes.arrayOf(PropTypes.shape({
@@ -24,7 +22,17 @@ const propTypes = {
 
 const defaultProps = {
   filter: 'substring', // or 'prefix'
+  terms: undefined,
+  onMount: undefined,
 };
+
+const BaseSubstringFilteringDropdownMenuInput = withNormalizedOptions(
+  SubstringFilteringDropdownMenuInput,
+);
+
+const BasePrefixFilteringDropdownMenuInput = withNormalizedOptions(
+  PrefixFilteringDropdownMenuInput,
+);
 
 export default class TermPickerInput extends Component {
   componentDidMount() {
@@ -40,13 +48,14 @@ export default class TermPickerInput extends Component {
   render() {
     const {
       filter,
-      terms,
-      value,
-      /* eslint-disable no-unused-vars */
       onMount,
-      /* eslint-disable no-unused-vars */
+      terms,
       ...remainingProps
     } = this.props;
+
+    const {
+      value,
+    } = remainingProps;
 
     let options;
 
@@ -74,8 +83,8 @@ export default class TermPickerInput extends Component {
     return (
       <BaseDropdownMenuInput
         options={options}
-        value={value}
         valueLabel={getDisplayName(value)}
+        // eslint-disable-next-line react/jsx-props-no-spreading
         {...remainingProps}
       />
     );

@@ -7,12 +7,12 @@ import createTestContainer from '../../helpers/createTestContainer';
 
 chai.should();
 
-describe('TermPickerInput', function suite() {
+describe('TermPickerInput', () => {
   beforeEach(function before() {
     this.container = createTestContainer(this);
   });
 
-  it('should render as a SubstringFilteringDropdownMenuInput', function test() {
+  it('should render as a SubstringFilteringDropdownMenuInput', () => {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(<TermPickerInput items={[]} />, context);
@@ -22,7 +22,7 @@ describe('TermPickerInput', function suite() {
     result.type.displayName.should.match(/SubstringFilteringDropdownMenuInput/);
   });
 
-  it('should render as a PrefixFilteringDropdownMenuInput if filter is \'prefix\'', function test() {
+  it('should render as a PrefixFilteringDropdownMenuInput if filter is \'prefix\'', () => {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(<TermPickerInput items={[]} filter="prefix" />, context);
@@ -32,7 +32,7 @@ describe('TermPickerInput', function suite() {
     result.type.displayName.should.match(/PrefixFilteringDropdownMenuInput/);
   });
 
-  it('should turn the terms into options and pass them to the base component', function test() {
+  it('should turn the terms into options and pass them to the base component', () => {
     const shallowRenderer = createRenderer();
 
     const terms = [
@@ -72,7 +72,7 @@ describe('TermPickerInput', function suite() {
     ]);
   });
 
-  it('should pass empty options to the base component when terms is undefined', function test() {
+  it('should pass empty options to the base component when terms is undefined', () => {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(<TermPickerInput />, context);

@@ -6,12 +6,12 @@ import { isInput } from '../../../src/helpers/inputHelpers';
 
 chai.should();
 
-describe('DateTimeInput', function suite() {
-  it('should be considered an input by isInput()', function test() {
+describe('DateTimeInput', () => {
+  it('should be considered an input by isInput()', () => {
     isInput(<DateTimeInput />).should.equal(true);
   });
 
-  it('should render a read only LineInput', function test() {
+  it('should render a read only LineInput', () => {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(<DateTimeInput />);
@@ -22,7 +22,7 @@ describe('DateTimeInput', function suite() {
     result.props.readOnly.should.equal(true);
   });
 
-  it('should use formatValue to format the value', function test() {
+  it('should use formatValue to format the value', () => {
     let formatCalled = false;
 
     const formatValue = (value) => {

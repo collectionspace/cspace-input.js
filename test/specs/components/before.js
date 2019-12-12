@@ -1,7 +1,8 @@
 /* global document */
 
-before(function before() {
+before(() => {
   document.head.insertAdjacentHTML(
     'beforeend',
-    '<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">');
+    '<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">',
+  );
 });

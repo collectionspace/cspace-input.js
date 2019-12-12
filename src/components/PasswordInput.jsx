@@ -13,7 +13,12 @@ const propTypes = {
 };
 
 const defaultProps = {
+  name: undefined,
+  parentPath: undefined,
+  subpath: undefined,
   value: '',
+  readOnly: undefined,
+  api: undefined,
 };
 
 export default class PasswordInput extends Component {
@@ -55,14 +60,12 @@ export default class PasswordInput extends Component {
 
   render() {
     const {
+      api,
       name,
-      readOnly,
-      value,
-      /* eslint-disable no-unused-vars */
       parentPath,
       subpath,
-      api,
-      /* eslint-enable no-unused-vars */
+      readOnly,
+      value,
       ...remainingProps
     } = this.props;
 
@@ -70,6 +73,7 @@ export default class PasswordInput extends Component {
 
     return (
       <input
+        // eslint-disable-next-line react/jsx-props-no-spreading
         {...remainingProps}
         className={styles.normal}
         disabled={readOnly}

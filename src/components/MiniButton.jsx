@@ -10,6 +10,13 @@ const propTypes = {
   children: PropTypes.node,
 };
 
+const defaultProps = {
+  autoWidth: undefined,
+  className: undefined,
+  readOnly: undefined,
+  children: undefined,
+};
+
 /**
  * A small button attached to an input.
  */
@@ -33,6 +40,7 @@ export default function MiniButton(props) {
 
   return (
     <button
+      // eslint-disable-next-line react/jsx-props-no-spreading
       {...remainingProps}
       className={classes}
       type="button"
@@ -41,3 +49,4 @@ export default function MiniButton(props) {
 }
 
 MiniButton.propTypes = propTypes;
+MiniButton.defaultProps = defaultProps;

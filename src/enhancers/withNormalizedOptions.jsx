@@ -13,6 +13,9 @@ export default function withNormalizedOptions(BaseComponent) {
     || 'Component';
 
   const propTypes = {
+    // TODO: Stop using propTypes in isInput, and in render method of cspace-ui Field component.
+    // Until then, propTypes need to be hoisted from the base component.
+    // eslint-disable-next-line react/forbid-foreign-prop-types
     ...BaseComponent.propTypes,
     blankable: PropTypes.bool,
     prefilter: PropTypes.func,
@@ -24,6 +27,9 @@ export default function withNormalizedOptions(BaseComponent) {
 
   const defaultProps = {
     blankable: true,
+    options: undefined,
+    prefilter: undefined,
+    sortComparator: undefined,
   };
 
   function WithNormalizedOptions(props) {
@@ -47,6 +53,7 @@ export default function withNormalizedOptions(BaseComponent) {
 
     return (
       <BaseComponent
+        // eslint-disable-next-line react/jsx-props-no-spreading
         {...remainingProps}
         options={normalizedOptions}
       />

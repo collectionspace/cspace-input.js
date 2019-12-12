@@ -8,16 +8,16 @@ import commitHandler from '../../helpers/commitHandler';
 import createTestContainer from '../../helpers/createTestContainer';
 import { isInput } from '../../../src/helpers/inputHelpers';
 
-const expect = chai.expect;
+const { expect } = chai;
 
 chai.should();
 
-describe('DateInput', function suite() {
+describe('DateInput', () => {
   beforeEach(function before() {
     this.container = createTestContainer(this);
   });
 
-  it('should be considered an input by isInput()', function test() {
+  it('should be considered an input by isInput()', () => {
     isInput(<DateInput />).should.equal(true);
   });
 
@@ -63,7 +63,8 @@ describe('DateInput', function suite() {
       <DateInput
         name="birthDate"
         value="2011-11-02T00:00:00.000Z"
-      />, this.container);
+      />, this.container,
+    );
 
     const input = this.container.querySelector('input');
 
@@ -94,7 +95,8 @@ describe('DateInput', function suite() {
         name="birthDate"
         value="2011-11-02T00:00:00.000Z"
         onCommit={handleCommit}
-      />, this.container);
+      />, this.container,
+    );
 
     const input = this.container.querySelector('input');
 
@@ -119,7 +121,8 @@ describe('DateInput', function suite() {
         name="birthDate"
         value="2011-11-02T00:00:00.000Z"
         onCommit={handleCommit}
-      />, this.container);
+      />, this.container,
+    );
 
     const input = this.container.querySelector('input');
 
@@ -145,7 +148,8 @@ describe('DateInput', function suite() {
         name="birthDate"
         value="2011-11-02T00:00:00.000Z"
         onCommit={handleCommit}
-      />, this.container);
+      />, this.container,
+    );
 
     const input = this.container.querySelector('input');
 
@@ -171,7 +175,8 @@ describe('DateInput', function suite() {
         name="birthDate"
         value="2011-11-02T00:00:00.000Z"
         onCommit={handleCommit}
-      />, this.container);
+      />, this.container,
+    );
 
     const input = this.container.querySelector('input');
 
@@ -198,7 +203,8 @@ describe('DateInput', function suite() {
         name="birthDate"
         value="2011-11-02T00:00:00.000Z"
         onCommit={handleCommit}
-      />, this.container);
+      />, this.container,
+    );
 
     const input = this.container.querySelector('input');
 
@@ -231,7 +237,8 @@ describe('DateInput', function suite() {
         name="birthDate"
         value="2011-11-02T00:00:00.000Z"
         onCommit={handleCommit}
-      />, this.container);
+      />, this.container,
+    );
 
     const input = this.container.querySelector('input');
 
@@ -265,7 +272,8 @@ describe('DateInput', function suite() {
     render(
       <DateInput
         value="2011-11-02T00:00:00.000Z"
-      />, this.container);
+      />, this.container,
+    );
 
     const input = this.container.querySelector('input');
 
@@ -274,7 +282,8 @@ describe('DateInput', function suite() {
     render(
       <DateInput
         value="1974-04-25T00:00:00.000Z"
-      />, this.container);
+      />, this.container,
+    );
 
     input.value.should.equal('1974-04-25');
   });

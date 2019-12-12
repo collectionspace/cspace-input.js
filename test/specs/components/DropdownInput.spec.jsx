@@ -9,18 +9,18 @@ import createTestContainer from '../../helpers/createTestContainer';
 import { isInput } from '../../../src/helpers/inputHelpers';
 import DropdownInput from '../../../src/components/DropdownInput';
 
-const expect = chai.expect;
+const { expect } = chai;
 
 chai.should();
 
 const expectedClassName = 'cspace-input-DropdownInput--normal cspace-input-DropdownInput--common';
 
-describe('DropdownInput', function suite() {
+describe('DropdownInput', () => {
   beforeEach(function before() {
     this.container = createTestContainer(this);
   });
 
-  it('should be considered an input by isInput()', function test() {
+  it('should be considered an input by isInput()', () => {
     isInput(<DropdownInput />).should.equal(true);
   });
 
@@ -53,14 +53,16 @@ describe('DropdownInput', function suite() {
     render(
       <DropdownInput open>
         <p>content</p>
-      </DropdownInput>, this.container);
+      </DropdownInput>, this.container,
+    );
 
     this.container.querySelector('p').textContent.should.equal('content');
 
     render(
       <DropdownInput open={false}>
         <p>content</p>
-      </DropdownInput>, this.container);
+      </DropdownInput>, this.container,
+    );
 
     return new Promise((resolve) => {
       window.setTimeout(() => {
@@ -69,7 +71,8 @@ describe('DropdownInput', function suite() {
         render(
           <DropdownInput open>
             <p>content</p>
-          </DropdownInput>, this.container);
+          </DropdownInput>, this.container,
+        );
 
         this.container.querySelector('p').textContent.should.equal('content');
 
@@ -82,7 +85,8 @@ describe('DropdownInput', function suite() {
     render(
       <DropdownInput>
         <p>content</p>
-      </DropdownInput>, this.container);
+      </DropdownInput>, this.container,
+    );
 
     const input = this.container.querySelector('input');
 
@@ -95,7 +99,8 @@ describe('DropdownInput', function suite() {
     render(
       <DropdownInput readOnly>
         <p>content</p>
-      </DropdownInput>, this.container);
+      </DropdownInput>, this.container,
+    );
 
     const input = this.container.querySelector('input');
 
@@ -108,7 +113,8 @@ describe('DropdownInput', function suite() {
     render(
       <DropdownInput readOnly isOpenableWhenReadOnly>
         <p>content</p>
-      </DropdownInput>, this.container);
+      </DropdownInput>, this.container,
+    );
 
     const input = this.container.querySelector('input');
 
@@ -121,7 +127,8 @@ describe('DropdownInput', function suite() {
     render(
       <DropdownInput openOnFocus>
         <p>content</p>
-      </DropdownInput>, this.container);
+      </DropdownInput>, this.container,
+    );
 
     const input = this.container.querySelector('input');
 
@@ -134,7 +141,8 @@ describe('DropdownInput', function suite() {
     render(
       <DropdownInput openOnFocus={false}>
         <p>content</p>
-      </DropdownInput>, this.container);
+      </DropdownInput>, this.container,
+    );
 
     const input = this.container.querySelector('input');
 
@@ -147,7 +155,8 @@ describe('DropdownInput', function suite() {
     render(
       <DropdownInput>
         <p>content</p>
-      </DropdownInput>, this.container);
+      </DropdownInput>, this.container,
+    );
 
     const input = this.container.querySelector('input');
 
@@ -166,7 +175,8 @@ describe('DropdownInput', function suite() {
     render(
       <DropdownInput focusPopup={focusPopup}>
         <p>content</p>
-      </DropdownInput>, this.container);
+      </DropdownInput>, this.container,
+    );
 
     const input = this.container.querySelector('input');
 
@@ -185,7 +195,8 @@ describe('DropdownInput', function suite() {
     render(
       <DropdownInput focusPopup={focusPopup}>
         <p>content</p>
-      </DropdownInput>, this.container);
+      </DropdownInput>, this.container,
+    );
 
     const input = this.container.querySelector('input');
 
@@ -203,7 +214,8 @@ describe('DropdownInput', function suite() {
     render(
       <DropdownInput>
         <p>content</p>
-      </DropdownInput>, this.container);
+      </DropdownInput>, this.container,
+    );
 
     const input = this.container.querySelector('input');
 
@@ -225,7 +237,8 @@ describe('DropdownInput', function suite() {
     render(
       <DropdownInput>
         <p>content</p>
-      </DropdownInput>, this.container);
+      </DropdownInput>, this.container,
+    );
 
     const input = this.container.querySelector('input');
 
@@ -253,7 +266,8 @@ describe('DropdownInput', function suite() {
     render(
       <DropdownInput onBlur={handleBlur}>
         <p>content</p>
-      </DropdownInput>, this.container);
+      </DropdownInput>, this.container,
+    );
 
     const input = this.container.querySelector('input');
 
@@ -266,7 +280,8 @@ describe('DropdownInput', function suite() {
     render(
       <DropdownInput>
         <p><textarea /></p>
-      </DropdownInput>, this.container);
+      </DropdownInput>, this.container,
+    );
 
     const input = this.container.querySelector('input');
 
@@ -296,7 +311,8 @@ describe('DropdownInput', function suite() {
     render(
       <DropdownInput onBlur={handleBlur}>
         <p><textarea /></p>
-      </DropdownInput>, this.container);
+      </DropdownInput>, this.container,
+    );
 
     const input = this.container.querySelector('input');
 
@@ -315,7 +331,8 @@ describe('DropdownInput', function suite() {
     render(
       <DropdownInput>
         <p><textarea /></p>
-      </DropdownInput>, this.container);
+      </DropdownInput>, this.container,
+    );
 
     const input = this.container.querySelector('input');
 
@@ -344,7 +361,8 @@ describe('DropdownInput', function suite() {
     render(
       <DropdownInput>
         <p><textarea /></p>
-      </DropdownInput>, this.container);
+      </DropdownInput>, this.container,
+    );
 
     const input = this.container.querySelector('input');
 
@@ -370,7 +388,8 @@ describe('DropdownInput', function suite() {
     render(
       <DropdownInput>
         <p><textarea /></p>
-      </DropdownInput>, this.container);
+      </DropdownInput>, this.container,
+    );
 
     const input = this.container.querySelector('input');
 
@@ -401,7 +420,8 @@ describe('DropdownInput', function suite() {
     render(
       <DropdownInput onClose={handleClose}>
         <p><textarea /></p>
-      </DropdownInput>, this.container);
+      </DropdownInput>, this.container,
+    );
 
     const input = this.container.querySelector('input');
 
@@ -432,7 +452,8 @@ describe('DropdownInput', function suite() {
     render(
       <DropdownInput onKeyDown={handleKeyDown}>
         <p><textarea /></p>
-      </DropdownInput>, this.container);
+      </DropdownInput>, this.container,
+    );
 
     const input = this.container.querySelector('input');
 
@@ -451,7 +472,8 @@ describe('DropdownInput', function suite() {
     render(
       <DropdownInput onOpen={handleOpen}>
         <p><textarea /></p>
-      </DropdownInput>, this.container);
+      </DropdownInput>, this.container,
+    );
 
     const input = this.container.querySelector('input');
 

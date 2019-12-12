@@ -27,12 +27,12 @@ const patterns = [
   },
 ];
 
-describe('IDGeneratorInput', function suite() {
+describe('IDGeneratorInput', () => {
   beforeEach(function before() {
     this.container = createTestContainer(this);
   });
 
-  it('should be considered an input by isInput()', function test() {
+  it('should be considered an input by isInput()', () => {
     isInput(<IDGeneratorInput />).should.equal(true);
   });
 
@@ -47,7 +47,8 @@ describe('IDGeneratorInput', function suite() {
       <IDGeneratorInput
         patterns={patterns}
         onMount={handleMount}
-      />, this.container);
+      />, this.container,
+    );
 
     handlerCalled.should.equal(true);
   });
@@ -63,7 +64,8 @@ describe('IDGeneratorInput', function suite() {
       <IDGeneratorInput
         onOpen={handleOpen}
         patterns={patterns}
-      />, this.container);
+      />, this.container,
+    );
 
     const input = this.container.querySelector('input');
 
@@ -96,7 +98,8 @@ describe('IDGeneratorInput', function suite() {
       <IDGeneratorInput
         patterns={patterns}
         sampleColumnLabel="my sample label"
-      />, this.container);
+      />, this.container,
+    );
 
     const input = this.container.querySelector('input');
 
@@ -112,7 +115,8 @@ describe('IDGeneratorInput', function suite() {
       <IDGeneratorInput
         patterns={patterns}
         typeColumnLabel="my type label"
-      />, this.container);
+      />, this.container,
+    );
 
     const input = this.container.querySelector('input');
 
@@ -136,7 +140,8 @@ describe('IDGeneratorInput', function suite() {
       <IDGeneratorInput
         generateID={generateID}
         patterns={patterns}
-      />, this.container);
+      />, this.container,
+    );
 
     const input = this.container.querySelector('input');
 
@@ -154,7 +159,8 @@ describe('IDGeneratorInput', function suite() {
     const component = render(
       <IDGeneratorInput
         patterns={patterns}
-      />, this.container);
+      />, this.container,
+    );
 
     const input = this.container.querySelector('input');
 
@@ -174,7 +180,8 @@ describe('IDGeneratorInput', function suite() {
       <IDGeneratorInput
         patterns={patterns}
         readOnly
-      />, this.container);
+      />, this.container,
+    );
 
     const input = this.container.firstElementChild;
 

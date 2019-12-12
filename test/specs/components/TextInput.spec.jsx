@@ -11,7 +11,7 @@ chai.should();
 const renderer = createRenderer();
 
 describe('TextInput', () => {
-  it('should be considered an input by isInput()', function test() {
+  it('should be considered an input by isInput()', () => {
     isInput(<TextInput />).should.equal(true);
   });
 

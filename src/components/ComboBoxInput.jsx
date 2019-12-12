@@ -10,6 +10,9 @@ import styles from '../../styles/cspace-input/ComboBoxInput.css';
 const DropdownMenuInput = changeable(BaseDropdownMenuInput);
 
 const propTypes = {
+  // TODO: Stop using propTypes in isInput, and in render method of cspace-ui Field component.
+  // Until then, propTypes need to be hoisted from the base component.
+  // eslint-disable-next-line react/forbid-foreign-prop-types
   ...DropdownMenuInput.propTypes,
   blankable: PropTypes.bool,
   onAddOption: PropTypes.func,
@@ -17,6 +20,7 @@ const propTypes = {
 
 const defaultProps = {
   blankable: true,
+  onAddOption: undefined,
 };
 
 export default class ComboBoxInput extends Component {
@@ -29,10 +33,14 @@ export default class ComboBoxInput extends Component {
     this.handleDropdownInputKeyDown = this.handleDropdownInputKeyDown.bind(this);
     this.handleDropdownInputOpen = this.handleDropdownInputOpen.bind(this);
 
+    const {
+      value,
+    } = this.props;
+
     this.state = {
+      value,
       isAdding: false,
       open: false,
-      value: this.props.value,
     };
   }
 
@@ -142,17 +150,19 @@ export default class ComboBoxInput extends Component {
 
     const {
       className,
-      /* eslint-disable no-unused-vars */
       onAddOption,
-      /* eslint-enable no-unused-vars */
       ...remainingProps
     } = this.props;
+
+    const {
+      options,
+    } = remainingProps;
 
     let valueProp;
 
     if (isAdding) {
       valueProp = { valueLabel };
-    } else if (getOptionForValue(this.props.options, value)) {
+    } else if (getOptionForValue(options, value)) {
       valueProp = { value };
     } else {
       valueProp = { valueLabel: value };
@@ -164,7 +174,9 @@ export default class ComboBoxInput extends Component {
 
     return (
       <DropdownMenuInput
+        // eslint-disable-next-line react/jsx-props-no-spreading
         {...remainingProps}
+        // eslint-disable-next-line react/jsx-props-no-spreading
         {...valueProp}
         className={classes}
         open={open}

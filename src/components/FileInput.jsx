@@ -1,5 +1,3 @@
-/* global File */
-
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { getPath } from '../helpers/pathHelpers';
@@ -59,7 +57,7 @@ export default class FileInput extends Component {
   }
 
   handleDrop(dataTransfer) {
-    const files = dataTransfer.files;
+    const { files } = dataTransfer;
 
     const {
       onCommit,
@@ -89,10 +87,8 @@ export default class FileInput extends Component {
   render() {
     const {
       accept,
-      name,
-      /* eslint-disable no-unused-vars */
       formatValue,
-      /* eslint-enable no-unused-vars */
+      name,
       ...remainingProps
     } = this.props;
 
@@ -102,6 +98,7 @@ export default class FileInput extends Component {
         formatValue={this.formatValue}
         onChooseButtonClick={this.handleChooseButtonClick}
         onDrop={this.handleDrop}
+        // eslint-disable-next-line react/jsx-props-no-spreading
         {...remainingProps}
       >
         <input

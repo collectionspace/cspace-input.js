@@ -11,17 +11,17 @@ import labelable from '../../../src/enhancers/labelable';
 
 chai.should();
 
-describe('CompoundInput', function suite() {
+describe('CompoundInput', () => {
   beforeEach(function before() {
     this.container = createTestContainer(this);
   });
 
-  it('should be considered an input by isInput()', function test() {
+  it('should be considered an input by isInput()', () => {
     isInput(<CompoundInput />).should.equal(true);
   });
 
-  context('when tabular prop is false', function context() {
-    it('should render as a CustomCompoundInput', function test() {
+  context('when tabular prop is false', () => {
+    it('should render as a CustomCompoundInput', () => {
       const shallowRenderer = createRenderer();
 
       shallowRenderer.render(<CompoundInput />);
@@ -54,7 +54,8 @@ describe('CompoundInput', function suite() {
             <LabelableTextInput name="city" label="City" />
             <LabelableTextInput name="state" label="State" />
           </CompoundInput>
-        </CompoundInput>, this.container);
+        </CompoundInput>, this.container,
+      );
 
       const labels = this.container.querySelectorAll('label');
 
@@ -76,8 +77,8 @@ describe('CompoundInput', function suite() {
     });
   });
 
-  context('when tabular prop is true', function context() {
-    it('should render as a TabularCompoundInput', function test() {
+  context('when tabular prop is true', () => {
+    it('should render as a TabularCompoundInput', () => {
       const shallowRenderer = createRenderer();
 
       shallowRenderer.render(<CompoundInput tabular />);
@@ -108,7 +109,8 @@ describe('CompoundInput', function suite() {
             <TextInput name="city" label="City" />
             <TextInput name="state" label="State" />
           </CompoundInput>
-        </CompoundInput>, this.container);
+        </CompoundInput>, this.container,
+      );
 
       const labels = this.container.querySelectorAll('label');
 

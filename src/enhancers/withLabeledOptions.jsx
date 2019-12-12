@@ -13,6 +13,9 @@ export default function withLabeledOptions(BaseComponent) {
     || 'Component';
 
   const propTypes = {
+    // TODO: Stop using propTypes in isInput, and in render method of cspace-ui Field component.
+    // Until then, propTypes need to be hoisted from the base component.
+    // eslint-disable-next-line react/forbid-foreign-prop-types
     ...BaseComponent.propTypes,
     formatOptionLabel: PropTypes.func,
     options: PropTypes.arrayOf(PropTypes.shape({
@@ -21,7 +24,9 @@ export default function withLabeledOptions(BaseComponent) {
   };
 
   const defaultProps = {
-    formatOptionLabel: option => (typeof option.label === 'undefined' ? option.value : option.label),
+    formatOptionLabel: (option) => (
+      typeof option.label === 'undefined' ? option.value : option.label
+    ),
     options: [],
   };
 
@@ -32,12 +37,14 @@ export default function withLabeledOptions(BaseComponent) {
       ...remainingProps
     } = props;
 
-    const labeledOptions = options.map(option => Object.assign({}, option, {
+    const labeledOptions = options.map((option) => ({
+      ...option,
       label: formatOptionLabel(option),
     }));
 
     return (
       <BaseComponent
+        // eslint-disable-next-line react/jsx-props-no-spreading
         {...remainingProps}
         options={labeledOptions}
       />

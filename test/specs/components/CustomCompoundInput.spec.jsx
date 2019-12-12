@@ -9,16 +9,15 @@ import { isInput } from '../../../src/helpers/inputHelpers';
 import CustomCompoundInput from '../../../src/components/CustomCompoundInput';
 import TextInput from '../../../src/components/TextInput';
 import committable from '../../../src/enhancers/committable';
-import nestable from '../../../src/enhancers/nestable';
 
 chai.should();
 
-describe('CustomCompoundInput', function suite() {
+describe('CustomCompoundInput', () => {
   beforeEach(function before() {
     this.container = createTestContainer(this);
   });
 
-  it('should be considered an input by isInput()', function test() {
+  it('should be considered an input by isInput()', () => {
     isInput(<CustomCompoundInput />).should.equal(true);
   });
 
@@ -40,7 +39,8 @@ describe('CustomCompoundInput', function suite() {
         <div>
           <TextInput name="comment" multiline />
         </div>
-      </CustomCompoundInput>, this.container);
+      </CustomCompoundInput>, this.container,
+    );
 
     this.container.querySelector('input').value.should.equal(compoundValue.objectNumber);
     this.container.querySelector('textarea').value.should.equal(compoundValue.comment);
@@ -65,7 +65,8 @@ describe('CustomCompoundInput', function suite() {
           name="objectNumber"
           onCommit={handleCommit}
         />
-      </CustomCompoundInput>, this.container);
+      </CustomCompoundInput>, this.container,
+    );
 
     const input = this.container.querySelector('input');
 
@@ -94,7 +95,11 @@ describe('CustomCompoundInput', function suite() {
         <div>
           <TextInput name="comment" multiline />
           <CustomCompoundInput name="group">
-            <p>Interspersed nodes of other types<br />should have no effect</p>
+            <p>
+              Interspersed nodes of other types
+              <br />
+              should have no effect
+            </p>
             <div>
               <TextInput name="nested" />
               <CustomCompoundInput name="deepGroup">
@@ -104,7 +109,8 @@ describe('CustomCompoundInput', function suite() {
             </div>
           </CustomCompoundInput>
         </div>
-      </CustomCompoundInput>, this.container);
+      </CustomCompoundInput>, this.container,
+    );
 
     this.container.querySelector('input[data-name="objectNumber"]').value.should
       .equal(compoundValue.objectNumber);
@@ -136,7 +142,8 @@ describe('CustomCompoundInput', function suite() {
             onCommit={handleCommit}
           />
         </CustomCompoundInput>
-      </CustomCompoundInput>, this.container);
+      </CustomCompoundInput>, this.container,
+    );
 
     const input = this.container.querySelector('input');
 
@@ -159,15 +166,14 @@ describe('CustomCompoundInput', function suite() {
         <div>
           <TextInput name="comment" multiline />
         </div>
-      </CustomCompoundInput>, this.container);
+      </CustomCompoundInput>, this.container,
+    );
 
     this.container.querySelector('input').value.should.equal(compoundValue.get('objectNumber'));
     this.container.querySelector('textarea').value.should.equal(compoundValue.get('comment'));
   });
 
   it('should use the subpath prop of child inputs to locate values', function test() {
-    const NestableTextInput = nestable(TextInput);
-
     const compoundValue = {
       collectionobjects_common: {
         objectNumber: '1-200',
@@ -181,10 +187,11 @@ describe('CustomCompoundInput', function suite() {
 
     render(
       <CustomCompoundInput value={compoundValue}>
-        <NestableTextInput name="objectNumber" subpath="collectionobjects_common" />
-        <NestableTextInput name="color" subpath={['collectionobjects_extension']} />
-        <NestableTextInput name="comment" subpath="collectionobjects_extension" />
-      </CustomCompoundInput>, this.container);
+        <TextInput name="objectNumber" subpath="collectionobjects_common" />
+        <TextInput name="color" subpath={['collectionobjects_extension']} />
+        <TextInput name="comment" subpath="collectionobjects_extension" />
+      </CustomCompoundInput>, this.container,
+    );
 
     this.container.querySelector('input[data-name="objectNumber"]').value.should
       .equal(compoundValue.collectionobjects_common.objectNumber);
@@ -197,8 +204,6 @@ describe('CustomCompoundInput', function suite() {
   });
 
   it('should pass the received value down to nested groups with no name', function test() {
-    const NestableTextInput = nestable(TextInput);
-
     const compoundValue = {
       objectNumber: '1-200',
       comment: 'Hello world!',
@@ -209,18 +214,17 @@ describe('CustomCompoundInput', function suite() {
         <TextInput name="objectNumber" />
         <div>
           <CustomCompoundInput>
-            <NestableTextInput name="comment" multiline />
+            <TextInput name="comment" multiline />
           </CustomCompoundInput>
         </div>
-      </CustomCompoundInput>, this.container);
+      </CustomCompoundInput>, this.container,
+    );
 
     this.container.querySelector('input').value.should.equal(compoundValue.objectNumber);
     this.container.querySelector('textarea').value.should.equal(compoundValue.comment);
   });
 
   it('should use the default child subpath if specified', function test() {
-    const NestableTextInput = nestable(TextInput);
-
     const compoundValue = {
       collectionobjects_common: {
         objectNumber: '1-200',
@@ -234,20 +238,21 @@ describe('CustomCompoundInput', function suite() {
 
     render(
       <CustomCompoundInput value={compoundValue} defaultChildSubpath="collectionobjects_common">
-        <NestableTextInput
+        <TextInput
           name="objectNumber"
           label="collectionobjects_common:objectNumber"
         />
-        <NestableTextInput
+        <TextInput
           name="comment"
           label="collectionobjects_common:comment"
         />
-        <NestableTextInput
+        <TextInput
           name="comment"
           subpath="collectionobjects_extension"
           label="collectionobjects_extension:comment"
         />
-      </CustomCompoundInput>, this.container);
+      </CustomCompoundInput>, this.container,
+    );
 
     this.container.querySelector('input[data-name="objectNumber"]').value.should
       .equal(compoundValue.collectionobjects_common.objectNumber);

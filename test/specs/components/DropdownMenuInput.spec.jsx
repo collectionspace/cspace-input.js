@@ -9,18 +9,18 @@ import createTestContainer from '../../helpers/createTestContainer';
 import { isInput } from '../../../src/helpers/inputHelpers';
 import DropdownMenuInput from '../../../src/components/DropdownMenuInput';
 
-const expect = chai.expect;
+const { expect } = chai;
 
 chai.should();
 
 const expectedClassName = 'cspace-input-DropdownMenuInput--common cspace-input-Input--common cspace-input-DropdownInput--normal cspace-input-DropdownInput--common';
 
-describe('DropdownMenuInput', function suite() {
+describe('DropdownMenuInput', () => {
   beforeEach(function before() {
     this.container = createTestContainer(this);
   });
 
-  it('should be considered an input by isInput()', function test() {
+  it('should be considered an input by isInput()', () => {
     isInput(<DropdownMenuInput />).should.equal(true);
   });
 
@@ -61,7 +61,8 @@ describe('DropdownMenuInput', function suite() {
         options={options}
         value="value3"
         onMount={handleMount}
-      />, this.container);
+      />, this.container,
+    );
 
     mountedValue.should.equal('value3');
   });
@@ -112,7 +113,8 @@ describe('DropdownMenuInput', function suite() {
       <DropdownMenuInput
         options={options}
         value="value2"
-      />, this.container);
+      />, this.container,
+    );
 
     const input = this.container.querySelector('input');
 
@@ -130,7 +132,8 @@ describe('DropdownMenuInput', function suite() {
       <DropdownMenuInput
         options={options}
         value="value2"
-      />, this.container);
+      />, this.container,
+    );
 
     const input = this.container.querySelector('input');
 
@@ -140,7 +143,8 @@ describe('DropdownMenuInput', function suite() {
       <DropdownMenuInput
         options={options}
         value="value1"
-      />, this.container);
+      />, this.container,
+    );
 
     input.value.should.equal('Value 1');
   });
@@ -162,14 +166,16 @@ describe('DropdownMenuInput', function suite() {
       <DropdownMenuInput
         options={options}
         value="value2"
-      />, this.container);
+      />, this.container,
+    );
 
     render(
       <DropdownMenuInput
         options={options}
         value="value1"
         onUpdate={handleUpdate}
-      />, this.container);
+      />, this.container,
+    );
 
     updatedValue.should.equal('value1');
   });
@@ -185,7 +191,8 @@ describe('DropdownMenuInput', function suite() {
       <DropdownMenuInput
         options={options}
         value="value2"
-      />, this.container);
+      />, this.container,
+    );
 
     const input = this.container.querySelector('input');
 
@@ -205,7 +212,8 @@ describe('DropdownMenuInput', function suite() {
         value="value99"
         valueLabel="Value 99"
         blankable={false}
-      />, this.container);
+      />, this.container,
+    );
 
     const input = this.container.querySelector('input');
 
@@ -225,7 +233,8 @@ describe('DropdownMenuInput', function suite() {
         value="value3"
         valueLabel="Some other label"
         blankable={false}
-      />, this.container);
+      />, this.container,
+    );
 
     this.container.querySelector('input').value.should.equal('Some other label');
 
@@ -235,7 +244,8 @@ describe('DropdownMenuInput', function suite() {
         value="value3"
         valueLabel="Another differing label"
         blankable={false}
-      />, this.container);
+      />, this.container,
+    );
 
     this.container.querySelector('input').value.should.equal('Another differing label');
   });
@@ -251,7 +261,8 @@ describe('DropdownMenuInput', function suite() {
       <DropdownMenuInput
         options={options}
         value="value2"
-      />, this.container);
+      />, this.container,
+    );
 
     const input = this.container.querySelector('input');
 
@@ -271,7 +282,8 @@ describe('DropdownMenuInput', function suite() {
       <DropdownMenuInput
         options={options}
         value="value2"
-      />, this.container);
+      />, this.container,
+    );
 
     const input = this.container.querySelector('input');
 
@@ -299,7 +311,8 @@ describe('DropdownMenuInput', function suite() {
         options={options}
         value="value2"
         onOpen={handleOpen}
-      />, this.container);
+      />, this.container,
+    );
 
     const input = this.container.querySelector('input');
 
@@ -320,7 +333,8 @@ describe('DropdownMenuInput', function suite() {
       <DropdownMenuInput
         options={options}
         value="value2"
-      />, this.container);
+      />, this.container,
+    );
 
     const input = this.container.querySelector('input');
 
@@ -349,7 +363,8 @@ describe('DropdownMenuInput', function suite() {
       <DropdownMenuInput
         options={options}
         value="value2"
-      />, this.container);
+      />, this.container,
+    );
 
     const input = this.container.querySelector('input');
 
@@ -384,7 +399,8 @@ describe('DropdownMenuInput', function suite() {
       <DropdownMenuInput
         options={options}
         value="value2"
-      />, this.container);
+      />, this.container,
+    );
 
     const input = this.container.querySelector('input');
 
@@ -420,7 +436,8 @@ describe('DropdownMenuInput', function suite() {
         options={options}
         value="value2"
         onClose={handleClose}
-      />, this.container);
+      />, this.container,
+    );
 
     const input = this.container.querySelector('input');
 
@@ -452,7 +469,8 @@ describe('DropdownMenuInput', function suite() {
       <DropdownMenuInput
         options={options}
         value="value2"
-      />, this.container);
+      />, this.container,
+    );
 
     const input = this.container.querySelector('input');
 
@@ -486,7 +504,8 @@ describe('DropdownMenuInput', function suite() {
         options={options}
         value="value2"
         onCommit={handleCommit}
-      />, this.container);
+      />, this.container,
+    );
 
     const input = this.container.querySelector('input');
 
@@ -519,7 +538,8 @@ describe('DropdownMenuInput', function suite() {
         options={options}
         value="value2"
         onCommit={handleCommit}
-      />, this.container);
+      />, this.container,
+    );
 
     const input = this.container.querySelector('input');
 
@@ -543,7 +563,8 @@ describe('DropdownMenuInput', function suite() {
       <DropdownMenuInput
         options={options}
         menuHeader="header content"
-      />, this.container);
+      />, this.container,
+    );
 
     const input = this.container.querySelector('input');
 
@@ -563,7 +584,8 @@ describe('DropdownMenuInput', function suite() {
       <DropdownMenuInput
         options={options}
         menuFooter="footer content"
-      />, this.container);
+      />, this.container,
+    );
 
     const input = this.container.querySelector('input');
 
@@ -584,7 +606,8 @@ describe('DropdownMenuInput', function suite() {
         options={options}
         value="value2"
         readOnly
-      />, this.container);
+      />, this.container,
+    );
 
     const input = this.container.firstElementChild;
 

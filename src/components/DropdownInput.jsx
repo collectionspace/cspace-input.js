@@ -6,6 +6,9 @@ import TextInput from './TextInput';
 import styles from '../../styles/cspace-input/DropdownInput.css';
 
 const propTypes = {
+  // TODO: Stop using propTypes in isInput, and in render method of cspace-ui Field component.
+  // Until then, propTypes need to be hoisted from the base component.
+  // eslint-disable-next-line react/forbid-foreign-prop-types
   ...TextInput.propTypes,
   children: PropTypes.node,
   className: PropTypes.string,
@@ -31,7 +34,21 @@ const propTypes = {
 };
 
 const defaultProps = {
+  children: undefined,
+  className: undefined,
+  embedded: undefined,
+  open: undefined,
+  openOnFocus: undefined,
   openOnMouseDown: true,
+  isOpenableWhenReadOnly: undefined,
+  api: undefined,
+  focusPopup: undefined,
+  onBlur: undefined,
+  onBeforeClose: undefined,
+  onClose: undefined,
+  onKeyDown: undefined,
+  onMount: undefined,
+  onOpen: undefined,
 };
 
 export default class DropdownInput extends Component {
@@ -80,7 +97,15 @@ export default class DropdownInput extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (prevState.open && !this.state.open) {
+    const {
+      open: prevOpen,
+    } = prevState;
+
+    const {
+      open,
+    } = this.state;
+
+    if (prevOpen && !open) {
       const {
         onClose,
       } = this.props;
@@ -88,7 +113,7 @@ export default class DropdownInput extends Component {
       if (onClose) {
         onClose();
       }
-    } else if (!prevState.open && this.state.open) {
+    } else if (!prevOpen && open) {
       const {
         onOpen,
       } = this.props;
@@ -100,7 +125,11 @@ export default class DropdownInput extends Component {
   }
 
   close(isCancelled) {
-    if (this.state.open) {
+    const {
+      open,
+    } = this.state;
+
+    if (open) {
       const {
         onBeforeClose,
       } = this.props;
@@ -122,7 +151,11 @@ export default class DropdownInput extends Component {
   }
 
   open() {
-    if (!this.state.open) {
+    const {
+      open,
+    } = this.state;
+
+    if (!open) {
       this.setState({
         open: true,
       });
@@ -190,10 +223,14 @@ export default class DropdownInput extends Component {
     } = this.props;
 
     if (event.key === 'ArrowDown') {
+      const {
+        open,
+      } = this.state;
+
       // Prevent the page from scrolling.
       event.preventDefault();
 
-      if (this.state.open) {
+      if (open) {
         this.focusPopup();
       } else {
         this.open();
@@ -234,7 +271,6 @@ export default class DropdownInput extends Component {
 
   renderInput() {
     const {
-      /* eslint-disable no-unused-vars */
       children,
       className,
       focusPopup,
@@ -246,12 +282,12 @@ export default class DropdownInput extends Component {
       onKeyDown,
       onMount,
       onOpen,
-      /* eslint-enable no-unused-vars */
       ...remainingProps
     } = this.props;
 
     return (
       <TextInput
+        // eslint-disable-next-line react/jsx-props-no-spreading
         {...remainingProps}
         onBlur={this.handleInputBlur}
         onFocus={this.handleInputFocus}
@@ -319,6 +355,7 @@ export default class DropdownInput extends Component {
       <div
         ref={this.handleRef}
         className={classes}
+        // eslint-disable-next-line react/jsx-props-no-spreading
         {...readOnlyProps}
       >
         {this.renderInput()}

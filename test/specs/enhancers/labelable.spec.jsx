@@ -8,13 +8,13 @@ import Label from '../../../src/components/Label';
 
 chai.should();
 
-describe('labelable', function suite() {
+describe('labelable', () => {
   beforeEach(function before() {
     this.container = createTestContainer(this);
   });
 
-  context('enhanced component', function context() {
-    it('should lift propTypes from the base component', function test() {
+  context('enhanced component', () => {
+    it('should lift propTypes from the base component', () => {
       const StubComponent = () => null;
 
       StubComponent.propTypes = {
@@ -24,15 +24,8 @@ describe('labelable', function suite() {
 
       const EnhancedComponent = labelable(StubComponent);
 
+      // eslint-disable-next-line react/forbid-foreign-prop-types
       EnhancedComponent.propTypes.should.include.keys(Object.keys(StubComponent.propTypes));
-    });
-
-    it('should accept label prop', function test() {
-      labelable('input').propTypes.should.include.keys(['label']);
-    });
-
-    it('should accept msgkey prop', function test() {
-      labelable('input').propTypes.should.include.keys(['msgkey']);
     });
 
     it('should not pass the label prop to the base component', function test() {

@@ -2,6 +2,7 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import Immutable from 'immutable';
 import get from 'lodash/get';
 import { getDisplayName, setDisplayName } from 'cspace-refname';
 import LineInput from './LineInput';
@@ -12,11 +13,14 @@ import { getPath } from '../helpers/pathHelpers';
 import styles from '../../styles/cspace-input/AutocompleteInput.css';
 
 const propTypes = {
+  // TODO: Stop using propTypes in isInput, and in render method of cspace-ui Field component.
+  // Until then, propTypes need to be hoisted from the base component.
+  // eslint-disable-next-line react/forbid-foreign-prop-types
   ...FilteringDropdownMenuInput.propTypes,
   findDelay: PropTypes.number,
-  matches: PropTypes.object,
+  matches: PropTypes.instanceOf(Immutable.Map),
   minLength: PropTypes.number,
-  recordTypes: PropTypes.object,
+  recordTypes: PropTypes.objectOf(PropTypes.object),
   disableAltTerms: PropTypes.bool,
   showQuickAdd: PropTypes.bool,
   showQuickAddCloneOption: PropTypes.bool,
@@ -38,9 +42,22 @@ const propTypes = {
 
 const defaultProps = {
   findDelay: 500, // ms
-  matchFilter: () => true,
+  matches: undefined,
   minLength: 3,
+  recordTypes: undefined,
+  disableAltTerms: undefined,
   showQuickAdd: true,
+  showQuickAddCloneOption: undefined,
+  quickAddCloneOptionDisabled: undefined,
+  readOnly: undefined,
+  asText: undefined,
+  source: undefined,
+  quickAddTo: undefined,
+  addTerm: undefined,
+  findMatchingTerms: undefined,
+  formatAddPrompt: undefined,
+  formatCloneOptionLabel: undefined,
+  formatCreateNewOptionLabel: undefined,
   formatMoreCharsRequiredMessage: () => 'Continue typing to find matching terms',
   formatSearchResultMessage: (count) => {
     const matches = count === 1 ? 'matching term' : 'matching terms';
@@ -48,6 +65,8 @@ const defaultProps = {
 
     return `${num} ${matches} found`;
   },
+  formatSourceName: undefined,
+  matchFilter: () => true,
 };
 
 const getOptions = (partialTerm, props) => {
@@ -95,8 +114,8 @@ const getOptions = (partialTerm, props) => {
 
               displayNames.forEach((displayName, index) => {
                 const disabled = (
-                  deprecated ||
-                  (index > 0 && (disableAltTerms || vocabDisableAltTerms))
+                  deprecated
+                  || (index > 0 && (disableAltTerms || vocabDisableAltTerms))
                 );
 
                 options.push({
@@ -196,8 +215,9 @@ const removeWildcardOperators = (partialTerm) => {
 /**
  * Remove anchor and wildcard operators from partial terms.
  */
-const removePartialTermOperators = partialTerm =>
-  removeAnchorOperators(removeWildcardOperators(partialTerm));
+const removePartialTermOperators = (partialTerm) => removeAnchorOperators(
+  removeWildcardOperators(partialTerm),
+);
 
 export default class AutocompleteInput extends Component {
   constructor(props) {
@@ -220,13 +240,17 @@ export default class AutocompleteInput extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const newTerm = getNewTerm(
-      nextProps.source, nextProps.matches, this.state.partialTerm
-    );
+    const {
+      matches,
+      source,
+    } = this.props;
 
-    const hadNewTerm = getNewTerm(
-      this.props.source, this.props.matches, this.state.partialTerm
-    );
+    const {
+      partialTerm,
+    } = this.state;
+
+    const newTerm = getNewTerm(nextProps.source, nextProps.matches, partialTerm);
+    const hadNewTerm = getNewTerm(source, matches, partialTerm);
 
     if (newTerm && !hadNewTerm) {
       const refName = newTerm.getIn(['document', 'ns2:collectionspace_core', 'refName']);
@@ -236,20 +260,15 @@ export default class AutocompleteInput extends Component {
       this.commit(refName, { csid });
       this.filteringDropdownMenuInput.close();
     } else {
-      const newState = {
+      const nextState = {
         value: nextProps.value,
       };
 
-      if (!isPending(
-        nextProps.source, nextProps.matches, this.state.partialTerm
-      )) {
-        newState.options = getOptions(
-          this.state.partialTerm,
-          nextProps,
-        );
+      if (!isPending(nextProps.source, nextProps.matches, partialTerm)) {
+        nextState.options = getOptions(partialTerm, nextProps);
       }
 
-      this.setState(newState);
+      this.setState(nextState);
     }
   }
 
@@ -290,10 +309,12 @@ export default class AutocompleteInput extends Component {
       partialTerm,
     };
 
-    const searchNeeded =
-      findMatchingTerms && partialTerm
+    const searchNeeded = (
+      findMatchingTerms
+      && partialTerm
       && removePartialTermOperators(partialTerm).length >= minLength
-      && (!matches || !matches.has(partialTerm));
+      && (!matches || !matches.has(partialTerm))
+    );
 
     if (searchNeeded) {
       this.findTimer = window.setTimeout(() => {
@@ -338,9 +359,13 @@ export default class AutocompleteInput extends Component {
     if (this.dropdownMenuInput && options && options.length > 0) {
       if (nextFocusedIndex === 0 && eventKey === 'ArrowDown') {
         this.dropdownMenuInput.focusMenu(0);
+
         return null;
-      } else if (currentFocusedIndex <= 0 && eventKey === 'ArrowUp') {
+      }
+
+      if (currentFocusedIndex <= 0 && eventKey === 'ArrowUp') {
         this.dropdownMenuInput.focusMenu(-1);
+
         return null;
       }
     }
@@ -352,9 +377,13 @@ export default class AutocompleteInput extends Component {
     if (this.quickAdd) {
       if (nextFocusedIndex === 0 && eventKey === 'ArrowDown') {
         this.quickAdd.focusMenu(0);
+
         return null;
-      } else if (currentFocusedIndex <= 0 && eventKey === 'ArrowUp') {
+      }
+
+      if (currentFocusedIndex <= 0 && eventKey === 'ArrowUp') {
         this.quickAdd.focusMenu(-1);
+
         return null;
       }
     }
@@ -414,8 +443,9 @@ export default class AutocompleteInput extends Component {
     const partialTermText = removeAnchorOperators(partialTerm);
 
     if (
-      showQuickAdd && partialTerm &&
-      partialTermText.length >= minLength
+      showQuickAdd
+      && partialTerm
+      && partialTermText.length >= minLength
     ) {
       return (
         <QuickAdd
@@ -462,28 +492,27 @@ export default class AutocompleteInput extends Component {
 
   render() {
     const {
-      formatMoreCharsRequiredMessage,
-      formatSearchResultMessage,
-      matches,
-      minLength,
-      readOnly,
-      asText,
-      source,
-      /* eslint-disable no-unused-vars */
       addTerm,
+      asText,
+      disableAltTerms,
       findDelay,
       findMatchingTerms,
       formatAddPrompt,
       formatCloneOptionLabel,
       formatCreateNewOptionLabel,
+      formatMoreCharsRequiredMessage,
+      formatSearchResultMessage,
       formatSourceName,
+      matches,
       matchFilter,
+      minLength,
+      quickAddCloneOptionDisabled,
+      readOnly,
       recordTypes,
       quickAddTo,
       showQuickAdd,
       showQuickAddCloneOption,
-      quickAddCloneOptionDisabled,
-      /* eslint-enable no-unused-vars */
+      source,
       ...remainingProps
     } = this.props;
 
@@ -499,9 +528,9 @@ export default class AutocompleteInput extends Component {
     }
 
     const moreCharsRequired = (
-      typeof partialTerm !== 'undefined' &&
-      partialTerm !== null &&
-      removePartialTermOperators(partialTerm).length < minLength
+      typeof partialTerm !== 'undefined'
+      && partialTerm !== null
+      && removePartialTermOperators(partialTerm).length < minLength
     );
 
     const formatStatusMessage = moreCharsRequired
@@ -514,6 +543,7 @@ export default class AutocompleteInput extends Component {
 
     return (
       <FilteringDropdownMenuInput
+        // eslint-disable-next-line react/jsx-props-no-spreading
         {...remainingProps}
         className={className}
         filter={this.findMatchingTerms}

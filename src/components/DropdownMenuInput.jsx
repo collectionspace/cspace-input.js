@@ -9,7 +9,11 @@ import { getLabelForValue } from '../helpers/optionHelpers';
 import styles from '../../styles/cspace-input/DropdownMenuInput.css';
 
 const propTypes = {
+  // TODO: Stop using propTypes in isInput, and in render method of cspace-ui Field component.
+  // Until then, propTypes need to be hoisted from the base component.
+  // eslint-disable-next-line react/forbid-foreign-prop-types
   ...DropdownInput.propTypes,
+  blankable: PropTypes.bool,
   className: PropTypes.string,
   menuHeader: PropTypes.node,
   menuFooter: PropTypes.node,
@@ -32,8 +36,23 @@ const propTypes = {
 };
 
 const defaultProps = {
-  blankable: true,
+  blankable: undefined,
+  className: undefined,
+  menuHeader: undefined,
+  menuFooter: undefined,
+  open: undefined,
   options: [],
+  ignoreDisabledOptions: undefined,
+  readOnly: undefined,
+  renderItemLabel: undefined,
+  valueLabel: undefined,
+  onClose: undefined,
+  onCommit: undefined,
+  onItemMouseEnter: undefined,
+  onItemMouseLeave: undefined,
+  onMount: undefined,
+  onOpen: undefined,
+  onUpdate: undefined,
 };
 
 const renderMenuHeader = (content) => {
@@ -84,8 +103,12 @@ export default class DropdownMenuInput extends Component {
     } = this.props;
 
     if (onMount) {
+      const {
+        value,
+      } = this.state;
+
       onMount({
-        value: this.state.value,
+        value,
         focusMenu: this.focusMenu.bind(this),
       });
     }
@@ -109,7 +132,11 @@ export default class DropdownMenuInput extends Component {
     } = this.props;
 
     if (onUpdate) {
-      onUpdate({ value: this.state.value });
+      const {
+        value,
+      } = this.state;
+
+      onUpdate({ value });
     }
   }
 
@@ -120,9 +147,9 @@ export default class DropdownMenuInput extends Component {
     } = this.props;
 
     if (
-      onCommit &&
-      (value || initialValue) &&
-      (value !== initialValue)
+      onCommit
+      && (value || initialValue)
+      && (value !== initialValue)
     ) {
       onCommit(getPath(this.props), value, meta);
     }
@@ -195,38 +222,38 @@ export default class DropdownMenuInput extends Component {
     } = this.state;
 
     const {
+      blankable,
       className,
+      focusPopup,
+      ignoreDisabledOptions,
       menuHeader,
       menuFooter,
-      options,
-      ignoreDisabledOptions,
-      readOnly,
-      renderItemLabel,
       onBeforeItemFocusChange,
-      onItemMouseEnter,
-      onItemMouseLeave,
-      focusPopup,
-      /* eslint-disable no-unused-vars */
-      blankable,
-      open: openProp,
-      valueLabel: valueLabelProp,
       onClose,
       onCommit,
+      onItemMouseEnter,
+      onItemMouseLeave,
       onMount,
       onOpen,
       onUpdate,
-      /* eslint-enable no-unused-vars */
+      open: openProp,
+      options,
+      readOnly,
+      renderItemLabel,
+      valueLabel: valueLabelProp,
       ...remainingProps
     } = this.props;
 
     const inputValue = valueLabel;
 
     if (readOnly) {
+      const { embedded } = remainingProps;
+
       return (
         <LineInput
           readOnly
           value={inputValue}
-          embedded={this.props.embedded}
+          embedded={embedded}
         />
       );
     }
@@ -238,6 +265,7 @@ export default class DropdownMenuInput extends Component {
 
     return (
       <DropdownInput
+        // eslint-disable-next-line react/jsx-props-no-spreading
         {...remainingProps}
         className={classes}
         open={open}

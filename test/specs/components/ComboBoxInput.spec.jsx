@@ -1,4 +1,4 @@
-/* global window, document */
+/* global window */
 
 import React from 'react';
 import { Simulate } from 'react-dom/test-utils';
@@ -9,18 +9,18 @@ import createTestContainer from '../../helpers/createTestContainer';
 import { isInput } from '../../../src/helpers/inputHelpers';
 import ComboBoxInput from '../../../src/components/ComboBoxInput';
 
-const expect = chai.expect;
+const { expect } = chai;
 
 chai.should();
 
 const expectedClassName = 'cspace-input-DropdownMenuInput--common cspace-input-Input--common cspace-input-DropdownInput--normal cspace-input-DropdownInput--common';
 
-describe('ComboBoxInput', function suite() {
+describe('ComboBoxInput', () => {
   beforeEach(function before() {
     this.container = createTestContainer(this);
   });
 
-  it('should be considered an input by isInput()', function test() {
+  it('should be considered an input by isInput()', () => {
     isInput(<ComboBoxInput />).should.equal(true);
   });
 
@@ -82,7 +82,8 @@ describe('ComboBoxInput', function suite() {
         options={options}
         value="value2"
         onCommit={handleCommit}
-      />, this.container);
+      />, this.container,
+    );
 
     const input = this.container.querySelector('input');
 
@@ -113,7 +114,8 @@ describe('ComboBoxInput', function suite() {
       <ComboBoxInput
         options={options}
         onAddOption={handleAddOption}
-      />, this.container);
+      />, this.container,
+    );
 
     const input = this.container.querySelector('input');
 
@@ -144,7 +146,8 @@ describe('ComboBoxInput', function suite() {
       <ComboBoxInput
         options={options}
         onAddOption={handleAddOption}
-      />, this.container);
+      />, this.container,
+    );
 
     const input = this.container.querySelector('input');
 
@@ -180,7 +183,8 @@ describe('ComboBoxInput', function suite() {
         blankable
         options={options}
         onAddOption={handleAddOption}
-      />, this.container);
+      />, this.container,
+    );
 
     const input = this.container.querySelector('input');
 
@@ -212,7 +216,8 @@ describe('ComboBoxInput', function suite() {
         blankable={false}
         options={options}
         onAddOption={handleAddOption}
-      />, this.container);
+      />, this.container,
+    );
 
     const input = this.container.querySelector('input');
 
@@ -236,7 +241,8 @@ describe('ComboBoxInput', function suite() {
     render(
       <ComboBoxInput
         options={options}
-      />, this.container);
+      />, this.container,
+    );
 
     const input = this.container.querySelector('input');
 
@@ -271,7 +277,8 @@ describe('ComboBoxInput', function suite() {
       <ComboBoxInput
         options={options}
         onClose={handleClose}
-      />, this.container);
+      />, this.container,
+    );
 
     const input = this.container.querySelector('input');
 

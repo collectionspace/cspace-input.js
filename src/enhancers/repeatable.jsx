@@ -15,9 +15,17 @@ export default function repeatable(BaseComponent) {
     || 'Component';
 
   const propTypes = {
+    // TODO: Stop using propTypes in isInput, and in render method of cspace-ui Field component.
+    // Until then, propTypes need to be hoisted from the base component.
+    // eslint-disable-next-line react/forbid-foreign-prop-types
     ...BaseComponent.propTypes,
+    // eslint-disable-next-line react/forbid-foreign-prop-types
     ...RepeatingInput.propTypes,
     repeating: PropTypes.bool,
+  };
+
+  const defaultProps = {
+    repeating: false,
   };
 
   function Repeatable(props) {
@@ -34,6 +42,7 @@ export default function repeatable(BaseComponent) {
 
     if (!repeating) {
       return (
+        // eslint-disable-next-line react/jsx-props-no-spreading
         <BaseComponent {...remainingProps} />
       );
     }
@@ -65,12 +74,14 @@ export default function repeatable(BaseComponent) {
         onMoveInstance={onMoveInstance}
         onRemoveInstance={onRemoveInstance}
       >
+        {/* eslint-disable-next-line react/jsx-props-no-spreading */}
         <BaseComponent {...baseProps} />
       </RepeatingInput>
     );
   }
 
   Repeatable.propTypes = propTypes;
+  Repeatable.defaultProps = defaultProps;
   Repeatable.displayName = `repeatable(${baseComponentName})`;
 
   return Repeatable;

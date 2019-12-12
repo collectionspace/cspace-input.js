@@ -1,13 +1,9 @@
-/* global window */
-
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Simulate } from 'react-dom/test-utils';
 import Immutable from 'immutable';
 import { render } from 'react-dom';
-
 import createTestContainer from '../../helpers/createTestContainer';
-
 import { isInput } from '../../../src/helpers/inputHelpers';
 import CustomCompoundInput from '../../../src/components/CustomCompoundInput';
 import InputTableRow from '../../../src/components/InputTableRow';
@@ -18,12 +14,15 @@ import committable from '../../../src/enhancers/committable';
 
 const TextInput = committable(BaseTextInput);
 
-const expect = chai.expect;
+const { expect } = chai;
 
 chai.should();
 
-const StubTemplateComponent = props => (
-  <div className="template">Value: {JSON.stringify(props.value)}</div>
+const StubTemplateComponent = ({ value }) => (
+  <div className="template">
+    Value:
+    {JSON.stringify(value)}
+  </div>
 );
 
 StubTemplateComponent.propTypes = {
@@ -34,12 +33,12 @@ StubTemplateComponent.defaultProps = {
   value: 'Repeating input template',
 };
 
-describe('RepeatingInput', function suite() {
+describe('RepeatingInput', () => {
   beforeEach(function before() {
     this.container = createTestContainer(this);
   });
 
-  it('should be considered an input by isInput()', function test() {
+  it('should be considered an input by isInput()', () => {
     isInput(<RepeatingInput />).should.equal(true);
   });
 
@@ -47,7 +46,8 @@ describe('RepeatingInput', function suite() {
     render(
       <RepeatingInput>
         <StubTemplateComponent />
-      </RepeatingInput>, this.container);
+      </RepeatingInput>, this.container,
+    );
 
     this.container.firstElementChild.nodeName.should.equal('FIELDSET');
   });
@@ -62,7 +62,8 @@ describe('RepeatingInput', function suite() {
     render(
       <RepeatingInput value={repeatingValue}>
         <TextInput multiline />
-      </RepeatingInput>, this.container);
+      </RepeatingInput>, this.container,
+    );
 
     const textareas = this.container.querySelectorAll('textarea');
 
@@ -84,7 +85,8 @@ describe('RepeatingInput', function suite() {
     render(
       <RepeatingInput value={repeatingValue}>
         <TextInput />
-      </RepeatingInput>, this.container);
+      </RepeatingInput>, this.container,
+    );
 
     const inputs = this.container.querySelectorAll('input');
 
@@ -100,7 +102,8 @@ describe('RepeatingInput', function suite() {
     render(
       <RepeatingInput value="A string">
         <StubTemplateComponent />
-      </RepeatingInput>, this.container);
+      </RepeatingInput>, this.container,
+    );
 
     this.container.querySelectorAll('div.template').length.should.equal(1);
   });
@@ -109,7 +112,8 @@ describe('RepeatingInput', function suite() {
     render(
       <RepeatingInput value={{}}>
         <StubTemplateComponent />
-      </RepeatingInput>, this.container);
+      </RepeatingInput>, this.container,
+    );
 
     this.container.querySelectorAll('div.template').length.should.equal(1);
   });
@@ -118,7 +122,8 @@ describe('RepeatingInput', function suite() {
     render(
       <RepeatingInput>
         <TextInput multiline />
-      </RepeatingInput>, this.container);
+      </RepeatingInput>, this.container,
+    );
 
     this.container.querySelectorAll('textarea').length.should.equal(1);
     this.container.querySelector('textarea').value.should.equal('');
@@ -128,7 +133,8 @@ describe('RepeatingInput', function suite() {
     render(
       <RepeatingInput value={[]}>
         <TextInput multiline />
-      </RepeatingInput>, this.container);
+      </RepeatingInput>, this.container,
+    );
 
     this.container.querySelectorAll('textarea').length.should.equal(1);
     this.container.querySelector('textarea').value.should.equal('');
@@ -144,7 +150,8 @@ describe('RepeatingInput', function suite() {
     render(
       <RepeatingInput value={repeatingValue} label="Label">
         <TextInput label="Inner label" />
-      </RepeatingInput>, this.container);
+      </RepeatingInput>, this.container,
+    );
 
     this.container.querySelector('input[data-name="0"]').value.should.equal(repeatingValue[0]);
     this.container.querySelector('input[data-name="1"]').value.should.equal(repeatingValue[1]);
@@ -173,7 +180,8 @@ describe('RepeatingInput', function suite() {
         onCommit={handleCommit}
       >
         <TextInput label="Inner label" />
-      </RepeatingInput>, this.container);
+      </RepeatingInput>, this.container,
+    );
 
     const input = this.container.querySelector('input[data-name="0"]');
 
@@ -207,7 +215,8 @@ describe('RepeatingInput', function suite() {
         onCommit={handleCommit}
       >
         <TextInput />
-      </RepeatingInput>, this.container);
+      </RepeatingInput>, this.container,
+    );
 
     const input = this.container.querySelectorAll('input')[1];
 
@@ -220,8 +229,7 @@ describe('RepeatingInput', function suite() {
   });
 
   it('should call renderOrderIndicator to render the order indicator, if supplied', function test() {
-    const renderOrderIndicator = orderNumber =>
-      <div className="testOrderIndicator">{`order ${orderNumber}`}</div>;
+    const renderOrderIndicator = (orderNumber) => <div className="testOrderIndicator">{`order ${orderNumber}`}</div>;
 
     const repeatingValue = [
       'Value 1',
@@ -237,7 +245,8 @@ describe('RepeatingInput', function suite() {
         renderOrderIndicator={renderOrderIndicator}
       >
         <TextInput />
-      </RepeatingInput>, this.container);
+      </RepeatingInput>, this.container,
+    );
 
     const indicators = this.container.querySelectorAll('.testOrderIndicator');
 
@@ -252,7 +261,8 @@ describe('RepeatingInput', function suite() {
     render(
       <RepeatingInput>
         <TextInput label="Inner label" />
-      </RepeatingInput>, this.container);
+      </RepeatingInput>, this.container,
+    );
 
     this.container.querySelector('label').textContent.should.equal('Inner label');
   });
@@ -278,7 +288,8 @@ describe('RepeatingInput', function suite() {
           <TextInput name="type" label="Type" />
           <TextInput name="language" label="Language" />
         </CustomCompoundInput>
-      </RepeatingInput>, this.container);
+      </RepeatingInput>, this.container,
+    );
   });
 
   it('should extract a table header label prop from the template and render it as a header', function test() {
@@ -312,7 +323,8 @@ describe('RepeatingInput', function suite() {
             <TextInput embedded name="language" />
           </InputTableRow>
         </CustomCompoundInput>
-      </RepeatingInput>, this.container);
+      </RepeatingInput>, this.container,
+    );
 
     const labels = this.container.querySelectorAll('label');
 
@@ -331,13 +343,14 @@ describe('RepeatingInput', function suite() {
         value={repeatingValue}
       >
         <TextInput />
-      </RepeatingInput>, this.container);
+      </RepeatingInput>, this.container,
+    );
 
     return true;
   });
 
   it('should call disableRemoveButton to determine if the remove button should be disabled for each instance', function test() {
-    const disableRemoveButton = data => data.includes('nope');
+    const disableRemoveButton = (data) => data.includes('nope');
 
     const repeatingValue = [
       '1 yup',
@@ -355,7 +368,8 @@ describe('RepeatingInput', function suite() {
         disableRemoveButton={disableRemoveButton}
       >
         <TextInput />
-      </RepeatingInput>, this.container);
+      </RepeatingInput>, this.container,
+    );
 
     const removeButtons = this.container.querySelectorAll('button[data-name="remove"]');
 
@@ -381,7 +395,8 @@ describe('RepeatingInput', function suite() {
         onAddInstance={handleAddInstance}
       >
         <TextInput />
-      </RepeatingInput>, this.container);
+      </RepeatingInput>, this.container,
+    );
 
     const addButton = this.container.querySelector('button[data-name="add"]');
 
@@ -411,7 +426,8 @@ describe('RepeatingInput', function suite() {
         onRemoveInstance={handleRemoveInstance}
       >
         <TextInput />
-      </RepeatingInput>, this.container);
+      </RepeatingInput>, this.container,
+    );
 
     const removeButton = this.container.querySelectorAll('button[data-name="remove"]')[1];
 
@@ -443,7 +459,8 @@ describe('RepeatingInput', function suite() {
         onMoveInstance={handleMoveInstance}
       >
         <TextInput />
-      </RepeatingInput>, this.container);
+      </RepeatingInput>, this.container,
+    );
 
     const moveButton = this.container.querySelectorAll('button[data-name="moveToTop"]')[1];
 
@@ -453,7 +470,7 @@ describe('RepeatingInput', function suite() {
     moveInstanceNewPosition.should.equal(0);
   });
 
-  context('when shift + down arrow is depressed in the move to top button', function context() {
+  context('when shift + down arrow is depressed in the move to top button', () => {
     let moveInstancePath;
     let moveInstanceNewPosition;
 
@@ -480,7 +497,8 @@ describe('RepeatingInput', function suite() {
           onMoveInstance={handleMoveInstance}
         >
           <TextInput />
-        </RepeatingInput>, this.container);
+        </RepeatingInput>, this.container,
+      );
     });
 
     it('should call onMoveInstance, incrementing the position by one', function test() {
@@ -518,7 +536,7 @@ describe('RepeatingInput', function suite() {
     });
   });
 
-  context('when shift + up arrow is depressed in the move to top button', function context() {
+  context('when shift + up arrow is depressed in the move to top button', () => {
     let moveInstancePath;
     let moveInstanceNewPosition;
 
@@ -545,7 +563,8 @@ describe('RepeatingInput', function suite() {
           onMoveInstance={handleMoveInstance}
         >
           <TextInput />
-        </RepeatingInput>, this.container);
+        </RepeatingInput>, this.container,
+      );
     });
 
     it('should call onMoveInstance, incrementing the position by one', function test() {
@@ -583,7 +602,7 @@ describe('RepeatingInput', function suite() {
     });
   });
 
-  context('when shift + plus is depressed in the move to top button', function context() {
+  context('when shift + plus is depressed in the move to top button', () => {
     let addInstancePath;
     let addInstancePosition;
 
@@ -610,7 +629,8 @@ describe('RepeatingInput', function suite() {
           onAddInstance={handleAddInstance}
         >
           <TextInput />
-        </RepeatingInput>, this.container);
+        </RepeatingInput>, this.container,
+      );
     });
 
     it('should call onAddInstance, passing the next higher position', function test() {
@@ -636,7 +656,7 @@ describe('RepeatingInput', function suite() {
     });
   });
 
-  context('when asText is true', function context() {
+  context('when asText is true', () => {
     it('should render as a div', function test() {
       const repeatingValue = [
         'Value 1',
@@ -647,7 +667,8 @@ describe('RepeatingInput', function suite() {
       render(
         <RepeatingInput value={repeatingValue} asText>
           <TextInput />
-        </RepeatingInput>, this.container);
+        </RepeatingInput>, this.container,
+      );
 
       this.container.firstElementChild.nodeName.should.equal('DIV');
     });
@@ -662,7 +683,8 @@ describe('RepeatingInput', function suite() {
       render(
         <RepeatingInput value={repeatingValue} asText>
           <TextInput />
-        </RepeatingInput>, this.container);
+        </RepeatingInput>, this.container,
+      );
 
       this.container.querySelectorAll('.cspace-input-MiniButton--common').should.have.lengthOf(0);
     });
@@ -677,7 +699,8 @@ describe('RepeatingInput', function suite() {
       render(
         <RepeatingInput value={repeatingValue} asText>
           <TextInput />
-        </RepeatingInput>, this.container);
+        </RepeatingInput>, this.container,
+      );
 
       this.container.querySelectorAll('input').should.have.lengthOf(0);
     });

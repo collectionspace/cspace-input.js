@@ -6,12 +6,12 @@ import createTestContainer from '../../helpers/createTestContainer';
 
 chai.should();
 
-describe('OptionPickerInput', function suite() {
+describe('OptionPickerInput', () => {
   beforeEach(function before() {
     this.container = createTestContainer(this);
   });
 
-  it('should render as a SubstringFilteringDropdownMenuInput', function test() {
+  it('should render as a SubstringFilteringDropdownMenuInput', () => {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(<OptionPickerInput items={[]} />);
@@ -21,7 +21,7 @@ describe('OptionPickerInput', function suite() {
     result.type.displayName.should.match(/SubstringFilteringDropdownMenuInput/);
   });
 
-  it('should render as a PrefixFilteringDropdownMenuInput if filter is \'prefix\'', function test() {
+  it('should render as a PrefixFilteringDropdownMenuInput if filter is \'prefix\'', () => {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(<OptionPickerInput items={[]} filter="prefix" />);

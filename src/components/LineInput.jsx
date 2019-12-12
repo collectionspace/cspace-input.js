@@ -21,6 +21,16 @@ const propTypes = {
 };
 
 const defaultProps = {
+  asText: undefined,
+  'aria-label': undefined,
+  autoComplete: undefined,
+  embedded: undefined,
+  name: undefined,
+  parentPath: undefined,
+  subpath: undefined,
+  value: undefined,
+  readOnly: undefined,
+  showLink: undefined,
   linkContent: 'Open',
   linkUrl: (value) => {
     if (value && (value.startsWith('https://') || value.startsWith('http://'))) {
@@ -29,6 +39,7 @@ const defaultProps = {
 
     return null;
   },
+  api: undefined,
 };
 
 /**
@@ -76,20 +87,18 @@ export default class LineInput extends Component {
 
   render() {
     const {
+      api,
       asText,
       autoComplete,
       embedded,
       name,
+      parentPath,
       readOnly,
+      subpath,
       value,
       showLink,
       linkContent,
       linkUrl,
-      /* eslint-disable no-unused-vars */
-      parentPath,
-      subpath,
-      api,
-      /* eslint-enable no-unused-vars */
       ...remainingProps
     } = this.props;
 
@@ -106,6 +115,7 @@ export default class LineInput extends Component {
       <input
         // In Chrome, having autocomplete="off" on the parent form doesn't seem to be enough.
         autoComplete={autoComplete || 'off'}
+        // eslint-disable-next-line react/jsx-props-no-spreading
         {...remainingProps}
         className={className}
         data-name={name}
@@ -126,7 +136,8 @@ export default class LineInput extends Component {
 
       return (
         <div className={wrapperStyles.common}>
-          {input}{link}
+          {input}
+          {link}
         </div>
       );
     }

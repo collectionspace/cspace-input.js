@@ -5,7 +5,7 @@ import MiniButton from '../../../src/components/MiniButton';
 
 chai.should();
 
-describe('MiniButton', function suite() {
+describe('MiniButton', () => {
   beforeEach(function before() {
     this.container = createTestContainer(this);
   });

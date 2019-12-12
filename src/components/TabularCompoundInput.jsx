@@ -10,12 +10,23 @@ import { getPath } from '../helpers/pathHelpers';
 const BaseComponent = repeatable(labelable(CustomCompoundInput));
 
 const propTypes = {
+  // TODO: Stop using propTypes in isInput, and in render method of cspace-ui Field component.
+  // Until then, propTypes need to be hoisted from the base component.
+  // eslint-disable-next-line react/forbid-foreign-prop-types
   ...BaseComponent.propTypes,
   children: PropTypes.node,
   repeating: PropTypes.bool,
-  sortableFields: PropTypes.object,
+  sortableFields: PropTypes.objectOf(PropTypes.bool),
   onSortInstances: PropTypes.func,
   renderChildInputLabel: PropTypes.func,
+};
+
+const defaultProps = {
+  children: undefined,
+  repeating: undefined,
+  sortableFields: undefined,
+  onSortInstances: undefined,
+  renderChildInputLabel: undefined,
 };
 
 export default class TabularCompoundInput extends Component {
@@ -57,6 +68,7 @@ export default class TabularCompoundInput extends Component {
 
     return (
       <BaseComponent
+        // eslint-disable-next-line react/jsx-props-no-spreading
         {...remainingProps}
         label={tableHeader}
         repeating={repeating}
@@ -70,3 +82,4 @@ export default class TabularCompoundInput extends Component {
 }
 
 TabularCompoundInput.propTypes = propTypes;
+TabularCompoundInput.defaultProps = defaultProps;

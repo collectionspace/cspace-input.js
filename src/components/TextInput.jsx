@@ -4,6 +4,8 @@ import LineInput from './LineInput';
 import MultilineInput from './MultilineInput';
 import { pathPropType } from '../helpers/pathHelpers';
 
+// FIXME: Rationalize these propTypes. Make consistent across LineInput, MultilineInput, and
+// TextInput.
 const propTypes = {
   'aria-label': PropTypes.string,
   autoComplete: PropTypes.string,
@@ -17,6 +19,14 @@ const propTypes = {
 };
 
 const defaultProps = {
+  'aria-label': undefined,
+  autoComplete: undefined,
+  embedded: undefined,
+  name: undefined,
+  parentPath: undefined,
+  subpath: undefined,
+  value: undefined,
+  readOnly: undefined,
   multiline: null,
 };
 
@@ -47,16 +57,19 @@ function getBaseComponent(multiline, value) {
 export default function TextInput(props) {
   const {
     multiline,
-    value,
     ...remainingProps
   } = props;
+
+  const {
+    value,
+  } = remainingProps;
 
   const BaseComponent = getBaseComponent(multiline, value);
 
   return (
     <BaseComponent
+      // eslint-disable-next-line react/jsx-props-no-spreading
       {...remainingProps}
-      value={value}
     />
   );
 }

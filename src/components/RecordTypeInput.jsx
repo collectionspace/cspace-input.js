@@ -5,16 +5,10 @@ import BaseDropdownMenuInput from './DropdownMenuInput';
 import withLabeledOptions from '../enhancers/withLabeledOptions';
 import { getPath } from '../helpers/pathHelpers';
 
-const SubstringFilteringDropdownMenuInput =
-  withLabeledOptions(BaseSubstringFilteringDropdownMenuInput);
-
-const DropdownMenuInput =
-  withLabeledOptions(BaseDropdownMenuInput);
-
 const propTypes = {
   formatRecordTypeLabel: PropTypes.func,
   indentItems: PropTypes.bool,
-  recordTypes: PropTypes.object,
+  recordTypes: PropTypes.objectOf(PropTypes.object),
   rootType: PropTypes.string,
   serviceTypes: PropTypes.arrayOf(PropTypes.string),
   value: PropTypes.string,
@@ -24,7 +18,7 @@ const propTypes = {
 const defaultProps = {
   filtering: true,
   formatRecordTypeLabel: (name, config) => {
-    const messages = config.messages;
+    const { messages } = config;
 
     if (messages) {
       return messages.record.collectionName.defaultMessage;
@@ -36,7 +30,16 @@ const defaultProps = {
   recordTypes: {},
   rootType: 'all',
   serviceTypes: ['object', 'procedure', 'authority'],
+  value: undefined,
 };
+
+const SubstringFilteringDropdownMenuInput = withLabeledOptions(
+  BaseSubstringFilteringDropdownMenuInput,
+);
+
+const DropdownMenuInput = withLabeledOptions(
+  BaseDropdownMenuInput,
+);
 
 export default class RecordTypeInput extends Component {
   constructor(props) {
@@ -102,8 +105,8 @@ export default class RecordTypeInput extends Component {
           const recordTypeConfig = recordTypes[recordTypeName];
 
           return (
-            recordTypeConfig.serviceConfig.serviceType === serviceType &&
-            !recordTypeConfig.disabled
+            recordTypeConfig.serviceConfig.serviceType === serviceType
+            && !recordTypeConfig.disabled
           );
         })
         .sort((nameA, nameB) => {
@@ -199,14 +202,12 @@ export default class RecordTypeInput extends Component {
 
   render() {
     const {
-      /* eslint-disable no-unused-vars */
+      filtering,
       formatRecordTypeLabel,
       indentItems,
       recordTypes,
       rootType,
       serviceTypes,
-      /* eslint-enable no-unused-vars */
-      filtering,
       ...remainingProps
     } = this.props;
 
@@ -220,6 +221,7 @@ export default class RecordTypeInput extends Component {
       <Input
         blankable={false}
         options={options}
+        // eslint-disable-next-line react/jsx-props-no-spreading
         {...remainingProps}
       />
     );

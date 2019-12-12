@@ -11,6 +11,13 @@ const propTypes = {
   renderAriaLabel: PropTypes.func,
 };
 
+const defaultProps = {
+  children: undefined,
+  embedded: undefined,
+  renderLabel: undefined,
+  renderAriaLabel: undefined,
+};
+
 export default function InputTable(props) {
   const {
     children,
@@ -33,3 +40,4 @@ export default function InputTable(props) {
 }
 
 InputTable.propTypes = propTypes;
+InputTable.defaultProps = defaultProps;

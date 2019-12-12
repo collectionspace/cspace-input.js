@@ -9,12 +9,12 @@ import FileInput from '../../../src/components/FileInput';
 
 chai.should();
 
-describe('FileInput', function suite() {
+describe('FileInput', () => {
   beforeEach(function before() {
     this.container = createTestContainer(this);
   });
 
-  it('should be considered an input by isInput()', function test() {
+  it('should be considered an input by isInput()', () => {
     isInput(<FileInput />).should.equal(true);
   });
 
@@ -114,7 +114,8 @@ describe('FileInput', function suite() {
       <FileInput
         value={[file]}
         formatFileInfo={formatFileInfo}
-      />, this.container);
+      />, this.container,
+    );
 
     formattedName.should.equal(fileName);
     formattedType.should.equal(fileType);
@@ -146,7 +147,8 @@ describe('FileInput', function suite() {
     render(
       <FileInput
         value={[file]}
-      />, this.container);
+      />, this.container,
+    );
 
     const infoDiv = this.container.querySelector('.cspace-input-ChooserInput--common > div');
 

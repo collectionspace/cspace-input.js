@@ -9,16 +9,16 @@ import createTestContainer from '../../helpers/createTestContainer';
 import { isInput } from '../../../src/helpers/inputHelpers';
 import FilteringDropdownMenuInput from '../../../src/components/FilteringDropdownMenuInput';
 
-const expect = chai.expect;
+const { expect } = chai;
 
 chai.should();
 
-describe('FilteringDropdownMenuInput', function suite() {
+describe('FilteringDropdownMenuInput', () => {
   beforeEach(function before() {
     this.container = createTestContainer(this);
   });
 
-  it('should be considered an input by isInput()', function test() {
+  it('should be considered an input by isInput()', () => {
     isInput(<FilteringDropdownMenuInput />).should.equal(true);
   });
 
@@ -33,7 +33,8 @@ describe('FilteringDropdownMenuInput', function suite() {
       <FilteringDropdownMenuInput
         options={options}
         value="value2"
-      />, this.container);
+      />, this.container,
+    );
 
     this.container.querySelector('input').value.should.equal('Value 2');
 
@@ -41,7 +42,8 @@ describe('FilteringDropdownMenuInput', function suite() {
       <FilteringDropdownMenuInput
         options={options}
         value="value1"
-      />, this.container);
+      />, this.container,
+    );
 
     this.container.querySelector('input').value.should.equal('Value 1');
   });
@@ -57,7 +59,8 @@ describe('FilteringDropdownMenuInput', function suite() {
       <FilteringDropdownMenuInput
         options={options}
         value="value2"
-      />, this.container);
+      />, this.container,
+    );
 
     const input = this.container.querySelector('input');
 
@@ -85,7 +88,8 @@ describe('FilteringDropdownMenuInput', function suite() {
         options={options}
         value="value2"
         onOpen={handleOpen}
-      />, this.container);
+      />, this.container,
+    );
 
     const input = this.container.querySelector('input');
 
@@ -113,7 +117,8 @@ describe('FilteringDropdownMenuInput', function suite() {
         filter={filter}
         options={options}
         value="value2"
-      />, this.container);
+      />, this.container,
+    );
 
     const input = this.container.querySelector('input');
 
@@ -145,7 +150,8 @@ describe('FilteringDropdownMenuInput', function suite() {
         options={options}
         value="value2"
         onCommit={handleCommit}
-      />, this.container);
+      />, this.container,
+    );
 
     const input = this.container.querySelector('input');
 
@@ -176,7 +182,8 @@ describe('FilteringDropdownMenuInput', function suite() {
       <FilteringDropdownMenuInput
         options={options}
         onCommit={handleCommit}
-      />, this.container);
+      />, this.container,
+    );
 
     const input = this.container.querySelector('input');
 
@@ -192,12 +199,12 @@ describe('FilteringDropdownMenuInput', function suite() {
         resolve();
       }, 0);
     })
-    .then(() => {
-      input.value.should.equal('abcd');
-      this.container.querySelectorAll('li').length.should.equal(0);
+      .then(() => {
+        input.value.should.equal('abcd');
+        this.container.querySelectorAll('li').length.should.equal(0);
 
-      committedValue.should.equal('value1');
-    });
+        committedValue.should.equal('value1');
+      });
   });
 
   it('should set the value and close the popup when enter is depressed in the input and the input value matches only one option', function test() {
@@ -215,7 +222,8 @@ describe('FilteringDropdownMenuInput', function suite() {
       <FilteringDropdownMenuInput
         options={options}
         onCommit={handleCommit}
-      />, this.container);
+      />, this.container,
+    );
 
     const input = this.container.querySelector('input');
 
@@ -231,12 +239,12 @@ describe('FilteringDropdownMenuInput', function suite() {
         resolve();
       }, 0);
     })
-    .then(() => {
-      input.value.should.equal('abcd');
-      this.container.querySelectorAll('li').length.should.equal(0);
+      .then(() => {
+        input.value.should.equal('abcd');
+        this.container.querySelectorAll('li').length.should.equal(0);
 
-      committedValue.should.equal('value1');
-    });
+        committedValue.should.equal('value1');
+      });
   });
 
   it('should not select a disabled option when it is matched by filtering', function test() {
@@ -254,7 +262,8 @@ describe('FilteringDropdownMenuInput', function suite() {
       <FilteringDropdownMenuInput
         options={options}
         onCommit={handleCommit}
-      />, this.container);
+      />, this.container,
+    );
 
     const input = this.container.querySelector('input');
 
@@ -270,9 +279,9 @@ describe('FilteringDropdownMenuInput', function suite() {
         resolve();
       }, 0);
     })
-    .then(() => {
-      expect(committedValue).to.equal(null);
-    });
+      .then(() => {
+        expect(committedValue).to.equal(null);
+      });
   });
 
   it('should allow a disabled option to be matched by filtering when ignoreDisabledOptions is true', function test() {
@@ -291,7 +300,8 @@ describe('FilteringDropdownMenuInput', function suite() {
         options={options}
         onCommit={handleCommit}
         ignoreDisabledOptions
-      />, this.container);
+      />, this.container,
+    );
 
     const input = this.container.querySelector('input');
 
@@ -307,9 +317,9 @@ describe('FilteringDropdownMenuInput', function suite() {
         resolve();
       }, 0);
     })
-    .then(() => {
-      expect(committedValue).to.equal('value1');
-    });
+      .then(() => {
+        expect(committedValue).to.equal('value1');
+      });
   });
 
   it('should call onClose when the popup is closed', function test() {
@@ -329,7 +339,8 @@ describe('FilteringDropdownMenuInput', function suite() {
       <FilteringDropdownMenuInput
         options={options}
         onClose={handleClose}
-      />, this.container);
+      />, this.container,
+    );
 
     const input = this.container.querySelector('input');
 
@@ -358,7 +369,8 @@ describe('FilteringDropdownMenuInput', function suite() {
     render(
       <FilteringDropdownMenuInput
         options={options}
-      />, this.container);
+      />, this.container,
+    );
 
     const input = this.container.querySelector('input');
 
@@ -374,10 +386,10 @@ describe('FilteringDropdownMenuInput', function suite() {
         resolve();
       }, 0);
     })
-    .then(() => {
-      input.value.should.equal('Valu');
-      this.container.querySelectorAll('li').length.should.equal(3);
-    });
+      .then(() => {
+        input.value.should.equal('Valu');
+        this.container.querySelectorAll('li').length.should.equal(3);
+      });
   });
 
   it('should close the popup when close is called', function test() {
@@ -397,7 +409,8 @@ describe('FilteringDropdownMenuInput', function suite() {
       <FilteringDropdownMenuInput
         options={options}
         ref={handleRef}
-      />, this.container);
+      />, this.container,
+    );
 
     const input = this.container.querySelector('input');
 
@@ -431,7 +444,8 @@ describe('FilteringDropdownMenuInput', function suite() {
         blankable
         options={options}
         onCommit={handleCommit}
-      />, this.container);
+      />, this.container,
+    );
 
     const input = this.container.querySelector('input');
 
@@ -447,12 +461,12 @@ describe('FilteringDropdownMenuInput', function suite() {
         resolve();
       }, 0);
     })
-    .then(() => {
-      input.value.should.equal('');
-      this.container.querySelectorAll('li').length.should.equal(0);
+      .then(() => {
+        input.value.should.equal('');
+        this.container.querySelectorAll('li').length.should.equal(0);
 
-      committedValue.should.equal('');
-    });
+        committedValue.should.equal('');
+      });
   });
 
   it('should revert to the last value when escape is depressed in the input while filtering', function test() {
@@ -466,7 +480,8 @@ describe('FilteringDropdownMenuInput', function suite() {
       <FilteringDropdownMenuInput
         options={options}
         value="value3"
-      />, this.container);
+      />, this.container,
+    );
 
     const input = this.container.querySelector('input');
 
@@ -485,9 +500,9 @@ describe('FilteringDropdownMenuInput', function suite() {
         resolve();
       }, 1);
     })
-    .then(() => {
-      input.value.should.equal('Value 3');
-    });
+      .then(() => {
+        input.value.should.equal('Value 3');
+      });
   });
 
   it('should revert to the last value when the input loses focus while filtering', function test() {
@@ -501,7 +516,8 @@ describe('FilteringDropdownMenuInput', function suite() {
       <FilteringDropdownMenuInput
         options={options}
         value="value3"
-      />, this.container);
+      />, this.container,
+    );
 
     const input = this.container.querySelector('input');
 
@@ -520,9 +536,9 @@ describe('FilteringDropdownMenuInput', function suite() {
         resolve();
       }, 1);
     })
-    .then(() => {
-      input.value.should.equal('Value 3');
-    });
+      .then(() => {
+        input.value.should.equal('Value 3');
+      });
   });
 
   it('should set the value when the popup is closed while filtering and the filter value is blank (when there is a blank option)', function test() {
@@ -541,7 +557,8 @@ describe('FilteringDropdownMenuInput', function suite() {
       <FilteringDropdownMenuInput
         options={options}
         onCommit={handleCommit}
-      />, this.container);
+      />, this.container,
+    );
 
     const input = this.container.querySelector('input');
 
@@ -577,7 +594,8 @@ describe('FilteringDropdownMenuInput', function suite() {
         blankable
         options={options}
         onCommit={handleCommit}
-      />, this.container);
+      />, this.container,
+    );
 
     const input = this.container.querySelector('input');
 
@@ -608,7 +626,8 @@ describe('FilteringDropdownMenuInput', function suite() {
       <FilteringDropdownMenuInput
         options={options}
         value="value3"
-      />, this.container);
+      />, this.container,
+    );
 
     const input = this.container.querySelector('input');
 
@@ -641,7 +660,8 @@ describe('FilteringDropdownMenuInput', function suite() {
         options={options}
         value="value3"
         formatStatusMessage={formatStatusMessage}
-      />, this.container);
+      />, this.container,
+    );
 
     const input = this.container.querySelector('input');
 

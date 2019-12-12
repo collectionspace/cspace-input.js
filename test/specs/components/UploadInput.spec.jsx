@@ -5,16 +5,16 @@ import createTestContainer from '../../helpers/createTestContainer';
 import { isInput } from '../../../src/helpers/inputHelpers';
 import UploadInput from '../../../src/components/UploadInput';
 
-const expect = chai.expect;
+const { expect } = chai;
 
 chai.should();
 
-describe('UploadInput', function suite() {
+describe('UploadInput', () => {
   beforeEach(function before() {
     this.container = createTestContainer(this);
   });
 
-  it('should be considered an input by isInput()', function test() {
+  it('should be considered an input by isInput()', () => {
     isInput(<UploadInput />).should.equal(true);
   });
 
@@ -49,7 +49,8 @@ describe('UploadInput', function suite() {
         <UploadInput
           type="file"
           onCommit={handleCommit}
-        />, this.container);
+        />, this.container,
+      );
 
       const input = this.container.querySelector('input[data-name="file"]');
 
@@ -84,10 +85,13 @@ describe('UploadInput', function suite() {
         <UploadInput
           type="url"
           onCommit={handleCommit}
-        />, this.container);
+        />, this.container,
+      );
 
       const input = this.container.querySelector('input[data-name="url"]');
-      const newValue = input.value = 'http://collectionspace.org';
+      const newValue = 'http://collectionspace.org';
+
+      input.value = newValue;
 
       Simulate.blur(input);
 
@@ -118,7 +122,8 @@ describe('UploadInput', function suite() {
       <UploadInput
         type="file"
         onCommit={handleCommit}
-      />, this.container);
+      />, this.container,
+    );
 
     const dropdown = this.container.querySelector('input[data-name="type"]');
 
@@ -144,7 +149,8 @@ describe('UploadInput', function suite() {
       <UploadInput
         type="file"
         onTypeChanged={handleTypeChanged}
-      />, this.container);
+      />, this.container,
+    );
 
     const dropdown = this.container.querySelector('input[data-name="type"]');
 

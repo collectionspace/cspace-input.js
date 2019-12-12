@@ -10,6 +10,8 @@ const propTypes = {
 };
 
 const defaultProps = {
+  className: undefined,
+  icon: undefined,
   type: 'button',
 };
 
@@ -27,9 +29,13 @@ export default function Button(props) {
   const classes = classNames(icon ? styles.icon : styles.common, className);
 
   return (
+    // TODO: The linter rules only allow static button types (not from a prop). Will need to
+    // refactor this. https://github.com/yannickcr/eslint-plugin-react/issues/1846
+    // eslint-disable-next-line react/button-has-type
     <button
       className={classes}
       type={type}
+      // eslint-disable-next-line react/jsx-props-no-spreading
       {...remainingProps}
     />
   );

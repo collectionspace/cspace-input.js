@@ -9,18 +9,18 @@ import createInvisible from '../../helpers/createInvisible';
 import { isInput } from '../../../src/helpers/inputHelpers';
 import MultilineInput from '../../../src/components/MultilineInput';
 
-const expect = chai.expect;
+const { expect } = chai;
 
 chai.should();
 
 const expectedClassName = 'cspace-input-MultilineInput--normal cspace-input-MultilineInput--common cspace-input-TextInput--normal cspace-input-TextInput--common cspace-input-Input--common';
 
-describe('MultilineInput', function suite() {
+describe('MultilineInput', () => {
   beforeEach(function before() {
     this.container = createTestContainer(this);
   });
 
-  it('should be considered an input by isInput()', function test() {
+  it('should be considered an input by isInput()', () => {
     isInput(<MultilineInput />).should.equal(true);
   });
 
@@ -63,8 +63,10 @@ describe('MultilineInput', function suite() {
     render(<MultilineInput value={value} />, this.container);
 
     const measuringStick = createInvisible('input');
+
     measuringStick.className = 'cspace-input-line cspace-input-base';
-    measuringStick.value = lines[0];
+
+    [measuringStick.value] = lines;
 
     this.container.firstElementChild.getBoundingClientRect().height.should
       .be.above(measuringStick.getBoundingClientRect().height);

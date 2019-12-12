@@ -6,6 +6,7 @@ import itemStyles from '../../styles/cspace-input/MenuItem.css';
 
 const propTypes = {
   options: PropTypes.arrayOf(PropTypes.shape({
+    disabled: PropTypes.bool,
     value: PropTypes.string,
   })),
   tabIndex: PropTypes.string,
@@ -20,9 +21,15 @@ const propTypes = {
 
 const defaultProps = {
   options: [],
-  // Display a no break space if the label is blank, so height is preserved.
-  renderItemLabel: label => (label || ' '),
   tabIndex: '0',
+  // Display a no break space if the label is blank, so height is preserved.
+  renderItemLabel: (label) => (label || ' '),
+  value: undefined,
+  ignoreDisabledOptions: undefined,
+  onSelect: undefined,
+  onBeforeItemFocusChange: undefined,
+  onItemMouseEnter: undefined,
+  onItemMouseLeave: undefined,
 };
 
 const stopPropagation = (event) => {
@@ -57,7 +64,15 @@ export default class Menu extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (prevState.focusedIndex !== this.state.focusedIndex && !this.isItemMouseDown) {
+    const {
+      focusedIndex: prevFocusedIndex,
+    } = prevState;
+
+    const {
+      focusedIndex,
+    } = this.state;
+
+    if (prevFocusedIndex !== focusedIndex && !this.isItemMouseDown) {
       this.scrollFocusedItemIntoView();
     }
   }
@@ -83,13 +98,13 @@ export default class Menu extends Component {
 
         const delta = Math.ceil(focusedItemBottom - menuBottom);
 
-        this.domNode.scrollTop = this.domNode.scrollTop + delta;
+        this.domNode.scrollTop += delta;
       } else if (focusedItemTop <= menuTop) {
         // Scroll the top of the item into view.
 
         const delta = Math.ceil(menuTop - focusedItemTop);
 
-        this.domNode.scrollTop = this.domNode.scrollTop - delta;
+        this.domNode.scrollTop -= delta;
       }
     }
   }
@@ -133,12 +148,13 @@ export default class Menu extends Component {
 
   handleItemMouseEnter(event) {
     const {
+      options,
       onItemMouseEnter,
     } = this.props;
 
     if (onItemMouseEnter) {
       const index = parseInt(event.target.dataset.index, 10);
-      const option = this.props.options[index];
+      const option = options[index];
 
       onItemMouseEnter(option.value, event.target, event.relatedTarget);
     }
@@ -146,12 +162,13 @@ export default class Menu extends Component {
 
   handleItemMouseLeave(event) {
     const {
+      options,
       onItemMouseLeave,
     } = this.props;
 
     if (onItemMouseLeave) {
       const index = parseInt(event.target.dataset.index, 10);
-      const option = this.props.options[index];
+      const option = options[index];
 
       onItemMouseLeave(option.value, event.target, event.relatedTarget);
     }
@@ -205,7 +222,11 @@ export default class Menu extends Component {
 
   handleKeyPress(event) {
     if (event.key === 'Enter') {
-      this.selectItem(this.state.focusedIndex);
+      const {
+        focusedIndex,
+      } = this.state;
+
+      this.selectItem(focusedIndex);
     }
   }
 
@@ -221,23 +242,23 @@ export default class Menu extends Component {
 
   selectItem(index) {
     const {
-      options,
       ignoreDisabledOptions,
+      options,
+      onSelect,
     } = this.props;
 
     const option = options[index];
 
-    if (ignoreDisabledOptions || !option.disabled) {
-      const value = option.value;
+    const {
+      disabled,
+      value,
+    } = option;
 
+    if (ignoreDisabledOptions || !disabled) {
       this.setState({
         value,
         focusedIndex: index,
       });
-
-      const {
-        onSelect,
-      } = this.props;
 
       if (onSelect) {
         onSelect(option);
@@ -276,7 +297,9 @@ export default class Menu extends Component {
         [optionClassName]: true,
       });
 
-      const ref = (optionValue === value)
+      const selected = (optionValue === value);
+
+      const ref = selected
         ? this.handleSelectedItemRef
         : null;
 
@@ -284,11 +307,13 @@ export default class Menu extends Component {
       // https://www.w3.org/WAI/GL/wiki/index.php?title=Using_aria-activedescendant&oldid=2629
 
       return (
-        /* eslint-disable jsx-a11y/no-static-element-interactions */
+        // The keyboard handlers are attached to the parent (<ul>), not to the <li>.
+        // eslint-disable-next-line jsx-a11y/click-events-have-key-events
         <li
+          aria-selected={selected}
           className={className}
           data-index={index}
-          key={index}
+          key={optionValue}
           ref={ref}
           role="option"
           onClick={this.handleItemClick}
@@ -306,7 +331,6 @@ export default class Menu extends Component {
         >
           {renderItemLabel(optionLabel)}
         </li>
-        /* eslint-enable jsx-a11y/no-static-element-interactions */
       );
     });
   }
@@ -326,7 +350,6 @@ export default class Menu extends Component {
     // https://www.w3.org/WAI/GL/wiki/index.php?title=Using_aria-activedescendant&oldid=2629
 
     return (
-      /* eslint-disable jsx-a11y/no-static-element-interactions */
       <ul
         className={styles.common}
         ref={this.handleRef}
@@ -339,7 +362,6 @@ export default class Menu extends Component {
       >
         {items}
       </ul>
-      /* eslint-enable jsx-a11y/no-static-element-interactions */
     );
   }
 }

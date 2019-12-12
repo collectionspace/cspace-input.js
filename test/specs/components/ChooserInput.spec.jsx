@@ -1,5 +1,3 @@
-/* global File */
-
 import React from 'react';
 import { render } from 'react-dom';
 import { Simulate } from 'react-dom/test-utils';
@@ -7,16 +5,16 @@ import createTestContainer from '../../helpers/createTestContainer';
 import { isInput } from '../../../src/helpers/inputHelpers';
 import ChooserInput from '../../../src/components/ChooserInput';
 
-const expect = chai.expect;
+const { expect } = chai;
 
 chai.should();
 
-describe('ChooserInput', function suite() {
+describe('ChooserInput', () => {
   beforeEach(function before() {
     this.container = createTestContainer(this);
   });
 
-  it('should be considered an input by isInput()', function test() {
+  it('should be considered an input by isInput()', () => {
     isInput(<ChooserInput />).should.equal(true);
   });
 
@@ -32,7 +30,7 @@ describe('ChooserInput', function suite() {
     this.container.firstElementChild.className.should.contain('cspace-input-LineInput--normal');
   });
 
-  context('when onDrop is provided', function context() {
+  context('when onDrop is provided', () => {
     const handleDrop = () => undefined;
 
     it('should apply the dragOver class when drag enters', function test() {
@@ -55,7 +53,8 @@ describe('ChooserInput', function suite() {
       render(
         <div onDragEnter={handleContainerDragEnter}>
           <ChooserInput onDrop={handleDrop} />
-        </div>, this.container);
+        </div>, this.container,
+      );
 
       const infoDiv = this.container.querySelector('.cspace-input-ChooserInput--common > div');
 
@@ -84,7 +83,8 @@ describe('ChooserInput', function suite() {
       render(
         <div onDragLeave={handleContainerDragLeave}>
           <ChooserInput onDrop={handleDrop} />
-        </div>, this.container);
+        </div>, this.container,
+      );
 
       const infoDiv = this.container.querySelector('.cspace-input-ChooserInput--common > div');
 
@@ -103,7 +103,8 @@ describe('ChooserInput', function suite() {
       render(
         <div onDragOver={handleContainerDragOver}>
           <ChooserInput onDrop={handleDrop} />
-        </div>, this.container);
+        </div>, this.container,
+      );
 
       const infoDiv = this.container.querySelector('.cspace-input-ChooserInput--common > div');
 
@@ -122,7 +123,8 @@ describe('ChooserInput', function suite() {
       render(
         <div onDrop={handleContainerDrop}>
           <ChooserInput onDrop={handleDrop} />
-        </div>, this.container);
+        </div>, this.container,
+      );
 
       const infoDiv = this.container.querySelector('.cspace-input-ChooserInput--common > div');
 

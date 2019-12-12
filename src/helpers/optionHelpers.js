@@ -9,8 +9,9 @@
  * @returns {Object} The option whose value exactly equals the given value. If more than one option
  * has the value, the first is returned. If no option has the value, undefined is returned.
  */
-export const getOptionForValue = (options, value) =>
-  (options ? options.find(option => option.value === value) : undefined);
+export const getOptionForValue = (options, value) => (
+  options ? options.find((option) => option.value === value) : undefined
+);
 
 /**
  * Retrieve the label for a given value in an option list.
@@ -37,7 +38,7 @@ export const getLabelForValue = (options, value) => {
 export const getOptionForLabel = (options, label) => {
   const lowerCaseLabel = label.toLowerCase();
 
-  return options.find(option => option.label.toLowerCase() === lowerCaseLabel);
+  return options.find((option) => option.label.toLowerCase() === lowerCaseLabel);
 };
 
 /**
@@ -54,7 +55,7 @@ export const filterOptionsByPrefix = (options, prefix) => {
 
   const normalizedPrefix = prefix.toLowerCase();
 
-  return options.filter(option => option.label.toLowerCase().startsWith(normalizedPrefix));
+  return options.filter((option) => option.label.toLowerCase().startsWith(normalizedPrefix));
 };
 
 /**
@@ -71,7 +72,7 @@ export const filterOptionsBySubstring = (options, prefix) => {
 
   const normalizedPrefix = prefix.toLowerCase();
 
-  return options.filter(option => option.label.toLowerCase().includes(normalizedPrefix));
+  return options.filter((option) => option.label.toLowerCase().includes(normalizedPrefix));
 };
 
 /**
@@ -87,8 +88,8 @@ export const normalizeOptions = (options, blankable) => {
 
   if (options) {
     options.forEach((option) => {
-      const value = option.value;
-      let label = option.label;
+      const { value } = option;
+      let { label } = option;
 
       if (label === null || typeof label === 'undefined') {
         label = value;
@@ -108,7 +109,7 @@ export const normalizeOptions = (options, blankable) => {
   }
 
   if (blankable) {
-    const blankOption = normalizedOptions.find(option => !option.value);
+    const blankOption = normalizedOptions.find((option) => !option.value);
 
     if (!blankOption) {
       normalizedOptions.unshift({

@@ -2,7 +2,10 @@ import React, { Component } from 'react';
 import FilteringDropdownMenuInput from './FilteringDropdownMenuInput';
 import { filterOptionsByPrefix } from '../helpers/optionHelpers';
 
-const propTypes = FilteringDropdownMenuInput.propTypes;
+// TODO: Stop using propTypes in isInput, and in render method of cspace-ui Field component.
+// Until then, propTypes need to be hoisted from the base component.
+// eslint-disable-next-line react/forbid-foreign-prop-types
+const { propTypes } = FilteringDropdownMenuInput;
 
 export default class PrefixFilteringDropdownMenuInput extends Component {
   constructor(props) {
@@ -21,31 +24,41 @@ export default class PrefixFilteringDropdownMenuInput extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    this.setState({
-      filteredOptions: filterOptionsByPrefix(nextProps.options, this.state.prefix),
-      value: nextProps.value,
-    });
+    const {
+      options,
+      value,
+    } = nextProps;
+
+    this.setState((prevState) => ({
+      value,
+      filteredOptions: filterOptionsByPrefix(options, prevState.prefix),
+    }));
   }
 
   filter(prefix) {
+    const {
+      options,
+    } = this.props;
+
     this.setState({
       prefix,
-      filteredOptions: filterOptionsByPrefix(this.props.options, prefix),
+      filteredOptions: filterOptionsByPrefix(options, prefix),
     });
   }
 
   handleDropdownInputCommit(path, value) {
+    const {
+      options,
+      onCommit,
+    } = this.props;
+
     const prefix = null;
 
     this.setState({
       prefix,
       value,
-      filteredOptions: filterOptionsByPrefix(this.props.options, prefix),
+      filteredOptions: filterOptionsByPrefix(options, prefix),
     });
-
-    const {
-      onCommit,
-    } = this.props;
 
     if (onCommit) {
       onCommit(path, value);
@@ -54,9 +67,7 @@ export default class PrefixFilteringDropdownMenuInput extends Component {
 
   render() {
     const {
-      /* eslint-disable no-unused-vars */
       options,
-      /* eslint-enable no-unused-vars */
       ...remainingProps
     } = this.props;
 
@@ -67,6 +78,7 @@ export default class PrefixFilteringDropdownMenuInput extends Component {
 
     return (
       <FilteringDropdownMenuInput
+        // eslint-disable-next-line react/jsx-props-no-spreading
         {...remainingProps}
         filter={this.filter}
         options={filteredOptions}

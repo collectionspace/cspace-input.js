@@ -229,7 +229,7 @@ const recordTypes = {
   },
 };
 
-describe('VocabularyInput', function suite() {
+describe('VocabularyInput', () => {
   beforeEach(function before() {
     this.container = createTestContainer(this);
   });
@@ -239,7 +239,8 @@ describe('VocabularyInput', function suite() {
       <VocabularyInput
         recordTypes={recordTypes}
         recordType="organization"
-      />, this.container);
+      />, this.container,
+    );
 
     const input = this.container.querySelector('input');
 
@@ -258,7 +259,8 @@ describe('VocabularyInput', function suite() {
       <VocabularyInput
         recordTypes={recordTypes}
         recordType="organization"
-      />, this.container);
+      />, this.container,
+    );
 
     const input = this.container.querySelector('input');
 
@@ -268,11 +270,11 @@ describe('VocabularyInput', function suite() {
 
     items.length.should.equal(3);
 
-    Array.from(items).map(item => item.textContent).should.not.include('Disabled');
+    Array.from(items).map((item) => item.textContent).should.not.include('Disabled');
   });
 
   it('should display the vocabulary name if a message is not provided', function test() {
-    const messages = recordTypes.organization.vocabularies.ulan_oa.messages;
+    const { messages } = recordTypes.organization.vocabularies.ulan_oa;
 
     recordTypes.organization.vocabularies.ulan_oa.messages = null;
 
@@ -280,7 +282,8 @@ describe('VocabularyInput', function suite() {
       <VocabularyInput
         recordTypes={recordTypes}
         recordType="organization"
-      />, this.container);
+      />, this.container,
+    );
 
     const input = this.container.querySelector('input');
 
@@ -299,7 +302,8 @@ describe('VocabularyInput', function suite() {
         recordTypes={recordTypes}
         recordType="concept"
         value="material_ca"
-      />, this.container);
+      />, this.container,
+    );
 
     const input = this.container.querySelector('input');
 
@@ -313,7 +317,8 @@ describe('VocabularyInput', function suite() {
       <VocabularyInput
         recordTypes={recordTypes}
         recordType="concept"
-      />, this.container);
+      />, this.container,
+    );
 
     const input = this.container.querySelector('input');
 
@@ -327,7 +332,8 @@ describe('VocabularyInput', function suite() {
       <VocabularyInput
         recordTypes={recordTypes}
         recordType="concept"
-      />, this.container);
+      />, this.container,
+    );
 
     const input = this.container.querySelector('input');
 
@@ -339,7 +345,8 @@ describe('VocabularyInput', function suite() {
       <VocabularyInput
         recordTypes={recordTypes}
         recordType="media"
-      />, this.container);
+      />, this.container,
+    );
 
     const dropdowns = this.container.querySelectorAll('.cspace-input-DropdownMenuInput--common');
 
@@ -354,7 +361,8 @@ describe('VocabularyInput', function suite() {
       <VocabularyInput
         recordTypes={recordTypes}
         recordType="concept"
-      />, this.container);
+      />, this.container,
+    );
 
     const input = this.container.querySelector('input');
 
@@ -373,14 +381,15 @@ describe('VocabularyInput', function suite() {
   });
 
   it('should call formatVocabularyLabel to format the label for a vocabulary item', function test() {
-    const formatVocabularyLabel = name => `formatVocabularyLabel ${name}`;
+    const formatVocabularyLabel = (name) => `formatVocabularyLabel ${name}`;
 
     render(
       <VocabularyInput
         recordTypes={recordTypes}
         recordType="concept"
         formatVocabularyLabel={formatVocabularyLabel}
-      />, this.container);
+      />, this.container,
+    );
 
     const input = this.container.querySelector('input');
 

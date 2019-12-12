@@ -6,12 +6,12 @@
  */
 export default function compose(...enhancers) {
   if (enhancers.length === 0) {
-    return component => component;
+    return (component) => component;
   }
 
   if (enhancers.length === 1) {
     return enhancers[0];
   }
 
-  return component => enhancers.reduceRight((result, enhancer) => enhancer(result), component);
+  return (component) => enhancers.reduceRight((result, enhancer) => enhancer(result), component);
 }

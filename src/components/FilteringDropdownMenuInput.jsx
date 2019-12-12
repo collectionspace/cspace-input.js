@@ -10,6 +10,9 @@ import styles from '../../styles/cspace-input/FilteringDropdownMenuInput.css';
 const DropdownMenuInput = changeable(BaseDropdownMenuInput);
 
 const propTypes = {
+  // TODO: Stop using propTypes in isInput, and in render method of cspace-ui Field component.
+  // Until then, propTypes need to be hoisted from the base component.
+  // eslint-disable-next-line react/forbid-foreign-prop-types
   ...DropdownMenuInput.propTypes,
   blankable: PropTypes.bool,
   formatStatusMessage: PropTypes.func,
@@ -27,6 +30,10 @@ const defaultProps = {
 
     return `${num} ${matches} found`;
   },
+  filter: undefined,
+  onClose: undefined,
+  onOpen: undefined,
+  onCommit: undefined,
 };
 
 export default class FilteringDropdownMenuInput extends Component {
@@ -40,10 +47,14 @@ export default class FilteringDropdownMenuInput extends Component {
     this.handleDropdownInputKeyDown = this.handleDropdownInputKeyDown.bind(this);
     this.handleDropdownInputOpen = this.handleDropdownInputOpen.bind(this);
 
+    const {
+      value,
+    } = this.props;
+
     this.state = {
+      value,
       isFiltering: false,
       open: false,
-      value: this.props.value,
     };
   }
 
@@ -220,11 +231,15 @@ export default class FilteringDropdownMenuInput extends Component {
       onOpen,
     } = this.props;
 
+    const {
+      open,
+    } = this.state;
+
     if (onOpen) {
       onOpen();
     }
 
-    if (!this.state.open) {
+    if (!open) {
       this.setState({
         isFiltering: false,
         open: true,
@@ -262,11 +277,9 @@ export default class FilteringDropdownMenuInput extends Component {
     } = this.state;
 
     const {
-      onMount,
       className,
-      /* eslint-disable no-unused-vars */
       formatStatusMessage,
-      /* eslint-enable no-unused-vars */
+      onMount,
       ...remainingProps
     } = this.props;
 
@@ -278,7 +291,9 @@ export default class FilteringDropdownMenuInput extends Component {
 
     return (
       <DropdownMenuInput
+        // eslint-disable-next-line react/jsx-props-no-spreading
         {...remainingProps}
+        // eslint-disable-next-line react/jsx-props-no-spreading
         {...valueProp}
         className={classes}
         menuHeader={this.renderMenuHeader()}

@@ -7,11 +7,11 @@ import labelable from '../../../src/enhancers/labelable';
 
 const LineInput = labelable(BaseLineInput);
 
-const expect = chai.expect;
+const { expect } = chai;
 
 chai.should();
 
-describe('InputTableHeader', function suite() {
+describe('InputTableHeader', () => {
   beforeEach(function before() {
     this.container = createTestContainer(this);
   });
@@ -20,7 +20,8 @@ describe('InputTableHeader', function suite() {
     render(
       <InputTableHeader>
         <LineInput label="test" />
-      </InputTableHeader>, this.container);
+      </InputTableHeader>, this.container,
+    );
 
     this.container.firstElementChild.nodeName.should.equal('DIV');
   });
@@ -31,7 +32,8 @@ describe('InputTableHeader', function suite() {
         <LineInput label="1" />
         <LineInput label="2" />
         <LineInput label="3" />
-      </InputTableHeader>, this.container);
+      </InputTableHeader>, this.container,
+    );
 
     const nodes = this.container.querySelectorAll('label');
 
@@ -46,7 +48,8 @@ describe('InputTableHeader', function suite() {
         <LineInput label="" />
         <LineInput label={null} />
         <LineInput />
-      </InputTableHeader>, this.container);
+      </InputTableHeader>, this.container,
+    );
 
     expect(this.container.firstElementChild).to.equal(null);
   });
@@ -57,7 +60,8 @@ describe('InputTableHeader', function suite() {
         <LineInput label="1" />
         <LineInput label="2" flex="0 0 16px" />
         <LineInput label="3" />
-      </InputTableHeader>, this.container);
+      </InputTableHeader>, this.container,
+    );
 
     const nodes = this.container.querySelectorAll('div');
 
@@ -75,7 +79,8 @@ describe('InputTableHeader', function suite() {
         <LineInput name="field1" label="1" />
         <LineInput name="field2" label="2" />
         <LineInput name="field3" label="3" />
-      </InputTableHeader>, this.container);
+      </InputTableHeader>, this.container,
+    );
 
     this.container.querySelector('button[data-name="field2"]').should.not.equal(null);
   });

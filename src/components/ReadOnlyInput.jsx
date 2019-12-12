@@ -4,21 +4,33 @@ import classNames from 'classnames';
 import { pathPropType } from '../helpers/pathHelpers';
 import styles from '../../styles/cspace-input/ReadOnlyInput.css';
 
+// Preservation of whitespace is a functional requirement of this component, so this style is
+// attached to the DOM to prevent it from being overridden.
+
+const preserveWhiteSpace = {
+  whiteSpace: 'pre',
+};
+
 const propTypes = {
   name: PropTypes.string,
-  parentPath: pathPropType, // eslint-disable-line react/no-unused-prop-types
-  subpath: pathPropType,    // eslint-disable-line react/no-unused-prop-types
+  /* eslint-disable react/no-unused-prop-types */
+  parentPath: pathPropType,
+  subpath: pathPropType,
+  /* eslint-enable react/no-unused-prop-types */
   value: PropTypes.string,
   embedded: PropTypes.bool,
   multiline: PropTypes.bool,
   formatValue: PropTypes.func,
 };
 
-// Preservation of whitespace is a functional requirement of this component, so this style is
-// attached to the DOM to prevent it from being overridden.
-
-const preserveWhiteSpace = {
-  whiteSpace: 'pre',
+const defaultProps = {
+  name: undefined,
+  parentPath: undefined,
+  subpath: undefined,
+  value: undefined,
+  embedded: undefined,
+  multiline: undefined,
+  formatValue: undefined,
 };
 
 /**
@@ -35,7 +47,7 @@ export default function ReadOnlyInput(props) {
 
   const classes = classNames(
     embedded ? styles.embedded : styles.normal,
-    multiline ? styles.multiline : styles.oneline
+    multiline ? styles.multiline : styles.oneline,
   );
 
   return (
@@ -50,3 +62,4 @@ export default function ReadOnlyInput(props) {
 }
 
 ReadOnlyInput.propTypes = propTypes;
+ReadOnlyInput.defaultProps = defaultProps;

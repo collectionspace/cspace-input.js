@@ -5,10 +5,6 @@ export default function commitHandler(BaseComponent) {
     || BaseComponent.name
     || 'Component';
 
-  const propTypes = {
-    ...BaseComponent.propTypes,
-  };
-
   class CommitHandler extends Component {
     constructor(props) {
       super(props);
@@ -31,6 +27,7 @@ export default function commitHandler(BaseComponent) {
 
       return (
         <BaseComponent
+          // eslint-disable-next-line react/jsx-props-no-spreading
           {...this.props}
           onCommit={this.handleCommit}
           value={value}
@@ -39,7 +36,6 @@ export default function commitHandler(BaseComponent) {
     }
   }
 
-  CommitHandler.propTypes = propTypes;
   CommitHandler.displayName = `commitHandler(${baseComponentName})`;
 
   return CommitHandler;

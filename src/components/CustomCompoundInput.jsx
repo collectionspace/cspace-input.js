@@ -12,16 +12,27 @@ const propTypes = {
   className: PropTypes.string,
   defaultChildSubpath: pathPropType,
   name: PropTypes.string,
-  parentPath: pathPropType,    // eslint-disable-line react/no-unused-prop-types
-  subpath: pathPropType,       // eslint-disable-line react/no-unused-prop-types
+  // TODO: Stop using propTypes in isInput. Until then, these unused props need to be declared so
+  // this component is recognized as an input.
+  /* eslint-disable react/no-unused-prop-types */
+  parentPath: pathPropType,
+  subpath: pathPropType,
+  /* eslint-enable react/no-unused-prop-types */
   readOnly: PropTypes.bool,
   value: PropTypes.oneOfType([
-    PropTypes.object,          // eslint-disable-line react/forbid-prop-types
+    PropTypes.object,
     PropTypes.instanceOf(Immutable.Map),
   ]),
 };
 
 const defaultProps = {
+  children: undefined,
+  className: undefined,
+  defaultChildSubpath: undefined,
+  name: undefined,
+  parentPath: undefined,
+  subpath: undefined,
+  readOnly: undefined,
   value: {},
 };
 

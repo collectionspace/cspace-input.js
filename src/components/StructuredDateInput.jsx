@@ -19,30 +19,6 @@ import { computeEarliestScalarDate, computeLatestScalarDate } from '../helpers/d
 import styles from '../../styles/cspace-input/StructuredDateInput.css';
 import messageStyles from '../../styles/cspace-input/Message.css';
 
-const DropdownInput = committable(changeable(BaseDropdownInput));
-const TextInput = committable(changeable(BaseTextInput));
-const LabelableTextInput = labelable(TextInput);
-
-const SubstringFilteringDropdownMenuInput =
-  withLabeledOptions(BaseSubstringFilteringDropdownMenuInput);
-
-const primaryFieldName = 'dateDisplayDate';
-
-const getStructDateFieldValue = (structDateValue, fieldName) => {
-  if (!structDateValue) {
-    return undefined;
-  }
-
-  if (Immutable.Map.isMap(structDateValue)) {
-    return structDateValue.get(fieldName);
-  }
-
-  return structDateValue[fieldName];
-};
-
-const getPrimaryValue = structDateValue =>
-  getStructDateFieldValue(structDateValue, primaryFieldName);
-
 const fieldLabels = {
   earliestSingle: 'Earliest/Single',
   latest: 'Latest',
@@ -61,17 +37,17 @@ const fieldLabels = {
 
 const propTypes = {
   defaultValue: PropTypes.oneOfType([
-    PropTypes.object, // eslint-disable-line react/forbid-prop-types
+    PropTypes.object,
     PropTypes.instanceOf(Immutable.Map),
   ]),
   embedded: PropTypes.bool,
   name: PropTypes.string,
-  optionLists: PropTypes.object,
+  optionLists: PropTypes.objectOf(PropTypes.array),
   parentPath: pathPropType,
   subpath: pathPropType,
-  terms: PropTypes.object,
+  terms: PropTypes.objectOf(PropTypes.array),
   value: PropTypes.oneOfType([
-    PropTypes.object, // eslint-disable-line react/forbid-prop-types
+    PropTypes.object,
     PropTypes.instanceOf(Immutable.Map),
   ]),
   readOnly: PropTypes.bool,
@@ -85,11 +61,48 @@ const propTypes = {
 
 const defaultProps = {
   defaultValue: {},
-  formatFieldLabel: name => fieldLabels[name],
+  embedded: undefined,
+  formatFieldLabel: (name) => fieldLabels[name],
+  formatOptionLabel: undefined,
   formatParseFailedMessage: () => 'Unrecognized display date format. Try a different format, or enter values in the fields below.',
+  name: undefined,
+  onCommit: undefined,
+  onMount: undefined,
+  parentPath: undefined,
+  parseDisplayDate: undefined,
   optionLists: {},
+  readOnly: undefined,
+  subpath: undefined,
   terms: {},
+  value: undefined,
 };
+
+const DropdownInput = committable(changeable(BaseDropdownInput));
+const TextInput = committable(changeable(BaseTextInput));
+const LabelableTextInput = labelable(TextInput);
+
+const SubstringFilteringDropdownMenuInput = withLabeledOptions(
+  BaseSubstringFilteringDropdownMenuInput,
+);
+
+const primaryFieldName = 'dateDisplayDate';
+
+const getStructDateFieldValue = (structDateValue, fieldName) => {
+  if (!structDateValue) {
+    return undefined;
+  }
+
+  if (Immutable.Map.isMap(structDateValue)) {
+    return structDateValue.get(fieldName);
+  }
+
+  return structDateValue[fieldName];
+};
+
+const getPrimaryValue = (structDateValue) => getStructDateFieldValue(
+  structDateValue,
+  primaryFieldName,
+);
 
 export default class StructuredDateInput extends Component {
   constructor(props) {
@@ -198,12 +211,16 @@ export default class StructuredDateInput extends Component {
       parseDisplayDate,
     } = this.props;
 
+    const {
+      value: prevStructDateValue,
+    } = this.state;
+
     if (onCommit) {
       onCommit(getPath(this.props), nextStructDateValue);
     }
 
     if (parseDisplayDate) {
-      const prevDisplayDate = getStructDateFieldValue(this.state.value, 'dateDisplayDate');
+      const prevDisplayDate = getStructDateFieldValue(prevStructDateValue, 'dateDisplayDate');
       const nextDisplayDate = getStructDateFieldValue(nextStructDateValue, 'dateDisplayDate');
 
       if (nextDisplayDate !== prevDisplayDate) {
@@ -233,8 +250,8 @@ export default class StructuredDateInput extends Component {
     const initialValue = this.getValue(primaryFieldName);
 
     if (
-      (value || initialValue) &&
-      (value !== initialValue)
+      (value || initialValue)
+      && (value !== initialValue)
     ) {
       this.handleInputCommit([primaryFieldName], value);
     }
@@ -305,10 +322,8 @@ export default class StructuredDateInput extends Component {
 
   render() {
     const {
-      formatFieldLabel,
-      readOnly,
-      /* eslint-disable no-unused-vars */
       defaultValue,
+      formatFieldLabel,
       formatOptionLabel,
       formatParseFailedMessage,
       name,
@@ -320,9 +335,12 @@ export default class StructuredDateInput extends Component {
       onCommit,
       onMount,
       parseDisplayDate,
-      /* eslint-enable no-unused-vars */
       ...remainingProps
     } = this.props;
+
+    const {
+      readOnly,
+    } = remainingProps;
 
     const {
       open,
@@ -332,12 +350,12 @@ export default class StructuredDateInput extends Component {
 
     return (
       <DropdownInput
+        // eslint-disable-next-line react/jsx-props-no-spreading
         {...remainingProps}
         className={readOnly ? styles.readOnly : styles.normal}
         commitUnchanged
         open={open}
         value={primaryValue}
-        readOnly={readOnly}
         isOpenableWhenReadOnly
         onChange={this.handlePrimaryInputChange}
         onClose={this.handleDropdownInputClose}
@@ -376,7 +394,7 @@ export default class StructuredDateInput extends Component {
           <table>
             <thead>
               <tr>
-                <th />
+                <td />
                 <th><Label>{formatFieldLabel('dateYear')}</Label></th>
                 <th><Label>{formatFieldLabel('dateMonth')}</Label></th>
                 <th><Label>{formatFieldLabel('dateDay')}</Label></th>

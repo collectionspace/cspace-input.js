@@ -9,7 +9,7 @@ chai.should();
 
 const expectedClassName = 'cspace-input-Button--common cspace-input-Input--common';
 
-describe('Button', function suite() {
+describe('Button', () => {
   beforeEach(function before() {
     this.container = createTestContainer(this);
   });

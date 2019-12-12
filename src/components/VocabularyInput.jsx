@@ -3,12 +3,13 @@ import PropTypes from 'prop-types';
 import BaseSubstringFilteringDropdownMenuInput from './SubstringFilteringDropdownMenuInput';
 import withLabeledOptions from '../enhancers/withLabeledOptions';
 
-const SubstringFilteringDropdownMenuInput =
-  withLabeledOptions(BaseSubstringFilteringDropdownMenuInput);
+const SubstringFilteringDropdownMenuInput = withLabeledOptions(
+  BaseSubstringFilteringDropdownMenuInput,
+);
 
 const propTypes = {
   formatVocabularyLabel: PropTypes.func,
-  recordTypes: PropTypes.object,
+  recordTypes: PropTypes.objectOf(PropTypes.object),
   recordType: PropTypes.string,
   rootVocabulary: PropTypes.string,
   value: PropTypes.string,
@@ -16,7 +17,7 @@ const propTypes = {
 
 const defaultProps = {
   formatVocabularyLabel: (name, config) => {
-    const messages = config.messages;
+    const { messages } = config;
 
     if (messages) {
       return messages.name.defaultMessage;
@@ -24,7 +25,10 @@ const defaultProps = {
 
     return name;
   },
+  recordTypes: {},
+  recordType: undefined,
   rootVocabulary: 'all',
+  value: undefined,
 };
 
 export default function VocabularyInput(props) {
@@ -38,14 +42,14 @@ export default function VocabularyInput(props) {
   } = props;
 
   if (
-    !recordType ||
-    !recordTypes[recordType] ||
-    !recordTypes[recordType].vocabularies
+    !recordType
+    || !recordTypes[recordType]
+    || !recordTypes[recordType].vocabularies
   ) {
     return null;
   }
 
-  const vocabularies = recordTypes[recordType].vocabularies;
+  const { vocabularies } = recordTypes[recordType];
   const options = [];
 
   if (vocabularies[rootVocabulary]) {
@@ -56,10 +60,10 @@ export default function VocabularyInput(props) {
   }
 
   const vocabularyNames = Object.keys(vocabularies)
-    .filter(
-      vocabularyName => vocabularyName !== rootVocabulary &&
-      !vocabularies[vocabularyName].disabled
-    )
+    .filter((vocabularyName) => (
+      vocabularyName !== rootVocabulary
+      && !vocabularies[vocabularyName].disabled
+    ))
     .sort((nameA, nameB) => {
       const configA = vocabularies[nameA];
       const configB = vocabularies[nameB];
@@ -121,6 +125,8 @@ export default function VocabularyInput(props) {
       blankable={false}
       options={options}
       value={value}
+      // Too many props to pass explicitly.
+      // eslint-disable-next-line react/jsx-props-no-spreading
       {...remainingProps}
     />
   );

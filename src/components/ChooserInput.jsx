@@ -1,5 +1,3 @@
-/* global File */
-
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
@@ -11,11 +9,14 @@ const propTypes = {
   children: PropTypes.node,
   chooseButtonLabel: PropTypes.string,
   className: PropTypes.string,
+  // TODO: Stop using propTypes in isInput. Until then, these unused props need to be declared so
+  // this component is recognized as an input.
   /* eslint-disable react/no-unused-prop-types */
   name: PropTypes.string,
   parentPath: pathPropType,
   subpath: pathPropType,
   /* eslint-enable react/no-unused-prop-types */
+  // eslint-disable-next-line react/forbid-prop-types
   value: PropTypes.any,
   readOnly: PropTypes.bool,
   formatValue: PropTypes.func,
@@ -24,8 +25,17 @@ const propTypes = {
 };
 
 const defaultProps = {
+  children: undefined,
   chooseButtonLabel: 'Select…',
-  formatValue: value => value,
+  className: undefined,
+  name: undefined,
+  parentPath: undefined,
+  subpath: undefined,
+  value: undefined,
+  readOnly: undefined,
+  formatValue: (value) => value,
+  onChooseButtonClick: undefined,
+  onDrop: undefined,
 };
 
 export default class ChooserInput extends Component {
@@ -135,20 +145,22 @@ export default class ChooserInput extends Component {
 
     return (
       // Allow click/drag/drop events on the file info div.
-      /* eslint-disable jsx-a11y/no-static-element-interactions */
       <div
         className={classes}
       >
         {children}
         {chooseButton}
+        {/* The choose button provides keyboard accessibility -- clicking on the file info
+          * container is just an extra convenience -- so no key event should be required. */}
+        {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events */}
         <div
           onClick={readOnly ? undefined : onChooseButtonClick}
+          // eslint-disable-next-line react/jsx-props-no-spreading
           {...dragDropProps}
         >
           {formattedValue}
         </div>
       </div>
-      /* eslint-enable jsx-a11y/no-static-element-interactions */
     );
   }
 }

@@ -8,12 +8,16 @@ const propTypes = {
   children: PropTypes.node,
   embedded: PropTypes.bool,
   renderLabel: PropTypes.func,
-  sortableFields: PropTypes.object,
+  sortableFields: PropTypes.objectOf(PropTypes.bool),
   onSortButtonClick: PropTypes.func,
 };
 
 const defaultProps = {
-  renderLabel: input => normalizeLabel(input.props.label),
+  children: undefined,
+  embedded: undefined,
+  renderLabel: (input) => normalizeLabel(input.props.label),
+  sortableFields: undefined,
+  onSortButtonClick: undefined,
 };
 
 export default function InputTableHeader(props) {
@@ -26,9 +30,9 @@ export default function InputTableHeader(props) {
   } = props;
 
   const inputs = extractInputs(children);
-  const labels = inputs.map(input => renderLabel(input));
+  const labels = inputs.map((input) => renderLabel(input));
 
-  if (!labels.some(label => !!label)) {
+  if (!labels.some((label) => !!label)) {
     return null;
   }
 

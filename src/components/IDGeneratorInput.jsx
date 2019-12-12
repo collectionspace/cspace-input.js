@@ -12,8 +12,15 @@ import styles from '../../styles/cspace-input/IDGeneratorInput.css';
 const DropdownInput = committable(changeable(BaseDropdownInput));
 
 const propTypes = {
+  // TODO: Stop using propTypes in isInput, and in render method of cspace-ui Field component.
+  // Until then, propTypes need to be hoisted from the base component.
+  // eslint-disable-next-line react/forbid-foreign-prop-types
   ...DropdownInput.propTypes,
-  patterns: PropTypes.array,
+  patterns: PropTypes.arrayOf(PropTypes.shape({
+    name: PropTypes.string,
+    type: PropTypes.string,
+    sample: PropTypes.string,
+  })),
   generateID: PropTypes.func,
   sampleColumnLabel: PropTypes.string,
   typeColumnLabel: PropTypes.string,
@@ -24,11 +31,15 @@ const propTypes = {
 
 const defaultProps = {
   patterns: [],
+  generateID: undefined,
   sampleColumnLabel: 'Sample',
   typeColumnLabel: 'Type',
+  readOnly: undefined,
+  onMount: undefined,
+  onOpen: undefined,
 };
 
-const renderItemLabel = label => (
+const renderItemLabel = (label) => (
   <Row>
     <div>{label[0]}</div>
     <div>{label[1]}</div>
@@ -118,35 +129,39 @@ export default class IDGeneratorInput extends Component {
     } = this.state;
 
     const {
+      generateID,
+      onMount,
+      onOpen,
       patterns,
       sampleColumnLabel,
       typeColumnLabel,
       readOnly,
-      /* eslint-disable no-unused-vars */
-      generateID,
-      onMount,
-      onOpen,
-      /* eslint-enable no-unused-vars */
       ...remainingProps
     } = this.props;
+
+    const {
+      embedded,
+      value,
+    } = remainingProps;
 
     if (readOnly) {
       return (
         <LineInput
+          embedded={embedded}
           readOnly
-          value={this.props.value}
-          embedded={this.props.embedded}
+          value={value}
         />
       );
     }
 
-    const options = patterns.map(pattern => ({
+    const options = patterns.map((pattern) => ({
       value: pattern.name,
       label: [pattern.type, pattern.sample],
     }));
 
     return (
       <DropdownInput
+        // eslint-disable-next-line react/jsx-props-no-spreading
         {...remainingProps}
         className={styles.normal}
         focusPopup={this.focusMenu}

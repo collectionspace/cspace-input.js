@@ -9,7 +9,7 @@ import FilteringDropdownMenuInput from '../../../src/components/FilteringDropdow
 import AutocompleteInput from '../../../src/components/AutocompleteInput';
 import createTestContainer from '../../helpers/createTestContainer';
 
-const expect = chai.expect;
+const { expect } = chai;
 
 chai.should();
 
@@ -100,12 +100,12 @@ const newTermMatches = Immutable.fromJS({
 
 const findTestDelay = 600;
 
-describe('AutocompleteInput', function suite() {
+describe('AutocompleteInput', () => {
   beforeEach(function before() {
     this.container = createTestContainer(this);
   });
 
-  it('should render as a FilteringDropdownMenuInput', function test() {
+  it('should render as a FilteringDropdownMenuInput', () => {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(<AutocompleteInput source="" />, context);
@@ -122,7 +122,8 @@ describe('AutocompleteInput', function suite() {
       <AutocompleteInput
         source="person/local"
         value={value}
-      />, this.container);
+      />, this.container,
+    );
 
     const input = this.container.querySelector('input');
 
@@ -136,7 +137,8 @@ describe('AutocompleteInput', function suite() {
       <AutocompleteInput
         source="person/local"
         recordTypes={recordTypes}
-      />, this.container);
+      />, this.container,
+    );
 
     const input = this.container.querySelector('input');
 
@@ -152,43 +154,43 @@ describe('AutocompleteInput', function suite() {
         resolve();
       }, findTestDelay);
     })
-    .then(() => new Promise((resolve) => {
-      input.value = '1';
+      .then(() => new Promise((resolve) => {
+        input.value = '1';
 
-      Simulate.change(input);
+        Simulate.change(input);
 
-      window.setTimeout(() => {
-        menuHeader = this.container.querySelector('.cspace-layout-Popup--common > header');
-        menuHeader.textContent.should.match(/^Continue typing/);
+        window.setTimeout(() => {
+          menuHeader = this.container.querySelector('.cspace-layout-Popup--common > header');
+          menuHeader.textContent.should.match(/^Continue typing/);
 
-        resolve();
-      }, findTestDelay);
-    }))
-    .then(() => new Promise((resolve) => {
-      input.value = '12';
+          resolve();
+        }, findTestDelay);
+      }))
+      .then(() => new Promise((resolve) => {
+        input.value = '12';
 
-      Simulate.change(input);
+        Simulate.change(input);
 
-      window.setTimeout(() => {
-        menuHeader = this.container.querySelector('.cspace-layout-Popup--common > header');
-        menuHeader.textContent.should.match(/^Continue typing/);
+        window.setTimeout(() => {
+          menuHeader = this.container.querySelector('.cspace-layout-Popup--common > header');
+          menuHeader.textContent.should.match(/^Continue typing/);
 
-        resolve();
-      }, findTestDelay);
-    }))
-    .then(() => new Promise((resolve) => {
-      input.value = '123';
+          resolve();
+        }, findTestDelay);
+      }))
+      .then(() => new Promise((resolve) => {
+        input.value = '123';
 
-      Simulate.change(input);
+        Simulate.change(input);
 
 
-      window.setTimeout(() => {
-        menuHeader = this.container.querySelector('.cspace-layout-Popup--common > header');
-        menuHeader.textContent.should.match(/^No matching terms/);
+        window.setTimeout(() => {
+          menuHeader = this.container.querySelector('.cspace-layout-Popup--common > header');
+          menuHeader.textContent.should.match(/^No matching terms/);
 
-        resolve();
-      }, findTestDelay);
-    }));
+          resolve();
+        }, findTestDelay);
+      }));
   });
 
   it('should show a quick add menu when the minimum number of characters is entered', function test() {
@@ -196,7 +198,8 @@ describe('AutocompleteInput', function suite() {
       <AutocompleteInput
         source="person/local"
         recordTypes={recordTypes}
-      />, this.container);
+      />, this.container,
+    );
 
     const input = this.container.querySelector('input');
 
@@ -221,7 +224,8 @@ describe('AutocompleteInput', function suite() {
         source="person/local"
         recordTypes={recordTypes}
         showQuickAdd={false}
-      />, this.container);
+      />, this.container,
+    );
 
     const input = this.container.querySelector('input');
 
@@ -246,7 +250,8 @@ describe('AutocompleteInput', function suite() {
         source="person/local"
         matches={johMatches}
         recordTypes={recordTypes}
-      />, this.container);
+      />, this.container,
+    );
 
     const input = this.container.querySelector('input');
 
@@ -282,7 +287,8 @@ describe('AutocompleteInput', function suite() {
         source="person/local"
         recordTypes={recordTypes}
         findMatchingTerms={findMatchingTerms}
-      />, this.container);
+      />, this.container,
+    );
 
     const input = this.container.querySelector('input');
 
@@ -317,7 +323,8 @@ describe('AutocompleteInput', function suite() {
         source="person/local"
         recordTypes={recordTypes}
         findMatchingTerms={findMatchingTerms}
-      />, this.container);
+      />, this.container,
+    );
 
     const input = this.container.querySelector('input');
 
@@ -334,15 +341,15 @@ describe('AutocompleteInput', function suite() {
         resolve();
       }, 100);
     })
-    .then(() => new Promise((resolve) => {
-      window.setTimeout(() => {
-        findSource.should.equal('person/local');
-        findPartialTerm.should.equal('def');
-        findMatchingTermsCallCount.should.equal(1);
+      .then(() => new Promise((resolve) => {
+        window.setTimeout(() => {
+          findSource.should.equal('person/local');
+          findPartialTerm.should.equal('def');
+          findMatchingTermsCallCount.should.equal(1);
 
-        resolve();
-      }, findTestDelay);
-    }));
+          resolve();
+        }, findTestDelay);
+      }));
   });
 
   it('should call onCommit when a value is committed', function test() {
@@ -362,7 +369,8 @@ describe('AutocompleteInput', function suite() {
         matches={johMatches}
         recordTypes={recordTypes}
         onCommit={handleCommit}
-      />, this.container);
+      />, this.container,
+    );
 
     const input = this.container.querySelector('input');
 
@@ -402,7 +410,8 @@ describe('AutocompleteInput', function suite() {
         matches={johMatches}
         recordTypes={recordTypes}
         onCommit={handleCommit}
-      />, this.container);
+      />, this.container,
+    );
 
     const input = this.container.querySelector('input');
 
@@ -420,7 +429,8 @@ describe('AutocompleteInput', function suite() {
             matches={newTermMatches}
             recordTypes={recordTypes}
             onCommit={handleCommit}
-          />, this.container);
+          />, this.container,
+        );
 
         committedPath.should.deep.equal(['collectionobjects_common', 'owner']);
         committedValue.should.equal('urn:cspace:core.collectionspace.org:personauthorities:name(person):item:name(JohnDoe)\'John Doe\'');
@@ -438,7 +448,8 @@ describe('AutocompleteInput', function suite() {
         source="person/local"
         matches={johMatches}
         recordTypes={recordTypes}
-      />, this.container);
+      />, this.container,
+    );
 
     const input = this.container.querySelector('input');
 
@@ -455,7 +466,8 @@ describe('AutocompleteInput', function suite() {
             source="person/local"
             matches={janMatches}
             recordTypes={recordTypes}
-          />, this.container);
+          />, this.container,
+        );
 
         const menu = this.container.querySelector('.cspace-input-Menu--common');
         const items = menu.querySelectorAll('li');
@@ -475,7 +487,8 @@ describe('AutocompleteInput', function suite() {
       <AutocompleteInput
         value={value}
         readOnly
-      />, this.container);
+      />, this.container,
+    );
 
     const input = this.container.firstElementChild;
 
@@ -492,7 +505,8 @@ describe('AutocompleteInput', function suite() {
         source="person/local,person/ulan"
         matches={samMatches}
         recordTypes={recordTypes}
-      />, this.container);
+      />, this.container,
+    );
 
     const input = this.container.querySelector('input');
 
@@ -509,7 +523,8 @@ describe('AutocompleteInput', function suite() {
             source="person/local,person/ulan"
             matches={samMatches}
             recordTypes={recordTypes}
-          />, this.container);
+          />, this.container,
+        );
 
         resolve();
       }, findTestDelay);
@@ -524,7 +539,8 @@ describe('AutocompleteInput', function suite() {
         source="person/local,person/ulan"
         matches={samMatches}
         recordTypes={recordTypes}
-      />, this.container);
+      />, this.container,
+    );
 
     const input = this.container.querySelector('input');
 
@@ -557,7 +573,8 @@ describe('AutocompleteInput', function suite() {
         name="owner"
         source="person/local,person/ulan"
         recordTypes={recordTypes}
-      />, this.container);
+      />, this.container,
+    );
 
     const input = this.container.querySelector('input');
 
@@ -591,7 +608,8 @@ describe('AutocompleteInput', function suite() {
         source="person/local,person/ulan"
         recordTypes={recordTypes}
         matches={samMatches}
-      />, this.container);
+      />, this.container,
+    );
 
     const input = this.container.querySelector('input');
 
@@ -630,7 +648,8 @@ describe('AutocompleteInput', function suite() {
         source="person/local,person/ulan"
         recordTypes={recordTypes}
         matches={samMatches}
-      />, this.container);
+      />, this.container,
+    );
 
     const input = this.container.querySelector('input');
 
@@ -670,7 +689,8 @@ describe('AutocompleteInput', function suite() {
         source="person/local,person/ulan"
         recordTypes={recordTypes}
         matches={samMatches}
-      />, this.container);
+      />, this.container,
+    );
 
     const input = this.container.querySelector('input');
 
@@ -709,7 +729,8 @@ describe('AutocompleteInput', function suite() {
         source="person/local,person/ulan"
         recordTypes={recordTypes}
         matches={samMatches}
-      />, this.container);
+      />, this.container,
+    );
 
     const input = this.container.querySelector('input');
 

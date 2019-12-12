@@ -19,12 +19,12 @@ const {
 
 chai.should();
 
-describe('exported', function suite() {
+describe('exported', () => {
   beforeEach(function before() {
     this.container = createTestContainer(this);
   });
 
-  describe('CustomCompoundInput', function componentSuite() {
+  describe('CustomCompoundInput', () => {
     it('should render an InputTableRow template and an InputTableHeader label', function test() {
       const tableHeader = (
         <InputTableHeader>
@@ -41,14 +41,15 @@ describe('exported', function suite() {
             <TextInput embedded name="type" />
             <TextInput embedded name="language" />
           </InputTableRow>
-        </CustomCompoundInput>, this.container);
+        </CustomCompoundInput>, this.container,
+      );
 
       this.container.querySelectorAll('label').length.should.equal(3);
       this.container.querySelectorAll('input').length.should.equal(3);
     });
   });
 
-  describe('LineInput', function componentSuite() {
+  describe('LineInput', () => {
     it('should call onCommit when enter is pressed', function test() {
       let committedPath = null;
       let committedValue = null;
@@ -63,10 +64,13 @@ describe('exported', function suite() {
           name="input"
           onCommit={handleCommit}
           subpath="schema_name"
-        />, this.container);
+        />, this.container,
+      );
 
       const input = this.container.firstElementChild;
-      const newValue = input.value = 'New value';
+      const newValue = 'New value';
+
+      input.value = newValue;
 
       Simulate.keyPress(input, { key: 'Enter' });
 
@@ -113,7 +117,7 @@ describe('exported', function suite() {
     });
   });
 
-  describe('MultilineInput', function componentSuite() {
+  describe('MultilineInput', () => {
     it('should call onCommit when enter is pressed', function test() {
       let committedPath = null;
       let committedValue = null;
@@ -128,10 +132,13 @@ describe('exported', function suite() {
           name="input"
           onCommit={handleCommit}
           subpath="schema_name"
-        />, this.container);
+        />, this.container,
+      );
 
       const input = this.container.firstElementChild;
-      const newValue = input.value = 'New value line 1\nNew value line 2';
+      const newValue = 'New value line 1\nNew value line 2';
+
+      input.value = newValue;
 
       Simulate.keyPress(input, { key: 'Enter' });
 
@@ -178,7 +185,7 @@ describe('exported', function suite() {
     });
   });
 
-  describe('PasswordInput', function componentSuite() {
+  describe('PasswordInput', () => {
     it('should call onCommit when enter is pressed', function test() {
       let committedPath = null;
       let committedValue = null;
@@ -189,10 +196,13 @@ describe('exported', function suite() {
       };
 
       render(
-        <PasswordInput name="input" onCommit={handleCommit} />, this.container);
+        <PasswordInput name="input" onCommit={handleCommit} />, this.container,
+      );
 
       const input = this.container.firstElementChild;
-      const newValue = input.value = 'New value';
+      const newValue = 'New value';
+
+      input.value = newValue;
 
       Simulate.keyPress(input, { key: 'Enter' });
 
@@ -239,12 +249,13 @@ describe('exported', function suite() {
     });
   });
 
-  describe('TabularCompoundInput', function componentSuite() {
+  describe('TabularCompoundInput', () => {
     it('should render outer and inner labels', function test() {
       render(
         <TabularCompoundInput label="Compound input label">
           <TextInput name="objectNumber" label="Inner label" />
-        </TabularCompoundInput>, this.container);
+        </TabularCompoundInput>, this.container,
+      );
 
       const labels = this.container.querySelectorAll('label');
 
@@ -256,7 +267,8 @@ describe('exported', function suite() {
       render(
         <TabularCompoundInput>
           <TextInput name="objectNumber" />
-        </TabularCompoundInput>, this.container);
+        </TabularCompoundInput>, this.container,
+      );
 
       const labels = this.container.querySelectorAll('label');
 

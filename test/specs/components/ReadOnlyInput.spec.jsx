@@ -11,12 +11,12 @@ chai.should();
 
 const expectedClassName = 'cspace-input-ReadOnlyInput--normal cspace-input-ReadOnlyInput--common cspace-input-Input--common';
 
-describe('ReadOnlyInput', function suite() {
+describe('ReadOnlyInput', () => {
   beforeEach(function before() {
     this.container = createTestContainer(this);
   });
 
-  it('should be considered an input by isInput()', function test() {
+  it('should be considered an input by isInput()', () => {
     isInput(<ReadOnlyInput />).should.equal(true);
   });
 
@@ -39,8 +39,10 @@ describe('ReadOnlyInput', function suite() {
     render(<ReadOnlyInput value={value} />, this.container);
 
     const measuringStick = createInvisible('div');
+
     measuringStick.className = expectedClassName;
-    measuringStick.textContent = parts[0];
+
+    [measuringStick.textContent] = parts;
 
     this.container.firstElementChild.textContent.should.equal(value);
 

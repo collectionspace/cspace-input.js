@@ -8,13 +8,13 @@ import createTestContainer from '../../helpers/createTestContainer';
 
 import Menu from '../../../src/components/Menu';
 
-const expect = chai.expect;
+const { expect } = chai;
 
 chai.should();
 
 const expectedClassName = 'cspace-input-Menu--common cspace-input-Input--common';
 
-describe('Menu', function suite() {
+describe('Menu', () => {
   beforeEach(function before() {
     this.container = createTestContainer(this);
   });
@@ -94,13 +94,14 @@ describe('Menu', function suite() {
       { value: 'value3', label: 'Label 3' },
     ];
 
-    const renderItemLabel = label => `rendered ${label}`;
+    const renderItemLabel = (label) => `rendered ${label}`;
 
     render(
       <Menu
         options={options}
         renderItemLabel={renderItemLabel}
-      />, this.container);
+      />, this.container,
+    );
 
     const listItems = this.container.firstElementChild.querySelectorAll('li');
 
@@ -120,7 +121,8 @@ describe('Menu', function suite() {
       <Menu
         options={options}
         value="value2"
-      />, this.container);
+      />, this.container,
+    );
 
     const listItems = this.container.firstElementChild.querySelectorAll('li');
 
@@ -138,7 +140,8 @@ describe('Menu', function suite() {
       <Menu
         options={options}
         value="value2"
-      />, this.container);
+      />, this.container,
+    );
 
     const listItems = this.container.firstElementChild.querySelectorAll('li');
 
@@ -156,7 +159,8 @@ describe('Menu', function suite() {
       <Menu
         options={options}
         value="value2"
-      />, this.container);
+      />, this.container,
+    );
 
     const listItems = this.container.firstElementChild.querySelectorAll('li');
 
@@ -176,7 +180,8 @@ describe('Menu', function suite() {
         options={options}
         value="value2"
         ignoreDisabledOptions
-      />, this.container);
+      />, this.container,
+    );
 
     const listItems = this.container.firstElementChild.querySelectorAll('li');
 
@@ -195,7 +200,8 @@ describe('Menu', function suite() {
       <Menu
         options={options}
         value="value2"
-      />, this.container);
+      />, this.container,
+    );
 
     const listItems = this.container.firstElementChild.querySelectorAll('li');
 
@@ -213,7 +219,8 @@ describe('Menu', function suite() {
       <Menu
         options={options}
         value="value2"
-      />, this.container);
+      />, this.container,
+    );
 
     const item3 = this.container.firstElementChild.querySelectorAll('li').item(2);
 
@@ -235,7 +242,8 @@ describe('Menu', function suite() {
       <Menu
         options={options}
         value="value2"
-      />, this.container);
+      />, this.container,
+    );
 
     const item3 = this.container.firstElementChild.querySelectorAll('li').item(2);
 
@@ -257,7 +265,8 @@ describe('Menu', function suite() {
         options={options}
         value="value2"
         ignoreDisabledOptions
-      />, this.container);
+      />, this.container,
+    );
 
     const item3 = this.container.firstElementChild.querySelectorAll('li').item(2);
 
@@ -278,7 +287,8 @@ describe('Menu', function suite() {
       <Menu
         options={options}
         value="value2"
-      />, this.container);
+      />, this.container,
+    );
 
     const menu = this.container.firstElementChild;
     const item3 = menu.querySelectorAll('li').item(2);
@@ -306,7 +316,8 @@ describe('Menu', function suite() {
       <Menu
         options={options}
         value="value2"
-      />, this.container);
+      />, this.container,
+    );
 
     const menu = this.container.firstElementChild;
     const item2 = menu.querySelectorAll('li').item(1);
@@ -334,12 +345,14 @@ describe('Menu', function suite() {
     ];
 
     render(
+      // eslint-disable-next-line jsx-a11y/no-static-element-interactions
       <div onMouseDown={handleMouseDown}>
         <Menu
           options={options}
           value="value2"
         />
-      </div>, this.container);
+      </div>, this.container,
+    );
 
     const menu = this.container.firstElementChild;
     const item1 = menu.querySelectorAll('li').item(0);
@@ -367,7 +380,8 @@ describe('Menu', function suite() {
         options={options}
         value="value2"
         onSelect={handleSelect}
-      />, this.container);
+      />, this.container,
+    );
 
     const item3 = this.container.firstElementChild.querySelectorAll('li').item(2);
 
@@ -389,9 +403,11 @@ describe('Menu', function suite() {
       { value: 'value3', label: 'Label 3' },
     ];
 
-    const renderItemLabel = label => (
+    const renderItemLabel = (label) => (
       <div>
-        <span>{label}</span> <span> as child</span>
+        <span>{label}</span>
+        {' '}
+        <span> as child</span>
       </div>
     );
 
@@ -401,7 +417,8 @@ describe('Menu', function suite() {
         renderItemLabel={renderItemLabel}
         value="value2"
         onSelect={handleSelect}
-      />, this.container);
+      />, this.container,
+    );
 
     const item3 = this.container.firstElementChild.querySelectorAll('li').item(2);
     const span = item3.querySelector('span');
@@ -421,7 +438,8 @@ describe('Menu', function suite() {
     render(
       <Menu
         options={options}
-      />, this.container);
+      />, this.container,
+    );
 
     const menu = this.container.firstElementChild;
     const items = this.container.firstElementChild.querySelectorAll('li');
@@ -456,7 +474,8 @@ describe('Menu', function suite() {
     render(
       <Menu
         options={options}
-      />, this.container);
+      />, this.container,
+    );
 
     const menu = this.container.firstElementChild;
     const items = this.container.firstElementChild.querySelectorAll('li');
@@ -499,7 +518,8 @@ describe('Menu', function suite() {
         options={options}
         value="value2"
         onSelect={handleSelect}
-      />, this.container);
+      />, this.container,
+    );
 
     const menu = this.container.firstElementChild;
 
@@ -540,7 +560,8 @@ describe('Menu', function suite() {
     const component = render(
       <Menu
         options={options}
-      />, this.container);
+      />, this.container,
+    );
 
     component.focus(1);
 
@@ -563,7 +584,8 @@ describe('Menu', function suite() {
     const component = render(
       <Menu
         options={options}
-      />, this.container);
+      />, this.container,
+    );
 
     component.focus(0);
 
@@ -587,7 +609,8 @@ describe('Menu', function suite() {
     const component = render(
       <Menu
         options={options}
-      />, this.container);
+      />, this.container,
+    );
 
     component.focus(-1);
 
@@ -619,7 +642,8 @@ describe('Menu', function suite() {
     render(
       <Menu
         options={options}
-      />, this.container);
+      />, this.container,
+    );
 
     const listItems = this.container.firstElementChild.querySelectorAll('li');
 
@@ -634,7 +658,8 @@ describe('Menu', function suite() {
     render(
       <Menu
         options={options}
-      />, this.container);
+      />, this.container,
+    );
 
     const updatedListItems = this.container.firstElementChild.querySelectorAll('li');
 
@@ -666,7 +691,8 @@ describe('Menu', function suite() {
     render(
       <Menu
         options={options}
-      />, this.container);
+      />, this.container,
+    );
 
     const list = this.container.querySelector('ul');
 
@@ -694,7 +720,8 @@ describe('Menu', function suite() {
     render(
       <Menu
         options={options}
-      />, this.container);
+      />, this.container,
+    );
 
     const menu = this.container.firstElementChild;
     const listItems = menu.querySelectorAll('li');
@@ -732,7 +759,8 @@ describe('Menu', function suite() {
     render(
       <Menu
         options={options}
-      />, this.container);
+      />, this.container,
+    );
 
     const menu = this.container.firstElementChild;
 
@@ -742,7 +770,7 @@ describe('Menu', function suite() {
       Simulate.keyDown(menu, { key: 'ArrowDown' });
     }
 
-    const scrollTop = menu.scrollTop;
+    const { scrollTop } = menu;
 
     scrollTop.should.be.above(0);
 
@@ -775,7 +803,8 @@ describe('Menu', function suite() {
     render(
       <Menu
         options={options}
-      />, this.container);
+      />, this.container,
+    );
 
     const menu = this.container.firstElementChild;
     const listItems = menu.querySelectorAll('li');
@@ -812,7 +841,8 @@ describe('Menu', function suite() {
       <Menu
         options={options}
         onBeforeItemFocusChange={handler}
-      />, this.container);
+      />, this.container,
+    );
 
     const menu = this.container.firstElementChild;
 
@@ -839,7 +869,8 @@ describe('Menu', function suite() {
       <Menu
         options={options}
         onBeforeItemFocusChange={handler}
-      />, this.container);
+      />, this.container,
+    );
 
     const menu = this.container.firstElementChild;
 
@@ -873,7 +904,8 @@ describe('Menu', function suite() {
         options={options}
         value="value2"
         onItemMouseEnter={handleItemMouseEnter}
-      />, this.container);
+      />, this.container,
+    );
 
     const item2 = this.container.firstElementChild.querySelectorAll('li').item(1);
     const item3 = this.container.firstElementChild.querySelectorAll('li').item(2);
@@ -909,7 +941,8 @@ describe('Menu', function suite() {
         options={options}
         value="value2"
         onItemMouseLeave={handleItemMouseLeave}
-      />, this.container);
+      />, this.container,
+    );
 
     const item2 = this.container.firstElementChild.querySelectorAll('li').item(1);
     const item3 = this.container.firstElementChild.querySelectorAll('li').item(2);

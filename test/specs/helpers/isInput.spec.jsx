@@ -6,26 +6,26 @@ import { pathPropType } from '../../../src/helpers/pathHelpers';
 
 chai.should();
 
-describe('isInput', function suite() {
-  it('should return false for an undefined component', function test() {
+describe('isInput', () => {
+  it('should return false for an undefined component', () => {
     isInput().should.equal(false);
   });
 
-  it('should return false for a null component', function test() {
+  it('should return false for a null component', () => {
     isInput(null).should.equal(false);
   });
 
-  it('should return false for a component with no type', function test() {
+  it('should return false for a component with no type', () => {
     isInput('hello').should.equal(false);
   });
 
-  it('should return false for a component with no propTypes', function test() {
+  it('should return false for a component with no propTypes', () => {
     const Component = () => null;
 
     isInput(<Component />).should.equal(false);
   });
 
-  it('should return false for a component without all of the required propTypes', function test() {
+  it('should return false for a component without all of the required propTypes', () => {
     const Component = () => null;
 
     Component.propTypes = {
@@ -36,7 +36,7 @@ describe('isInput', function suite() {
     isInput(<Component />).should.equal(false);
   });
 
-  it('should return true for a component with all of the required propTypes', function test() {
+  it('should return true for a component with all of the required propTypes', () => {
     const Component = () => null;
 
     Component.propTypes = {

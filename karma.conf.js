@@ -1,4 +1,3 @@
-/* eslint import/no-extraneous-dependencies: "off" */
 /* eslint no-console: "off" */
 
 const sauceLaunchers = {
@@ -60,9 +59,11 @@ module.exports = function karma(config) {
   let customLaunchers = {};
 
   if (process.env.TRAVIS_BUILD_NUMBER) {
-    if (process.env.TRAVIS_SECURE_ENV_VARS === 'true' &&
-        process.env.SAUCE_USERNAME &&
-        process.env.SAUCE_ACCESS_KEY) {
+    if (
+      process.env.TRAVIS_SECURE_ENV_VARS === 'true'
+      && process.env.SAUCE_USERNAME
+      && process.env.SAUCE_ACCESS_KEY
+    ) {
       // We're on Travis, and Sauce Labs environment variables are available.
       // Run on the Sauce Labs cloud using the full set of browsers.
 
@@ -136,7 +137,16 @@ module.exports = function karma(config) {
             ],
           },
           {
+            test: /react-calendar\/.*\.css$/,
+            use: ['style-loader', 'css-loader'],
+          },
+          {
+            test: /react-quill\/.*\.css$/,
+            use: ['style-loader', 'css-loader'],
+          },
+          {
             test: /\.css$/,
+            exclude: [/react-calendar/, /react-quill/],
             use: [
               {
                 loader: 'style-loader',

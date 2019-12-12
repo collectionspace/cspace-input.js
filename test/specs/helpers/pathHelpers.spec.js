@@ -2,9 +2,9 @@ import { getPath } from '../../../src/helpers/pathHelpers';
 
 chai.should();
 
-describe('pathHelpers', function suite() {
-  describe('getPath', function funcSuite() {
-    it('should concat the parentPath, subpath, and name', function test() {
+describe('pathHelpers', () => {
+  describe('getPath', () => {
+    it('should concat the parentPath, subpath, and name', () => {
       const props = {
         parentPath: 'parentPath',
         subpath: 'subpath',
@@ -14,19 +14,17 @@ describe('pathHelpers', function suite() {
       getPath(props).should.deep.equal(['parentPath', 'subpath', 'name']);
     });
 
-    it('should accept arrays for parentPath and subpath', function test() {
+    it('should accept arrays for parentPath and subpath', () => {
       const props = {
         parentPath: ['parent1', 'parent2'],
         subpath: ['sub1', 'sub2'],
         name: 'name',
       };
 
-      getPath(props).should.deep.equal(
-        ['parent1', 'parent2', 'sub1', 'sub2', 'name']
-      );
+      getPath(props).should.deep.equal(['parent1', 'parent2', 'sub1', 'sub2', 'name']);
     });
 
-    it('should ignore null/undefined/empty parts', function test() {
+    it('should ignore null/undefined/empty parts', () => {
       const props = {
         parentPath: null,
         subpath: '',
@@ -36,7 +34,7 @@ describe('pathHelpers', function suite() {
       getPath(props).should.deep.equal([]);
     });
 
-    it('should ignore empty arrays', function test() {
+    it('should ignore empty arrays', () => {
       const props = {
         parentPath: [],
         subpath: 'sub',

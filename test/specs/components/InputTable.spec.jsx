@@ -9,7 +9,7 @@ const LineInput = labelable(BaseLineInput);
 
 chai.should();
 
-describe('InputTable', function suite() {
+describe('InputTable', () => {
   beforeEach(function before() {
     this.container = createTestContainer(this);
   });
@@ -18,7 +18,8 @@ describe('InputTable', function suite() {
     render(
       <InputTable>
         <LineInput name="input1" label="test" />
-      </InputTable>, this.container);
+      </InputTable>, this.container,
+    );
 
     this.container.firstElementChild.nodeName.should.equal('DIV');
   });
@@ -29,7 +30,8 @@ describe('InputTable', function suite() {
         <LineInput name="input1" label="1" />
         <LineInput name="input2" label="2" />
         <LineInput name="input3" label="3" />
-      </InputTable>, this.container);
+      </InputTable>, this.container,
+    );
 
     const header = this.container.querySelector('.cspace-input-InputTableHeader--common');
 
@@ -62,7 +64,8 @@ describe('InputTable', function suite() {
         <LineInput name="input1" label="1" />
         <LineInput name="input2" label="2" flex="0 0 16px" />
         <LineInput name="input3" label="3" />
-      </InputTable>, this.container);
+      </InputTable>, this.container,
+    );
 
     const header = this.container.querySelector('.cspace-input-InputTableHeader--common');
 

@@ -2,7 +2,10 @@ import React, { Component } from 'react';
 import FilteringDropdownMenuInput from './FilteringDropdownMenuInput';
 import { filterOptionsBySubstring } from '../helpers/optionHelpers';
 
-const propTypes = FilteringDropdownMenuInput.propTypes;
+// TODO: Stop using propTypes in isInput, and in render method of cspace-ui Field component.
+// Until then, propTypes need to be hoisted from the base component.
+// eslint-disable-next-line react/forbid-foreign-prop-types
+const { propTypes } = FilteringDropdownMenuInput;
 
 export default class SubstringFilteringDropdownMenuInput extends Component {
   constructor(props) {
@@ -21,31 +24,41 @@ export default class SubstringFilteringDropdownMenuInput extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    this.setState({
-      filteredOptions: filterOptionsBySubstring(nextProps.options, this.state.substring),
-      value: nextProps.value,
-    });
+    const {
+      options,
+      value,
+    } = nextProps;
+
+    this.setState((prevState) => ({
+      value,
+      filteredOptions: filterOptionsBySubstring(options, prevState.substring),
+    }));
   }
 
   filter(substring) {
+    const {
+      options,
+    } = this.props;
+
     this.setState({
       substring,
-      filteredOptions: filterOptionsBySubstring(this.props.options, substring),
+      filteredOptions: filterOptionsBySubstring(options, substring),
     });
   }
 
   handleDropdownInputCommit(path, value) {
+    const {
+      options,
+      onCommit,
+    } = this.props;
+
     const substring = null;
 
     this.setState({
       substring,
       value,
-      filteredOptions: filterOptionsBySubstring(this.props.options, substring),
+      filteredOptions: filterOptionsBySubstring(options, substring),
     });
-
-    const {
-      onCommit,
-    } = this.props;
 
     if (onCommit) {
       onCommit(path, value);
@@ -54,9 +67,7 @@ export default class SubstringFilteringDropdownMenuInput extends Component {
 
   render() {
     const {
-      /* eslint-disable no-unused-vars */
       options,
-      /* eslint-enable no-unused-vars */
       ...remainingProps
     } = this.props;
 
@@ -67,6 +78,7 @@ export default class SubstringFilteringDropdownMenuInput extends Component {
 
     return (
       <FilteringDropdownMenuInput
+        // eslint-disable-next-line react/jsx-props-no-spreading
         {...remainingProps}
         filter={this.filter}
         options={filteredOptions}

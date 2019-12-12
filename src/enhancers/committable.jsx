@@ -17,6 +17,9 @@ export default function committable(BaseComponent) {
     || 'Component';
 
   const propTypes = {
+    // TODO: Stop using propTypes in isInput, and in render method of cspace-ui Field component.
+    // Until then, propTypes need to be hoisted from the base component.
+    // eslint-disable-next-line react/forbid-foreign-prop-types
     ...BaseComponent.propTypes,
     commitUnchanged: PropTypes.bool,
     readOnly: PropTypes.bool,
@@ -27,6 +30,10 @@ export default function committable(BaseComponent) {
 
   const defaultProps = {
     commitUnchanged: false,
+    readOnly: undefined,
+    onBlur: undefined,
+    onCommit: undefined,
+    onKeyPress: undefined,
   };
 
   class Committable extends Component {
@@ -74,8 +81,11 @@ export default function committable(BaseComponent) {
       } = this.props;
 
       if (
-        onCommit &&
-        (((value || initialValue) && (value !== initialValue)) || commitUnchanged)
+        onCommit
+        && (
+          ((value || initialValue) && (value !== initialValue))
+          || commitUnchanged
+        )
       ) {
         onCommit(getPath(this.props), value);
       }
@@ -83,16 +93,15 @@ export default function committable(BaseComponent) {
 
     render() {
       const {
-        /* eslint-disable no-unused-vars */
         commitUnchanged,
         onCommit,
         onKeyPress,
-        /* eslint-enable no-unused-vars */
         ...remainingProps
       } = this.props;
 
       return (
         <BaseComponent
+          // eslint-disable-next-line react/jsx-props-no-spreading
           {...remainingProps}
           onBlur={this.handleBlur}
           onKeyPress={this.handleKeyPress}

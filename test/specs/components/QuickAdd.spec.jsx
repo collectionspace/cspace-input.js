@@ -7,11 +7,11 @@ import QuickAdd from '../../../src/components/QuickAdd';
 
 import createTestContainer from '../../helpers/createTestContainer';
 
-const expect = chai.expect;
+const { expect } = chai;
 
 chai.should();
 
-describe('QuickAdd', function suite() {
+describe('QuickAdd', () => {
   const recordTypes = {
     person: {
       serviceConfig: {
@@ -58,7 +58,8 @@ describe('QuickAdd', function suite() {
       <QuickAdd
         to="person/person"
         recordTypes={recordTypes}
-      />, this.container);
+      />, this.container,
+    );
 
     this.container.firstElementChild.nodeName.should.equal('DIV');
   });
@@ -68,7 +69,8 @@ describe('QuickAdd', function suite() {
       <QuickAdd
         to="person/person"
         recordTypes={recordTypes}
-      />, this.container);
+      />, this.container,
+    );
 
     this.container.querySelector('li').textContent.should.equal('Local Persons');
   });
@@ -78,7 +80,8 @@ describe('QuickAdd', function suite() {
       <QuickAdd
         to="collectionobject"
         recordTypes={recordTypes}
-      />, this.container);
+      />, this.container,
+    );
 
     this.container.querySelector('li').textContent.should.equal('Objects');
   });
@@ -91,7 +94,8 @@ describe('QuickAdd', function suite() {
         to="person/person"
         formatDestinationName={formatDestinationName}
         recordTypes={recordTypes}
-      />, this.container);
+      />, this.container,
+    );
 
     this.container.querySelector('li').textContent.should.equal('formatDestinationName called');
   });
@@ -101,7 +105,8 @@ describe('QuickAdd', function suite() {
       <QuickAdd
         to="person/person"
         recordTypes={recordTypes}
-      />, this.container);
+      />, this.container,
+    );
 
     this.container.querySelector('div').children[1].className.should.equal('cspace-input-Menu--common cspace-input-Input--common');
   });
@@ -111,7 +116,8 @@ describe('QuickAdd', function suite() {
       <QuickAdd
         to="person/person,badProcedure/xyz"
         recordTypes={recordTypes}
-      />, this.container);
+      />, this.container,
+    );
 
     this.container.querySelectorAll('li').should.have.lengthOf(1);
   });
@@ -121,7 +127,8 @@ describe('QuickAdd', function suite() {
       <QuickAdd
         to="person/person,person/badVocabulary"
         recordTypes={recordTypes}
-      />, this.container);
+      />, this.container,
+    );
 
     this.container.querySelectorAll('li').should.have.lengthOf(1);
   });
@@ -131,7 +138,8 @@ describe('QuickAdd', function suite() {
       <QuickAdd
         to="badProcedure/person,person/badVocabulary"
         recordTypes={recordTypes}
-      />, this.container);
+      />, this.container,
+    );
 
     expect(this.container.firstElementChild).to.equal(null);
   });
@@ -142,7 +150,8 @@ describe('QuickAdd', function suite() {
         to="person/person"
         recordTypes={recordTypes}
         showCloneOption
-      />, this.container);
+      />, this.container,
+    );
 
     const options = this.container.querySelectorAll('.cspace-input-MenuItem--common');
 
@@ -164,7 +173,8 @@ describe('QuickAdd', function suite() {
         add={add}
         to="person/person"
         recordTypes={recordTypes}
-      />, this.container);
+      />, this.container,
+    );
 
     Simulate.click(this.container.querySelector('li'));
 
@@ -179,7 +189,8 @@ describe('QuickAdd', function suite() {
         to="person/person"
         recordTypes={recordTypes}
         ref={(ref) => { quickAddRef = ref; }}
-      />, this.container);
+      />, this.container,
+    );
 
     quickAddRef.focusMenu();
 

@@ -7,7 +7,7 @@ import {
   normalizeOptions,
 } from '../../../src/helpers/optionHelpers';
 
-const expect = chai.expect;
+const { expect } = chai;
 
 chai.should();
 
@@ -28,63 +28,63 @@ const options = [
   { value: 'value2', label: 'Label 14' },
 ];
 
-describe('optionHelpers', function suite() {
-  describe('getOptionForValue', function funcSuite() {
-    it('should return the option that has the given value', function test() {
+describe('optionHelpers', () => {
+  describe('getOptionForValue', () => {
+    it('should return the option that has the given value', () => {
       getOptionForValue(options, 'value8').should.equal(options[7]);
     });
 
-    it('should return undefined if no option has the value', function test() {
+    it('should return undefined if no option has the value', () => {
       expect(getOptionForValue(options, 'foo')).to.equal(undefined);
     });
 
-    it('should use case sensitive comparison', function test() {
+    it('should use case sensitive comparison', () => {
       expect(getOptionForValue(options, 'Value8')).to.equal(undefined);
     });
 
-    it('should return the first option if more than one has the given value', function test() {
+    it('should return the first option if more than one has the given value', () => {
       getOptionForValue(options, 'value2').should.equal(options[1]);
     });
   });
 
-  describe('getLabelForValue', function funcSuite() {
-    it('should return the label of the option that has the given value', function test() {
+  describe('getLabelForValue', () => {
+    it('should return the label of the option that has the given value', () => {
       getLabelForValue(options, 'value8').should.equal('Label 8');
     });
 
-    it('should return undefined if no option has the value', function test() {
+    it('should return undefined if no option has the value', () => {
       expect(getLabelForValue(options, 'foo')).to.equal(undefined);
     });
 
-    it('should use case sensitive comparison', function test() {
+    it('should use case sensitive comparison', () => {
       expect(getLabelForValue(options, 'Value8')).to.equal(undefined);
     });
 
-    it('should return the first option if more than one has the given value', function test() {
+    it('should return the first option if more than one has the given value', () => {
       getLabelForValue(options, 'value2').should.equal('Label 2');
     });
   });
 
-  describe('getOptionForLabel', function funcSuite() {
-    it('should return the option that has the given label', function test() {
+  describe('getOptionForLabel', () => {
+    it('should return the option that has the given label', () => {
       getOptionForLabel(options, 'Label 13').should.equal(options[12]);
     });
 
-    it('should return undefined if no option has the label', function test() {
+    it('should return undefined if no option has the label', () => {
       expect(getOptionForLabel(options, 'Foo')).to.equal(undefined);
     });
 
-    it('should use case insensitive comparison', function test() {
+    it('should use case insensitive comparison', () => {
       expect(getOptionForLabel(options, 'LABEL 7')).to.equal(options[6]);
     });
 
-    it('should return the first option if more than one has the given label', function test() {
+    it('should return the first option if more than one has the given label', () => {
       getOptionForLabel(options, 'Label 2').should.equal(options[1]);
     });
   });
 
-  describe('filterOptionsByPrefix', function funcSuite() {
-    it('should return an array of options whose labels start with the given filter', function test() {
+  describe('filterOptionsByPrefix', () => {
+    it('should return an array of options whose labels start with the given filter', () => {
       filterOptionsByPrefix(options, 'Label 1').should.deep.equal([
         options[0],
         options[9],
@@ -94,7 +94,7 @@ describe('optionHelpers', function suite() {
       ]);
     });
 
-    it('should use case insensitive comparison', function test() {
+    it('should use case insensitive comparison', () => {
       filterOptionsByPrefix(options, 'LABEL 1').should.deep.equal([
         options[0],
         options[9],
@@ -104,15 +104,15 @@ describe('optionHelpers', function suite() {
       ]);
     });
 
-    it('should return all options when filter is empty, null, or undefined', function test() {
+    it('should return all options when filter is empty, null, or undefined', () => {
       filterOptionsByPrefix(options, '').should.equal(options);
       filterOptionsByPrefix(options, null).should.equal(options);
       filterOptionsByPrefix(options).should.equal(options);
     });
   });
 
-  describe('filterOptionsBySubstring', function funcSuite() {
-    it('should return an array of options whose labels contain the given filter', function test() {
+  describe('filterOptionsBySubstring', () => {
+    it('should return an array of options whose labels contain the given filter', () => {
       filterOptionsBySubstring(options, 'bel 1').should.deep.equal([
         options[0],
         options[9],
@@ -122,7 +122,7 @@ describe('optionHelpers', function suite() {
       ]);
     });
 
-    it('should use case insensitive comparison', function test() {
+    it('should use case insensitive comparison', () => {
       filterOptionsBySubstring(options, 'BEL 1').should.deep.equal([
         options[0],
         options[9],
@@ -132,14 +132,14 @@ describe('optionHelpers', function suite() {
       ]);
     });
 
-    it('should return all options when filter is empty, null, or undefined', function test() {
+    it('should return all options when filter is empty, null, or undefined', () => {
       filterOptionsBySubstring(options, '').should.equal(options);
       filterOptionsBySubstring(options, null).should.equal(options);
       filterOptionsBySubstring(options).should.equal(options);
     });
   });
 
-  describe('normalizeOptions', function funcSuite() {
+  describe('normalizeOptions', () => {
     const uglyOptions = [
       { value: 'value1', label: 'Label 1' },
       { value: 'value2', label: '', disabled: false },
@@ -148,7 +148,7 @@ describe('optionHelpers', function suite() {
       { value: 'value5', label: undefined },
     ];
 
-    it('should set null and undefined labels to the value, and normalize disabled settings', function test() {
+    it('should set null and undefined labels to the value, and normalize disabled settings', () => {
       normalizeOptions(uglyOptions).should.deep.equal([
         { value: 'value1', label: 'Label 1' },
         { value: 'value2', label: '' },
@@ -158,7 +158,7 @@ describe('optionHelpers', function suite() {
       ]);
     });
 
-    it('should add an empty option when blankable is true', function test() {
+    it('should add an empty option when blankable is true', () => {
       normalizeOptions(uglyOptions, true).should.deep.equal([
         { value: '', label: '' },
         { value: 'value1', label: 'Label 1' },
@@ -169,7 +169,7 @@ describe('optionHelpers', function suite() {
       ]);
     });
 
-    it('should not add an empty option when blankable is false', function test() {
+    it('should not add an empty option when blankable is false', () => {
       normalizeOptions(uglyOptions, false).should.deep.equal([
         { value: 'value1', label: 'Label 1' },
         { value: 'value2', label: '' },
@@ -179,7 +179,7 @@ describe('optionHelpers', function suite() {
       ]);
     });
 
-    it('should return an empty array when options is null or undefined', function test() {
+    it('should return an empty array when options is null or undefined', () => {
       normalizeOptions(null).should.deep.equal([]);
       normalizeOptions(undefined).should.deep.equal([]);
     });

@@ -5,23 +5,26 @@ export const isInput = (component) => {
     return false;
   }
 
-  const type = component.type;
+  const { type } = component;
 
   if (!type) {
     return false;
   }
 
-  const propTypes = type.propTypes;
+  // TODO: Stop looking at propTypes to determine if a component is a cspace-input input, so that
+  // propTypes may be removed in production builds. Use a property on the function/class instead.
+  // eslint-disable-next-line react/forbid-foreign-prop-types
+  const { propTypes } = type;
 
   if (!propTypes) {
     return false;
   }
 
   return (
-    'name' in propTypes &&
-    'value' in propTypes &&
-    'parentPath' in propTypes &&
-    'subpath' in propTypes
+    'name' in propTypes
+    && 'value' in propTypes
+    && 'parentPath' in propTypes
+    && 'subpath' in propTypes
   );
 };
 

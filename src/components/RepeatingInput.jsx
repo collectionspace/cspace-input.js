@@ -9,6 +9,50 @@ import miniButtonContainerStyles from '../../styles/cspace-input/MiniButtonConta
 import moveToTopButtonStyles from '../../styles/cspace-input/MoveToTopButton.css';
 import styles from '../../styles/cspace-input/RepeatingInput.css';
 
+const propTypes = {
+  children: PropTypes.node,
+  name: PropTypes.string,
+  /* eslint-disable react/no-unused-prop-types */
+  parentPath: pathPropType,
+  subpath: pathPropType,
+  /* eslint-enable react/no-unused-prop-types */
+  value: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.object,
+    PropTypes.instanceOf(Immutable.List),
+    PropTypes.arrayOf(PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.object,
+    ])),
+  ]),
+  readOnly: PropTypes.bool,
+  asText: PropTypes.bool,
+  reorderable: PropTypes.bool,
+  disableRemoveButton: PropTypes.func,
+  renderOrderIndicator: PropTypes.func,
+  onAddInstance: PropTypes.func,
+  onCommit: PropTypes.func,
+  onMoveInstance: PropTypes.func,
+  onRemoveInstance: PropTypes.func,
+};
+
+const defaultProps = {
+  children: undefined,
+  name: undefined,
+  parentPath: undefined,
+  subpath: undefined,
+  value: undefined,
+  readOnly: undefined,
+  asText: undefined,
+  reorderable: true,
+  disableRemoveButton: undefined,
+  renderOrderIndicator: undefined,
+  onAddInstance: undefined,
+  onCommit: undefined,
+  onMoveInstance: undefined,
+  onRemoveInstance: undefined,
+};
+
 const normalizeValue = (value) => {
   const defaultValue = [undefined];
 
@@ -33,36 +77,7 @@ const normalizeValue = (value) => {
   return normalized;
 };
 
-const renderHeader = label => label;
-
-const propTypes = {
-  children: PropTypes.node,
-  name: PropTypes.string,
-  parentPath: pathPropType, // eslint-disable-line react/no-unused-prop-types
-  subpath: pathPropType,    // eslint-disable-line react/no-unused-prop-types
-  value: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.object,
-    PropTypes.instanceOf(Immutable.List),
-    PropTypes.arrayOf(PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.object,
-    ])),
-  ]),
-  readOnly: PropTypes.bool,
-  asText: PropTypes.bool,
-  reorderable: PropTypes.bool,
-  disableRemoveButton: PropTypes.func,
-  renderOrderIndicator: PropTypes.func,
-  onAddInstance: PropTypes.func,
-  onCommit: PropTypes.func,
-  onMoveInstance: PropTypes.func,
-  onRemoveInstance: PropTypes.func,
-};
-
-const defaultProps = {
-  reorderable: true,
-};
+const renderHeader = (label) => label;
 
 export default class RepeatingInput extends Component {
   constructor(props) {
@@ -299,8 +314,8 @@ export default class RepeatingInput extends Component {
               data-instancename={instanceName}
               data-name="remove"
               disabled={
-                list.length < 2 ||
-                (disableRemoveButton && disableRemoveButton(instanceValue))
+                list.length < 2
+                || (disableRemoveButton && disableRemoveButton(instanceValue))
               }
               onClick={this.handleRemoveButtonClick}
             >
@@ -313,6 +328,10 @@ export default class RepeatingInput extends Component {
       return (
         <div
           data-instancename={instanceName}
+          // It's unclear what can be used as a unique key here. It might be safe to use value? But
+          // value isn't necessarily a string, so it would have to be JSON.stringify(value), which
+          // could be really inefficient.
+          // eslint-disable-next-line react/no-array-index-key
           key={index}
         >
           {orderIndicator}

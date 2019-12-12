@@ -14,16 +14,27 @@ const propTypes = {
   subpath: pathPropType,
   /* eslint-enable react/no-unused-prop-types */
   readOnly: PropTypes.bool,
-  transition: PropTypes.object,
+  transition: PropTypes.objectOf(PropTypes.bool),
   trueLabel: PropTypes.string,
   falseLabel: PropTypes.string,
   indeterminateLabel: PropTypes.string,
-  value: PropTypes.any,
+  value: PropTypes.oneOfType([
+    PropTypes.bool,
+    PropTypes.string,
+    PropTypes.number,
+  ]),
   onCommit: PropTypes.func,
   onClick: PropTypes.func,
 };
 
 const defaultProps = {
+  asText: undefined,
+  className: undefined,
+  embedded: undefined,
+  name: undefined,
+  parentPath: undefined,
+  subpath: undefined,
+  readOnly: undefined,
   transition: {
     null: true,
     true: false,
@@ -32,6 +43,9 @@ const defaultProps = {
   trueLabel: 'yes',
   falseLabel: 'no',
   indeterminateLabel: 'indeterminate',
+  value: undefined,
+  onCommit: undefined,
+  onClick: undefined,
 };
 
 export default class CheckboxInput extends Component {
@@ -61,19 +75,17 @@ export default class CheckboxInput extends Component {
       asText,
       className,
       embedded,
+      name,
+      parentPath,
       readOnly,
+      subpath,
+      transition,
       value,
       trueLabel,
       falseLabel,
       indeterminateLabel,
       onClick,
-      /* eslint-disable no-unused-vars */
-      name,
-      parentPath,
-      subpath,
-      transition,
       onCommit,
-      /* eslint-enable no-unused-vars */
       ...remainingProps
     } = this.props;
 
@@ -104,9 +116,12 @@ export default class CheckboxInput extends Component {
       );
     }
 
-    // FIXME: Don't break these lint rules.
+    // FIXME: Don't break jsx-a11y/label-has-associated-control.
 
-    /* eslint-disable jsx-a11y/label-has-for, jsx-a11y/no-static-element-interactions */
+    /* eslint-disable
+       jsx-a11y/label-has-associated-control,
+       jsx-a11y/no-noninteractive-element-interactions,
+       jsx-a11y/click-events-have-key-events */
     return (
       <label className={classes} onClick={onClick}>
         <input
@@ -115,15 +130,18 @@ export default class CheckboxInput extends Component {
           disabled={readOnly}
           type="checkbox"
           onChange={this.handleChange}
+          // eslint-disable-next-line react/jsx-props-no-spreading
           {...remainingProps}
         />
         <span />
       </label>
     );
-    /* eslint-enable jsx-a11y/label-has-for, jsx-a11y/no-static-element-interactions */
+    /* eslint-enable
+       jsx-a11y/label-has-associated-control,
+       jsx-a11y/no-noninteractive-element-interactions,
+       jsx-a11y/click-events-have-key-events */
   }
 }
 
 CheckboxInput.propTypes = propTypes;
 CheckboxInput.defaultProps = defaultProps;
-

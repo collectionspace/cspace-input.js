@@ -1,15 +1,14 @@
 import React from 'react';
 import { createRenderer } from 'react-test-renderer/shallow';
-
 import Menu from '../../../src/components/Menu';
 import { normalizeOptions } from '../../../src/helpers/optionHelpers';
 import withNormalizedOptions from '../../../src/enhancers/withNormalizedOptions';
 
 chai.should();
 
-describe('withNormalizedOptions', function suite() {
-  context('enhanced component', function context() {
-    it('should lift propTypes from the base component', function test() {
+describe('withNormalizedOptions', () => {
+  context('enhanced component', () => {
+    it('should lift propTypes from the base component', () => {
       const StubComponent = () => null;
 
       StubComponent.propTypes = {
@@ -19,18 +18,11 @@ describe('withNormalizedOptions', function suite() {
 
       const EnhancedComponent = withNormalizedOptions(StubComponent);
 
+      // eslint-disable-next-line react/forbid-foreign-prop-types
       EnhancedComponent.propTypes.should.include.keys(Object.keys(StubComponent.propTypes));
     });
 
-    it('should accept blankable prop', function test() {
-      withNormalizedOptions('input').propTypes.should.include.keys(['blankable']);
-    });
-
-    it('should accept options prop', function test() {
-      withNormalizedOptions('input').propTypes.should.include.keys(['options']);
-    });
-
-    it('should not pass the blankable prop to the base component', function test() {
+    it('should not pass the blankable prop to the base component', () => {
       const StubComponent = () => null;
       const EnhancedComponent = withNormalizedOptions(StubComponent);
       const shallowRenderer = createRenderer();
@@ -40,7 +32,7 @@ describe('withNormalizedOptions', function suite() {
       result.props.should.not.include.keys('blankable');
     });
 
-    it('should normalize options before passing them to the base component', function test() {
+    it('should normalize options before passing them to the base component', () => {
       const EnhancedComponent = withNormalizedOptions(Menu);
       const shallowRenderer = createRenderer();
       const blankable = false;
@@ -54,13 +46,13 @@ describe('withNormalizedOptions', function suite() {
       ];
 
       const result = shallowRenderer.render(
-        <EnhancedComponent options={uglyOptions} blankable={blankable} />
+        <EnhancedComponent options={uglyOptions} blankable={blankable} />,
       );
 
       result.props.options.should.deep.equal(normalizeOptions(uglyOptions, blankable));
     });
 
-    it('shoud filter normalized options using the supplied prefilter before passing them to the base component', function test() {
+    it('shoud filter normalized options using the supplied prefilter before passing them to the base component', () => {
       const EnhancedComponent = withNormalizedOptions(Menu);
       const shallowRenderer = createRenderer();
 
@@ -75,10 +67,10 @@ describe('withNormalizedOptions', function suite() {
         { value: 'value9', label: 'Label 9' },
       ];
 
-      const prefilter = option => !option.label.includes('Filter');
+      const prefilter = (option) => !option.label.includes('Filter');
 
       const result = shallowRenderer.render(
-        <EnhancedComponent options={uglyOptions} prefilter={prefilter} />
+        <EnhancedComponent options={uglyOptions} prefilter={prefilter} />,
       );
 
       result.props.options.should.deep.equal([
@@ -92,7 +84,7 @@ describe('withNormalizedOptions', function suite() {
     });
   });
 
-  it('shoud sort normalized options using the supplied sortComparator before passing them to the base component', function test() {
+  it('shoud sort normalized options using the supplied sortComparator before passing them to the base component', () => {
     const EnhancedComponent = withNormalizedOptions(Menu);
     const shallowRenderer = createRenderer();
 
@@ -107,11 +99,12 @@ describe('withNormalizedOptions', function suite() {
       { value: 'value6', label: 'Label 6' },
     ];
 
-    const sortComparator = (optionA, optionB) =>
-      optionA.label.localeCompare(optionB.label, 'en-US');
+    const sortComparator = (optionA, optionB) => (
+      optionA.label.localeCompare(optionB.label, 'en-US')
+    );
 
     const result = shallowRenderer.render(
-      <EnhancedComponent options={uglyOptions} sortComparator={sortComparator} />
+      <EnhancedComponent options={uglyOptions} sortComparator={sortComparator} />,
     );
 
     result.props.options.should.deep.equal([
@@ -127,7 +120,7 @@ describe('withNormalizedOptions', function suite() {
     ]);
   });
 
-  it('should default blankable to true', function test() {
+  it('should default blankable to true', () => {
     const EnhancedComponent = withNormalizedOptions(Menu);
     const shallowRenderer = createRenderer();
 
@@ -136,7 +129,7 @@ describe('withNormalizedOptions', function suite() {
     ];
 
     const result = shallowRenderer.render(
-      <EnhancedComponent options={options} />
+      <EnhancedComponent options={options} />,
     );
 
     result.props.options.should.deep.equal(normalizeOptions(options, true));

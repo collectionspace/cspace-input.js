@@ -11,12 +11,12 @@ import TextInput from '../../../src/components/TextInput';
 
 chai.should();
 
-describe('TabularCompoundInput', function suite() {
+describe('TabularCompoundInput', () => {
   beforeEach(function before() {
     this.container = createTestContainer(this);
   });
 
-  it('should be considered an input by isInput()', function test() {
+  it('should be considered an input by isInput()', () => {
     isInput(<TabularCompoundInput />).should.equal(true);
   });
 
@@ -32,7 +32,8 @@ describe('TabularCompoundInput', function suite() {
         <div>
           <TextInput name="comment" multiline label={<Label>Comment</Label>} />
         </div>
-      </TabularCompoundInput>, this.container);
+      </TabularCompoundInput>, this.container,
+    );
 
     this.container.querySelector('input').value.should.equal(compoundValue.objectNumber);
     this.container.querySelector('textarea').value.should.equal(compoundValue.comment);
@@ -65,7 +66,8 @@ describe('TabularCompoundInput', function suite() {
         <div>
           <TextInput name="comment" multiline label={<Label>Comment</Label>} />
         </div>
-      </TabularCompoundInput>, this.container);
+      </TabularCompoundInput>, this.container,
+    );
 
     const objectNumberSortButton = this.container.querySelector('button[data-name="objectNumber"]');
 

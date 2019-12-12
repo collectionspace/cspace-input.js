@@ -234,7 +234,7 @@ const recordTypes = {
   },
 };
 
-describe('RecordTypeInput', function suite() {
+describe('RecordTypeInput', () => {
   beforeEach(function before() {
     this.container = createTestContainer(this);
   });
@@ -243,7 +243,8 @@ describe('RecordTypeInput', function suite() {
     render(
       <RecordTypeInput
         recordTypes={recordTypes}
-      />, this.container);
+      />, this.container,
+    );
 
     const input = this.container.querySelector('input');
 
@@ -268,7 +269,8 @@ describe('RecordTypeInput', function suite() {
     render(
       <RecordTypeInput
         recordTypes={recordTypes}
-      />, this.container);
+      />, this.container,
+    );
 
     const input = this.container.querySelector('input');
 
@@ -278,18 +280,19 @@ describe('RecordTypeInput', function suite() {
 
     items.length.should.equal(10);
 
-    Array.from(items).map(item => item.textContent).should.not.include('Disabled');
+    Array.from(items).map((item) => item.textContent).should.not.include('Disabled');
   });
 
   it('should display the record type name if a message is not provided', function test() {
-    const messages = recordTypes.loanin.messages;
+    const { messages } = recordTypes.loanin;
 
     recordTypes.loanin.messages = null;
 
     render(
       <RecordTypeInput
         recordTypes={recordTypes}
-      />, this.container);
+      />, this.container,
+    );
 
     const input = this.container.querySelector('input');
 
@@ -307,7 +310,8 @@ describe('RecordTypeInput', function suite() {
       <RecordTypeInput
         recordTypes={recordTypes}
         value="group"
-      />, this.container);
+      />, this.container,
+    );
 
     const input = this.container.querySelector('input');
 
@@ -328,7 +332,8 @@ describe('RecordTypeInput', function suite() {
       <RecordTypeInput
         recordTypes={recordTypes}
         onCommit={handleCommit}
-      />, this.container);
+      />, this.container,
+    );
 
     committedValue.should.equal('media');
 
@@ -349,7 +354,8 @@ describe('RecordTypeInput', function suite() {
       <RecordTypeInput
         recordTypes={recordTypes}
         onCommit={handleCommit}
-      />, this.container);
+      />, this.container,
+    );
 
     committedValue.should.equal('all');
 
@@ -363,7 +369,8 @@ describe('RecordTypeInput', function suite() {
     render(
       <RecordTypeInput
         recordTypes={recordTypes}
-      />, this.container);
+      />, this.container,
+    );
 
     const input = this.container.querySelector('input');
 
@@ -388,13 +395,14 @@ describe('RecordTypeInput', function suite() {
   });
 
   it('should call formatRecordTypeLabel to format the label for a record type item', function test() {
-    const formatRecordTypeLabel = name => `formatRecordTypeLabel ${name}`;
+    const formatRecordTypeLabel = (name) => `formatRecordTypeLabel ${name}`;
 
     render(
       <RecordTypeInput
         recordTypes={recordTypes}
         formatRecordTypeLabel={formatRecordTypeLabel}
-      />, this.container);
+      />, this.container,
+    );
 
     const input = this.container.querySelector('input');
 
@@ -419,16 +427,18 @@ describe('RecordTypeInput', function suite() {
     render(
       <RecordTypeInput
         recordTypes={recordTypes}
-      />, this.container);
+      />, this.container,
+    );
 
-    const newRecordTypes = Object.assign({}, recordTypes);
+    const newRecordTypes = { ...recordTypes };
 
     delete newRecordTypes.group;
 
     render(
       <RecordTypeInput
         recordTypes={newRecordTypes}
-      />, this.container);
+      />, this.container,
+    );
 
     const input = this.container.querySelector('input');
 

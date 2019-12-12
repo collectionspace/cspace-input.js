@@ -17,6 +17,9 @@ export default function labelable(BaseComponent) {
     || 'Component';
 
   const propTypes = {
+    // TODO: Stop using propTypes in isInput, and in render method of cspace-ui Field component.
+    // Until then, propTypes need to be hoisted from the base component.
+    // eslint-disable-next-line react/forbid-foreign-prop-types
     ...BaseComponent.propTypes,
     label: PropTypes.node,
     msgkey: PropTypes.string,
@@ -24,20 +27,30 @@ export default function labelable(BaseComponent) {
     required: PropTypes.bool,
   };
 
+  const defaultProps = {
+    label: undefined,
+    msgkey: undefined,
+    readOnly: undefined,
+    required: false,
+  };
+
   function Labelable(props) {
     const {
       label,
-      msgkey, // eslint-disable-line no-unused-vars
+      // eslint-disable-next-line no-unused-vars
+      msgkey,
       required,
       ...remainingProps
     } = props;
 
-    const normalizedLabel = normalizeLabel(label, {
-      required,
-      readOnly: props.readOnly,
-    });
+    const {
+      readOnly,
+    } = props;
+
+    const normalizedLabel = normalizeLabel(label, { required, readOnly });
 
     const baseComponent = (
+      // eslint-disable-next-line react/jsx-props-no-spreading
       <BaseComponent {...remainingProps} />
     );
 
@@ -54,6 +67,7 @@ export default function labelable(BaseComponent) {
   }
 
   Labelable.propTypes = propTypes;
+  Labelable.defaultProps = defaultProps;
   Labelable.displayName = `labelable(${baseComponentName})`;
 
   return Labelable;

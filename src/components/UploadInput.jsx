@@ -40,6 +40,11 @@ const propTypes = {
 };
 
 const defaultProps = {
+  accept: undefined,
+  name: undefined,
+  parentPath: undefined,
+  subpath: undefined,
+  readOnly: undefined,
   type: 'file',
   typeInputLabel: 'Upload',
   fileOptionLabel: 'local file',
@@ -47,7 +52,10 @@ const defaultProps = {
   fileInputLabel: 'File',
   fileChooseButtonLabel: undefined,
   urlInputLabel: 'URL',
+  value: undefined,
   formatFileInfo: undefined,
+  onCommit: undefined,
+  onTypeChanged: undefined,
 };
 
 export default class UploadInput extends Component {
@@ -70,7 +78,9 @@ export default class UploadInput extends Component {
   }
 
   handleTypeInputCommit(path, value) {
-    const prevValue = this.state.value;
+    const {
+      value: prevValue,
+    } = this.state;
 
     this.setState({
       type: value,

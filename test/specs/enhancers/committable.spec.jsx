@@ -8,13 +8,13 @@ import committable from '../../../src/enhancers/committable';
 
 chai.should();
 
-describe('committable', function suite() {
+describe('committable', () => {
   beforeEach(function before() {
     this.container = createTestContainer(this);
   });
 
-  context('enhanced component', function context() {
-    it('should lift propTypes from the base component', function test() {
+  context('enhanced component', () => {
+    it('should lift propTypes from the base component', () => {
       const StubComponent = () => null;
 
       StubComponent.propTypes = {
@@ -24,23 +24,8 @@ describe('committable', function suite() {
 
       const EnhancedComponent = committable(StubComponent);
 
+      // eslint-disable-next-line react/forbid-foreign-prop-types
       EnhancedComponent.propTypes.should.include.keys(Object.keys(StubComponent.propTypes));
-    });
-
-    it('should accept an onCommit prop', function test() {
-      committable('input').propTypes.should.include.keys(['onCommit']);
-    });
-
-    it('should accept an onBlur prop', function test() {
-      committable('input').propTypes.should.include.keys(['onBlur']);
-    });
-
-    it('should accept an onKeyPress prop', function test() {
-      committable('input').propTypes.should.include.keys(['onKeyPress']);
-    });
-
-    it('should accept an commitUnchanged prop', function test() {
-      committable('input').propTypes.should.include.keys(['commitUnchanged']);
     });
 
     it('should call onCommit when the base component loses focus', function test() {
@@ -59,10 +44,13 @@ describe('committable', function suite() {
           name="input"
           onCommit={handleCommit}
           defaultValue="hello"
-        />, this.container);
+        />, this.container,
+      );
 
       const input = this.container.querySelector('input');
-      const newValue = input.value = 'new';
+      const newValue = 'new';
+
+      input.value = newValue;
 
       Simulate.blur(input);
 
@@ -84,7 +72,8 @@ describe('committable', function suite() {
           name="input"
           onBlur={handleBlur}
           defaultValue="hello"
-        />, this.container);
+        />, this.container,
+      );
 
       const input = this.container.querySelector('input');
 
@@ -109,10 +98,13 @@ describe('committable', function suite() {
           name="input"
           onCommit={handleCommit}
           defaultValue="hello"
-        />, this.container);
+        />, this.container,
+      );
 
       const input = this.container.querySelector('input');
-      const newValue = input.value = 'new';
+      const newValue = 'new';
+
+      input.value = newValue;
 
       Simulate.keyPress(input, { key: 'Enter' });
 
@@ -134,7 +126,8 @@ describe('committable', function suite() {
           name="input"
           onCommit={handleCommit}
           defaultValue="hello"
-        />, this.container);
+        />, this.container,
+      );
 
       const input = this.container.querySelector('input');
 
@@ -156,7 +149,8 @@ describe('committable', function suite() {
         <EnhancedComponent
           name="input"
           onKeyPress={handleKeyPress}
-        />, this.container);
+        />, this.container,
+      );
 
       const input = this.container.querySelector('input');
 
@@ -165,7 +159,7 @@ describe('committable', function suite() {
       pressedKey.should.equal('t');
     });
 
-    describe('when commitUnchanged is false', function commitUnchangedTest() {
+    describe('when commitUnchanged is false', () => {
       it('should not call onCommit if the committed value is the same as the initial value', function test() {
         const EnhancedComponent = committable('input');
 
@@ -181,7 +175,8 @@ describe('committable', function suite() {
             onCommit={handleCommit}
             onChange={() => {}}
             value="hello"
-          />, this.container);
+          />, this.container,
+        );
 
         const input = this.container.querySelector('input');
 
@@ -191,7 +186,7 @@ describe('committable', function suite() {
       });
     });
 
-    describe('when commitUnchanged is true', function commitUnchangedTest() {
+    describe('when commitUnchanged is true', () => {
       it('should call onCommit even if the committed value is the same as the initial value', function test() {
         const EnhancedComponent = committable('input');
 
@@ -208,7 +203,8 @@ describe('committable', function suite() {
             onCommit={handleCommit}
             onChange={() => {}}
             value="hello"
-          />, this.container);
+          />, this.container,
+        );
 
         const input = this.container.querySelector('input');
 

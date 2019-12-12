@@ -4,17 +4,17 @@ import Label from '../../../src/components/Label';
 
 chai.should();
 
-describe('normalizeLabel', function suite() {
-  context('when given a label component', function context() {
-    it('should return the component', function test() {
+describe('normalizeLabel', () => {
+  context('when given a label component', () => {
+    it('should return the component', () => {
       const label = <Label />;
 
       normalizeLabel(label).should.equal(label);
     });
   });
 
-  context('when given a string', function context() {
-    it('should return a label component', function test() {
+  context('when given a string', () => {
+    it('should return a label component', () => {
       const text = 'Hello world';
       const label = normalizeLabel(text);
 
@@ -22,7 +22,7 @@ describe('normalizeLabel', function suite() {
       label.props.children.should.equal(text);
     });
 
-    it('should supply the given props to the label component', function test() {
+    it('should supply the given props to the label component', () => {
       const text = 'Hello world';
 
       const props = {

@@ -12,7 +12,7 @@ import labelable from '../../../src/enhancers/labelable';
 import repeatable from '../../../src/enhancers/repeatable';
 
 const StructuredDateInput = repeatable(labelable(BaseStructuredDateInput));
-const expect = chai.expect;
+const { expect } = chai;
 
 chai.use(chaiImmutable);
 chai.should();
@@ -48,7 +48,7 @@ describe('StructuredDateInput', () => {
     this.container = createTestContainer(this);
   });
 
-  it('should be considered an input by isInput()', function test() {
+  it('should be considered an input by isInput()', () => {
     isInput(<StructuredDateInput />).should.equal(true);
   });
 
@@ -104,7 +104,8 @@ describe('StructuredDateInput', () => {
         optionLists={optionLists}
         terms={terms}
         value={value}
-      />, this.container);
+      />, this.container,
+    );
 
     let primaryInput;
 
@@ -143,7 +144,8 @@ describe('StructuredDateInput', () => {
         optionLists={optionLists}
         terms={terms}
         value={newValue}
-      />, this.container);
+      />, this.container,
+    );
 
     primaryInput = this.container.querySelector('input');
     primaryInput.value.should.equal('1998');
@@ -183,7 +185,8 @@ describe('StructuredDateInput', () => {
         optionLists={optionLists}
         terms={terms}
         value={value}
-      />, this.container);
+      />, this.container,
+    );
 
     let primaryInput;
 
@@ -222,7 +225,8 @@ describe('StructuredDateInput', () => {
         optionLists={optionLists}
         terms={terms}
         value={newValue}
-      />, this.container);
+      />, this.container,
+    );
 
     primaryInput = this.container.querySelector('input');
     primaryInput.value.should.equal('1998');
@@ -243,7 +247,8 @@ describe('StructuredDateInput', () => {
         name="birthDate"
         optionLists={optionLists}
         terms={terms}
-      />, this.container);
+      />, this.container,
+    );
 
     const primaryInput = this.container.querySelector('input');
 
@@ -258,7 +263,8 @@ describe('StructuredDateInput', () => {
         optionLists={optionLists}
         terms={terms}
         value={null}
-      />, this.container);
+      />, this.container,
+    );
 
     const primaryInput = this.container.querySelector('input');
 
@@ -276,7 +282,8 @@ describe('StructuredDateInput', () => {
         optionLists={optionLists}
         terms={terms}
         value={value}
-      />, this.container);
+      />, this.container,
+    );
 
     const primaryInput = this.container.querySelector('input');
 
@@ -289,7 +296,8 @@ describe('StructuredDateInput', () => {
         name="birthDate"
         optionLists={optionLists}
         terms={terms}
-      />, this.container);
+      />, this.container,
+    );
 
     const primaryInput = this.container.querySelector('input');
 
@@ -341,7 +349,8 @@ describe('StructuredDateInput', () => {
         terms={terms}
         value={value}
         onCommit={handleCommit}
-      />, this.container);
+      />, this.container,
+    );
 
     const primaryInput = this.container.querySelector('input');
 
@@ -403,7 +412,8 @@ describe('StructuredDateInput', () => {
         terms={terms}
         value={value}
         onCommit={handleCommit}
-      />, this.container);
+      />, this.container,
+    );
 
     const primaryInput = this.container.querySelector('input');
 
@@ -440,7 +450,8 @@ describe('StructuredDateInput', () => {
         terms={terms}
         value={value}
         onCommit={handleCommit}
-      />, this.container);
+      />, this.container,
+    );
 
     const primaryInput = this.container.querySelector('input');
 
@@ -517,7 +528,8 @@ describe('StructuredDateInput', () => {
         value={value}
         parseDisplayDate={parseDisplayDate}
         onCommit={handleCommit}
-      />, this.container);
+      />, this.container,
+    );
 
     const primaryInput = this.container.querySelector('input');
 
@@ -630,7 +642,8 @@ describe('StructuredDateInput', () => {
         value={value}
         parseDisplayDate={parseDisplayDate}
         onCommit={handleCommit}
-      />, this.container);
+      />, this.container,
+    );
 
     const primaryInput = this.container.querySelector('input');
 
@@ -710,7 +723,8 @@ describe('StructuredDateInput', () => {
         terms={terms}
         value={value}
         parseDisplayDate={parseDisplayDate}
-      />, this.container);
+      />, this.container,
+    );
 
     const primaryInput = this.container.querySelector('input');
 
@@ -766,7 +780,8 @@ describe('StructuredDateInput', () => {
         terms={terms}
         value={value}
         onCommit={handleCommit}
-      />, this.container);
+      />, this.container,
+    );
 
     const primaryInput = this.container.querySelector('input');
 
@@ -820,7 +835,8 @@ describe('StructuredDateInput', () => {
         terms={terms}
         value={value}
         onCommit={handleCommit}
-      />, this.container);
+      />, this.container,
+    );
 
     const primaryInput = this.container.querySelector('input');
 
@@ -838,7 +854,7 @@ describe('StructuredDateInput', () => {
   });
 
   it('should call formatFieldLabel to format the field labels', function test() {
-    const formatFieldLabel = name => `formatted ${name}`;
+    const formatFieldLabel = (name) => `formatted ${name}`;
 
     render(<StructuredDateInput formatFieldLabel={formatFieldLabel} />, this.container);
 
@@ -850,13 +866,14 @@ describe('StructuredDateInput', () => {
   });
 
   it('should call formatOptionLabel to format the option labels', function test() {
-    const formatOptionLabel = option => `formatted ${option.value}`;
+    const formatOptionLabel = (option) => `formatted ${option.value}`;
 
     render(
       <StructuredDateInput
         formatOptionLabel={formatOptionLabel}
         optionLists={optionLists}
-      />, this.container);
+      />, this.container,
+    );
 
     const primaryInput = this.container.querySelector('input');
 

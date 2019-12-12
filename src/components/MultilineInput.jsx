@@ -15,6 +15,18 @@ const propTypes = {
   api: PropTypes.func,
 };
 
+const defaultProps = {
+  asText: undefined,
+  embedded: undefined,
+  name: undefined,
+  parentPath: undefined,
+  subpath: undefined,
+  value: undefined,
+  readOnly: undefined,
+  height: undefined,
+  api: undefined,
+};
+
 /**
  * A text input that accepts and is able to display multiple lines of text. This component takes up
  * more screen space when rendered than LineInput.
@@ -58,17 +70,15 @@ export default class MultilineInput extends Component {
 
   render() {
     const {
+      api,
       asText,
       embedded,
       height,
       name,
-      value,
-      readOnly,
-      /* eslint-disable no-unused-vars */
       parentPath,
       subpath,
-      api,
-      /* eslint-enable no-unused-vars */
+      value,
+      readOnly,
       ...remainingProps
     } = this.props;
 
@@ -84,6 +94,7 @@ export default class MultilineInput extends Component {
 
     return (
       <textarea
+        // eslint-disable-next-line react/jsx-props-no-spreading
         {...remainingProps}
         className={className}
         data-name={name}
@@ -97,5 +108,5 @@ export default class MultilineInput extends Component {
   }
 }
 
-
 MultilineInput.propTypes = propTypes;
+MultilineInput.defaultProps = defaultProps;

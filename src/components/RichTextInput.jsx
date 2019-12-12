@@ -3,13 +3,35 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ReactQuill, { Quill } from 'react-quill';
+import 'react-quill/dist/quill.core.css';
 import classNames from 'classnames';
 import { getPath, pathPropType } from '../helpers/pathHelpers';
 import styles from '../../styles/cspace-input/RichTextInput.css';
-/* eslint-disable import/imports-first, import/no-unresolved */
-import '!style-loader!css-loader!../../styles/quill/cspace.css';
-import '!style-loader!css-loader!react-quill/dist/quill.core.css';
-/* eslint-enable import/imports-first, import/no-unresolved */
+import '../../styles/react-quill/cspace.css';
+
+const propTypes = {
+  embedded: PropTypes.bool,
+  multiline: PropTypes.bool,
+  /* eslint-disable react/no-unused-prop-types */
+  name: PropTypes.string,
+  parentPath: pathPropType,
+  subpath: pathPropType,
+  /* eslint-enable react/no-unused-prop-types */
+  value: PropTypes.string,
+  readOnly: PropTypes.bool,
+  onCommit: PropTypes.func,
+};
+
+const defaultProps = {
+  embedded: undefined,
+  multiline: undefined,
+  name: undefined,
+  parentPath: undefined,
+  subpath: undefined,
+  value: undefined,
+  readOnly: undefined,
+  onCommit: undefined,
+};
 
 // Change bold rendering to <b> instead of <strong>, since it is more semantically neutral.
 
@@ -53,22 +75,14 @@ const preventButtonMouseDown = (event) => {
   }
 };
 
-const propTypes = {
-  embedded: PropTypes.bool,
-  multiline: PropTypes.bool,
-  /* eslint-disable react/no-unused-prop-types */
-  name: PropTypes.string,
-  parentPath: pathPropType,
-  subpath: pathPropType,
-  /* eslint-enable react/no-unused-prop-types */
-  value: PropTypes.string,
-  readOnly: PropTypes.bool,
-  onCommit: PropTypes.func,
-};
-
 export default class RichTextInput extends Component {
   constructor(props) {
     super(props);
+
+    const {
+      multiline,
+      value,
+    } = this.props;
 
     // Set the allowed formats.
     // TODO: Make this a prop.
@@ -89,7 +103,7 @@ export default class RichTextInput extends Component {
             handler: () => {
               this.commit();
 
-              return !!this.props.multiline;
+              return !!multiline;
             },
           },
 
@@ -111,7 +125,7 @@ export default class RichTextInput extends Component {
     this.handleRef = this.handleRef.bind(this);
 
     this.state = {
-      value: this.props.value,
+      value,
     };
   }
 
@@ -129,12 +143,16 @@ export default class RichTextInput extends Component {
       value,
     } = this.props;
 
+    const {
+      focused,
+    } = this.state;
+
     return (
-      nextProps.embedded !== embedded ||
-      nextProps.multiline !== multiline ||
-      nextProps.readOnly !== readOnly ||
-      nextProps.value !== value ||
-      nextState.focused !== this.state.focused
+      nextProps.embedded !== embedded
+      || nextProps.multiline !== multiline
+      || nextProps.readOnly !== readOnly
+      || nextProps.value !== value
+      || nextState.focused !== focused
     );
   }
 
@@ -145,10 +163,14 @@ export default class RichTextInput extends Component {
     } = this.props;
 
     if (onCommit) {
-      const value = normalizeValue(this.state.value);
+      const {
+        value,
+      } = this.state;
 
-      if (value !== prevValue) {
-        onCommit(getPath(this.props), value);
+      const nextValue = normalizeValue(value);
+
+      if (nextValue !== prevValue) {
+        onCommit(getPath(this.props), nextValue);
       }
     }
   }
@@ -211,6 +233,7 @@ export default class RichTextInput extends Component {
     // https://github.com/zenoamaro/react-quill/issues/276
 
     return (
+      // eslint-disable-next-line jsx-a11y/no-static-element-interactions
       <div
         ref={this.handleRef}
         onBlur={this.handleBlur}
@@ -232,3 +255,4 @@ export default class RichTextInput extends Component {
 }
 
 RichTextInput.propTypes = propTypes;
+RichTextInput.defaultProps = defaultProps;

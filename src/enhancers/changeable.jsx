@@ -15,6 +15,9 @@ export default function changeable(BaseComponent) {
     || 'Component';
 
   const propTypes = {
+    // TODO: Stop using propTypes in isInput, and in render method of cspace-ui Field component.
+    // Until then, propTypes need to be hoisted from the base component.
+    // eslint-disable-next-line react/forbid-foreign-prop-types
     ...BaseComponent.propTypes,
     autoSyncValue: PropTypes.bool,
     onChange: PropTypes.func,
@@ -23,6 +26,7 @@ export default function changeable(BaseComponent) {
 
   const defaultProps = {
     autoSyncValue: true,
+    onChange: undefined,
     value: '',
   };
 
@@ -44,7 +48,7 @@ export default function changeable(BaseComponent) {
     }
 
     handleChange(event) {
-      const value = event.target.value;
+      const { value } = event.target;
 
       const {
         onChange,
@@ -64,10 +68,8 @@ export default function changeable(BaseComponent) {
 
     render() {
       const {
-        /* eslint-disable no-unused-vars */
         autoSyncValue,
         onChange,
-        /* eslint-enable no-unused-vars */
         ...remainingProps
       } = this.props;
 
@@ -77,6 +79,7 @@ export default function changeable(BaseComponent) {
 
       return (
         <BaseComponent
+          // eslint-disable-next-line react/jsx-props-no-spreading
           {...remainingProps}
           value={value}
           onChange={this.handleChange}

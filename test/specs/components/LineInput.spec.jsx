@@ -2,25 +2,23 @@
 
 import React from 'react';
 import { render, unmountComponentAtNode } from 'react-dom';
-
 import createTestContainer from '../../helpers/createTestContainer';
 import createInvisible from '../../helpers/createInvisible';
-
 import { isInput } from '../../../src/helpers/inputHelpers';
 import LineInput from '../../../src/components/LineInput';
 
-const expect = chai.expect;
+const { expect } = chai;
 
 chai.should();
 
 const expectedClassName = 'cspace-input-LineInput--normal cspace-input-TextInput--normal cspace-input-TextInput--common cspace-input-Input--common';
 
-describe('LineInput', function suite() {
+describe('LineInput', () => {
   beforeEach(function before() {
     this.container = createTestContainer(this);
   });
 
-  it('should be considered an input by isInput()', function test() {
+  it('should be considered an input by isInput()', () => {
     isInput(<LineInput />).should.equal(true);
   });
 
@@ -64,15 +62,17 @@ describe('LineInput', function suite() {
     render(<LineInput value={value} />, this.container);
 
     const measuringStick = createInvisible('input');
+
     measuringStick.className = expectedClassName;
-    measuringStick.value = lines[0];
+
+    [measuringStick.value] = lines;
 
     this.container.firstElementChild.getBoundingClientRect().height.should
       .equal(measuringStick.getBoundingClientRect().height);
   });
 
   it('should render a disabled iput if readOnly is true', function test() {
-    render(<LineInput value={'Hello world'} readOnly />, this.container);
+    render(<LineInput value="Hello world" readOnly />, this.container);
 
     const input = this.container.firstElementChild;
 

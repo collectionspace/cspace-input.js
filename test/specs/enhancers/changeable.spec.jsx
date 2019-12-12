@@ -8,13 +8,13 @@ import changeable from '../../../src/enhancers/changeable';
 
 chai.should();
 
-describe('changeable', function suite() {
+describe('changeable', () => {
   beforeEach(function before() {
     this.container = createTestContainer(this);
   });
 
-  context('enhanced component', function context() {
-    it('should lift propTypes from the base component', function test() {
+  context('enhanced component', () => {
+    it('should lift propTypes from the base component', () => {
       const StubComponent = () => null;
 
       StubComponent.propTypes = {
@@ -24,11 +24,8 @@ describe('changeable', function suite() {
 
       const EnhancedComponent = changeable(StubComponent);
 
+      // eslint-disable-next-line react/forbid-foreign-prop-types
       EnhancedComponent.propTypes.should.include.keys(Object.keys(StubComponent.propTypes));
-    });
-
-    it('should accept onChange and autoSyncValue props', function test() {
-      changeable('input').propTypes.should.include.keys(['onChange', 'autoSyncValue']);
     });
 
     it('should call onChange when the base component changes', function test() {
@@ -42,7 +39,9 @@ describe('changeable', function suite() {
       render(<EnhancedComponent onChange={handleChange} value="hello" />, this.container);
 
       const input = this.container.querySelector('input');
-      const newValue = input.value = 'new';
+      const newValue = 'new';
+
+      input.value = newValue;
 
       Simulate.change(input);
 

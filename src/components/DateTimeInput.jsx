@@ -9,14 +9,22 @@ import { pathPropType } from '../helpers/pathHelpers';
 
 const propTypes = {
   name: PropTypes.string,
-  parentPath: pathPropType, // eslint-disable-line react/no-unused-prop-types
-  subpath: pathPropType,    // eslint-disable-line react/no-unused-prop-types
+  // TODO: Stop using propTypes in isInput. Until then, these unused props need to be declared so
+  // this component is recognized as an input.
+  /* eslint-disable react/no-unused-prop-types */
+  parentPath: pathPropType,
+  subpath: pathPropType,
+  /* eslint-enable react/no-unused-prop-types */
   value: PropTypes.string,
   formatValue: PropTypes.func,
 };
 
 const defaultProps = {
-  readOnly: true,
+  name: undefined,
+  parentPath: undefined,
+  subpath: undefined,
+  value: undefined,
+  formatValue: undefined,
 };
 
 export default function DateTimeInput(props) {
