@@ -37,13 +37,13 @@ const sauceLaunchers = {
     version: 'latest',
     platform: 'Windows 10',
   },
-  // 'safari-ios-11.2': {
-  //   base: 'SauceLabs',
-  //   browserName: 'safari',
-  //   platformName: 'iOS',
-  //   platformVersion: '11.2',
-  //   deviceName: 'iPad Simulator',
-  // },
+  'safari-ios-11.2': {
+    base: 'SauceLabs',
+    browserName: 'safari',
+    platformName: 'iOS',
+    platformVersion: '11.2',
+    deviceName: 'iPad Simulator',
+  },
 };
 
 const getTestFiles = (config) => {
