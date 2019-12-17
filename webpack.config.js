@@ -29,16 +29,7 @@ const config = {
         ],
       },
       {
-        test: /react-calendar\/.*\.css$/,
-        use: ['style-loader', 'css-loader'],
-      },
-      {
-        test: /react-quill\/.*\.css$/,
-        use: ['style-loader', 'css-loader'],
-      },
-      {
         test: /\.css$/,
-        exclude: [/react-calendar/, /react-quill/],
         use: [
           {
             loader: 'style-loader',

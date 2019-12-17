@@ -3,11 +3,13 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ReactQuill, { Quill } from 'react-quill';
-import 'react-quill/dist/quill.core.css';
+// eslint-disable-next-line import/no-webpack-loader-syntax, import/no-unresolved
+import '!style-loader!css-loader!react-quill/dist/quill.core.css';
 import classNames from 'classnames';
 import { getPath, pathPropType } from '../helpers/pathHelpers';
 import styles from '../../styles/cspace-input/RichTextInput.css';
-import '../../styles/react-quill/cspace.css';
+// eslint-disable-next-line import/no-webpack-loader-syntax, import/no-unresolved
+import '!style-loader!css-loader!../../styles/react-quill/cspace.css';
 
 const propTypes = {
   embedded: PropTypes.bool,

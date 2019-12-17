@@ -7,7 +7,8 @@ import changeable from '../enhancers/changeable';
 import committable from '../enhancers/committable';
 import { getPath } from '../helpers/pathHelpers';
 import styles from '../../styles/cspace-input/DateInput.css';
-import '../../styles/react-calendar/calendar.css';
+// eslint-disable-next-line import/no-webpack-loader-syntax, import/no-unresolved
+import '!style-loader!css-loader!../../styles/react-calendar/calendar.css';
 
 import {
   formatDate,
