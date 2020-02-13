@@ -162,10 +162,14 @@ describe('QuickAdd', () => {
   });
 
   it('should call add when an add item is clicked', function test() {
-    let funcCalled = false;
+    let addedRecordType = null;
+    let addedVocab = null;
+    let addedClone = null;
 
-    const add = () => {
-      funcCalled = true;
+    const add = (recordTypeArg, vocabArg, displayNameArg, partialTermArg, cloneArg) => {
+      addedRecordType = recordTypeArg;
+      addedVocab = vocabArg;
+      addedClone = cloneArg;
     };
 
     render(
@@ -178,7 +182,38 @@ describe('QuickAdd', () => {
 
     Simulate.click(this.container.querySelector('li'));
 
-    funcCalled.should.equal(true);
+    addedRecordType.should.equal('person');
+    addedVocab.should.equal('person');
+    expect(addedClone).to.equal(undefined);
+  });
+
+  it('should call add when an add clone item is clicked', function test() {
+    let addedRecordType = null;
+    let addedVocab = null;
+    let addedClone = null;
+
+    const add = (recordTypeArg, vocabArg, displayNameArg, partialTermArg, cloneArg) => {
+      addedRecordType = recordTypeArg;
+      addedVocab = vocabArg;
+      addedClone = cloneArg;
+    };
+
+    render(
+      <QuickAdd
+        add={add}
+        to="person/person"
+        recordTypes={recordTypes}
+        showCloneOption
+      />, this.container,
+    );
+
+    const items = this.container.querySelectorAll('li');
+
+    Simulate.click(items[1]);
+
+    addedRecordType.should.equal('person');
+    addedVocab.should.equal('person');
+    addedClone.should.equal(true);
   });
 
   it('should focus the menu when focusMenu is called', function test() {

@@ -74,10 +74,14 @@ export default class QuickAdd extends Component {
         value,
       } = item;
 
+      const typeSpec = (clone && value.startsWith('clone:'))
+        ? value.substring('clone:'.length)
+        : value;
+
       const [
         recordType,
         vocabulary,
-      ] = value.split('/');
+      ] = typeSpec.split('/');
 
       add(recordType, vocabulary, displayName, partialTerm, clone);
     }
