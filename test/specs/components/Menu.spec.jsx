@@ -275,7 +275,6 @@ describe('Menu', () => {
     item3.className.should.match(/cspace-input-MenuItem--selected/);
   });
 
-
   it('should unfocus all items when losing focus', function test() {
     const options = [
       { value: 'value1', label: 'Label 1' },

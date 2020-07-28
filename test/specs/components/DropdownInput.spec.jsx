@@ -383,7 +383,6 @@ describe('DropdownInput', () => {
     });
   });
 
-
   it('should not close when focus moves from the popup to the input', function test() {
     render(
       <DropdownInput>

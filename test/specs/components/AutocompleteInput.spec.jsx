@@ -183,7 +183,6 @@ describe('AutocompleteInput', () => {
 
         Simulate.change(input);
 
-
         window.setTimeout(() => {
           menuHeader = this.container.querySelector('.cspace-layout-Popup--common > header');
           menuHeader.textContent.should.match(/^No matching terms/);

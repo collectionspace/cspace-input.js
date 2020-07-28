@@ -325,7 +325,7 @@ describe('DateInput', function suite() {
     input.value.should.equal('04-1995');
   });
 
-  it('shouild display invalid dates and persist if the field is clicked on', function test() {
+  it('should display invalid dates and persist if the field is clicked', function test() {
     render(<DateInput value="01/01/1995" />, this.container);
 
     const input = this.container.querySelector('input');

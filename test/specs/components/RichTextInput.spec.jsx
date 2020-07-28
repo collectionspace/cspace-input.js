@@ -81,7 +81,6 @@ describe('RichTextInput', () => {
       />, this.container,
     );
 
-
     this.container.querySelector('.quill').className.should.not.contain('--enabled');
     this.container.querySelector('.quill').className.should.contain('--multiline');
   });

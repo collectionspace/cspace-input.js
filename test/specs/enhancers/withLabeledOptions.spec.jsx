@@ -21,7 +21,6 @@ describe('withLabeledOptions', () => {
       EnhancedComponent.propTypes.should.include.keys(Object.keys(StubComponent.propTypes));
     });
 
-
     it('should label the options and pass them to the base component', () => {
       const EnhancedComponent = withLabeledOptions(DropdowMenuInput);
       const shallowRenderer = createRenderer();

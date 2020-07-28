@@ -31,9 +31,9 @@ export default function Button(props) {
   return (
     // TODO: The linter rules only allow static button types (not from a prop). Will need to
     // refactor this. https://github.com/yannickcr/eslint-plugin-react/issues/1846
-    // eslint-disable-next-line react/button-has-type
     <button
       className={classes}
+      // eslint-disable-next-line react/button-has-type
       type={type}
       // eslint-disable-next-line react/jsx-props-no-spreading
       {...remainingProps}
