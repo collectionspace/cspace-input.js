@@ -95,6 +95,7 @@ const getOptions = (partialTerm, props) => {
 
         if (sourceMatch) {
           const vocabDisableAltTerms = get(recordTypes, [recordType, 'vocabularies', vocabulary, 'disableAltTerms']);
+          const vocabDisableStatus = get(recordTypes, [recordType, 'vocabularies', vocabulary, 'disableStatus']);
           const items = sourceMatch.get('items');
 
           if (items) {
@@ -104,9 +105,11 @@ const getOptions = (partialTerm, props) => {
 
               const {
                 workflowState,
+                termStatus,
               } = item;
 
               const deprecated = workflowState && workflowState.includes('deprecated');
+              const disabledStatus = vocabDisableStatus && vocabDisableStatus.includes(termStatus);
 
               if (!Array.isArray(displayNames)) {
                 displayNames = [displayNames];
@@ -115,13 +118,14 @@ const getOptions = (partialTerm, props) => {
               displayNames.forEach((displayName, index) => {
                 const disabled = (
                   deprecated
+                  || disabledStatus
                   || (index > 0 && (disableAltTerms || vocabDisableAltTerms))
                 );
 
                 options.push({
                   disabled,
                   value: setDisplayName(item.refName, displayName),
-                  label: displayName,
+                  label: disabledStatus ? `${displayName} (${termStatus})` : displayName,
                   meta: item,
                   indent: (index === 0 ? 0 : 1),
                 });
