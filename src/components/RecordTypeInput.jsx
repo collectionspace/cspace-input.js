@@ -105,7 +105,8 @@ export default class RecordTypeInput extends Component {
           const recordTypeConfig = recordTypes[recordTypeName];
 
           return (
-            recordTypeConfig.serviceConfig.serviceType === serviceType
+            recordTypeConfig
+            && recordTypeConfig.serviceConfig.serviceType === serviceType
             && !recordTypeConfig.disabled
           );
         })
