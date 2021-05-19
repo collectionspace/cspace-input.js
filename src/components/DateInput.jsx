@@ -60,7 +60,8 @@ export default class DateInput extends Component {
     };
   }
 
-  componentWillReceiveProps(nextProps) {
+  // eslint-disable-next-line camelcase
+  UNSAFE_componentWillReceiveProps(nextProps) {
     const nextValue = normalizeISO8601DateString(nextProps.value) || nextProps.value;
 
     this.setState({

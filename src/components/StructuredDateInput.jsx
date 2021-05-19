@@ -133,7 +133,8 @@ export default class StructuredDateInput extends Component {
     }
   }
 
-  componentWillReceiveProps(nextProps) {
+  // eslint-disable-next-line camelcase
+  UNSAFE_componentWillReceiveProps(nextProps) {
     const value = nextProps.value || nextProps.defaultValue;
 
     this.setState({

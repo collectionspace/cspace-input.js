@@ -52,7 +52,8 @@ export default class RecordTypeInput extends Component {
     this.initOptions(this.props);
   }
 
-  componentWillReceiveProps(nextProps) {
+  // eslint-disable-next-line camelcase
+  UNSAFE_componentWillReceiveProps(nextProps) {
     const {
       formatRecordTypeLabel,
       indentItems,

@@ -88,7 +88,8 @@ export default class DropdownInput extends Component {
     }
   }
 
-  componentWillReceiveProps(nextProps) {
+  // eslint-disable-next-line camelcase
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if (nextProps.open) {
       this.open();
     } else {
