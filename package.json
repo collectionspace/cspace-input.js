@@ -39,7 +39,7 @@
   },
   "dependencies": {
     "classnames": "^2.2.6",
-    "cspace-layout": "^1.1.4",
+    "cspace-layout": "^2.0.0",
     "cspace-refname": "^1.0.2",
     "immutable": "^3.8.2",
     "lodash": "^4.17.5",
