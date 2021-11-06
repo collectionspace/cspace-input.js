@@ -114,7 +114,8 @@ export default class DropdownMenuInput extends Component {
     }
   }
 
-  componentWillReceiveProps(nextProps) {
+  // eslint-disable-next-line camelcase
+  UNSAFE_componentWillReceiveProps(nextProps) {
     const valueLabel = (nextProps.valueLabel === null || typeof nextProps.valueLabel === 'undefined')
       ? getLabelForValue(nextProps.options, nextProps.value)
       : nextProps.valueLabel;

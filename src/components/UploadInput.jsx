@@ -71,7 +71,8 @@ export default class UploadInput extends Component {
     };
   }
 
-  componentWillReceiveProps(nextProps) {
+  // eslint-disable-next-line camelcase
+  UNSAFE_componentWillReceiveProps(nextProps) {
     this.setState({
       type: nextProps.type,
     });

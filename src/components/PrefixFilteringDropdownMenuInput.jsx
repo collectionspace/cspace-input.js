@@ -23,7 +23,8 @@ export default class PrefixFilteringDropdownMenuInput extends Component {
     };
   }
 
-  componentWillReceiveProps(nextProps) {
+  // eslint-disable-next-line camelcase
+  UNSAFE_componentWillReceiveProps(nextProps) {
     const {
       options,
       value,

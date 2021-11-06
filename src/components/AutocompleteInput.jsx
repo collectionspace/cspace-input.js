@@ -243,7 +243,8 @@ export default class AutocompleteInput extends Component {
     };
   }
 
-  componentWillReceiveProps(nextProps) {
+  // eslint-disable-next-line camelcase
+  UNSAFE_componentWillReceiveProps(nextProps) {
     const {
       matches,
       source,
