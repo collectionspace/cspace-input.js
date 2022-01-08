@@ -236,6 +236,95 @@ describe('StructuredDateInput', () => {
     this.container.querySelector('input[data-name=datePeriod]').value.should.equal('');
   });
 
+  it('should render a field as a term picker when an appropriately named list is present in terms', function test() {
+    render(
+      <StructuredDateInput
+        name="birthDate"
+        optionLists={{
+          ...optionLists,
+          dateassociation: [
+            { value: 'assocOpt1', label: 'Association Option 1' },
+          ],
+        }}
+        terms={{
+          ...terms,
+          dateassociation: [
+            { refName: 'assocTerm1', displayName: 'Association Term 1' },
+          ],
+        }}
+      />, this.container,
+    );
+
+    const primaryInput = this.container.querySelector('input');
+
+    Simulate.mouseDown(primaryInput);
+
+    const assocInputField = this.container.querySelector('.cspace-input-DropdownMenuInput--common > input[data-name=dateAssociation]');
+
+    assocInputField.should.not.equal(null);
+
+    Simulate.mouseDown(assocInputField);
+
+    const menuItem = this.container.querySelector('li.cspace-input-MenuItem--common:nth-of-type(2)');
+
+    menuItem.should.not.equal(null);
+    menuItem.textContent.should.equal('Association Term 1');
+  });
+
+  it('should render a field as an option picker when an appropriately named list is present in optionLists', function test() {
+    render(
+      <StructuredDateInput
+        name="birthDate"
+        optionLists={{
+          ...optionLists,
+          dateassociation: [
+            { value: 'assocOpt1', label: 'Association Option 1' },
+          ],
+        }}
+        terms={terms}
+      />, this.container,
+    );
+
+    const primaryInput = this.container.querySelector('input');
+
+    Simulate.mouseDown(primaryInput);
+
+    const assocInputField = this.container.querySelector('.cspace-input-DropdownMenuInput--common > input[data-name=dateAssociation]');
+
+    assocInputField.should.not.equal(null);
+
+    Simulate.mouseDown(assocInputField);
+
+    const menuItem = this.container.querySelector('li.cspace-input-MenuItem--common:nth-of-type(1)');
+
+    menuItem.should.not.equal(null);
+    menuItem.textContent.should.equal('Association Option 1');
+  });
+
+  it('should render a field as a text input when an appropriately named list is neither present in terms nor optionLists', function test() {
+    render(
+      <StructuredDateInput
+        name="birthDate"
+        optionLists={optionLists}
+        terms={terms}
+      />, this.container,
+    );
+
+    const primaryInput = this.container.querySelector('input');
+
+    Simulate.mouseDown(primaryInput);
+
+    let assocInputField;
+
+    assocInputField = this.container.querySelector('.cspace-input-DropdownMenuInput--common > input[data-name=dateAssociation]');
+
+    expect(assocInputField).to.equal(null);
+
+    assocInputField = this.container.querySelector('input[data-name=dateAssociation]');
+
+    assocInputField.should.not.equal(null);
+  });
+
   it('should use defaultValue as the value when value prop is not defined', function test() {
     const defaultValue = {
       dateDisplayDate: 'some default',
