@@ -80,10 +80,13 @@ const defaultProps = {
 const DropdownInput = committable(changeable(BaseDropdownInput));
 const TextInput = committable(changeable(BaseTextInput));
 const LabelableTextInput = labelable(TextInput);
+const LabelableTermPickerInput = labelable(TermPickerInput);
 
 const SubstringFilteringDropdownMenuInput = withLabeledOptions(
   BaseSubstringFilteringDropdownMenuInput,
 );
+
+const LabelableSubstringFilteringDropdownMenuInput = labelable(SubstringFilteringDropdownMenuInput);
 
 const primaryFieldName = 'dateDisplayDate';
 
@@ -283,13 +286,14 @@ export default class StructuredDateInput extends Component {
     );
   }
 
-  renderDropdownInput(fieldName, listName) {
+  renderDropdownInput(fieldName, listName, embedded = false) {
     // Render an appropriate dropdown input for the given list name. If the name is the name of a
     // term list provided in the terms prop, a TermPickerInput is rendered. Otherwise, if the name
     // is the name of an option list provided in the optionLists prop, a
     // SubstringFilteringDropdownMenuInput is rendered.
 
     const {
+      formatFieldLabel,
       formatOptionLabel,
       optionLists,
       terms,
@@ -298,9 +302,20 @@ export default class StructuredDateInput extends Component {
     const matchingTermList = terms[listName];
 
     if (matchingTermList) {
+      if (embedded) {
+        return (
+          <TermPickerInput
+            embedded
+            name={fieldName}
+            terms={matchingTermList}
+            onCommit={this.handleInputCommit}
+          />
+        );
+      }
+
       return (
-        <TermPickerInput
-          embedded
+        <LabelableTermPickerInput
+          label={formatFieldLabel(fieldName)}
           name={fieldName}
           terms={matchingTermList}
           onCommit={this.handleInputCommit}
@@ -308,14 +323,46 @@ export default class StructuredDateInput extends Component {
       );
     }
 
-    const matchingOptionList = optionLists[listName] || [];
+    const matchingOptionList = optionLists[listName];
+
+    if (matchingOptionList) {
+      if (embedded) {
+        return (
+          <SubstringFilteringDropdownMenuInput
+            embedded
+            formatOptionLabel={formatOptionLabel}
+            name={fieldName}
+            options={matchingOptionList}
+            onCommit={this.handleInputCommit}
+          />
+        );
+      }
+
+      return (
+        <LabelableSubstringFilteringDropdownMenuInput
+          formatOptionLabel={formatOptionLabel}
+          label={formatFieldLabel(fieldName)}
+          name={fieldName}
+          options={matchingOptionList}
+          onCommit={this.handleInputCommit}
+        />
+      );
+    }
+
+    if (embedded) {
+      return (
+        <TextInput
+          embedded
+          name={fieldName}
+          onCommit={this.handleInputCommit}
+        />
+      );
+    }
 
     return (
-      <SubstringFilteringDropdownMenuInput
-        embedded
-        formatOptionLabel={formatOptionLabel}
+      <LabelableTextInput
         name={fieldName}
-        options={matchingOptionList}
+        label={formatFieldLabel(fieldName)}
         onCommit={this.handleInputCommit}
       />
     );
@@ -374,11 +421,7 @@ export default class StructuredDateInput extends Component {
             </div>
 
             <div>
-              <LabelableTextInput
-                name="dateAssociation"
-                label={formatFieldLabel('dateAssociation')}
-                onCommit={this.handleInputCommit}
-              />
+              {this.renderDropdownInput('dateAssociation', 'dateassociation')}
             </div>
 
             <div>
@@ -436,15 +479,15 @@ export default class StructuredDateInput extends Component {
                 </td>
 
                 <td>
-                  {this.renderDropdownInput('dateEarliestSingleEra', 'dateera')}
+                  {this.renderDropdownInput('dateEarliestSingleEra', 'dateera', true)}
                 </td>
 
                 <td>
-                  {this.renderDropdownInput('dateEarliestSingleCertainty', 'datecertainty')}
+                  {this.renderDropdownInput('dateEarliestSingleCertainty', 'datecertainty', true)}
                 </td>
 
                 <td>
-                  {this.renderDropdownInput('dateEarliestSingleQualifier', 'dateQualifiers')}
+                  {this.renderDropdownInput('dateEarliestSingleQualifier', 'dateQualifiers', true)}
                 </td>
 
                 <td>
@@ -456,7 +499,7 @@ export default class StructuredDateInput extends Component {
                 </td>
 
                 <td>
-                  {this.renderDropdownInput('dateEarliestSingleQualifierUnit', 'datequalifier')}
+                  {this.renderDropdownInput('dateEarliestSingleQualifierUnit', 'datequalifier', true)}
                 </td>
               </tr>
 
@@ -488,15 +531,15 @@ export default class StructuredDateInput extends Component {
                 </td>
 
                 <td>
-                  {this.renderDropdownInput('dateLatestEra', 'dateera')}
+                  {this.renderDropdownInput('dateLatestEra', 'dateera', true)}
                 </td>
 
                 <td>
-                  {this.renderDropdownInput('dateLatestCertainty', 'datecertainty')}
+                  {this.renderDropdownInput('dateLatestCertainty', 'datecertainty', true)}
                 </td>
 
                 <td>
-                  {this.renderDropdownInput('dateLatestQualifier', 'dateQualifiers')}
+                  {this.renderDropdownInput('dateLatestQualifier', 'dateQualifiers', true)}
                 </td>
 
                 <td>
@@ -508,7 +551,7 @@ export default class StructuredDateInput extends Component {
                 </td>
 
                 <td>
-                  {this.renderDropdownInput('dateLatestQualifierUnit', 'datequalifier')}
+                  {this.renderDropdownInput('dateLatestQualifierUnit', 'datequalifier', true)}
                 </td>
               </tr>
             </tbody>
