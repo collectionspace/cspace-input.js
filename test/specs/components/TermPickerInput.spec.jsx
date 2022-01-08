@@ -72,6 +72,70 @@ describe('TermPickerInput', () => {
     ]);
   });
 
+  it('should set the value label to the displayName of the selected term', () => {
+    const shallowRenderer = createRenderer();
+
+    const terms = [
+      {
+        refName: 'urn:cspace:core.collectionspace.org:vocabularies:name(languages):item:name(grc)\'Ancient Greek\'',
+        displayName: 'Ancient Greek',
+      },
+      {
+        refName: 'urn:cspace:core.collectionspace.org:vocabularies:name(languages):item:name(eng)\'English\'',
+        displayName: 'English Display Name',
+      },
+      {
+        refName: 'urn:cspace:core.collectionspace.org:vocabularies:name(languages):item:name(swe)\'Swedish\'',
+        displayName: 'Swedish',
+        termStatus: 'inactive',
+      },
+    ];
+
+    shallowRenderer.render(
+      <TermPickerInput
+        terms={terms}
+        value="urn:cspace:core.collectionspace.org:vocabularies:name(languages):item:name(eng)'English'"
+      />,
+      context,
+    );
+
+    const result = shallowRenderer.getRenderOutput();
+
+    result.props.valueLabel.should.equal('English Display Name');
+  });
+
+  it('should set the value label to the displayName parsed from the value if the value does not match any term', () => {
+    const shallowRenderer = createRenderer();
+
+    const terms = [
+      {
+        refName: 'urn:cspace:core.collectionspace.org:vocabularies:name(languages):item:name(grc)\'Ancient Greek\'',
+        displayName: 'Ancient Greek',
+      },
+      {
+        refName: 'urn:cspace:core.collectionspace.org:vocabularies:name(languages):item:name(eng)\'English\'',
+        displayName: 'English',
+      },
+      {
+        refName: 'urn:cspace:core.collectionspace.org:vocabularies:name(languages):item:name(swe)\'Swedish\'',
+        displayName: 'Swedish',
+        termStatus: 'inactive',
+      },
+    ];
+
+    shallowRenderer.render(
+      <TermPickerInput
+        terms={terms}
+        value="urn:cspace:core.collectionspace.org:vocabularies:name(languages):item:name(pig)'Pig Latin'"
+      />,
+      context,
+    );
+
+    const result = shallowRenderer.getRenderOutput();
+
+    result.props.valueLabel.should.equal('Pig Latin');
+  });
+
   it('should pass empty options to the base component when terms is undefined', () => {
     const shallowRenderer = createRenderer();
 

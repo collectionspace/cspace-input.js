@@ -76,6 +76,9 @@ export default class TermPickerInput extends Component {
       options = [];
     }
 
+    const selectedOption = options.find((option) => option.value === value);
+    const valueLabel = selectedOption ? selectedOption.label : getDisplayName(value);
+
     const BaseDropdownMenuInput = (filter === 'prefix')
       ? BasePrefixFilteringDropdownMenuInput
       : BaseSubstringFilteringDropdownMenuInput;
@@ -83,7 +86,7 @@ export default class TermPickerInput extends Component {
     return (
       <BaseDropdownMenuInput
         options={options}
-        valueLabel={getDisplayName(value)}
+        valueLabel={valueLabel}
         // eslint-disable-next-line react/jsx-props-no-spreading
         {...remainingProps}
       />
