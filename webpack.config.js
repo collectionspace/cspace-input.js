@@ -37,9 +37,10 @@ const config = {
           {
             loader: 'css-loader',
             options: {
-              modules: true,
               importLoaders: 1,
-              localIdentName: '[folder]-[name]--[local]',
+              modules: {
+                localIdentName: '[folder]-[name]--[local]',
+              },
             },
           },
           {
@@ -49,11 +50,7 @@ const config = {
       },
       {
         test: /\.(png|jpg|svg)$/,
-        use: [
-          {
-            loader: 'url-loader',
-          },
-        ],
+        type: 'asset/inline',
       },
     ],
   },

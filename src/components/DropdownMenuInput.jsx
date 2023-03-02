@@ -141,27 +141,6 @@ export default class DropdownMenuInput extends Component {
     }
   }
 
-  commit(value, meta) {
-    const {
-      value: initialValue,
-      onCommit,
-    } = this.props;
-
-    if (
-      onCommit
-      && (value || initialValue)
-      && (value !== initialValue)
-    ) {
-      onCommit(getPath(this.props), value, meta);
-    }
-  }
-
-  focusMenu(itemIndex) {
-    if (this.menu) {
-      this.menu.focus(itemIndex);
-    }
-  }
-
   handleDropdownInputClose() {
     this.setState({
       open: false,
@@ -213,6 +192,27 @@ export default class DropdownMenuInput extends Component {
 
     this.commit(value, meta);
     this.focusInput();
+  }
+
+  commit(value, meta) {
+    const {
+      value: initialValue,
+      onCommit,
+    } = this.props;
+
+    if (
+      onCommit
+      && (value || initialValue)
+      && (value !== initialValue)
+    ) {
+      onCommit(getPath(this.props), value, meta);
+    }
+  }
+
+  focusMenu(itemIndex) {
+    if (this.menu) {
+      this.menu.focus(itemIndex);
+    }
   }
 
   render() {

@@ -91,33 +91,6 @@ export default class RepeatingInput extends Component {
     this.handleRemoveButtonClick = this.handleRemoveButtonClick.bind(this);
   }
 
-  getLabel() {
-    const {
-      children,
-    } = this.props;
-
-    const template = React.Children.only(children);
-
-    const {
-      label,
-    } = template.props;
-
-    return normalizeLabel(label);
-  }
-
-  focus(position) {
-    if (this.instancesContainerNode) {
-      // FIXME: This is a bit of a hack. It should use refs to track the move to top button nodes.
-
-      const instance = this.instancesContainerNode.querySelector(`div[data-instancename="${position}"]`);
-      const moveToTopButtonInstance = instance.querySelector('.cspace-input-MoveToTopButton--common');
-
-      if (moveToTopButtonInstance) {
-        moveToTopButtonInstance.focus();
-      }
-    }
-  }
-
   handleAddButtonClick() {
     const {
       onAddInstance,
@@ -214,6 +187,33 @@ export default class RepeatingInput extends Component {
       const instanceName = event.target.dataset.instancename;
 
       onRemoveInstance([...getPath(this.props), instanceName]);
+    }
+  }
+
+  getLabel() {
+    const {
+      children,
+    } = this.props;
+
+    const template = React.Children.only(children);
+
+    const {
+      label,
+    } = template.props;
+
+    return normalizeLabel(label);
+  }
+
+  focus(position) {
+    if (this.instancesContainerNode) {
+      // FIXME: This is a bit of a hack. It should use refs to track the move to top button nodes.
+
+      const instance = this.instancesContainerNode.querySelector(`div[data-instancename="${position}"]`);
+      const moveToTopButtonInstance = instance.querySelector('.cspace-input-MoveToTopButton--common');
+
+      if (moveToTopButtonInstance) {
+        moveToTopButtonInstance.focus();
+      }
     }
   }
 

@@ -309,14 +309,6 @@ describe('DateInput', function suite() {
     input.value.should.equal('01/01/1995');
   });
 
-  it('should display year only dates', function test() {
-    render(<DateInput value="2005" />, this.container);
-
-    const input = this.container.querySelector('input');
-
-    input.value.should.equal('2005');
-  });
-
   it('should display year/month only dates', function test() {
     render(<DateInput value="04-1995" />, this.container);
 

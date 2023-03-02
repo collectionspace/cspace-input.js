@@ -36,17 +36,6 @@ export default class SubstringFilteringDropdownMenuInput extends Component {
     }));
   }
 
-  filter(substring) {
-    const {
-      options,
-    } = this.props;
-
-    this.setState({
-      substring,
-      filteredOptions: filterOptionsBySubstring(options, substring),
-    });
-  }
-
   handleDropdownInputCommit(path, value) {
     const {
       options,
@@ -64,6 +53,17 @@ export default class SubstringFilteringDropdownMenuInput extends Component {
     if (onCommit) {
       onCommit(path, value);
     }
+  }
+
+  filter(substring) {
+    const {
+      options,
+    } = this.props;
+
+    this.setState({
+      substring,
+      filteredOptions: filterOptionsBySubstring(options, substring),
+    });
   }
 
   render() {

@@ -70,45 +70,6 @@ export default class DateInput extends Component {
     });
   }
 
-  commit(date) {
-    const {
-      onCommit,
-    } = this.props;
-
-    const {
-      value: initialValue,
-    } = this.props;
-
-    const normalizedInitialValue = normalizeISO8601DateString(initialValue);
-    const nextValue = formatDate(date);
-
-    if (
-      onCommit
-      && (nextValue || normalizedInitialValue)
-      && (nextValue !== normalizedInitialValue)
-    ) {
-      onCommit(getPath(this.props), nextValue);
-    }
-  }
-
-  focusCalendar() {
-    // TODO: react-calendar v6 no longer has the focus method. Maybe it will come back?
-
-    // if (this.calendar) {
-    //   this.calendar.focus();
-    // }
-
-    // For now do a bit of a DOM hack to focus.
-
-    if (this.calendarContainerDomNode) {
-      const button = this.calendarContainerDomNode.querySelector('button');
-
-      if (button) {
-        button.focus();
-      }
-    }
-  }
-
   handleCalendarChange(date) {
     this.setState({
       value: formatDate(date),
@@ -239,6 +200,45 @@ export default class DateInput extends Component {
         open: true,
         provisionalDate: undefined,
       });
+    }
+  }
+
+  commit(date) {
+    const {
+      onCommit,
+    } = this.props;
+
+    const {
+      value: initialValue,
+    } = this.props;
+
+    const normalizedInitialValue = normalizeISO8601DateString(initialValue);
+    const nextValue = formatDate(date);
+
+    if (
+      onCommit
+      && (nextValue || normalizedInitialValue)
+      && (nextValue !== normalizedInitialValue)
+    ) {
+      onCommit(getPath(this.props), nextValue);
+    }
+  }
+
+  focusCalendar() {
+    // TODO: react-calendar v6 no longer has the focus method. Maybe it will come back?
+
+    // if (this.calendar) {
+    //   this.calendar.focus();
+    // }
+
+    // For now do a bit of a DOM hack to focus.
+
+    if (this.calendarContainerDomNode) {
+      const button = this.calendarContainerDomNode.querySelector('button');
+
+      if (button) {
+        button.focus();
+      }
     }
   }
 

@@ -72,12 +72,6 @@ export default class IDGeneratorInput extends Component {
     }
   }
 
-  focusMenu() {
-    if (this.menu) {
-      this.menu.focus();
-    }
-  }
-
   handleDropdownInputMount({ focusInput }) {
     this.focusInput = focusInput;
   }
@@ -120,6 +114,12 @@ export default class IDGeneratorInput extends Component {
 
     if (generateID) {
       generateID(option.value, getPath(this.props));
+    }
+  }
+
+  focusMenu() {
+    if (this.menu) {
+      this.menu.focus();
     }
   }
 

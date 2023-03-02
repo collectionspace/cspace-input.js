@@ -50,12 +50,12 @@ export default class PasswordInput extends Component {
     }
   }
 
-  focus() {
-    this.domNode.focus();
-  }
-
   handleRef(ref) {
     this.domNode = ref;
+  }
+
+  focus() {
+    this.domNode.focus();
   }
 
   render() {

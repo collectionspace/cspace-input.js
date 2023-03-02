@@ -65,32 +65,6 @@ export default class FilteringDropdownMenuInput extends Component {
     });
   }
 
-  close() {
-    this.setState({
-      open: false,
-    });
-  }
-
-  commit(value, meta) {
-    const {
-      onCommit,
-    } = this.props;
-
-    if (onCommit) {
-      onCommit(getPath(this.props), value, meta);
-    }
-  }
-
-  filter(filterByValue) {
-    const {
-      filter,
-    } = this.props;
-
-    if (filter) {
-      filter(filterByValue);
-    }
-  }
-
   handleDropdownInputBeforeClose(isCancelled) {
     if (isCancelled) {
       this.setState({
@@ -247,6 +221,32 @@ export default class FilteringDropdownMenuInput extends Component {
       });
 
       this.filter();
+    }
+  }
+
+  close() {
+    this.setState({
+      open: false,
+    });
+  }
+
+  commit(value, meta) {
+    const {
+      onCommit,
+    } = this.props;
+
+    if (onCommit) {
+      onCommit(getPath(this.props), value, meta);
+    }
+  }
+
+  filter(filterByValue) {
+    const {
+      filter,
+    } = this.props;
+
+    if (filter) {
+      filter(filterByValue);
     }
   }
 

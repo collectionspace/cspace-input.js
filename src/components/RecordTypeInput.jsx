@@ -8,6 +8,7 @@ import { getPath } from '../helpers/pathHelpers';
 const propTypes = {
   formatRecordTypeLabel: PropTypes.func,
   indentItems: PropTypes.bool,
+  // eslint-disable-next-line react/forbid-prop-types
   recordTypes: PropTypes.objectOf(PropTypes.object),
   rootType: PropTypes.string,
   serviceTypes: PropTypes.arrayOf(PropTypes.string),

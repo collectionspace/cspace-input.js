@@ -14,6 +14,7 @@ const propTypes = {
   formatCloneOptionLabel: PropTypes.func,
   formatCreateNewOptionLabel: PropTypes.func,
   formatDestinationName: PropTypes.func,
+  // eslint-disable-next-line react/forbid-prop-types
   recordTypes: PropTypes.objectOf(PropTypes.object),
   showCloneOption: PropTypes.bool,
   cloneOptionDisabled: PropTypes.bool,
@@ -51,12 +52,6 @@ export default class QuickAdd extends Component {
     this.handleMenuSelect = this.handleMenuSelect.bind(this);
   }
 
-  focusMenu(itemIndex) {
-    if (this.menu) {
-      this.menu.focus(itemIndex);
-    }
-  }
-
   handleMenuRef(ref) {
     this.menu = ref;
   }
@@ -84,6 +79,12 @@ export default class QuickAdd extends Component {
       ] = typeSpec.split('/');
 
       add(recordType, vocabulary, displayName, partialTerm, clone);
+    }
+  }
+
+  focusMenu(itemIndex) {
+    if (this.menu) {
+      this.menu.focus(itemIndex);
     }
   }
 

@@ -125,65 +125,6 @@ export default class DropdownInput extends Component {
     }
   }
 
-  close(isCancelled) {
-    const {
-      open,
-    } = this.state;
-
-    if (open) {
-      const {
-        onBeforeClose,
-      } = this.props;
-
-      if (onBeforeClose) {
-        onBeforeClose(isCancelled);
-      }
-
-      this.setState({
-        open: false,
-      });
-    }
-  }
-
-  asyncClose(isCancelled) {
-    setTimeout(() => {
-      this.close(isCancelled);
-    }, 0);
-  }
-
-  open() {
-    const {
-      open,
-    } = this.state;
-
-    if (!open) {
-      this.setState({
-        open: true,
-      });
-    }
-  }
-
-  focusInput() {
-    // FIXME: This breaks the TextInput component abstraction by selecting the rendered DOM node
-    // directly and calling focus() on it. But fixing this would require saving a ref to the
-    // TextInput; making TextInput a class instead of a function; and adding a focus() method to
-    // that class, which could be called here. LineInput and MultilineInput would also need to
-    // become classes instead of functions, each with their own focus() method, in order to
-    // properly implement TextInput.focus(). This seems like overkill at the moment.
-
-    this.domNode.querySelector('input, textarea').focus();
-  }
-
-  focusPopup() {
-    const {
-      focusPopup,
-    } = this.props;
-
-    if (focusPopup) {
-      focusPopup();
-    }
-  }
-
   handleInputBlur(event) {
     const {
       onBlur,
@@ -268,6 +209,65 @@ export default class DropdownInput extends Component {
 
   handleRef(ref) {
     this.domNode = ref;
+  }
+
+  asyncClose(isCancelled) {
+    setTimeout(() => {
+      this.close(isCancelled);
+    }, 0);
+  }
+
+  close(isCancelled) {
+    const {
+      open,
+    } = this.state;
+
+    if (open) {
+      const {
+        onBeforeClose,
+      } = this.props;
+
+      if (onBeforeClose) {
+        onBeforeClose(isCancelled);
+      }
+
+      this.setState({
+        open: false,
+      });
+    }
+  }
+
+  focusInput() {
+    // FIXME: This breaks the TextInput component abstraction by selecting the rendered DOM node
+    // directly and calling focus() on it. But fixing this would require saving a ref to the
+    // TextInput; making TextInput a class instead of a function; and adding a focus() method to
+    // that class, which could be called here. LineInput and MultilineInput would also need to
+    // become classes instead of functions, each with their own focus() method, in order to
+    // properly implement TextInput.focus(). This seems like overkill at the moment.
+
+    this.domNode.querySelector('input, textarea').focus();
+  }
+
+  focusPopup() {
+    const {
+      focusPopup,
+    } = this.props;
+
+    if (focusPopup) {
+      focusPopup();
+    }
+  }
+
+  open() {
+    const {
+      open,
+    } = this.state;
+
+    if (!open) {
+      this.setState({
+        open: true,
+      });
+    }
   }
 
   renderInput() {
