@@ -41,6 +41,7 @@
     "classnames": "^2.2.6",
     "cspace-layout": "^2.0.1",
     "cspace-refname": "^1.0.3",
+    "dompurify": "^3.0.1",
     "immutable": "^3.8.2",
     "lodash": "^4.17.5",
     "moment": "^2.24.0",
