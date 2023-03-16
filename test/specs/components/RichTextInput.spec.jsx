@@ -281,6 +281,22 @@ describe('RichTextInput', () => {
     });
   });
 
+  it('should sanitize the value provided in props', function test() {
+    render(
+      <RichTextInput
+        value="Hello <img src=x onerror=document.body.appendChild(document.createElement('code')).appendChild(document.createTextNode('sanitize_fail_1'))//>"
+      />, this.container,
+    );
+
+    return new Promise((resolve) => {
+      window.setTimeout(() => {
+        expect(document.body.querySelector('code')).to.equal(null);
+
+        resolve();
+      }, 0);
+    });
+  });
+
   it('should remove the outer <p> tag if there is only one paragraph in the content', () => {
     let committedValue = null;
 

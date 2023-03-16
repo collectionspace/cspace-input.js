@@ -6,6 +6,7 @@ import ReactQuill, { Quill } from 'react-quill';
 // eslint-disable-next-line import/no-webpack-loader-syntax, import/no-unresolved
 import '!style-loader!css-loader!react-quill/dist/quill.core.css';
 import classNames from 'classnames';
+import * as DOMPurify from 'dompurify';
 import { getPath, pathPropType } from '../helpers/pathHelpers';
 import styles from '../../styles/cspace-input/RichTextInput.css';
 // eslint-disable-next-line import/no-webpack-loader-syntax, import/no-unresolved
@@ -67,6 +68,8 @@ const normalizeValue = (value) => {
   return normalizedValue;
 };
 
+const sanitizeValue = (value) => DOMPurify.sanitize(value, { USE_PROFILES: { html: true } });
+
 const preventButtonMouseDown = (event) => {
   if (event.target.nodeName === 'BUTTON') {
     // On mouseDown on a toolbar button, Firefox fires a blur event with null relatedTarget. This
@@ -127,13 +130,13 @@ export default class RichTextInput extends Component {
     this.handleRef = this.handleRef.bind(this);
 
     this.state = {
-      value,
+      value: sanitizeValue(value),
     };
   }
 
   componentWillReceiveProps(nextProps) {
     this.setState({
-      value: nextProps.value,
+      value: sanitizeValue(nextProps.value),
     });
   }
 
