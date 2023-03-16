@@ -8,11 +8,24 @@ chai.should();
 describe('withLabeledOptions', () => {
   context('enhanced component', () => {
     it('should lift propTypes from the base component', () => {
-      const StubComponent = () => null;
+      const StubComponent = ({
+        name,
+        value,
+      }) => (
+        <div>
+          {name}
+          {value}
+        </div>
+      );
 
       StubComponent.propTypes = {
         name: null,
         value: null,
+      };
+
+      StubComponent.defaultProps = {
+        name: '',
+        value: '',
       };
 
       const EnhancedComponent = withLabeledOptions(StubComponent);

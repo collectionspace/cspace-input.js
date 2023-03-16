@@ -42,9 +42,11 @@ const propTypes = {
   ]),
   embedded: PropTypes.bool,
   name: PropTypes.string,
+  // eslint-disable-next-line react/forbid-prop-types
   optionLists: PropTypes.objectOf(PropTypes.array),
   parentPath: pathPropType,
   subpath: pathPropType,
+  // eslint-disable-next-line react/forbid-prop-types
   terms: PropTypes.objectOf(PropTypes.array),
   value: PropTypes.oneOfType([
     PropTypes.object,
@@ -145,55 +147,6 @@ export default class StructuredDateInput extends Component {
     });
   }
 
-  getValue(name) {
-    const {
-      value,
-    } = this.state;
-
-    return getStructDateFieldValue(value, name);
-  }
-
-  setValue(path, value) {
-    const {
-      value: structDateValue,
-    } = this.state;
-
-    let newStructDateValue;
-
-    if (Immutable.Map.isMap(structDateValue)) {
-      if (path.length === 0) {
-        newStructDateValue = structDateValue.merge(value);
-      } else {
-        newStructDateValue = structDateValue.setIn(path, value);
-      }
-
-      const newStructDateValueAsObject = newStructDateValue.toJS();
-      const dateEarliestScalarValue = computeEarliestScalarDate(newStructDateValueAsObject);
-      const dateLatestScalarValue = computeLatestScalarDate(newStructDateValueAsObject);
-
-      newStructDateValue = newStructDateValue.set('dateEarliestScalarValue', dateEarliestScalarValue);
-      newStructDateValue = newStructDateValue.set('dateLatestScalarValue', dateLatestScalarValue);
-      newStructDateValue = newStructDateValue.set('scalarValuesComputed', true);
-    } else {
-      if (path.length === 0) {
-        newStructDateValue = merge(structDateValue, value);
-      } else {
-        newStructDateValue = merge({}, structDateValue);
-
-        set(newStructDateValue, path, value);
-      }
-
-      const dateEarliestScalarValue = computeEarliestScalarDate(newStructDateValue);
-      const dateLatestScalarValue = computeLatestScalarDate(newStructDateValue);
-
-      newStructDateValue.dateEarliestScalarValue = dateEarliestScalarValue;
-      newStructDateValue.dateLatestScalarValue = dateLatestScalarValue;
-      newStructDateValue.scalarValuesComputed = true;
-    }
-
-    return newStructDateValue;
-  }
-
   handleDropdownInputClose() {
     this.setState({
       open: false,
@@ -265,6 +218,55 @@ export default class StructuredDateInput extends Component {
       open: true,
       primaryValue: value,
     });
+  }
+
+  getValue(name) {
+    const {
+      value,
+    } = this.state;
+
+    return getStructDateFieldValue(value, name);
+  }
+
+  setValue(path, value) {
+    const {
+      value: structDateValue,
+    } = this.state;
+
+    let newStructDateValue;
+
+    if (Immutable.Map.isMap(structDateValue)) {
+      if (path.length === 0) {
+        newStructDateValue = structDateValue.merge(value);
+      } else {
+        newStructDateValue = structDateValue.setIn(path, value);
+      }
+
+      const newStructDateValueAsObject = newStructDateValue.toJS();
+      const dateEarliestScalarValue = computeEarliestScalarDate(newStructDateValueAsObject);
+      const dateLatestScalarValue = computeLatestScalarDate(newStructDateValueAsObject);
+
+      newStructDateValue = newStructDateValue.set('dateEarliestScalarValue', dateEarliestScalarValue);
+      newStructDateValue = newStructDateValue.set('dateLatestScalarValue', dateLatestScalarValue);
+      newStructDateValue = newStructDateValue.set('scalarValuesComputed', true);
+    } else {
+      if (path.length === 0) {
+        newStructDateValue = merge(structDateValue, value);
+      } else {
+        newStructDateValue = merge({}, structDateValue);
+
+        set(newStructDateValue, path, value);
+      }
+
+      const dateEarliestScalarValue = computeEarliestScalarDate(newStructDateValue);
+      const dateLatestScalarValue = computeLatestScalarDate(newStructDateValue);
+
+      newStructDateValue.dateEarliestScalarValue = dateEarliestScalarValue;
+      newStructDateValue.dateLatestScalarValue = dateLatestScalarValue;
+      newStructDateValue.scalarValuesComputed = true;
+    }
+
+    return newStructDateValue;
   }
 
   renderParseFailedMessage() {

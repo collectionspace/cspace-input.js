@@ -31,9 +31,13 @@ export default function MiniButton(props) {
   const classes = classNames(autoWidth ? styles.autoWidth : styles.normal, className);
 
   if (readOnly) {
+    const {
+      children,
+    } = props;
+
     return (
       <div className={classes}>
-        {props.children}
+        {children}
       </div>
     );
   }

@@ -14,6 +14,7 @@ const propTypes = {
   keywordValue: PropTypes.string,
   placeholder: PropTypes.string,
   searchButtonLabel: PropTypes.string,
+  // eslint-disable-next-line react/forbid-prop-types
   recordTypes: PropTypes.objectOf(PropTypes.object),
   recordTypeValue: PropTypes.string,
   vocabularyValue: PropTypes.string,

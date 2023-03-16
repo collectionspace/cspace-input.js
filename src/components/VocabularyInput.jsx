@@ -9,6 +9,7 @@ const SubstringFilteringDropdownMenuInput = withLabeledOptions(
 
 const propTypes = {
   formatVocabularyLabel: PropTypes.func,
+  // eslint-disable-next-line react/forbid-prop-types
   recordTypes: PropTypes.objectOf(PropTypes.object),
   recordType: PropTypes.string,
   rootVocabulary: PropTypes.string,

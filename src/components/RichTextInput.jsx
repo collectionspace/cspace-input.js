@@ -158,25 +158,6 @@ export default class RichTextInput extends Component {
     );
   }
 
-  commit() {
-    const {
-      onCommit,
-      value: prevValue,
-    } = this.props;
-
-    if (onCommit) {
-      const {
-        value,
-      } = this.state;
-
-      const nextValue = normalizeValue(value);
-
-      if (nextValue !== prevValue) {
-        onCommit(getPath(this.props), nextValue);
-      }
-    }
-  }
-
   handleBlur(event) {
     if (!this.domNode.contains(event.relatedTarget)) {
       window.setTimeout(() => {
@@ -205,6 +186,25 @@ export default class RichTextInput extends Component {
 
   handleRef(ref) {
     this.domNode = ref;
+  }
+
+  commit() {
+    const {
+      onCommit,
+      value: prevValue,
+    } = this.props;
+
+    if (onCommit) {
+      const {
+        value,
+      } = this.state;
+
+      const nextValue = normalizeValue(value);
+
+      if (nextValue !== prevValue) {
+        onCommit(getPath(this.props), nextValue);
+      }
+    }
   }
 
   render() {

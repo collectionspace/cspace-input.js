@@ -77,12 +77,12 @@ export default class LineInput extends Component {
     }
   }
 
-  focus() {
-    this.domNode.focus();
-  }
-
   handleRef(ref) {
     this.domNode = ref;
+  }
+
+  focus() {
+    this.domNode.focus();
   }
 
   render() {

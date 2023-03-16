@@ -26,24 +26,56 @@ describe('isInput', () => {
   });
 
   it('should return false for a component without all of the required propTypes', () => {
-    const Component = () => null;
+    const Component = ({
+      name,
+      foo,
+    }) => (
+      <div>
+        {name}
+        {foo}
+      </div>
+    );
 
     Component.propTypes = {
       name: PropTypes.string,
       foo: PropTypes.string,
     };
 
+    Component.defaultProps = {
+      name: '',
+      foo: '',
+    };
+
     isInput(<Component />).should.equal(false);
   });
 
   it('should return true for a component with all of the required propTypes', () => {
-    const Component = () => null;
+    const Component = ({
+      name,
+      parentPath,
+      subpath,
+      value,
+    }) => (
+      <div>
+        {name}
+        {parentPath}
+        {subpath}
+        {value}
+      </div>
+    );
 
     Component.propTypes = {
       name: PropTypes.string,
       parentPath: pathPropType,
       subpath: pathPropType,
       value: PropTypes.string,
+    };
+
+    Component.defaultProps = {
+      name: '',
+      parentPath: '',
+      subpath: '',
+      value: '',
     };
 
     isInput(<Component />).should.equal(true);

@@ -36,20 +36,6 @@ export default class FileInput extends Component {
     this.handleFileInputRef = this.handleFileInputRef.bind(this);
   }
 
-  formatValue(value) {
-    const {
-      formatFileInfo,
-    } = this.props;
-
-    if (value && value.length > 0) {
-      const file = value[0];
-
-      return formatFileInfo(file.name, file.type, file.size);
-    }
-
-    return undefined;
-  }
-
   handleChooseButtonClick() {
     if (this.fileInput) {
       this.fileInput.click();
@@ -82,6 +68,20 @@ export default class FileInput extends Component {
 
   handleFileInputRef(ref) {
     this.fileInput = ref;
+  }
+
+  formatValue(value) {
+    const {
+      formatFileInfo,
+    } = this.props;
+
+    if (value && value.length > 0) {
+      const file = value[0];
+
+      return formatFileInfo(file.name, file.type, file.size);
+    }
+
+    return undefined;
   }
 
   render() {

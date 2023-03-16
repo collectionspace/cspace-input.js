@@ -50,16 +50,6 @@ export default class ComboBoxInput extends Component {
     });
   }
 
-  commit(value) {
-    const {
-      onCommit,
-    } = this.props;
-
-    if (onCommit) {
-      onCommit(getPath(this.props), value);
-    }
-  }
-
   handleDropdownInputChange(value) {
     this.setState({
       isAdding: true,
@@ -138,6 +128,16 @@ export default class ComboBoxInput extends Component {
     this.setState({
       open: true,
     });
+  }
+
+  commit(value) {
+    const {
+      onCommit,
+    } = this.props;
+
+    if (onCommit) {
+      onCommit(getPath(this.props), value);
+    }
   }
 
   render() {

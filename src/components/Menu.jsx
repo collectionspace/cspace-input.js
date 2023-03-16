@@ -77,52 +77,6 @@ export default class Menu extends Component {
     }
   }
 
-  scrollFocusedItemIntoView() {
-    const {
-      focusedIndex,
-    } = this.state;
-
-    if (focusedIndex !== null && this.domNode) {
-      const focusedItem = this.domNode.querySelector(`li:nth-of-type(${focusedIndex + 1})`);
-
-      const focusedItemRect = focusedItem.getBoundingClientRect();
-      const focusedItemTop = focusedItemRect.top;
-      const focusedItemBottom = focusedItemRect.bottom;
-
-      const menuRect = this.domNode.getBoundingClientRect();
-      const menuTop = menuRect.top;
-      const menuBottom = menuRect.bottom;
-
-      if (focusedItemBottom >= menuBottom) {
-        // Scroll the bottom of the item into view.
-
-        const delta = Math.ceil(focusedItemBottom - menuBottom);
-
-        this.domNode.scrollTop += delta;
-      } else if (focusedItemTop <= menuTop) {
-        // Scroll the top of the item into view.
-
-        const delta = Math.ceil(menuTop - focusedItemTop);
-
-        this.domNode.scrollTop -= delta;
-      }
-    }
-  }
-
-  focus(itemIndex) {
-    if (typeof itemIndex === 'number') {
-      const {
-        options,
-      } = this.props;
-
-      this.selectedIndex = (itemIndex >= 0) ? itemIndex : options.length + itemIndex;
-    }
-
-    if (this.domNode) {
-      this.domNode.focus();
-    }
-  }
-
   handleBlur() {
     this.setState({
       focusedIndex: null,
@@ -240,6 +194,52 @@ export default class Menu extends Component {
       : parseInt(ref.dataset.index, 10);
   }
 
+  focus(itemIndex) {
+    if (typeof itemIndex === 'number') {
+      const {
+        options,
+      } = this.props;
+
+      this.selectedIndex = (itemIndex >= 0) ? itemIndex : options.length + itemIndex;
+    }
+
+    if (this.domNode) {
+      this.domNode.focus();
+    }
+  }
+
+  scrollFocusedItemIntoView() {
+    const {
+      focusedIndex,
+    } = this.state;
+
+    if (focusedIndex !== null && this.domNode) {
+      const focusedItem = this.domNode.querySelector(`li:nth-of-type(${focusedIndex + 1})`);
+
+      const focusedItemRect = focusedItem.getBoundingClientRect();
+      const focusedItemTop = focusedItemRect.top;
+      const focusedItemBottom = focusedItemRect.bottom;
+
+      const menuRect = this.domNode.getBoundingClientRect();
+      const menuTop = menuRect.top;
+      const menuBottom = menuRect.bottom;
+
+      if (focusedItemBottom >= menuBottom) {
+        // Scroll the bottom of the item into view.
+
+        const delta = Math.ceil(focusedItemBottom - menuBottom);
+
+        this.domNode.scrollTop += delta;
+      } else if (focusedItemTop <= menuTop) {
+        // Scroll the top of the item into view.
+
+        const delta = Math.ceil(menuTop - focusedItemTop);
+
+        this.domNode.scrollTop -= delta;
+      }
+    }
+  }
+
   selectItem(index) {
     const {
       ignoreDisabledOptions,
@@ -317,15 +317,12 @@ export default class Menu extends Component {
           ref={ref}
           role="option"
           onClick={this.handleItemClick}
-
           // Prevent flash of incorrectly focused item when clicking on an item in an unfocused
           // menu.
           onMouseDown={stopPropagation}
-
           // Track if the mouse is down on an item, using the capture phase so that the state
           // of the mouse may be updated before onFocus fires.
           onMouseDownCapture={this.handleItemMouseDownCapture}
-
           onMouseEnter={this.handleItemMouseEnter}
           onMouseLeave={this.handleItemMouseLeave}
         >

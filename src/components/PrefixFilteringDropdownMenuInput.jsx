@@ -35,17 +35,6 @@ export default class PrefixFilteringDropdownMenuInput extends Component {
     }));
   }
 
-  filter(prefix) {
-    const {
-      options,
-    } = this.props;
-
-    this.setState({
-      prefix,
-      filteredOptions: filterOptionsByPrefix(options, prefix),
-    });
-  }
-
   handleDropdownInputCommit(path, value) {
     const {
       options,
@@ -63,6 +52,17 @@ export default class PrefixFilteringDropdownMenuInput extends Component {
     if (onCommit) {
       onCommit(path, value);
     }
+  }
+
+  filter(prefix) {
+    const {
+      options,
+    } = this.props;
+
+    this.setState({
+      prefix,
+      filteredOptions: filterOptionsByPrefix(options, prefix),
+    });
   }
 
   render() {

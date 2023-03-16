@@ -20,6 +20,7 @@ const propTypes = {
   findDelay: PropTypes.number,
   matches: PropTypes.instanceOf(Immutable.Map),
   minLength: PropTypes.number,
+  // eslint-disable-next-line react/forbid-prop-types
   recordTypes: PropTypes.objectOf(PropTypes.object),
   disableAltTerms: PropTypes.bool,
   showQuickAdd: PropTypes.bool,
@@ -276,69 +277,6 @@ export default class AutocompleteInput extends Component {
     }
   }
 
-  commit(value, meta) {
-    this.setState({
-      options: [],
-      partialTerm: null,
-      value,
-    });
-
-    const {
-      onCommit,
-    } = this.props;
-
-    const csid = meta ? meta.csid : undefined;
-
-    if (onCommit) {
-      onCommit(getPath(this.props), value, csid);
-    }
-  }
-
-  findMatchingTerms(partialTerm) {
-    if (this.findTimer) {
-      window.clearTimeout(this.findTimer);
-
-      this.findTimer = null;
-    }
-
-    const {
-      findDelay,
-      findMatchingTerms,
-      matches,
-      minLength,
-      source,
-    } = this.props;
-
-    const newState = {
-      partialTerm,
-    };
-
-    const searchNeeded = (
-      findMatchingTerms
-      && partialTerm
-      && removePartialTermOperators(partialTerm).length >= minLength
-      && (!matches || !matches.has(partialTerm))
-    );
-
-    if (searchNeeded) {
-      this.findTimer = window.setTimeout(() => {
-        findMatchingTerms(source, partialTerm);
-
-        this.findTimer = null;
-
-        this.setState({
-          isFindTimerActive: false,
-        });
-      }, findDelay);
-    } else {
-      newState.options = getOptions(partialTerm, this.props);
-    }
-
-    newState.isFindTimerActive = !!this.findTimer;
-
-    this.setState(newState);
-  }
-
   handleDropdownInputCommit(path, value, meta) {
     this.commit(value, meta);
   }
@@ -407,6 +345,69 @@ export default class AutocompleteInput extends Component {
     } else if (this.quickAdd) {
       this.quickAdd.focusMenu(0);
     }
+  }
+
+  commit(value, meta) {
+    this.setState({
+      options: [],
+      partialTerm: null,
+      value,
+    });
+
+    const {
+      onCommit,
+    } = this.props;
+
+    const csid = meta ? meta.csid : undefined;
+
+    if (onCommit) {
+      onCommit(getPath(this.props), value, csid);
+    }
+  }
+
+  findMatchingTerms(partialTerm) {
+    if (this.findTimer) {
+      window.clearTimeout(this.findTimer);
+
+      this.findTimer = null;
+    }
+
+    const {
+      findDelay,
+      findMatchingTerms,
+      matches,
+      minLength,
+      source,
+    } = this.props;
+
+    const newState = {
+      partialTerm,
+    };
+
+    const searchNeeded = (
+      findMatchingTerms
+      && partialTerm
+      && removePartialTermOperators(partialTerm).length >= minLength
+      && (!matches || !matches.has(partialTerm))
+    );
+
+    if (searchNeeded) {
+      this.findTimer = window.setTimeout(() => {
+        findMatchingTerms(source, partialTerm);
+
+        this.findTimer = null;
+
+        this.setState({
+          isFindTimerActive: false,
+        });
+      }, findDelay);
+    } else {
+      newState.options = getOptions(partialTerm, this.props);
+    }
+
+    newState.isFindTimerActive = !!this.findTimer;
+
+    this.setState(newState);
   }
 
   renderMenuFooter() {
