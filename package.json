@@ -39,8 +39,8 @@
   },
   "dependencies": {
     "classnames": "^2.2.6",
-    "cspace-layout": "^2.0.1",
-    "cspace-refname": "^1.0.3",
+    "cspace-layout": "^2.0.2",
+    "cspace-refname": "^1.0.4",
     "dompurify": "^3.0.1",
     "immutable": "^3.8.2",
     "lodash": "^4.17.5",
