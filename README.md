@@ -7,6 +7,7 @@
 
 Input components for CollectionSpace, built with [React](https://facebook.github.io/react/). All of the components in this library are [presentational](https://medium.com/@dan_abramov/smart-and-dumb-components-7ca2f9a7c7d0).
 
+
 ## Installation
 
 Using npm:
