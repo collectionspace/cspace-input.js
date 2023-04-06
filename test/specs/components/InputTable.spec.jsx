@@ -1,6 +1,6 @@
 import React from 'react';
-import { render } from 'react-dom';
 import createTestContainer from '../../helpers/createTestContainer';
+import { render } from '../../helpers/renderHelpers';
 import BaseLineInput from '../../../src/components/LineInput';
 import InputTable from '../../../src/components/InputTable';
 import labelable from '../../../src/enhancers/labelable';

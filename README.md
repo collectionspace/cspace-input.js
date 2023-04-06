@@ -2,8 +2,7 @@
 
 
 [![npm package](https://img.shields.io/npm/v/cspace-input.svg)](https://www.npmjs.com/package/cspace-input)
-[![build status](https://travis-ci.org/collectionspace/cspace-input.js.svg?branch=master)](https://travis-ci.org/collectionspace/cspace-input.js)
-[![coverage status](https://coveralls.io/repos/github/collectionspace/cspace-input.js/badge.svg?branch=master)](https://coveralls.io/github/collectionspace/cspace-input.js?branch=master)
+[![continuous integration](https://github.com/collectionspace/cspace-input.js/actions/workflows/ci-js.yml/badge.svg?branch=master&event=push)](https://github.com/collectionspace/cspace-input.js/actions/workflows/ci-js.yml)
 
 Input components for CollectionSpace, built with [React](https://facebook.github.io/react/). All of the components in this library are [presentational](https://medium.com/@dan_abramov/smart-and-dumb-components-7ca2f9a7c7d0).
 

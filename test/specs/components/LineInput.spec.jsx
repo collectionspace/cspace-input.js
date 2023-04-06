@@ -1,8 +1,9 @@
 /* global document */
 
 import React from 'react';
-import { render, unmountComponentAtNode } from 'react-dom';
+import { unmountComponentAtNode } from 'react-dom';
 import createTestContainer from '../../helpers/createTestContainer';
+import { render } from '../../helpers/renderHelpers';
 import createInvisible from '../../helpers/createInvisible';
 import { isInput } from '../../../src/helpers/inputHelpers';
 import LineInput from '../../../src/components/LineInput';

@@ -1,8 +1,8 @@
 import React from 'react';
-import { render } from 'react-dom';
 import { Simulate } from 'react-dom/test-utils';
 import RecordTypeInput from '../../../src/components/RecordTypeInput';
 import createTestContainer from '../../helpers/createTestContainer';
+import { render } from '../../helpers/renderHelpers';
 
 chai.should();
 

@@ -1,8 +1,8 @@
 import React from 'react';
-import { render } from 'react-dom';
 import { Simulate } from 'react-dom/test-utils';
 
 import createTestContainer from '../../helpers/createTestContainer';
+import { render } from '../../helpers/renderHelpers';
 
 import { isInput } from '../../../src/helpers/inputHelpers';
 import CheckboxInput from '../../../src/components/CheckboxInput';

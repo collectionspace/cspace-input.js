@@ -2,9 +2,9 @@
 
 import React from 'react';
 import { Simulate } from 'react-dom/test-utils';
-import { render } from 'react-dom';
 
 import createTestContainer from '../../helpers/createTestContainer';
+import { render } from '../../helpers/renderHelpers';
 
 import { isInput } from '../../../src/helpers/inputHelpers';
 import ComboBoxInput from '../../../src/components/ComboBoxInput';

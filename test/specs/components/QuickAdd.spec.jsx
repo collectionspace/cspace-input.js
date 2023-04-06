@@ -1,11 +1,11 @@
 /* global document */
 
 import React from 'react';
-import { render } from 'react-dom';
 import { Simulate } from 'react-dom/test-utils';
 import QuickAdd from '../../../src/components/QuickAdd';
 
 import createTestContainer from '../../helpers/createTestContainer';
+import { render } from '../../helpers/renderHelpers';
 
 const { expect } = chai;
 

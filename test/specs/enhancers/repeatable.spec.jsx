@@ -2,8 +2,8 @@
 
 import React from 'react';
 import { createRenderer } from 'react-test-renderer/shallow';
-import { render } from 'react-dom';
 import createTestContainer from '../../helpers/createTestContainer';
+import { render } from '../../helpers/renderHelpers';
 import committable from '../../../src/enhancers/committable';
 import repeatable from '../../../src/enhancers/repeatable';
 import TextInput from '../../../src/components/TextInput';

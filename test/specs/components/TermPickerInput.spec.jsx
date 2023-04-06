@@ -1,9 +1,9 @@
 import React from 'react';
-import { render } from 'react-dom';
 import { createRenderer } from 'react-test-renderer/shallow';
 import TermPickerInput from '../../../src/components/TermPickerInput';
 
 import createTestContainer from '../../helpers/createTestContainer';
+import { render } from '../../helpers/renderHelpers';
 
 chai.should();
 

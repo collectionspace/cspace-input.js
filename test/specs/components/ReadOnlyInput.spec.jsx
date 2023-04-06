@@ -1,7 +1,7 @@
 import React from 'react';
-import { render } from 'react-dom';
 
 import createTestContainer from '../../helpers/createTestContainer';
+import { render } from '../../helpers/renderHelpers';
 import createInvisible from '../../helpers/createInvisible';
 
 import { isInput } from '../../../src/helpers/inputHelpers';

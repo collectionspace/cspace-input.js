@@ -1,9 +1,9 @@
 import React from 'react';
 import { Simulate } from 'react-dom/test-utils';
 import Immutable from 'immutable';
-import { render } from 'react-dom';
 
 import createTestContainer from '../../helpers/createTestContainer';
+import { render } from '../../helpers/renderHelpers';
 
 import { isInput } from '../../../src/helpers/inputHelpers';
 import CustomCompoundInput from '../../../src/components/CustomCompoundInput';

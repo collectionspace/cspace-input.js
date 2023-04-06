@@ -1,13 +1,13 @@
 /* global window */
 
 import React from 'react';
-import { render } from 'react-dom';
 import { Simulate } from 'react-dom/test-utils';
 import { createRenderer } from 'react-test-renderer/shallow';
 import Immutable from 'immutable';
 import FilteringDropdownMenuInput from '../../../src/components/FilteringDropdownMenuInput';
 import AutocompleteInput from '../../../src/components/AutocompleteInput';
 import createTestContainer from '../../helpers/createTestContainer';
+import { render } from '../../helpers/renderHelpers';
 
 const { expect } = chai;
 

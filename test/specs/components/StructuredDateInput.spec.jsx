@@ -1,12 +1,12 @@
 /* global window */
 
 import React from 'react';
-import { render } from 'react-dom';
 import { Simulate } from 'react-dom/test-utils';
 import Immutable from 'immutable';
 import chaiImmutable from 'chai-immutable';
 import BaseStructuredDateInput from '../../../src/components/StructuredDateInput';
 import createTestContainer from '../../helpers/createTestContainer';
+import { render } from '../../helpers/renderHelpers';
 import { isInput } from '../../../src/helpers/inputHelpers';
 import labelable from '../../../src/enhancers/labelable';
 import repeatable from '../../../src/enhancers/repeatable';

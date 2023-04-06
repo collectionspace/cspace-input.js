@@ -1,12 +1,12 @@
 /* global window, document */
 
 import React from 'react';
-import { render } from 'react-dom';
 import { Simulate } from 'react-dom/test-utils';
 import { createRenderer } from 'react-test-renderer/shallow';
 import { findWithType } from 'react-shallow-testutils';
 import ReactQuill from 'react-quill';
 import createTestContainer from '../../helpers/createTestContainer';
+import { render } from '../../helpers/renderHelpers';
 import { isInput } from '../../../src/helpers/inputHelpers';
 import RichTextInput from '../../../src/components/RichTextInput';
 
