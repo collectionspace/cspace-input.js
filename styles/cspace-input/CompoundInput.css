@@ -6,6 +6,10 @@
   padding: 0;
 }
 
+:global(.cspace-layout-Row--normal) > * + .common {
+  margin-left: 10px;
+}
+
 .readOnly {
   /* This is used as a marker class to style children. */
 }
