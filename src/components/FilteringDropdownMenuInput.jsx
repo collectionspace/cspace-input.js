@@ -279,6 +279,7 @@ export default class FilteringDropdownMenuInput extends Component {
 
     const {
       className,
+      filter,
       formatStatusMessage,
       onMount,
       ...remainingProps
