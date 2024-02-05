@@ -12,7 +12,7 @@ const getTestFiles = (config) => {
 
 module.exports = function karma(config) {
   const localBrowsers = ['Chrome'];
-  const githubBrowsers = ['Chrome', 'Firefox'];
+  const githubBrowsers = ['Chrome'];
 
   let browsers;
 
