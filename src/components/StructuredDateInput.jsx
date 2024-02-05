@@ -288,7 +288,7 @@ export default class StructuredDateInput extends Component {
     );
   }
 
-  renderDropdownInput(fieldName, listName, embedded = false) {
+  renderDropdownInput(fieldName, listName, label, embedded = false) {
     // Render an appropriate dropdown input for the given list name. If the name is the name of a
     // term list provided in the terms prop, a TermPickerInput is rendered. Otherwise, if the name
     // is the name of an option list provided in the optionLists prop, a
@@ -307,6 +307,7 @@ export default class StructuredDateInput extends Component {
       if (embedded) {
         return (
           <TermPickerInput
+            aria-label={label}
             embedded
             name={fieldName}
             terms={matchingTermList}
@@ -317,7 +318,7 @@ export default class StructuredDateInput extends Component {
 
       return (
         <LabelableTermPickerInput
-          label={formatFieldLabel(fieldName)}
+          label={label}
           name={fieldName}
           terms={matchingTermList}
           onCommit={this.handleInputCommit}
@@ -331,6 +332,7 @@ export default class StructuredDateInput extends Component {
       if (embedded) {
         return (
           <SubstringFilteringDropdownMenuInput
+            aria-label={label}
             embedded
             formatOptionLabel={formatOptionLabel}
             name={fieldName}
@@ -343,7 +345,7 @@ export default class StructuredDateInput extends Component {
       return (
         <LabelableSubstringFilteringDropdownMenuInput
           formatOptionLabel={formatOptionLabel}
-          label={formatFieldLabel(fieldName)}
+          label={label}
           name={fieldName}
           options={matchingOptionList}
           onCommit={this.handleInputCommit}
@@ -354,6 +356,7 @@ export default class StructuredDateInput extends Component {
     if (embedded) {
       return (
         <TextInput
+          aria-label={label}
           embedded
           name={fieldName}
           onCommit={this.handleInputCommit}
@@ -423,7 +426,7 @@ export default class StructuredDateInput extends Component {
             </div>
 
             <div>
-              {this.renderDropdownInput('dateAssociation', 'dateassociation')}
+              {this.renderDropdownInput('dateAssociation', 'dateassociation', formatFieldLabel('dateAssociation'))}
             </div>
 
             <div>
@@ -440,6 +443,7 @@ export default class StructuredDateInput extends Component {
           <table>
             <thead>
               <tr>
+                {/* eslint-disable-next-line jsx-a11y/control-has-associated-label */}
                 <td />
                 <th><Label>{formatFieldLabel('dateYear')}</Label></th>
                 <th><Label>{formatFieldLabel('dateMonth')}</Label></th>
@@ -458,6 +462,8 @@ export default class StructuredDateInput extends Component {
 
                 <td>
                   <TextInput
+                    // eslint-disable-next-line prefer-template
+                    aria-label={formatFieldLabel('earliestSingle') + ' ' + formatFieldLabel('dateYear')}
                     embedded
                     name="dateEarliestSingleYear"
                     onCommit={this.handleInputCommit}
@@ -467,6 +473,8 @@ export default class StructuredDateInput extends Component {
                 <td>
                   <TextInput
                     embedded
+                    // eslint-disable-next-line prefer-template
+                    aria-label={formatFieldLabel('earliestSingle') + ' ' + formatFieldLabel('dateMonth')}
                     name="dateEarliestSingleMonth"
                     onCommit={this.handleInputCommit}
                   />
@@ -474,6 +482,8 @@ export default class StructuredDateInput extends Component {
 
                 <td>
                   <TextInput
+                    // eslint-disable-next-line prefer-template
+                    aria-label={formatFieldLabel('earliestSingle') + ' ' + formatFieldLabel('dateDay')}
                     embedded
                     name="dateEarliestSingleDay"
                     onCommit={this.handleInputCommit}
@@ -481,19 +491,24 @@ export default class StructuredDateInput extends Component {
                 </td>
 
                 <td>
-                  {this.renderDropdownInput('dateEarliestSingleEra', 'dateera', true)}
+                  {/* eslint-disable-next-line prefer-template */}
+                  {this.renderDropdownInput('dateEarliestSingleEra', 'dateera', formatFieldLabel('earliestSingle') + ' ' + formatFieldLabel('dateEra'), true)}
                 </td>
 
                 <td>
-                  {this.renderDropdownInput('dateEarliestSingleCertainty', 'datecertainty', true)}
+                  {/* eslint-disable-next-line prefer-template */}
+                  {this.renderDropdownInput('dateEarliestSingleCertainty', 'datecertainty', formatFieldLabel('earliestSingle') + ' ' + formatFieldLabel('dateCertainty'), true)}
                 </td>
 
                 <td>
-                  {this.renderDropdownInput('dateEarliestSingleQualifier', 'dateQualifiers', true)}
+                  {/* eslint-disable-next-line prefer-template */}
+                  {this.renderDropdownInput('dateEarliestSingleQualifier', 'dateQualifiers', formatFieldLabel('earliestSingle') + ' ' + formatFieldLabel('dateQualifier'), true)}
                 </td>
 
                 <td>
                   <TextInput
+                    // eslint-disable-next-line prefer-template
+                    aria-label={formatFieldLabel('earliestSingle') + ' ' + formatFieldLabel('dateQualifierValue')}
                     embedded
                     name="dateEarliestSingleQualifierValue"
                     onCommit={this.handleInputCommit}
@@ -501,7 +516,8 @@ export default class StructuredDateInput extends Component {
                 </td>
 
                 <td>
-                  {this.renderDropdownInput('dateEarliestSingleQualifierUnit', 'datequalifier', true)}
+                  {/* eslint-disable-next-line prefer-template */}
+                  {this.renderDropdownInput('dateEarliestSingleQualifierUnit', 'datequalifier', formatFieldLabel('earliestSingle') + ' ' + formatFieldLabel('dateQualifierUnit'), true)}
                 </td>
               </tr>
 
@@ -510,6 +526,8 @@ export default class StructuredDateInput extends Component {
 
                 <td>
                   <TextInput
+                    // eslint-disable-next-line prefer-template
+                    aria-label={formatFieldLabel('latest') + ' ' + formatFieldLabel('dateYear')}
                     embedded
                     name="dateLatestYear"
                     onCommit={this.handleInputCommit}
@@ -518,6 +536,8 @@ export default class StructuredDateInput extends Component {
 
                 <td>
                   <TextInput
+                    // eslint-disable-next-line prefer-template
+                    aria-label={formatFieldLabel('latest') + ' ' + formatFieldLabel('dateMonth')}
                     embedded
                     name="dateLatestMonth"
                     onCommit={this.handleInputCommit}
@@ -526,6 +546,8 @@ export default class StructuredDateInput extends Component {
 
                 <td>
                   <TextInput
+                    // eslint-disable-next-line prefer-template
+                    aria-label={formatFieldLabel('latest') + ' ' + formatFieldLabel('dateDay')}
                     embedded
                     name="dateLatestDay"
                     onCommit={this.handleInputCommit}
@@ -533,19 +555,24 @@ export default class StructuredDateInput extends Component {
                 </td>
 
                 <td>
-                  {this.renderDropdownInput('dateLatestEra', 'dateera', true)}
+                  {/* eslint-disable-next-line prefer-template */}
+                  {this.renderDropdownInput('dateLatestEra', 'dateera', formatFieldLabel('latest') + ' ' + formatFieldLabel('dateEra'), true)}
                 </td>
 
                 <td>
-                  {this.renderDropdownInput('dateLatestCertainty', 'datecertainty', true)}
+                  {/* eslint-disable-next-line prefer-template */}
+                  {this.renderDropdownInput('dateLatestCertainty', 'datecertainty', formatFieldLabel('latest') + ' ' + formatFieldLabel('dateCertainty'), true)}
                 </td>
 
                 <td>
-                  {this.renderDropdownInput('dateLatestQualifier', 'dateQualifiers', true)}
+                  {/* eslint-disable-next-line prefer-template */}
+                  {this.renderDropdownInput('dateLatestQualifier', 'dateQualifiers', formatFieldLabel('latest') + ' ' + formatFieldLabel('dateQualifier'), true)}
                 </td>
 
                 <td>
                   <TextInput
+                    // eslint-disable-next-line prefer-template
+                    aria-label={formatFieldLabel('latest') + ' ' + formatFieldLabel('dateQualifierValue')}
                     embedded
                     name="dateLatestQualifierValue"
                     onCommit={this.handleInputCommit}
@@ -553,7 +580,8 @@ export default class StructuredDateInput extends Component {
                 </td>
 
                 <td>
-                  {this.renderDropdownInput('dateLatestQualifierUnit', 'datequalifier', true)}
+                  {/* eslint-disable-next-line prefer-template */}
+                  {this.renderDropdownInput('dateLatestQualifierUnit', 'datequalifier', formatFieldLabel('latest') + ' ' + formatFieldLabel('dateQualifierUnit'), true)}
                 </td>
               </tr>
             </tbody>
