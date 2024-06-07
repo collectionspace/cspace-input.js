@@ -124,6 +124,7 @@ export default class LineInput extends Component {
         ref={this.handleRef}
         type="text"
         value={normalizedValue}
+        title={remainingProps.tooltip}
       />
     );
 
