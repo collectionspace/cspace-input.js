@@ -31,6 +31,14 @@ describe('DateInput', function suite() {
     expect(this.container.querySelector('.react-calendar')).to.equal(null);
   });
 
+  it('should render with a tooltip when provided', function test() {
+    const tooltip = 'test';
+    render(<DateInput tooltip={tooltip} />, this.container);
+
+    const input = this.container.querySelector('input');
+    expect(input.title).to.equal(tooltip);
+  });
+
   it('should not open on focus', function test() {
     render(<DateInput />, this.container);
 
