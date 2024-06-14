@@ -25,12 +25,14 @@ const propTypes = {
   // eslint-disable-next-line react/forbid-foreign-prop-types
   ...BaseDropdownInput.propTypes,
   locale: PropTypes.string,
+  tooltip: PropTypes.string,
   onCommit: PropTypes.func,
   readOnly: PropTypes.bool,
 };
 
 const defaultProps = {
   locale: 'en-US',
+  tooltip: '',
   onCommit: undefined,
   readOnly: undefined,
 };

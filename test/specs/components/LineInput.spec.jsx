@@ -149,4 +149,12 @@ describe('LineInput', () => {
 
     document.activeElement.should.equal(input);
   });
+
+  it('should render with a tooltip when provided', function test() {
+    const tooltip = 'test';
+    render(<LineInput tooltip={tooltip} />, this.container);
+
+    const input = this.container.querySelector('input');
+    expect(input.title).to.equal(tooltip);
+  });
 });
