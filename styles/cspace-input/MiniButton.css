@@ -22,7 +22,7 @@ div.common {
 }
 
 .common:disabled {
-  color: textMedium;
+  color: textDark;
   background-color: miniButtonBgDisabled;
 }
 
