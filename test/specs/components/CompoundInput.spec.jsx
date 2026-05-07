@@ -57,15 +57,16 @@ describe('CompoundInput', () => {
         </CompoundInput>, this.container,
       );
 
+      const legends = this.container.querySelectorAll('legend');
       const labels = this.container.querySelectorAll('label');
 
-      labels[0].textContent.should.equal('Person');
-      labels[1].textContent.should.equal('First name');
-      labels[2].textContent.should.equal('Last name');
-      labels[3].textContent.should.equal('Address');
-      labels[4].textContent.should.equal('Street');
-      labels[5].textContent.should.equal('City');
-      labels[6].textContent.should.equal('State');
+      legends[0].textContent.should.equal('Person');
+      legends[1].textContent.should.equal('Address');
+      labels[0].textContent.should.equal('First name');
+      labels[1].textContent.should.equal('Last name');
+      labels[2].textContent.should.equal('Street');
+      labels[3].textContent.should.equal('City');
+      labels[4].textContent.should.equal('State');
 
       const inputs = this.container.querySelectorAll('input');
 

@@ -6,11 +6,13 @@ import get from 'lodash/get';
 import { getPath, pathPropType } from '../helpers/pathHelpers';
 import { isInput } from '../helpers/inputHelpers';
 import styles from '../../styles/cspace-input/CompoundInput.css';
+import Label from './Label';
 
 const propTypes = {
   children: PropTypes.node,
   className: PropTypes.string,
   defaultChildSubpath: pathPropType,
+  label: PropTypes.node,
   name: PropTypes.string,
   // TODO: Stop using propTypes in isInput. Until then, these unused props need to be declared so
   // this component is recognized as an input.
@@ -29,6 +31,7 @@ const defaultProps = {
   children: undefined,
   className: undefined,
   defaultChildSubpath: undefined,
+  label: undefined,
   name: undefined,
   parentPath: undefined,
   subpath: undefined,
@@ -106,6 +109,7 @@ export default class CustomCompoundInput extends Component {
     const {
       children,
       className,
+      label,
       name,
       readOnly,
     } = this.props;
@@ -114,11 +118,24 @@ export default class CustomCompoundInput extends Component {
       [styles.readOnly]: readOnly,
     });
 
+    let legend = null;
+
+    if (React.isValidElement(label) && label.type === Label) {
+      // Extract the label's children, className, id
+      // and render it as legend instead of an orphaned label
+      legend = (
+        <legend className={label.props.className} id={label.props.id}>
+          {label.props.children}
+        </legend>
+      );
+    }
+
     return (
       <fieldset
         className={classes}
         data-name={name}
       >
+        {legend}
         {this.decorateInputs(children)}
       </fieldset>
     );
@@ -127,3 +144,4 @@ export default class CustomCompoundInput extends Component {
 
 CustomCompoundInput.propTypes = propTypes;
 CustomCompoundInput.defaultProps = defaultProps;
+CustomCompoundInput.useLegend = true;
