@@ -116,14 +116,12 @@ export default class CheckboxInput extends Component {
       );
     }
 
-    // FIXME: Don't break jsx-a11y/label-has-associated-control.
-
     /* eslint-disable
-       jsx-a11y/label-has-associated-control,
+       jsx-a11y/no-static-element-interactions,
        jsx-a11y/no-noninteractive-element-interactions,
        jsx-a11y/click-events-have-key-events */
     return (
-      <label className={classes} onClick={onClick}>
+      <span className={classes} onClick={onClick}>
         <input
           checked={checked}
           data-name={name}
@@ -134,10 +132,10 @@ export default class CheckboxInput extends Component {
           {...remainingProps}
         />
         <span />
-      </label>
+      </span>
     );
     /* eslint-enable
-       jsx-a11y/label-has-associated-control,
+       jsx-a11y/no-static-element-interactions,
        jsx-a11y/no-noninteractive-element-interactions,
        jsx-a11y/click-events-have-key-events */
   }
