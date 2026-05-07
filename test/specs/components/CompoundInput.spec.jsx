@@ -89,7 +89,7 @@ describe('CompoundInput', () => {
       result.type.displayName.should.contain('TabularCompoundInput');
     });
 
-    it('should render labels and values properly', function test() {
+    it('should render legend, labels and values properly', function test() {
       const value = {
         firstName: 'John',
         lastName: 'Doe',
@@ -113,15 +113,16 @@ describe('CompoundInput', () => {
         </CompoundInput>, this.container,
       );
 
+      const legend = this.container.querySelector('legend');
       const labels = this.container.querySelectorAll('label');
 
-      labels[0].textContent.should.equal('Person');
-      labels[1].textContent.should.equal('First name');
-      labels[2].textContent.should.equal('Last name');
-      labels[3].textContent.should.equal('Address');
-      labels[4].textContent.should.equal('Street');
-      labels[5].textContent.should.equal('City');
-      labels[6].textContent.should.equal('State');
+      legend.textContent.should.equal('Person');
+      labels[0].textContent.should.equal('First name');
+      labels[1].textContent.should.equal('Last name');
+      labels[2].textContent.should.equal('Address');
+      labels[3].textContent.should.equal('Street');
+      labels[4].textContent.should.equal('City');
+      labels[5].textContent.should.equal('State');
 
       const inputs = this.container.querySelectorAll('input');
 
