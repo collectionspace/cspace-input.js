@@ -45,9 +45,17 @@ export default function labelable(BaseComponent) {
 
     const {
       readOnly,
+      id,
     } = props;
 
-    const normalizedLabel = normalizeLabel(label, { required, readOnly });
+    const labelId = id ? `${id}-label` : undefined;
+
+    const normalizedLabel = normalizeLabel(label, {
+      required,
+      readOnly,
+      htmlFor: id,
+      id: labelId,
+    });
 
     const baseComponent = (
       // eslint-disable-next-line react/jsx-props-no-spreading

@@ -6,12 +6,16 @@ const propTypes = {
   children: PropTypes.node,
   readOnly: PropTypes.bool,
   required: PropTypes.bool,
+  htmlFor: PropTypes.string,
+  id: PropTypes.string,
 };
 
 const defaultProps = {
   children: undefined,
   readOnly: undefined,
   required: undefined,
+  htmlFor: undefined,
+  id: undefined,
 };
 
 /**
@@ -22,14 +26,14 @@ export default function Label(props) {
     children,
     readOnly,
     required,
+    htmlFor,
+    id,
   } = props;
 
   const className = (required && !readOnly) ? styles.required : styles.common;
 
   return (
-    // FIXME: Set the htmlFor prop to associate the labeled control.
-    // eslint-disable-next-line jsx-a11y/label-has-associated-control
-    <label className={className}>
+    <label className={className} htmlFor={htmlFor} id={id}>
       {children}
     </label>
   );
