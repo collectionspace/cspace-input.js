@@ -480,6 +480,7 @@ export default class AutocompleteInput extends Component {
       asText,
       embedded,
       readOnly,
+      id,
     } = this.props;
 
     const {
@@ -492,6 +493,7 @@ export default class AutocompleteInput extends Component {
         readOnly={readOnly}
         value={getDisplayName(value)}
         embedded={embedded}
+        id={id}
       />
     );
   }

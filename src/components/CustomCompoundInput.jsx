@@ -12,6 +12,7 @@ const propTypes = {
   children: PropTypes.node,
   className: PropTypes.string,
   defaultChildSubpath: pathPropType,
+  id: PropTypes.string,
   label: PropTypes.node,
   name: PropTypes.string,
   // TODO: Stop using propTypes in isInput. Until then, these unused props need to be declared so
@@ -36,6 +37,7 @@ const defaultProps = {
   parentPath: undefined,
   subpath: undefined,
   readOnly: undefined,
+  id: undefined,
   value: {},
 };
 
@@ -65,6 +67,7 @@ export default class CustomCompoundInput extends Component {
   decorateInputs(children) {
     const {
       readOnly,
+      id: parentId,
     } = this.props;
 
     return React.Children.map(children, (child) => {
@@ -91,12 +94,21 @@ export default class CustomCompoundInput extends Component {
           subpath = defaultChildSubpath;
         }
 
-        return React.cloneElement(child, {
+        const overrides = {
           readOnly,
           subpath,
           parentPath: getPath(this.props),
           value: getChildValue(value, subpath, name),
-        });
+        };
+
+        // Propagate id to inputs that don't have one, so the id chain mirrors the
+        // data path and labels can associate via htmlFor without each call site
+        // computing ids manually.
+        if (!child.props.id && parentId && name) {
+          overrides.id = `${parentId}-${name}`;
+        }
+
+        return React.cloneElement(child, overrides);
       }
 
       return React.cloneElement(child, {
