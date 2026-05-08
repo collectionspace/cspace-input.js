@@ -6,7 +6,7 @@ import get from 'lodash/get';
 import { getPath, pathPropType } from '../helpers/pathHelpers';
 import { isInput } from '../helpers/inputHelpers';
 import styles from '../../styles/cspace-input/CompoundInput.css';
-import Label from './Label';
+import labelToLegend from '../helpers/labelToLegend';
 
 const propTypes = {
   children: PropTypes.node,
@@ -130,17 +130,7 @@ export default class CustomCompoundInput extends Component {
       [styles.readOnly]: readOnly,
     });
 
-    let legend = null;
-
-    if (React.isValidElement(label) && label.type === Label) {
-      // Extract the label's children, className, id
-      // and render it as legend instead of an orphaned label
-      legend = (
-        <legend className={label.props.className} id={label.props.id}>
-          {label.props.children}
-        </legend>
-      );
-    }
+    const legend = labelToLegend(label);
 
     return (
       <fieldset

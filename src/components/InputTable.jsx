@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import InputTableHeader from './InputTableHeader';
 import InputTableRow from './InputTableRow';
 import styles from '../../styles/cspace-input/InputTable.css';
-import Label from './Label';
+import labelToLegend from '../helpers/labelToLegend';
 
 const propTypes = {
   children: PropTypes.node,
@@ -33,19 +33,7 @@ export default function InputTable(props) {
     renderAriaLabel,
   } = props;
 
-  let legend = null;
-
-  if (React.isValidElement(label) && label.type === Label) {
-    // Extract the label's children, className, id
-    // and render it as legend instead of an orphaned label
-    legend = (
-      <legend className={label.props.className} id={label.props.id}>
-        {label.props.children}
-      </legend>
-    );
-  } else if (label) {
-    legend = <legend>{label}</legend>;
-  }
+  const legend = labelToLegend(label);
 
   return (
     <fieldset className={styles.common} id={id}>

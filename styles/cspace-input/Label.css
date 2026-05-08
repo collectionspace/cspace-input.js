@@ -9,6 +9,14 @@
   color: textLabel;
 }
 
+/* When applied to a <legend> inside a <fieldset>, override the browser's special
+   legend-on-border positioning so it participates in normal block flow. */
+legend.common {
+  float: left;
+  width: 100%;
+  padding-inline: 0;
+}
+
 .required {
   composes: common;
 }

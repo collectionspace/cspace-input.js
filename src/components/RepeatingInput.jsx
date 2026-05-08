@@ -8,7 +8,7 @@ import { getPath, pathPropType } from '../helpers/pathHelpers';
 import miniButtonContainerStyles from '../../styles/cspace-input/MiniButtonContainer.css';
 import moveToTopButtonStyles from '../../styles/cspace-input/MoveToTopButton.css';
 import styles from '../../styles/cspace-input/RepeatingInput.css';
-import Label from './Label';
+import labelToLegend from '../helpers/labelToLegend';
 
 const propTypes = {
   children: PropTypes.node,
@@ -80,23 +80,7 @@ const normalizeValue = (value) => {
   return normalized;
 };
 
-const renderHeader = (label) => {
-  if (!label) {
-    return null;
-  }
-
-  if (React.isValidElement(label) && label.type === Label) {
-    // Extract the label's children, className, id
-    // and render it as legend instead of an orphaned label
-    return (
-      <legend className={label.props.className} id={label.props.id}>
-        {label.props.children}
-      </legend>
-    );
-  }
-
-  return <legend>{label}</legend>;
-};
+const renderHeader = (label) => labelToLegend(label);
 
 export default class RepeatingInput extends Component {
   constructor(props) {

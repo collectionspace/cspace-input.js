@@ -6,7 +6,7 @@ import InputTableHeader from './InputTableHeader';
 import labelable from '../enhancers/labelable';
 import repeatable from '../enhancers/repeatable';
 import { getPath } from '../helpers/pathHelpers';
-import Label from './Label';
+import labelToLegend from '../helpers/labelToLegend';
 
 const BaseComponent = repeatable(labelable(CustomCompoundInput));
 
@@ -70,17 +70,7 @@ export default class TabularCompoundInput extends Component {
       </InputTableHeader>
     );
 
-    let legend = null;
-
-    if (React.isValidElement(label) && label.type === Label) {
-      // Extract the label's children, className, id
-      // and render it as legend instead of an orphaned label
-      legend = (
-        <legend className={label.props.className} id={label.props.id}>
-          {label.props.children}
-        </legend>
-      );
-    }
+    const legend = labelToLegend(label);
 
     return (
       <>
