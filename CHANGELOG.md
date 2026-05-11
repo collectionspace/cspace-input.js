@@ -1,5 +1,9 @@
 # Change Log
 
+## 2.1.2
+
+* Add htmlFor/id attribute to labels associating them to inputs
+
 ## 2.1.1
 
 * Increase contrast in disabled mini button text

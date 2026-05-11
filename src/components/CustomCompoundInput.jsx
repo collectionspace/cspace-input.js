@@ -101,9 +101,7 @@ export default class CustomCompoundInput extends Component {
           value: getChildValue(value, subpath, name),
         };
 
-        // Propagate id to inputs that don't have one, so the id chain mirrors the
-        // data path and labels can associate via htmlFor without each call site
-        // computing ids manually.
+        // Propagate id to inputs that don't have one
         if (!child.props.id && parentId && name) {
           overrides.id = `${parentId}-${name}`;
         }
