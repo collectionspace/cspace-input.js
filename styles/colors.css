@@ -4,9 +4,9 @@
 @value textLabel: rgb(80, 80, 80);
 
 @value buttonText: rgb(255, 255, 255);
-@value buttonBg: #73AA4F;
-@value buttonBgActive: #4A7F28;
-@value buttonBgDisabled: rgb(220, 220, 220);
+@value buttonBg: #003366;
+@value buttonBgActive: #336699;
+@value buttonBgDisabled: #333333;
 @value miniButtonBgDisabled: rgba(230, 230, 230, .4);
 
 @value inputBg: rgb(255, 255, 255);
