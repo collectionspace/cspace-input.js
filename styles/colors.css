@@ -7,6 +7,8 @@
 @value buttonBg: #003366;
 @value buttonBgActive: #336699;
 @value buttonBgDisabled: #333333;
+@value deleteButtonBg: #660000;
+@value deleteButtonBgActive: #990000;
 @value miniButtonBgDisabled: rgba(230, 230, 230, .4);
 
 @value inputBg: rgb(255, 255, 255);
