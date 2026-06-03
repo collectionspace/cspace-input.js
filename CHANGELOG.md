@@ -1,5 +1,8 @@
 # Change Log
 
+## 2.1.2
+* Changed button color palette
+
 ## 2.1.1
 
 * Increase contrast in disabled mini button text
