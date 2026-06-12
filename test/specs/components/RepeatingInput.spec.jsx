@@ -264,7 +264,7 @@ describe('RepeatingInput', () => {
       </RepeatingInput>, this.container,
     );
 
-    this.container.querySelector('label').textContent.should.equal('Inner label');
+    this.container.querySelector('legend').textContent.should.equal('Inner label');
   });
 
   it('should render a repeating CustomCompoundInput', function test() {

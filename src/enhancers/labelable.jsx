@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import normalizeLabel from '../helpers/normalizeLabel';
+import Label from '../components/Label';
 
 /**
  * Makes an input component labelable. Returns an enhanced component that accepts a label prop. If
@@ -8,6 +9,11 @@ import normalizeLabel from '../helpers/normalizeLabel';
  * label. If the label is a string, it is wrapped in a Label; otherwise, it is rendered as given.
  * If no label is supplied, the base component is returned unchanged. A msgkey prop is also
  * accepted, but has no effect. It may be used by preprocessors to generate a label.
+ * If BaseComponent contains a static `useLegend = true` and the label is a Label element
+ * (or a string that is normalized to one), the label is forwarded to BaseComponent as the
+ *  `label` prop The BaseComponent is expected to render the label as a `<legend>`
+ *  inside its own `<fieldset>`.
+ *
  * @param {string|function} BaseComponent - The component to enhance.
  * @returns {function} The enhanced component.
  */
@@ -45,23 +51,39 @@ export default function labelable(BaseComponent) {
 
     const {
       readOnly,
+      id,
     } = props;
 
-    const normalizedLabel = normalizeLabel(label, { required, readOnly });
+    const labelId = id ? `${id}-label` : undefined;
 
-    const baseComponent = (
-      // eslint-disable-next-line react/jsx-props-no-spreading
-      <BaseComponent {...remainingProps} />
-    );
+    const normalizedLabel = normalizeLabel(label, {
+      required,
+      readOnly,
+      htmlFor: id,
+      id: labelId,
+    });
 
     if (!normalizedLabel) {
-      return baseComponent;
+      // eslint-disable-next-line react/jsx-props-no-spreading
+      return <BaseComponent {...remainingProps} />;
+    }
+
+    if (
+      BaseComponent.useLegend
+      && React.isValidElement(normalizedLabel)
+      && normalizedLabel.type === Label
+    ) {
+      return (
+        // eslint-disable-next-line react/jsx-props-no-spreading
+        <BaseComponent {...remainingProps} label={normalizedLabel} />
+      );
     }
 
     return (
       <div>
         {normalizedLabel}
-        {baseComponent}
+        {/* eslint-disable-next-line react/jsx-props-no-spreading */}
+        <BaseComponent {...remainingProps} />
       </div>
     );
   }

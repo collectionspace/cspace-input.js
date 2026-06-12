@@ -14,14 +14,14 @@ describe('InputTable', () => {
     this.container = createTestContainer(this);
   });
 
-  it('should render as a div', function test() {
+  it('should render as a fieldset', function test() {
     render(
       <InputTable>
         <LineInput name="input1" label="test" />
       </InputTable>, this.container,
     );
 
-    this.container.firstElementChild.nodeName.should.equal('DIV');
+    this.container.firstElementChild.nodeName.should.equal('FIELDSET');
   });
 
   it('should render a header row and an input row', function test() {

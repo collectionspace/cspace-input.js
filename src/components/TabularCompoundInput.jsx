@@ -6,6 +6,7 @@ import InputTableHeader from './InputTableHeader';
 import labelable from '../enhancers/labelable';
 import repeatable from '../enhancers/repeatable';
 import { getPath } from '../helpers/pathHelpers';
+import labelToLegend from '../helpers/labelToLegend';
 
 const BaseComponent = repeatable(labelable(CustomCompoundInput));
 
@@ -15,6 +16,7 @@ const propTypes = {
   // eslint-disable-next-line react/forbid-foreign-prop-types
   ...BaseComponent.propTypes,
   children: PropTypes.node,
+  label: PropTypes.node,
   repeating: PropTypes.bool,
   sortableFields: PropTypes.objectOf(PropTypes.bool),
   onSortInstances: PropTypes.func,
@@ -23,6 +25,7 @@ const propTypes = {
 
 const defaultProps = {
   children: undefined,
+  label: undefined,
   repeating: undefined,
   sortableFields: undefined,
   onSortInstances: undefined,
@@ -49,6 +52,7 @@ export default class TabularCompoundInput extends Component {
   render() {
     const {
       children,
+      label,
       repeating,
       renderChildInputLabel,
       sortableFields,
@@ -66,20 +70,26 @@ export default class TabularCompoundInput extends Component {
       </InputTableHeader>
     );
 
+    const legend = labelToLegend(label);
+
     return (
-      <BaseComponent
-        // eslint-disable-next-line react/jsx-props-no-spreading
-        {...remainingProps}
-        label={tableHeader}
-        repeating={repeating}
-      >
-        <InputTableRow embedded={repeating}>
-          {children}
-        </InputTableRow>
-      </BaseComponent>
+      <>
+        {legend}
+        <BaseComponent
+          // eslint-disable-next-line react/jsx-props-no-spreading
+          {...remainingProps}
+          label={tableHeader}
+          repeating={repeating}
+        >
+          <InputTableRow embedded={repeating}>
+            {children}
+          </InputTableRow>
+        </BaseComponent>
+      </>
     );
   }
 }
 
 TabularCompoundInput.propTypes = propTypes;
 TabularCompoundInput.defaultProps = defaultProps;
+TabularCompoundInput.useLegend = true;

@@ -73,6 +73,7 @@ export default function repeatable(BaseComponent) {
         onCommit={onCommit}
         onMoveInstance={onMoveInstance}
         onRemoveInstance={onRemoveInstance}
+        id={baseProps.id}
       >
         {/* eslint-disable-next-line react/jsx-props-no-spreading */}
         <BaseComponent {...baseProps} />

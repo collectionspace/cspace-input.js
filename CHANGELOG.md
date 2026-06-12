@@ -1,6 +1,8 @@
 # Change Log
 
 ## 2.1.2
+
+* Add htmlFor/id attribute to labels associating them to inputs
 * Changed button color palette
 
 ## 2.1.1

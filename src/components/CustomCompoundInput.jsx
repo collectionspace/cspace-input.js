@@ -6,11 +6,14 @@ import get from 'lodash/get';
 import { getPath, pathPropType } from '../helpers/pathHelpers';
 import { isInput } from '../helpers/inputHelpers';
 import styles from '../../styles/cspace-input/CompoundInput.css';
+import labelToLegend from '../helpers/labelToLegend';
 
 const propTypes = {
   children: PropTypes.node,
   className: PropTypes.string,
   defaultChildSubpath: pathPropType,
+  id: PropTypes.string,
+  label: PropTypes.node,
   name: PropTypes.string,
   // TODO: Stop using propTypes in isInput. Until then, these unused props need to be declared so
   // this component is recognized as an input.
@@ -29,10 +32,12 @@ const defaultProps = {
   children: undefined,
   className: undefined,
   defaultChildSubpath: undefined,
+  label: undefined,
   name: undefined,
   parentPath: undefined,
   subpath: undefined,
   readOnly: undefined,
+  id: undefined,
   value: {},
 };
 
@@ -62,6 +67,7 @@ export default class CustomCompoundInput extends Component {
   decorateInputs(children) {
     const {
       readOnly,
+      id: parentId,
     } = this.props;
 
     return React.Children.map(children, (child) => {
@@ -88,12 +94,19 @@ export default class CustomCompoundInput extends Component {
           subpath = defaultChildSubpath;
         }
 
-        return React.cloneElement(child, {
+        const overrides = {
           readOnly,
           subpath,
           parentPath: getPath(this.props),
           value: getChildValue(value, subpath, name),
-        });
+        };
+
+        // Propagate id to inputs that don't have one
+        if (!child.props.id && parentId && name) {
+          overrides.id = `${parentId}-${name}`;
+        }
+
+        return React.cloneElement(child, overrides);
       }
 
       return React.cloneElement(child, {
@@ -106,6 +119,7 @@ export default class CustomCompoundInput extends Component {
     const {
       children,
       className,
+      label,
       name,
       readOnly,
     } = this.props;
@@ -114,11 +128,14 @@ export default class CustomCompoundInput extends Component {
       [styles.readOnly]: readOnly,
     });
 
+    const legend = labelToLegend(label);
+
     return (
       <fieldset
         className={classes}
         data-name={name}
       >
+        {legend}
         {this.decorateInputs(children)}
       </fieldset>
     );
@@ -127,3 +144,4 @@ export default class CustomCompoundInput extends Component {
 
 CustomCompoundInput.propTypes = propTypes;
 CustomCompoundInput.defaultProps = defaultProps;
+CustomCompoundInput.useLegend = true;

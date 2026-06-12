@@ -20,10 +20,10 @@ describe('CheckboxInput', () => {
     isInput(<CheckboxInput />).should.equal(true);
   });
 
-  it('should render as a label', function test() {
+  it('should render as a span', function test() {
     render(<CheckboxInput />, this.container);
 
-    this.container.firstElementChild.nodeName.should.equal('LABEL');
+    this.container.firstElementChild.nodeName.should.equal('SPAN');
   });
 
   it('should render with correct class', function test() {

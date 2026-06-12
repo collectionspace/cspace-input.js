@@ -250,17 +250,18 @@ describe('exported', () => {
   });
 
   describe('TabularCompoundInput', () => {
-    it('should render outer and inner labels', function test() {
+    it('should render outer legend and inner labels', function test() {
       render(
         <TabularCompoundInput label="Compound input label">
           <TextInput name="objectNumber" label="Inner label" />
         </TabularCompoundInput>, this.container,
       );
 
+      const legend = this.container.querySelector('legend');
       const labels = this.container.querySelectorAll('label');
 
-      labels[0].textContent.should.equal('Compound input label');
-      labels[1].textContent.should.equal('Inner label');
+      legend.textContent.should.equal('Compound input label');
+      labels[0].textContent.should.equal('Inner label');
     });
 
     it('should render when no labels are supplied', function test() {

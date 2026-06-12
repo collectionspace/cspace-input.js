@@ -8,9 +8,11 @@ import { getPath, pathPropType } from '../helpers/pathHelpers';
 import miniButtonContainerStyles from '../../styles/cspace-input/MiniButtonContainer.css';
 import moveToTopButtonStyles from '../../styles/cspace-input/MoveToTopButton.css';
 import styles from '../../styles/cspace-input/RepeatingInput.css';
+import labelToLegend from '../helpers/labelToLegend';
 
 const propTypes = {
   children: PropTypes.node,
+  id: PropTypes.string,
   name: PropTypes.string,
   /* eslint-disable react/no-unused-prop-types */
   parentPath: pathPropType,
@@ -38,6 +40,7 @@ const propTypes = {
 
 const defaultProps = {
   children: undefined,
+  id: undefined,
   name: undefined,
   parentPath: undefined,
   subpath: undefined,
@@ -77,7 +80,7 @@ const normalizeValue = (value) => {
   return normalized;
 };
 
-const renderHeader = (label) => label;
+const renderHeader = (label) => labelToLegend(label);
 
 export default class RepeatingInput extends Component {
   constructor(props) {
@@ -252,6 +255,7 @@ export default class RepeatingInput extends Component {
 
     const template = React.Children.only(children);
     const normalizedValue = normalizeValue(value);
+    const templateId = template.props.id;
 
     return normalizedValue.map((instanceValue, index, list) => {
       const instanceName = `${index}`;
@@ -264,6 +268,7 @@ export default class RepeatingInput extends Component {
         name: instanceName,
         parentPath: getPath(this.props),
         value: instanceValue,
+        id: templateId ? `${templateId}-${instanceName}` : undefined,
         // The template is expected to accept an onCommit prop.
         onCommit: this.handleInstanceCommit,
       };
@@ -347,6 +352,7 @@ export default class RepeatingInput extends Component {
   render() {
     const {
       asText,
+      id,
       name,
       readOnly,
     } = this.props;
@@ -387,6 +393,7 @@ export default class RepeatingInput extends Component {
       <fieldset
         className={className}
         data-name={name}
+        id={id}
       >
         {isLabelEmbedded ? null : renderHeader(label)}
 
