@@ -8,6 +8,7 @@ import { pathPropType } from '../helpers/pathHelpers';
  */
 
 const propTypes = {
+  id: PropTypes.string,
   name: PropTypes.string,
   // TODO: Stop using propTypes in isInput. Until then, these unused props need to be declared so
   // this component is recognized as an input.
@@ -20,6 +21,7 @@ const propTypes = {
 };
 
 const defaultProps = {
+  id: undefined,
   name: undefined,
   parentPath: undefined,
   subpath: undefined,
@@ -29,6 +31,7 @@ const defaultProps = {
 
 export default function DateTimeInput(props) {
   const {
+    id,
     name,
     value,
     formatValue,
@@ -36,6 +39,7 @@ export default function DateTimeInput(props) {
 
   return (
     <LineInput
+      id={id}
       name={name}
       readOnly
       value={formatValue ? formatValue(value) : value}

@@ -615,4 +615,24 @@ describe('DropdownMenuInput', () => {
     input.disabled.should.equal(true);
     input.value.should.equal('Value 2');
   });
+
+  it('should forward aria-label to the LineInput when readOnly is true', function test() {
+    const options = [
+      { value: 'value1', label: 'Value 1' },
+      { value: 'value2', label: 'Value 2' },
+    ];
+
+    render(
+      <DropdownMenuInput
+        options={options}
+        value="value2"
+        readOnly
+        aria-label="My label"
+      />, this.container,
+    );
+
+    const input = this.container.firstElementChild;
+
+    input.getAttribute('aria-label').should.equal('My label');
+  });
 });

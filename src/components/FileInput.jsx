@@ -6,6 +6,7 @@ import styles from '../../styles/cspace-input/FileInput.css';
 
 const propTypes = {
   accept: PropTypes.string,
+  id: PropTypes.string,
   name: PropTypes.string,
   formatFileInfo: PropTypes.func,
   onCommit: PropTypes.func,
@@ -88,6 +89,7 @@ export default class FileInput extends Component {
     const {
       accept,
       formatValue,
+      id,
       name,
       ...remainingProps
     } = this.props;
@@ -104,6 +106,7 @@ export default class FileInput extends Component {
         <input
           accept={accept}
           data-name={name}
+          id={id}
           ref={this.handleFileInputRef}
           tabIndex="-1"
           type="file"

@@ -140,6 +140,7 @@ export default class UploadInput extends Component {
 
     return (
       <DropdownMenuInput
+        id="uploadInputType"
         label={typeInputLabel}
         name="type"
         readOnly={readOnly}
@@ -165,6 +166,7 @@ export default class UploadInput extends Component {
     return (
       <FileInput
         accept={accept}
+        id="uploadInputFile"
         label={fileInputLabel}
         name="file"
         readOnly={readOnly}
@@ -187,6 +189,7 @@ export default class UploadInput extends Component {
 
     return (
       <TextInput
+        id="uploadInputUrl"
         label={urlInputLabel}
         name="url"
         readOnly={readOnly}

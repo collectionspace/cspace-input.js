@@ -248,10 +248,18 @@ export default class DropdownMenuInput extends Component {
     const inputValue = valueLabel;
 
     if (readOnly) {
-      const { embedded } = remainingProps;
+      const {
+        embedded,
+        id,
+        'aria-label': ariaLabel,
+        'aria-labelledby': ariaLabelledby,
+      } = remainingProps;
 
       return (
         <LineInput
+          aria-label={ariaLabel}
+          aria-labelledby={ariaLabelledby}
+          id={id}
           readOnly
           value={inputValue}
           embedded={embedded}

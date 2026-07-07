@@ -22,6 +22,16 @@ describe('DateTimeInput', () => {
     result.props.readOnly.should.equal(true);
   });
 
+  it('should pass id to the LineInput', () => {
+    const shallowRenderer = createRenderer();
+
+    shallowRenderer.render(<DateTimeInput id="dateTimeInputId" />);
+
+    const result = shallowRenderer.getRenderOutput();
+
+    result.props.id.should.equal('dateTimeInputId');
+  });
+
   it('should use formatValue to format the value', () => {
     let formatCalled = false;
 

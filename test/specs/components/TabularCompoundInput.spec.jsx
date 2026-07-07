@@ -39,6 +39,29 @@ describe('TabularCompoundInput', () => {
     this.container.querySelector('textarea').value.should.equal(compoundValue.comment);
   });
 
+  it('should apply renderAriaLabel to row inputs in each repeating instance', function test() {
+    const compoundValue = [
+      { objectNumber: '1-200' },
+      { objectNumber: '1-201' },
+    ];
+
+    const renderAriaLabel = (input) => `label of ${input.props.name}`;
+
+    render(
+      <TabularCompoundInput repeating value={compoundValue} renderAriaLabel={renderAriaLabel}>
+        <TextInput name="objectNumber" label="Object number" />
+      </TabularCompoundInput>, this.container,
+    );
+
+    const inputs = this.container.querySelectorAll('input[data-name="objectNumber"]');
+
+    inputs.length.should.equal(2);
+
+    inputs.forEach((input) => {
+      input.getAttribute('aria-label').should.equal('label of objectNumber');
+    });
+  });
+
   it('should call onSortInstances when a sort header button is clicked', function test() {
     const compoundValue = {
       objectNumber: '1-200',
