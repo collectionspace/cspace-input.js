@@ -11,9 +11,12 @@ import styles from '../../styles/cspace-input/QuickSearchInput.css';
 const propTypes = {
   formatRecordTypeLabel: PropTypes.func,
   formatVocabularyLabel: PropTypes.func,
+  keywordInputLabel: PropTypes.string,
   keywordValue: PropTypes.string,
   placeholder: PropTypes.string,
+  recordTypeInputLabel: PropTypes.string,
   searchButtonLabel: PropTypes.string,
+  vocabularyInputLabel: PropTypes.string,
   // eslint-disable-next-line react/forbid-prop-types
   recordTypes: PropTypes.objectOf(PropTypes.object),
   recordTypeValue: PropTypes.string,
@@ -27,9 +30,12 @@ const propTypes = {
 const defaultProps = {
   formatRecordTypeLabel: undefined,
   formatVocabularyLabel: undefined,
+  keywordInputLabel: undefined,
   keywordValue: undefined,
   placeholder: undefined,
+  recordTypeInputLabel: undefined,
   searchButtonLabel: undefined,
+  vocabularyInputLabel: undefined,
   recordTypes: undefined,
   recordTypeValue: undefined,
   vocabularyValue: undefined,
@@ -119,12 +125,14 @@ export default class QuickSearchInput extends Component {
   renderRecordTypeDropdown() {
     const {
       formatRecordTypeLabel,
+      recordTypeInputLabel,
       recordTypes,
       recordTypeValue,
     } = this.props;
 
     return (
       <RecordTypeInput
+        aria-label={recordTypeInputLabel}
         embedded
         formatRecordTypeLabel={formatRecordTypeLabel}
         recordTypes={recordTypes}
@@ -140,11 +148,13 @@ export default class QuickSearchInput extends Component {
       formatVocabularyLabel,
       recordTypes,
       recordTypeValue,
+      vocabularyInputLabel,
       vocabularyValue,
     } = this.props;
 
     return (
       <VocabularyInput
+        aria-label={vocabularyInputLabel}
         embedded
         formatVocabularyLabel={formatVocabularyLabel}
         recordTypes={recordTypes}
@@ -160,12 +170,14 @@ export default class QuickSearchInput extends Component {
 
   renderKeywordInput() {
     const {
+      keywordInputLabel,
       keywordValue,
       placeholder,
     } = this.props;
 
     return (
       <LineInput
+        aria-label={keywordInputLabel}
         embedded
         placeholder={placeholder}
         value={keywordValue}

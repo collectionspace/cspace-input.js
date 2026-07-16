@@ -141,6 +141,7 @@ export default class IDGeneratorInput extends Component {
 
     const {
       embedded,
+      id,
       value,
     } = remainingProps;
 
@@ -148,6 +149,7 @@ export default class IDGeneratorInput extends Component {
       return (
         <LineInput
           embedded={embedded}
+          id={id}
           readOnly
           value={value}
         />

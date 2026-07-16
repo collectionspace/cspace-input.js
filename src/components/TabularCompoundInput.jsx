@@ -20,6 +20,7 @@ const propTypes = {
   repeating: PropTypes.bool,
   sortableFields: PropTypes.objectOf(PropTypes.bool),
   onSortInstances: PropTypes.func,
+  renderAriaLabel: PropTypes.func,
   renderChildInputLabel: PropTypes.func,
 };
 
@@ -29,6 +30,7 @@ const defaultProps = {
   repeating: undefined,
   sortableFields: undefined,
   onSortInstances: undefined,
+  renderAriaLabel: undefined,
   renderChildInputLabel: undefined,
 };
 
@@ -54,6 +56,7 @@ export default class TabularCompoundInput extends Component {
       children,
       label,
       repeating,
+      renderAriaLabel,
       renderChildInputLabel,
       sortableFields,
       ...remainingProps
@@ -81,7 +84,7 @@ export default class TabularCompoundInput extends Component {
           label={tableHeader}
           repeating={repeating}
         >
-          <InputTableRow embedded={repeating}>
+          <InputTableRow embedded={repeating} renderAriaLabel={renderAriaLabel}>
             {children}
           </InputTableRow>
         </BaseComponent>

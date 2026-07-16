@@ -1,5 +1,9 @@
 # Change Log
 
+## 2.2.0
+
+* Resolve orphaned/missing form labels by forwarding id and aria attributes to rendered inputs, and adding label props to QuickSearchInput, RepeatingInput, TabularCompoundInput, and UploadInput
+
 ## 2.1.2
 
 * Add htmlFor/id attribute to labels associating them to inputs

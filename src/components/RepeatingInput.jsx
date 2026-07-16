@@ -257,6 +257,15 @@ export default class RepeatingInput extends Component {
     const normalizedValue = normalizeValue(value);
     const templateId = template.props.id;
 
+    // The label is rendered once as the group header, so each instance input loses its own
+    // label. Point each instance at the header label via aria-labelledby, so it still has an
+    // accessible name. The header Label carries id `${templateId}-label` (set by the consumer,
+    // e.g. the cspace-ui Field component).
+    const templateLabel = template.props.label;
+    const labelId = (React.isValidElement(templateLabel) && templateLabel.props.id)
+      ? templateLabel.props.id
+      : undefined;
+
     return normalizedValue.map((instanceValue, index, list) => {
       const instanceName = `${index}`;
 
@@ -265,6 +274,7 @@ export default class RepeatingInput extends Component {
         readOnly,
         embedded: true,
         label: undefined,
+        'aria-labelledby': labelId,
         name: instanceName,
         parentPath: getPath(this.props),
         value: instanceValue,

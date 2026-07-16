@@ -10,6 +10,7 @@ import InputTableRow from '../../../src/components/InputTableRow';
 import InputTableHeader from '../../../src/components/InputTableHeader';
 import RepeatingInput from '../../../src/components/RepeatingInput';
 import BaseTextInput from '../../../src/components/TextInput';
+import Label from '../../../src/components/Label';
 import committable from '../../../src/enhancers/committable';
 
 const TextInput = committable(BaseTextInput);
@@ -265,6 +266,25 @@ describe('RepeatingInput', () => {
     );
 
     this.container.querySelector('legend').textContent.should.equal('Inner label');
+  });
+
+  it('should point each instance input at the header label via aria-labelledby', function test() {
+    render(
+      <RepeatingInput value={['a', 'b']}>
+        <TextInput
+          id="myField"
+          label={<Label id="myField-label">Inner label</Label>}
+        />
+      </RepeatingInput>, this.container,
+    );
+
+    const inputs = this.container.querySelectorAll('input');
+
+    inputs.length.should.equal(2);
+    inputs[0].getAttribute('aria-labelledby').should.equal('myField-label');
+    inputs[1].getAttribute('aria-labelledby').should.equal('myField-label');
+
+    this.container.querySelector('#myField-label').textContent.should.equal('Inner label');
   });
 
   it('should render a repeating CustomCompoundInput', function test() {

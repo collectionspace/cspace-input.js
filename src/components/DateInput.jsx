@@ -261,10 +261,11 @@ export default class DateInput extends Component {
     if (readOnly) {
       const {
         embedded,
+        id,
       } = remainingProps;
 
       return (
-        <LineInput readOnly value={value} embedded={embedded} />
+        <LineInput id={id} readOnly value={value} embedded={embedded} />
       );
     }
 

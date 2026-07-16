@@ -330,6 +330,35 @@ describe('QuickSearchInput', () => {
     input.value.should.equal('some keywords');
   });
 
+  it('should set aria-label on the record type and keyword inputs', function test() {
+    render(
+      <QuickSearchInput
+        recordTypes={recordTypes}
+        recordTypeInputLabel="Record type to search"
+        keywordInputLabel="Search keywords"
+      />, this.container,
+    );
+
+    const inputs = this.container.querySelectorAll('input');
+
+    inputs[0].getAttribute('aria-label').should.equal('Record type to search');
+    inputs[1].getAttribute('aria-label').should.equal('Search keywords');
+  });
+
+  it('should set aria-label on the vocabulary input when an authority is selected', function test() {
+    render(
+      <QuickSearchInput
+        recordTypes={recordTypes}
+        recordTypeValue="organization"
+        vocabularyInputLabel="Vocabulary to search"
+      />, this.container,
+    );
+
+    const inputs = this.container.querySelectorAll('input');
+
+    inputs[1].getAttribute('aria-label').should.equal('Vocabulary to search');
+  });
+
   it('should select the record type indicated by recordTypeValue prop', function test() {
     render(
       <QuickSearchInput

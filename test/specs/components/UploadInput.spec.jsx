@@ -24,6 +24,36 @@ describe('UploadInput', () => {
     this.container.firstElementChild.nodeName.should.equal('DIV');
   });
 
+  it('should associate the type input label with the type input', function test() {
+    render(<UploadInput />, this.container);
+
+    const label = this.container.querySelector('label[for="uploadInputType"]');
+
+    label.textContent.should.equal('Upload');
+
+    this.container.querySelector('input#uploadInputType').should.not.equal(null);
+  });
+
+  it('should associate the file input label with the file input', function test() {
+    render(<UploadInput type="file" />, this.container);
+
+    const label = this.container.querySelector('label[for="uploadInputFile"]');
+
+    label.textContent.should.equal('File');
+
+    this.container.querySelector('input#uploadInputFile').should.not.equal(null);
+  });
+
+  it('should associate the url input label with the url input', function test() {
+    render(<UploadInput type="url" />, this.container);
+
+    const label = this.container.querySelector('label[for="uploadInputUrl"]');
+
+    label.textContent.should.equal('URL');
+
+    this.container.querySelector('input#uploadInputUrl').should.not.equal(null);
+  });
+
   context('when type is \'file\'', () => {
     it('should render a FileInput', function test() {
       render(<UploadInput type="file" />, this.container);
