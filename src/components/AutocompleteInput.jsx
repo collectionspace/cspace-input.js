@@ -36,6 +36,7 @@ const propTypes = {
   formatCloneOptionLabel: PropTypes.func,
   formatCreateNewOptionLabel: PropTypes.func,
   formatMoreCharsRequiredMessage: PropTypes.func,
+  formatNarrowResultsMessage: PropTypes.func,
   formatSearchResultMessage: PropTypes.func,
   formatSourceName: PropTypes.func,
   matchFilter: PropTypes.func,
@@ -60,6 +61,7 @@ const defaultProps = {
   formatCloneOptionLabel: undefined,
   formatCreateNewOptionLabel: undefined,
   formatMoreCharsRequiredMessage: () => 'Continue typing to find matching terms',
+  formatNarrowResultsMessage: () => 'Continue typing to narrow results',
   formatSearchResultMessage: (count) => {
     const matches = count === 1 ? 'matching term' : 'matching terms';
     const num = count === 0 ? 'No' : count;
@@ -167,6 +169,50 @@ const isPending = (sourceID, matches, partialTerm) => {
   return foundPending;
 };
 
+const isSearchTruncated = (sourceID, matches, partialTerm) => {
+  const sources = parseResourceID(sourceID);
+  let foundTruncated = false;
+
+  if (matches) {
+    const partialTermMatch = matches.get(partialTerm);
+
+    if (partialTermMatch) {
+      sources.forEach((source) => {
+        const {
+          recordType,
+          vocabulary,
+        } = source;
+
+        const sourceMatch = partialTermMatch.getIn([recordType, vocabulary]);
+
+        if (sourceMatch) {
+          const items = sourceMatch.get('items');
+          const pageSize = sourceMatch.get('pageSize');
+          const totalItems = sourceMatch.get('totalItems');
+
+          if (items) {
+            // The search service reports at most one page of matches in totalItems, even when
+            // more terms match.https://collectionspace.atlassian.net/browse/DRYD-2157
+            // A source is considered truncated if more matches are reported
+            // than were returned, or if a full page was returned, since in that case there are
+            // likely more matches than the server is willing to report.
+            // TODO: update condition when DRYD-2157 is fixed
+
+            if (
+              (typeof totalItems === 'number' && totalItems > items.length)
+              || (typeof pageSize === 'number' && pageSize > 0 && items.length >= pageSize)
+            ) {
+              foundTruncated = true;
+            }
+          }
+        }
+      });
+    }
+  }
+
+  return foundTruncated;
+};
+
 const getNewTerm = (sourceID, matches, partialTerm) => {
   const sources = parseResourceID(sourceID);
 
@@ -272,6 +318,7 @@ export default class AutocompleteInput extends Component {
 
       if (!isPending(nextProps.source, nextProps.matches, partialTerm)) {
         nextState.options = getOptions(partialTerm, nextProps);
+        nextState.optionsPartialTerm = partialTerm;
       }
 
       this.setState(nextState);
@@ -351,6 +398,7 @@ export default class AutocompleteInput extends Component {
   commit(value, meta) {
     this.setState({
       options: [],
+      optionsPartialTerm: null,
       partialTerm: null,
       value,
     });
@@ -404,6 +452,7 @@ export default class AutocompleteInput extends Component {
       }, findDelay);
     } else {
       newState.options = getOptions(partialTerm, this.props);
+      newState.optionsPartialTerm = partialTerm;
     }
 
     newState.isFindTimerActive = !!this.findTimer;
@@ -509,6 +558,7 @@ export default class AutocompleteInput extends Component {
       formatCloneOptionLabel,
       formatCreateNewOptionLabel,
       formatMoreCharsRequiredMessage,
+      formatNarrowResultsMessage,
       formatSearchResultMessage,
       formatSourceName,
       matches,
@@ -527,6 +577,7 @@ export default class AutocompleteInput extends Component {
     const {
       isFindTimerActive,
       options,
+      optionsPartialTerm,
       partialTerm,
       value,
     } = this.state;
@@ -541,9 +592,15 @@ export default class AutocompleteInput extends Component {
       && removePartialTermOperators(partialTerm).length < minLength
     );
 
-    const formatStatusMessage = moreCharsRequired
-      ? formatMoreCharsRequiredMessage
-      : formatSearchResultMessage;
+    let formatStatusMessage;
+
+    if (moreCharsRequired) {
+      formatStatusMessage = formatMoreCharsRequiredMessage;
+    } else if (isSearchTruncated(source, matches, optionsPartialTerm)) {
+      formatStatusMessage = formatNarrowResultsMessage;
+    } else {
+      formatStatusMessage = formatSearchResultMessage;
+    }
 
     const className = (isFindTimerActive || isPending(source, matches, partialTerm))
       ? styles.searching

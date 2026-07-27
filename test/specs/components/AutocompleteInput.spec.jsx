@@ -272,6 +272,66 @@ describe('AutocompleteInput', () => {
     });
   });
 
+  it('should show the search result message when all matching terms are returned', function test() {
+    const matches = johMatches
+      .setIn(['joh', 'person', 'local', 'pageSize'], 40)
+      .setIn(['joh', 'person', 'local', 'totalItems'], 1);
+
+    render(
+      <AutocompleteInput
+        source="person/local"
+        matches={matches}
+        recordTypes={recordTypes}
+      />, this.container,
+    );
+
+    const input = this.container.querySelector('input');
+
+    input.value = 'joh';
+
+    Simulate.change(input);
+
+    return new Promise((resolve) => {
+      window.setTimeout(() => {
+        const menuHeader = this.container.querySelector('.cspace-layout-Popup--common > header');
+
+        menuHeader.textContent.should.match(/^2 matching terms found/);
+
+        resolve();
+      }, findTestDelay);
+    });
+  });
+
+  it('should show a continue typing to narrow results message when there are more matching terms than returned items', function test() {
+    const matches = johMatches
+      .setIn(['joh', 'person', 'local', 'pageSize'], 40)
+      .setIn(['joh', 'person', 'local', 'totalItems'], 63);
+
+    render(
+      <AutocompleteInput
+        source="person/local"
+        matches={matches}
+        recordTypes={recordTypes}
+      />, this.container,
+    );
+
+    const input = this.container.querySelector('input');
+
+    input.value = 'joh';
+
+    Simulate.change(input);
+
+    return new Promise((resolve) => {
+      window.setTimeout(() => {
+        const menuHeader = this.container.querySelector('.cspace-layout-Popup--common > header');
+
+        menuHeader.textContent.should.match(/^Continue typing to narrow results/);
+
+        resolve();
+      }, findTestDelay);
+    });
+  });
+
   it('should call findMatchingTerms when a partial term is entered that does not exist in matches', function test() {
     let findSource = null;
     let findPartialTerm = null;

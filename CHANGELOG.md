@@ -1,5 +1,9 @@
 # Change Log
 
+## 2.3.0
+
+* Add formatNarrowResultsMessage prop to AutocompleteInput, shown in place of the match count when a partial term search returns a truncated result list
+
 ## 2.2.0
 
 * Resolve orphaned/missing form labels by forwarding id and aria attributes to rendered inputs, and adding label props to QuickSearchInput, RepeatingInput, TabularCompoundInput, and UploadInput
