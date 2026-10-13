@@ -11,7 +11,7 @@ const { expect } = chai;
 
 chai.should();
 
-describe.only('DateInput', function suite() {
+describe('DateInput', function suite() {
   // iOS tests on SauceLabs are slow.
   this.timeout(10000);
 
