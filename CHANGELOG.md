@@ -1,5 +1,9 @@
 # Change Log
 
+## 2.3.1
+
+* Expose the dropdown menu input as an ARIA combobox with expanded state and a controlled listbox whose focused option is announced via aria-activedescendant
+
 ## 2.3.0
 
 * Add formatNarrowResultsMessage prop to AutocompleteInput, shown in place of the match count when a partial term search returns a truncated result list

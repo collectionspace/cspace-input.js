@@ -5,6 +5,7 @@ import styles from '../../styles/cspace-input/Menu.css';
 import itemStyles from '../../styles/cspace-input/MenuItem.css';
 
 const propTypes = {
+  id: PropTypes.string,
   options: PropTypes.arrayOf(PropTypes.shape({
     disabled: PropTypes.bool,
     value: PropTypes.string,
@@ -20,6 +21,7 @@ const propTypes = {
 };
 
 const defaultProps = {
+  id: undefined,
   options: [],
   tabIndex: '0',
   // Display a no break space if the label is blank, so height is preserved.
@@ -195,6 +197,14 @@ export default class Menu extends Component {
       : parseInt(ref.dataset.index, 10);
   }
 
+  getItemId(index) {
+    const {
+      id,
+    } = this.props;
+
+    return id ? `${id}-option-${index}` : undefined;
+  }
+
   focus(itemIndex) {
     if (typeof itemIndex === 'number') {
       const {
@@ -304,16 +314,17 @@ export default class Menu extends Component {
         ? this.handleSelectedItemRef
         : null;
 
-      // TODO: ARIA
-      // https://www.w3.org/WAI/GL/wiki/index.php?title=Using_aria-activedescendant&oldid=2629
+      const disabled = optionDisabled && !ignoreDisabledOptions;
 
       return (
         // The keyboard handlers are attached to the parent (<ul>), not to the <li>.
         // eslint-disable-next-line jsx-a11y/click-events-have-key-events
         <li
+          aria-disabled={disabled ? true : undefined}
           aria-selected={selected}
           className={className}
           data-index={index}
+          id={this.getItemId(index)}
           key={optionValue}
           ref={ref}
           role="option"
@@ -335,6 +346,11 @@ export default class Menu extends Component {
 
   render() {
     const {
+      focusedIndex,
+    } = this.state;
+
+    const {
+      id,
       tabIndex,
     } = this.props;
 
@@ -344,12 +360,17 @@ export default class Menu extends Component {
       return null;
     }
 
-    // TODO: ARIA
-    // https://www.w3.org/WAI/GL/wiki/index.php?title=Using_aria-activedescendant&oldid=2629
+    const activeDescendant = (focusedIndex === null || typeof focusedIndex === 'undefined')
+      ? undefined
+      : this.getItemId(focusedIndex);
 
     return (
+      // tabIndex is always supplied, but the lint rule can only verify a literal value.
+      // eslint-disable-next-line jsx-a11y/aria-activedescendant-has-tabindex
       <ul
+        aria-activedescendant={activeDescendant}
         className={styles.common}
+        id={id}
         ref={this.handleRef}
         role="listbox"
         tabIndex={tabIndex}

@@ -134,6 +134,7 @@ export default class QuickSearchInput extends Component {
       <RecordTypeInput
         aria-label={recordTypeInputLabel}
         embedded
+        id="quickSearchRecordType"
         formatRecordTypeLabel={formatRecordTypeLabel}
         recordTypes={recordTypes}
         value={recordTypeValue}
@@ -156,6 +157,7 @@ export default class QuickSearchInput extends Component {
       <VocabularyInput
         aria-label={vocabularyInputLabel}
         embedded
+        id="quickSearchVocabulary"
         formatVocabularyLabel={formatVocabularyLabel}
         recordTypes={recordTypes}
         recordType={recordTypeValue}
@@ -179,6 +181,7 @@ export default class QuickSearchInput extends Component {
       <LineInput
         aria-label={keywordInputLabel}
         embedded
+        id="quickSearchKeyword"
         placeholder={placeholder}
         value={keywordValue}
         onCommit={this.handleKeywordInputCommit}

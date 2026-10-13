@@ -272,10 +272,20 @@ export default class DropdownMenuInput extends Component {
       [styles.open]: open,
     });
 
+    const {
+      id,
+    } = remainingProps;
+
+    const listboxId = id ? `${id}-listbox` : undefined;
+
     return (
       <DropdownInput
         // eslint-disable-next-line react/jsx-props-no-spreading
         {...remainingProps}
+        role="combobox"
+        aria-haspopup="listbox"
+        aria-expanded={!!open}
+        aria-controls={open ? listboxId : undefined}
         className={classes}
         open={open}
         spellCheck={false}
@@ -287,6 +297,7 @@ export default class DropdownMenuInput extends Component {
       >
         {renderMenuHeader(menuHeader)}
         <Menu
+          id={listboxId}
           options={options}
           ignoreDisabledOptions={ignoreDisabledOptions}
           ref={this.handleMenuRef}

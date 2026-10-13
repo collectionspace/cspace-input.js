@@ -262,7 +262,7 @@ export default class FilteringDropdownMenuInput extends Component {
 
     if (isFiltering) {
       return (
-        <span>{formatStatusMessage(options ? options.length : 0)}</span>
+        <span role="status">{formatStatusMessage(options ? options.length : 0)}</span>
       );
     }
 
@@ -297,6 +297,7 @@ export default class FilteringDropdownMenuInput extends Component {
         {...remainingProps}
         // eslint-disable-next-line react/jsx-props-no-spreading
         {...valueProp}
+        aria-autocomplete="list"
         className={classes}
         menuHeader={this.renderMenuHeader()}
         open={open}
