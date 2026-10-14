@@ -23,6 +23,7 @@ const propTypes = {
   value: PropTypes.string,
   readOnly: PropTypes.bool,
   onCommit: PropTypes.func,
+  formatToolbarButtonLabel: PropTypes.func,
 };
 
 const defaultProps = {
@@ -34,6 +35,7 @@ const defaultProps = {
   value: undefined,
   readOnly: undefined,
   onCommit: undefined,
+  formatToolbarButtonLabel: (icon) => icon,
 };
 
 // Change bold rendering to <b> instead of <strong>, since it is more semantically neutral.
@@ -80,6 +82,19 @@ const preventButtonMouseDown = (event) => {
   }
 };
 
+function CustomToolbar({ formatToolbarButtonLabel }) {
+  return (
+    <div id="toolbar">
+      <button className="ql-bold" aria-label={formatToolbarButtonLabel('bold')} type="button" />
+      <button className="ql-italic" aria-label={formatToolbarButtonLabel('italic')} type="button" />
+      <button className="ql-underline" aria-label={formatToolbarButtonLabel('underline')} type="button" />
+      <button className="ql-script" value="sub" aria-label={formatToolbarButtonLabel('subscript')} type="button" />
+      <button className="ql-script" value="super" aria-label={formatToolbarButtonLabel('superscript')} type="button" />
+      <button className="ql-clean" aria-label={formatToolbarButtonLabel('clean')} type="button" />
+    </div>
+  );
+}
+
 export default class RichTextInput extends Component {
   constructor(props) {
     super(props);
@@ -118,11 +133,8 @@ export default class RichTextInput extends Component {
           tab: null,
         },
       },
-      toolbar: ['bold', 'italic', 'underline', { script: 'sub' }, { script: 'super' }, 'clean'],
+      toolbar: '#toolbar',
     };
-
-    // TODO: Make a custom HTML toolbar for accessibility:
-    // https://github.com/zenoamaro/react-quill#html-toolbar
 
     this.handleBlur = this.handleBlur.bind(this);
     this.handleFocus = this.handleFocus.bind(this);
@@ -216,6 +228,7 @@ export default class RichTextInput extends Component {
       embedded,
       multiline,
       readOnly,
+      formatToolbarButtonLabel,
     } = this.props;
 
     const {
@@ -245,9 +258,10 @@ export default class RichTextInput extends Component {
         onBlur={this.handleBlur}
         onFocus={this.handleFocus}
         onMouseDown={preventButtonMouseDown}
+        className={className}
       >
+        <CustomToolbar formatToolbarButtonLabel={formatToolbarButtonLabel} />
         <ReactQuill
-          className={className}
           formats={this.formats}
           modules={this.modules}
           readOnly={readOnly}
