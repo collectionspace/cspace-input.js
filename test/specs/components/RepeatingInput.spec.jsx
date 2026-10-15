@@ -43,14 +43,26 @@ describe('RepeatingInput', () => {
     isInput(<RepeatingInput />).should.equal(true);
   });
 
-  it('should render as a fieldset', function test() {
+  it('should render as a div when there is no label', function test() {
     render(
       <RepeatingInput>
         <StubTemplateComponent />
       </RepeatingInput>, this.container,
     );
 
+    this.container.firstElementChild.nodeName.should.equal('DIV');
+    expect(this.container.querySelector('legend')).to.equal(null);
+  });
+
+  it('should render as a fieldset with a legend when a label is supplied', function test() {
+    render(
+      <RepeatingInput>
+        <StubTemplateComponent label="Items" />
+      </RepeatingInput>, this.container,
+    );
+
     this.container.firstElementChild.nodeName.should.equal('FIELDSET');
+    this.container.querySelector('fieldset > legend').textContent.should.equal('Items');
   });
 
   it('should render the template once for each element in an array value', function test() {
