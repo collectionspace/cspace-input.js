@@ -95,6 +95,10 @@ function CustomToolbar({ formatToolbarButtonLabel }) {
   );
 }
 
+CustomToolbar.propTypes = {
+  formatToolbarButtonLabel: PropTypes.func.isRequired,
+};
+
 export default class RichTextInput extends Component {
   constructor(props) {
     super(props);
