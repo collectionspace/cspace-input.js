@@ -16,6 +16,7 @@ export default function createTestContainer(context) {
 
   const container = document.createElement('div');
 
+  document.body.innerHTML = '';
   document.body.appendChild(title);
   document.body.appendChild(container);
 
