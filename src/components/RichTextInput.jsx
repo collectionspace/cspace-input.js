@@ -1,5 +1,6 @@
 /* global window */
 
+// eslint-disable-next-line max-classes-per-file
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ReactQuill, { Quill } from 'react-quill';
@@ -98,6 +99,18 @@ function CustomToolbar({ formatToolbarButtonLabel }) {
 CustomToolbar.propTypes = {
   formatToolbarButtonLabel: PropTypes.func.isRequired,
 };
+
+// Remove the tooltip as we don't rely on it for linking anything
+// and it produces a11y warnings about empty links. If we do need
+// it in the future, we'll probably create our own.
+const SnowTheme = Quill.import('themes/snow');
+class SnowMod extends SnowTheme {
+  extendToolbar(toolbar) {
+    super.extendToolbar(toolbar);
+    this.tooltip.root.innerHTML = '';
+  }
+}
+Quill.register('themes/snow', SnowMod);
 
 export default class RichTextInput extends Component {
   constructor(props) {
