@@ -39,7 +39,7 @@
   },
   "dependencies": {
     "classnames": "^2.2.6",
-    "cspace-layout": "~2.1.0-dev.0",
+    "cspace-layout": "~2.0.7-dev.0",
     "cspace-refname": "^1.0.4",
     "dompurify": "^3.0.1",
     "immutable": "^3.8.2",
