@@ -1,6 +1,6 @@
 # Change Log
 
-## 2.4.0
+## 2.3.1
 
 * Render CustomCompoundInput, InputTable, and RepeatingInput as a div instead of a fieldset when they have no legend, resolving fieldset missing legend accessibility errors
 
