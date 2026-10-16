@@ -7,6 +7,8 @@ import labelable from '../../../src/enhancers/labelable';
 
 const LineInput = labelable(BaseLineInput);
 
+const { expect } = chai;
+
 chai.should();
 
 describe('InputTable', () => {
@@ -14,14 +16,26 @@ describe('InputTable', () => {
     this.container = createTestContainer(this);
   });
 
-  it('should render as a fieldset', function test() {
+  it('should render as a div when there is no label', function test() {
     render(
       <InputTable>
         <LineInput name="input1" label="test" />
       </InputTable>, this.container,
     );
 
+    this.container.firstElementChild.nodeName.should.equal('DIV');
+    expect(this.container.querySelector('legend')).to.equal(null);
+  });
+
+  it('should render as a fieldset with a legend when a label is supplied', function test() {
+    render(
+      <InputTable label="Table">
+        <LineInput name="input1" label="test" />
+      </InputTable>, this.container,
+    );
+
     this.container.firstElementChild.nodeName.should.equal('FIELDSET');
+    this.container.querySelector('fieldset > legend').textContent.should.equal('Table');
   });
 
   it('should render a header row and an input row', function test() {

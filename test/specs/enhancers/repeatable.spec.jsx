@@ -67,7 +67,7 @@ describe('repeatable', () => {
 
       render(<EnhancedComponent value="" repeating />, this.container);
 
-      this.container.querySelector('fieldset').should.exist;
+      this.container.querySelector('.cspace-input-RepeatingInput--common').should.exist;
     });
 
     it('should not render a RepeatingInput when repeating is false', function test() {
@@ -75,7 +75,7 @@ describe('repeatable', () => {
 
       render(<EnhancedComponent value="" repeating={false} />, this.container);
 
-      expect(this.container.querySelector('fieldset')).to.be.null;
+      expect(this.container.querySelector('.cspace-input-RepeatingInput--common')).to.be.null;
     });
 
     it('should lift value to the RepeatingInput when repeating is true', () => {
