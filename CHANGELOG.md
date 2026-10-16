@@ -3,6 +3,7 @@
 ## 2.3.1
 
 * Render CustomCompoundInput, InputTable, and RepeatingInput as a div instead of a fieldset when they have no legend, resolving fieldset missing legend accessibility errors
+* Update DateInput to use the native input `type="date"` 
 
 ## 2.3.0
 
