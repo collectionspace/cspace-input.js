@@ -40,7 +40,7 @@ describe('RichTextInput', () => {
       />, this.container,
     );
 
-    this.container.querySelector('.quill').className.should.contain('--enabled');
+    this.container.querySelector('.cspace-input-RichTextInput--normal').className.should.contain('--enabled');
   });
 
   it('should render an editor without enabled class when readOnly is true', function test() {
@@ -62,7 +62,7 @@ describe('RichTextInput', () => {
       />, this.container,
     );
 
-    this.container.querySelector('.quill').className.should.contain('--multiline');
+    this.container.querySelector('.cspace-input-RichTextInput--normal').className.should.contain('--multiline');
   });
 
   it('should render without enabled class and with multiline class both readOnly is true and multiline is true', function test() {
@@ -81,8 +81,8 @@ describe('RichTextInput', () => {
       />, this.container,
     );
 
-    this.container.querySelector('.quill').className.should.not.contain('--enabled');
-    this.container.querySelector('.quill').className.should.contain('--multiline');
+    this.container.querySelector('.cspace-input-RichTextInput--normal').className.should.not.contain('--enabled');
+    this.container.querySelector('.cspace-input-RichTextInput--normal').className.should.contain('--multiline');
   });
 
   it('should update the editor value when a new value is supplied via props', function test() {
@@ -257,7 +257,7 @@ describe('RichTextInput', () => {
       />, this.container,
     );
 
-    const quill = this.container.querySelector('.quill');
+    const quill = this.container.querySelector('.cspace-input-RichTextInput--normal');
 
     Simulate.focus(quill);
 
@@ -384,9 +384,9 @@ describe('RichTextInput', () => {
       />, this.container,
     );
 
-    Simulate.focus(this.container.querySelector('.quill'));
+    Simulate.focus(this.container.querySelector('.cspace-input-RichTextInput--normal'));
 
-    this.container.querySelector('.quill').className.should.contain('--focus');
+    this.container.querySelector('.cspace-input-RichTextInput--normal').className.should.contain('--focus');
   });
 
   it('should not render with focus class when focus is received if the previously focused element is within the input', function test() {
