@@ -398,14 +398,17 @@ export default class RepeatingInput extends Component {
     }
 
     const className = readOnly ? styles.readOnly : styles.normal;
+    const legend = isLabelEmbedded ? null : renderHeader(label);
+
+    const Container = legend ? 'fieldset' : 'div';
 
     return (
-      <fieldset
+      <Container
         className={className}
         data-name={name}
         id={id}
       >
-        {isLabelEmbedded ? null : renderHeader(label)}
+        {legend}
 
         <div ref={this.handleInstancesContainerRef}>
           {isLabelEmbedded ? this.renderEmbeddedHeader(label) : null}
@@ -413,7 +416,7 @@ export default class RepeatingInput extends Component {
         </div>
 
         {footer}
-      </fieldset>
+      </Container>
     );
   }
 }

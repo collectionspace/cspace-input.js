@@ -10,6 +10,8 @@ import CustomCompoundInput from '../../../src/components/CustomCompoundInput';
 import TextInput from '../../../src/components/TextInput';
 import committable from '../../../src/enhancers/committable';
 
+const { expect } = chai;
+
 chai.should();
 
 describe('CustomCompoundInput', () => {
@@ -21,10 +23,18 @@ describe('CustomCompoundInput', () => {
     isInput(<CustomCompoundInput />).should.equal(true);
   });
 
-  it('should render as a fieldset', function test() {
+  it('should render as a div when there is no label', function test() {
     render(<CustomCompoundInput />, this.container);
 
+    this.container.firstElementChild.nodeName.should.equal('DIV');
+    expect(this.container.querySelector('legend')).to.equal(null);
+  });
+
+  it('should render as a fieldset with a legend when a label is supplied', function test() {
+    render(<CustomCompoundInput label="Group" />, this.container);
+
     this.container.firstElementChild.nodeName.should.equal('FIELDSET');
+    this.container.querySelector('fieldset > legend').textContent.should.equal('Group');
   });
 
   it('should distribute values to child inputs', function test() {
