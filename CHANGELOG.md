@@ -1,5 +1,9 @@
 # Change Log
 
+## 2.3.1
+
+* Fix CheckboxInput not responding to clicks, caused by the invisible input not covering the visible checkbox after the wrapper was changed from a label to a span
+
 ## 2.3.0
 
 * Add formatNarrowResultsMessage prop to AutocompleteInput, shown in place of the match count when a partial term search returns a truncated result list
