@@ -35,8 +35,10 @@ export default function InputTable(props) {
 
   const legend = labelToLegend(label);
 
+  const Container = legend ? 'fieldset' : 'div';
+
   return (
-    <fieldset className={styles.common} id={id}>
+    <Container className={styles.common} id={id}>
       {legend}
       <InputTableHeader embedded={embedded} renderLabel={renderLabel}>
         {children}
@@ -45,7 +47,7 @@ export default function InputTable(props) {
       <InputTableRow embedded={embedded} renderAriaLabel={renderAriaLabel}>
         {children}
       </InputTableRow>
-    </fieldset>
+    </Container>
   );
 }
 

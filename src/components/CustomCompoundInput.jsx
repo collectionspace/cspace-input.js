@@ -130,14 +130,16 @@ export default class CustomCompoundInput extends Component {
 
     const legend = labelToLegend(label);
 
+    const Container = legend ? 'fieldset' : 'div';
+
     return (
-      <fieldset
+      <Container
         className={classes}
         data-name={name}
       >
         {legend}
         {this.decorateInputs(children)}
-      </fieldset>
+      </Container>
     );
   }
 }

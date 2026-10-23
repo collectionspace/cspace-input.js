@@ -41,6 +41,7 @@ import withLabeledOptions from './enhancers/withLabeledOptions';
 import withNormalizedOptions from './enhancers/withNormalizedOptions';
 
 import * as pathHelpers from './helpers/pathHelpers';
+import labelToLegend from './helpers/labelToLegend';
 
 export const baseComponents = {
   AutocompleteInput,
@@ -122,4 +123,5 @@ export const enhancers = {
 
 export const helpers = {
   pathHelpers,
+  labelToLegend,
 };
