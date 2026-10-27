@@ -119,6 +119,7 @@ export default class RichTextInput extends Component {
     super(props);
 
     const {
+      id,
       multiline,
       value,
     } = this.props;
@@ -152,7 +153,9 @@ export default class RichTextInput extends Component {
           tab: null,
         },
       },
-      toolbar: '#toolbar',
+      toolbar: {
+        container: `#${id}`,
+      },
     };
 
     this.handleBlur = this.handleBlur.bind(this);

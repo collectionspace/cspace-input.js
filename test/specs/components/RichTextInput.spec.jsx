@@ -20,12 +20,13 @@ describe('RichTextInput', () => {
   });
 
   it('should be considered an input by isInput()', () => {
-    isInput(<RichTextInput />).should.equal(true);
+    isInput(<RichTextInput id="toolbar" />).should.equal(true);
   });
 
   it('should render a Quill editor', function test() {
     render(
       <RichTextInput
+        id="toolbar"
         value="Hello <i>world</i>"
       />, this.container,
     );
@@ -36,6 +37,7 @@ describe('RichTextInput', () => {
   it('should render an editor with enabled class when readOnly is false', function test() {
     render(
       <RichTextInput
+        id="toolbar"
         value="Hello <i>world</i>"
       />, this.container,
     );
@@ -46,6 +48,7 @@ describe('RichTextInput', () => {
   it('should render an editor without enabled class when readOnly is true', function test() {
     render(
       <RichTextInput
+        id="toolbar"
         readOnly
         value="Hello <i>world</i>"
       />, this.container,
@@ -57,6 +60,7 @@ describe('RichTextInput', () => {
   it('should render with multiline class when multiline is true', function test() {
     render(
       <RichTextInput
+        id="toolbar"
         multiline
         value="Hello <i>world</i>"
       />, this.container,
@@ -68,6 +72,7 @@ describe('RichTextInput', () => {
   it('should render without enabled class and with multiline class both readOnly is true and multiline is true', function test() {
     render(
       <RichTextInput
+        id="toolbar"
         multiline
         readOnly
         value={`
@@ -88,6 +93,7 @@ describe('RichTextInput', () => {
   it('should update the editor value when a new value is supplied via props', function test() {
     render(
       <RichTextInput
+        id="toolbar"
         value="Hello <i>world</i>"
       />, this.container,
     );
@@ -107,6 +113,7 @@ describe('RichTextInput', () => {
 
     shallowRenderer.render(
       <RichTextInput
+        id="toolbar"
         value="Hello <i>world</i>"
       />,
     );
@@ -120,7 +127,7 @@ describe('RichTextInput', () => {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
-      <RichTextInput />,
+      <RichTextInput id="toolbar" />,
     );
 
     const result = shallowRenderer.getRenderOutput();
@@ -133,7 +140,7 @@ describe('RichTextInput', () => {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
-      <RichTextInput />,
+      <RichTextInput id="toolbar" />,
     );
 
     const result = shallowRenderer.getRenderOutput();
@@ -154,6 +161,7 @@ describe('RichTextInput', () => {
 
     shallowRenderer.render(
       <RichTextInput
+        id="toolbar"
         onCommit={handleCommit}
       />,
     );
@@ -176,6 +184,7 @@ describe('RichTextInput', () => {
 
     shallowRenderer.render(
       <RichTextInput
+        id="toolbar"
         multiline
       />,
     );
@@ -191,7 +200,7 @@ describe('RichTextInput', () => {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
-      <RichTextInput />,
+      <RichTextInput id="toolbar" />,
     );
 
     const result = shallowRenderer.getRenderOutput();
@@ -212,6 +221,7 @@ describe('RichTextInput', () => {
 
     render(
       <RichTextInput
+        id="toolbar"
         name="title"
         value="hello"
         onCommit={handleCommit}
@@ -251,6 +261,7 @@ describe('RichTextInput', () => {
 
     render(
       <RichTextInput
+        id="toolbar"
         name="title"
         value="hello"
         onCommit={handleCommit}
@@ -284,6 +295,7 @@ describe('RichTextInput', () => {
   it('should sanitize the value provided in props', function test() {
     render(
       <RichTextInput
+        id="toolbar"
         value="Hello <img src=x onerror=document.body.appendChild(document.createElement('code')).appendChild(document.createTextNode('sanitize_fail_1'))//>"
       />, this.container,
     );
@@ -308,6 +320,7 @@ describe('RichTextInput', () => {
 
     shallowRenderer.render(
       <RichTextInput
+        id="toolbar"
         onCommit={handleCommit}
       />,
     );
@@ -334,6 +347,7 @@ describe('RichTextInput', () => {
 
     shallowRenderer.render(
       <RichTextInput
+        id="toolbar"
         onCommit={handleCommit}
       />,
     );
@@ -360,6 +374,7 @@ describe('RichTextInput', () => {
 
     shallowRenderer.render(
       <RichTextInput
+        id="toolbar"
         value="hello <i>world</i>"
         onCommit={handleCommit}
       />,
@@ -379,6 +394,7 @@ describe('RichTextInput', () => {
   it('should render with focus class when focus is received', function test() {
     render(
       <RichTextInput
+        id="toolbar"
         readOnly
         value="Hello <i>world</i>"
       />, this.container,
@@ -392,6 +408,7 @@ describe('RichTextInput', () => {
   it('should not render with focus class when focus is received if the previously focused element is within the input', function test() {
     render(
       <RichTextInput
+        id="toolbar"
         readOnly
         value="Hello <i>world</i>"
       />, this.container,
@@ -408,7 +425,7 @@ describe('RichTextInput', () => {
     const shallowRenderer = createRenderer();
 
     shallowRenderer.render(
-      <RichTextInput />,
+      <RichTextInput id="toolbar" />,
     );
 
     const result = shallowRenderer.getRenderOutput();
