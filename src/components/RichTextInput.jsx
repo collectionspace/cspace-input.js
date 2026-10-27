@@ -14,6 +14,7 @@ import styles from '../../styles/cspace-input/RichTextInput.css';
 import '!style-loader!css-loader!../../styles/react-quill/cspace.css';
 
 const propTypes = {
+  id: PropTypes.string.isRequired,
   embedded: PropTypes.bool,
   multiline: PropTypes.bool,
   /* eslint-disable react/no-unused-prop-types */
@@ -83,9 +84,9 @@ const preventButtonMouseDown = (event) => {
   }
 };
 
-function CustomToolbar({ formatToolbarButtonLabel }) {
+function CustomToolbar({ id, formatToolbarButtonLabel }) {
   return (
-    <div id="toolbar">
+    <div id={id}>
       <button className="ql-bold" aria-label={formatToolbarButtonLabel('bold')} type="button" />
       <button className="ql-italic" aria-label={formatToolbarButtonLabel('italic')} type="button" />
       <button className="ql-underline" aria-label={formatToolbarButtonLabel('underline')} type="button" />
@@ -97,6 +98,7 @@ function CustomToolbar({ formatToolbarButtonLabel }) {
 }
 
 CustomToolbar.propTypes = {
+  id: PropTypes.string.isRequired,
   formatToolbarButtonLabel: PropTypes.func.isRequired,
 };
 
@@ -242,6 +244,7 @@ export default class RichTextInput extends Component {
 
   render() {
     const {
+      id,
       embedded,
       multiline,
       readOnly,
@@ -277,7 +280,7 @@ export default class RichTextInput extends Component {
         onMouseDown={preventButtonMouseDown}
         className={className}
       >
-        <CustomToolbar formatToolbarButtonLabel={formatToolbarButtonLabel} />
+        <CustomToolbar id={id} formatToolbarButtonLabel={formatToolbarButtonLabel} />
         <ReactQuill
           formats={this.formats}
           modules={this.modules}
