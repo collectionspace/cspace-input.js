@@ -43,6 +43,7 @@ describe('DateInput', function suite() {
     const input = this.container.querySelector('input');
 
     Simulate.change(input, { target: { value: '2022-10-02' } });
+    Simulate.blur(input);
 
     committedPath.should.deep.equal(['birthDate']);
     committedValue.should.not.equal(null);
@@ -89,7 +90,7 @@ describe('DateInput', function suite() {
 
     const input = this.container.querySelector('input');
     Simulate.change(input, { target: { value: '' } });
-
+    Simulate.blur(input);
     return new Promise((resolve) => {
       window.setTimeout(() => {
         committedPath.should.deep.equal(['birthDate']);

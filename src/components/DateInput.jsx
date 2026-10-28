@@ -1,8 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import LineInput from './LineInput';
+import changeable from '../enhancers/changeable';
+import committable from '../enhancers/committable';
 import { normalizeDateString } from '../helpers/dateHelpers';
-import { getPath, pathPropType } from '../helpers/pathHelpers';
+import { pathPropType } from '../helpers/pathHelpers';
 import styles from '../../styles/cspace-input/LineInput.css';
 
 const propTypes = {
@@ -29,7 +31,7 @@ const defaultProps = {
   embedded: undefined,
 };
 
-export default function DateInput(props) {
+function BaseDateInput(props) {
   const {
     value,
     name,
@@ -42,15 +44,6 @@ export default function DateInput(props) {
     subpath,
     ...remainingProps
   } = props;
-
-  const handleChange = (event) => {
-    const eventValue = event.target.value;
-
-    const initialValue = normalizeDateString(value, locale) || '';
-    if (onCommit && eventValue !== initialValue) {
-      onCommit(getPath(props), eventValue);
-    }
-  };
 
   const className = embedded ? styles.embedded : styles.normal;
   const normalizedValue = normalizeDateString(value, locale) || '';
@@ -78,10 +71,11 @@ export default function DateInput(props) {
       data-name={name}
       className={className}
       value={normalizedValue}
-      onChange={handleChange}
     />
   );
 }
 
-DateInput.propTypes = propTypes;
-DateInput.defaultProps = defaultProps;
+BaseDateInput.propTypes = propTypes;
+BaseDateInput.defaultProps = defaultProps;
+
+export default committable(changeable(BaseDateInput));
