@@ -1,9 +1,13 @@
 # Change Log
 
-## 2.3.1
+## 2.3.2
 
 * Render CustomCompoundInput, InputTable, and RepeatingInput as a div instead of a fieldset when they have no legend, resolving fieldset missing legend accessibility errors
 * Update DateInput to use the native input `type="date"` 
+
+## 2.3.1
+
+* Fix CheckboxInput not responding to clicks, caused by the invisible input not covering the visible checkbox after the wrapper was changed from a label to a span
 
 ## 2.3.0
 
