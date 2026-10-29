@@ -3,8 +3,8 @@
 ## 2.3.2
 
 * Render CustomCompoundInput, InputTable, and RepeatingInput as a div instead of a fieldset when they have no legend, resolving fieldset missing legend accessibility errors
-* Render a CustomToolbar in RichTextFormat so that buttons have aria-labels
-* Override the SnowTheme in RichTextForm to suppress the quill tooltip, fixing empty link accessibility warnings
+* Render a CustomToolbar in RichTextInput so that buttons have aria-labels
+* Override the SnowTheme in RichTextInput to suppress the quill tooltip, fixing empty link accessibility warnings
 
 ## 2.3.1
 
