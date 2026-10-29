@@ -2,6 +2,7 @@
 
 ## 2.3.2
 
+* Expose the dropdown menu input as an ARIA combobox with expanded state and a controlled listbox whose focused option is announced via aria-activedescendant
 * Render CustomCompoundInput, InputTable, and RepeatingInput as a div instead of a fieldset when they have no legend, resolving fieldset missing legend accessibility errors
 
 ## 2.3.1
