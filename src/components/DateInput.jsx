@@ -12,7 +12,6 @@ const propTypes = {
   parentPath: pathPropType,
   subpath: pathPropType,
   value: PropTypes.string,
-  locale: PropTypes.string,
   onCommit: PropTypes.func,
   asText: PropTypes.bool,
   readOnly: PropTypes.bool,
@@ -24,7 +23,6 @@ const defaultProps = {
   parentPath: undefined,
   subpath: undefined,
   value: undefined,
-  locale: 'en-US',
   onCommit: undefined,
   asText: undefined,
   readOnly: undefined,
@@ -38,7 +36,6 @@ function BaseDateInput(props) {
     onCommit,
     asText,
     embedded,
-    locale,
     readOnly,
     parentPath,
     subpath,
@@ -46,7 +43,6 @@ function BaseDateInput(props) {
   } = props;
 
   const className = embedded ? styles.embedded : styles.normal;
-  const normalizedValue = normalizeDateString(value, locale) || '';
   if (asText || readOnly) {
     const {
       id,
@@ -56,7 +52,7 @@ function BaseDateInput(props) {
       <LineInput
         id={id}
         asText={asText}
-        value={normalizedValue}
+        value={value}
         embedded={embedded}
         readOnly={readOnly}
       />
@@ -70,7 +66,7 @@ function BaseDateInput(props) {
       type="date"
       data-name={name}
       className={className}
-      value={normalizedValue}
+      value={value}
     />
   );
 }
