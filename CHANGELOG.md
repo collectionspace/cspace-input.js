@@ -1,6 +1,6 @@
 # Change Log
 
-## 2.3.1
+## 2.3.2
 
 * Expose the dropdown menu input as an ARIA combobox with expanded state and a controlled listbox whose focused option is announced via aria-activedescendant
 
