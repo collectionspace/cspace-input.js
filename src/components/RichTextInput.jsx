@@ -74,6 +74,8 @@ const normalizeValue = (value) => {
 
 const sanitizeValue = (value) => DOMPurify.sanitize(value, { USE_PROFILES: { html: true } });
 
+const formatToolbarId = (id) => `${id}-toolbar`;
+
 const preventButtonMouseDown = (event) => {
   if (event.target.nodeName === 'BUTTON') {
     // On mouseDown on a toolbar button, Firefox fires a blur event with null relatedTarget. This
@@ -154,7 +156,7 @@ export default class RichTextInput extends Component {
         },
       },
       toolbar: {
-        container: `#${id}`,
+        container: `#${formatToolbarId(id)}`,
       },
     };
 
@@ -274,6 +276,7 @@ export default class RichTextInput extends Component {
     // https://github.com/zenoamaro/react-quill/issues/286
     // https://github.com/zenoamaro/react-quill/issues/276
 
+    const toolbarId = formatToolbarId(id);
     return (
       // eslint-disable-next-line jsx-a11y/no-static-element-interactions
       <div
@@ -283,7 +286,7 @@ export default class RichTextInput extends Component {
         onMouseDown={preventButtonMouseDown}
         className={className}
       >
-        <CustomToolbar id={id} formatToolbarButtonLabel={formatToolbarButtonLabel} />
+        <CustomToolbar id={toolbarId} formatToolbarButtonLabel={formatToolbarButtonLabel} />
         <ReactQuill
           formats={this.formats}
           modules={this.modules}
