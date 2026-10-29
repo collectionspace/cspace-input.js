@@ -78,4 +78,39 @@ function BaseDateInput(props) {
 BaseDateInput.propTypes = propTypes;
 BaseDateInput.defaultProps = defaultProps;
 
-export default committable(changeable(BaseDateInput));
+const EnhancedDateInput = committable(changeable(BaseDateInput));
+
+const wrapperPropTypes = {
+  // eslint-disable-next-line react/forbid-foreign-prop-types
+  ...EnhancedDateInput.propTypes,
+  locale: PropTypes.string,
+};
+
+const wrapperDefaultProps = {
+  ...EnhancedDateInput.defaultProps,
+  locale: 'en-US',
+};
+
+/**
+ * A date input, rendered using the browser's native date input. The value is normalized before it
+ * is passed to the changeable/committable enhancers, so that the value held while editing is never
+ * re-normalized
+ */
+export default function DateInput(props) {
+  const {
+    locale,
+    value,
+    ...remainingProps
+  } = props;
+
+  return (
+    <EnhancedDateInput
+      // eslint-disable-next-line react/jsx-props-no-spreading
+      {...remainingProps}
+      value={normalizeDateString(value, locale) || ''}
+    />
+  );
+}
+
+DateInput.propTypes = wrapperPropTypes;
+DateInput.defaultProps = wrapperDefaultProps;
