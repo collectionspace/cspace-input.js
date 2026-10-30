@@ -4,6 +4,8 @@
 
 * Expose the dropdown menu input as an ARIA combobox with expanded state and a controlled listbox whose focused option is announced via aria-activedescendant
 * Render CustomCompoundInput, InputTable, and RepeatingInput as a div instead of a fieldset when they have no legend, resolving fieldset missing legend accessibility errors
+* Render a CustomToolbar in RichTextInput so that buttons have aria-labels
+* Override the SnowTheme in RichTextInput to suppress the quill tooltip, fixing empty link accessibility warnings
 
 ## 2.3.1
 

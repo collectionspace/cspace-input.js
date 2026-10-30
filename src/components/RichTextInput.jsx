@@ -1,5 +1,6 @@
 /* global window */
 
+// eslint-disable-next-line max-classes-per-file
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ReactQuill, { Quill } from 'react-quill';
@@ -13,6 +14,7 @@ import styles from '../../styles/cspace-input/RichTextInput.css';
 import '!style-loader!css-loader!../../styles/react-quill/cspace.css';
 
 const propTypes = {
+  id: PropTypes.string.isRequired,
   embedded: PropTypes.bool,
   multiline: PropTypes.bool,
   /* eslint-disable react/no-unused-prop-types */
@@ -23,6 +25,7 @@ const propTypes = {
   value: PropTypes.string,
   readOnly: PropTypes.bool,
   onCommit: PropTypes.func,
+  formatToolbarButtonLabel: PropTypes.func,
 };
 
 const defaultProps = {
@@ -34,6 +37,7 @@ const defaultProps = {
   value: undefined,
   readOnly: undefined,
   onCommit: undefined,
+  formatToolbarButtonLabel: (icon) => icon,
 };
 
 // Change bold rendering to <b> instead of <strong>, since it is more semantically neutral.
@@ -70,6 +74,8 @@ const normalizeValue = (value) => {
 
 const sanitizeValue = (value) => DOMPurify.sanitize(value, { USE_PROFILES: { html: true } });
 
+const formatToolbarId = (id) => `${id}-toolbar`;
+
 const preventButtonMouseDown = (event) => {
   if (event.target.nodeName === 'BUTTON') {
     // On mouseDown on a toolbar button, Firefox fires a blur event with null relatedTarget. This
@@ -80,11 +86,42 @@ const preventButtonMouseDown = (event) => {
   }
 };
 
+function CustomToolbar({ id, formatToolbarButtonLabel }) {
+  return (
+    <div id={id}>
+      <button className="ql-bold" aria-label={formatToolbarButtonLabel('bold')} type="button" />
+      <button className="ql-italic" aria-label={formatToolbarButtonLabel('italic')} type="button" />
+      <button className="ql-underline" aria-label={formatToolbarButtonLabel('underline')} type="button" />
+      <button className="ql-script" value="sub" aria-label={formatToolbarButtonLabel('subscript')} type="button" />
+      <button className="ql-script" value="super" aria-label={formatToolbarButtonLabel('superscript')} type="button" />
+      <button className="ql-clean" aria-label={formatToolbarButtonLabel('clean')} type="button" />
+    </div>
+  );
+}
+
+CustomToolbar.propTypes = {
+  id: PropTypes.string.isRequired,
+  formatToolbarButtonLabel: PropTypes.func.isRequired,
+};
+
+// Remove the tooltip as we don't rely on it for linking anything
+// and it produces a11y warnings about empty links. If we do need
+// it in the future, we'll probably create our own.
+const SnowTheme = Quill.import('themes/snow');
+class SnowMod extends SnowTheme {
+  extendToolbar(toolbar) {
+    super.extendToolbar(toolbar);
+    this.tooltip.root.innerHTML = '';
+  }
+}
+Quill.register('themes/snow', SnowMod);
+
 export default class RichTextInput extends Component {
   constructor(props) {
     super(props);
 
     const {
+      id,
       multiline,
       value,
     } = this.props;
@@ -118,11 +155,10 @@ export default class RichTextInput extends Component {
           tab: null,
         },
       },
-      toolbar: ['bold', 'italic', 'underline', { script: 'sub' }, { script: 'super' }, 'clean'],
+      toolbar: {
+        container: `#${formatToolbarId(id)}`,
+      },
     };
-
-    // TODO: Make a custom HTML toolbar for accessibility:
-    // https://github.com/zenoamaro/react-quill#html-toolbar
 
     this.handleBlur = this.handleBlur.bind(this);
     this.handleFocus = this.handleFocus.bind(this);
@@ -213,9 +249,11 @@ export default class RichTextInput extends Component {
 
   render() {
     const {
+      id,
       embedded,
       multiline,
       readOnly,
+      formatToolbarButtonLabel,
     } = this.props;
 
     const {
@@ -238,6 +276,7 @@ export default class RichTextInput extends Component {
     // https://github.com/zenoamaro/react-quill/issues/286
     // https://github.com/zenoamaro/react-quill/issues/276
 
+    const toolbarId = formatToolbarId(id);
     return (
       // eslint-disable-next-line jsx-a11y/no-static-element-interactions
       <div
@@ -245,9 +284,10 @@ export default class RichTextInput extends Component {
         onBlur={this.handleBlur}
         onFocus={this.handleFocus}
         onMouseDown={preventButtonMouseDown}
+        className={className}
       >
+        <CustomToolbar id={toolbarId} formatToolbarButtonLabel={formatToolbarButtonLabel} />
         <ReactQuill
-          className={className}
           formats={this.formats}
           modules={this.modules}
           readOnly={readOnly}

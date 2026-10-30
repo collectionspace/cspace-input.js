@@ -36,18 +36,18 @@
 .ql-snow .ql-toolbar button:hover,
 .ql-snow.ql-toolbar button:focus,
 .ql-snow .ql-toolbar button:focus {
-  background-color: #73AA4F;
+  background-color: #305A8D;
   color: white;
 }
 .ql-snow.ql-toolbar button:hover,
 .ql-snow .ql-toolbar button:hover {
   outline-offset: -1px;
-  outline: 1px solid #4A7F28;
+  outline: 1px solid #003366;
 }
 .ql-snow.ql-toolbar button:focus,
 .ql-snow .ql-toolbar button:focus {
   outline-offset: -1px;
-  outline: 2px solid #4A7F28;
+  outline: 2px solid #003366;
 }
 .ql-snow.ql-toolbar button.ql-active,
 .ql-snow .ql-toolbar button.ql-active {
@@ -166,4 +166,3 @@
   line-height: 18px;
   margin: 0;
 }
-
