@@ -1,5 +1,0 @@
-@value textMedium from '../colors.css';
-
-.filtering > input, .filtering > textarea {
-  color: textMedium;
-}
