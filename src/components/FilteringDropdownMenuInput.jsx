@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
 import BaseDropdownMenuInput from './DropdownMenuInput';
 import changeable from '../enhancers/changeable';
 import { getOptionForLabel } from '../helpers/optionHelpers';
 import { getPath } from '../helpers/pathHelpers';
-import styles from '../../styles/cspace-input/FilteringDropdownMenuInput.css';
 
 const DropdownMenuInput = changeable(BaseDropdownMenuInput);
 
@@ -278,7 +276,6 @@ export default class FilteringDropdownMenuInput extends Component {
     } = this.state;
 
     const {
-      className,
       filter,
       formatStatusMessage,
       onMount,
@@ -287,10 +284,6 @@ export default class FilteringDropdownMenuInput extends Component {
 
     const valueProp = isFiltering ? { valueLabel } : { value };
 
-    const classes = classNames(className, {
-      [styles.filtering]: isFiltering,
-    });
-
     return (
       <DropdownMenuInput
         // eslint-disable-next-line react/jsx-props-no-spreading
@@ -298,7 +291,6 @@ export default class FilteringDropdownMenuInput extends Component {
         // eslint-disable-next-line react/jsx-props-no-spreading
         {...valueProp}
         aria-autocomplete="list"
-        className={classes}
         menuHeader={this.renderMenuHeader()}
         open={open}
         onBeforeClose={this.handleDropdownInputBeforeClose}

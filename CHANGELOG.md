@@ -7,6 +7,7 @@
 * Update DateInput to use the native input `type="date"` 
 * Render a CustomToolbar in RichTextInput so that buttons have aria-labels
 * Override the SnowTheme in RichTextInput to suppress the quill tooltip, fixing empty link accessibility warnings
+* Improve contrast of placeholder text for FilteringDropdownMenuInput (Criteria 1.4.3)
 
 ## 2.3.1
 
