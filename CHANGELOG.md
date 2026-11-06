@@ -8,6 +8,7 @@
 * Render a CustomToolbar in RichTextInput so that buttons have aria-labels
 * Override the SnowTheme in RichTextInput to suppress the quill tooltip, fixing empty link accessibility warnings
 * Improve contrast of placeholder text for FilteringDropdownMenuInput (Criteria 1.4.3)
+* Update minimum inputHeight so all input targets are at least 24x24 px (Criteria 2.5.8)
 
 ## 2.3.1
 

@@ -25,8 +25,8 @@
 }
 
 .embedded > input + span {
-  width: 17px;
-  height: 17px;
+  width: calc(inputHeight - 5px);
+  height: calc(inputHeight - 5px);
   margin: 1px;
 }
 
