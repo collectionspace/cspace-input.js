@@ -17,6 +17,8 @@ const propTypes = {
   // Until then, propTypes need to be hoisted from the base component.
   // eslint-disable-next-line react/forbid-foreign-prop-types
   ...FilteringDropdownMenuInput.propTypes,
+  'aria-label': PropTypes.string,
+  'aria-labelledby': PropTypes.string,
   findDelay: PropTypes.number,
   matches: PropTypes.instanceOf(Immutable.Map),
   minLength: PropTypes.number,
@@ -43,6 +45,8 @@ const propTypes = {
 };
 
 const defaultProps = {
+  'aria-label': undefined,
+  'aria-labelledby': undefined,
   findDelay: 500, // ms
   matches: undefined,
   minLength: 3,
@@ -530,6 +534,8 @@ export default class AutocompleteInput extends Component {
       embedded,
       readOnly,
       id,
+      'aria-label': ariaLabel,
+      'aria-labelledby': ariaLabelledby,
     } = this.props;
 
     const {
@@ -538,6 +544,8 @@ export default class AutocompleteInput extends Component {
 
     return (
       <LineInput
+        aria-label={ariaLabel}
+        aria-labelledby={ariaLabelledby}
         asText={asText}
         readOnly={readOnly}
         value={getDisplayName(value)}

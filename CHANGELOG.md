@@ -9,6 +9,7 @@
 * Override the SnowTheme in RichTextInput to suppress the quill tooltip, fixing empty link accessibility warnings
 * Improve contrast of placeholder text for FilteringDropdownMenuInput (Criteria 1.4.3)
 * Update minimum inputHeight so all input targets are at least 24x24 px (Criteria 2.5.8)
+* Forward aria-label and aria-labelledby to the read only rendering of AutocompleteInput and DateInput, resolving missing form labels on read only records
 
 ## 2.3.1
 

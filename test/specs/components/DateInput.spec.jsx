@@ -163,6 +163,22 @@ describe('DateInput', function suite() {
     input.value.should.equal('2017-03-11');
   });
 
+  it('should forward aria-label and aria-labelledby to the LineInput when readOnly is true', function test() {
+    render(
+      <DateInput
+        value="2017-03-11T00:00:00.000Z"
+        readOnly
+        aria-label="My label"
+        aria-labelledby="myField-label"
+      />, this.container,
+    );
+
+    const input = this.container.firstElementChild;
+
+    input.getAttribute('aria-label').should.equal('My label');
+    input.getAttribute('aria-labelledby').should.equal('myField-label');
+  });
+
   it('should render a LineInput if asText is true', function test() {
     render(<DateInput value="2017-03-11T00:00:00.000Z" asText />, this.container);
 
