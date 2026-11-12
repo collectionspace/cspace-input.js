@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import LineInput from './LineInput';
 import changeable from '../enhancers/changeable';
 import committable from '../enhancers/committable';
-import { normalizeDateString } from '../helpers/dateHelpers';
+import { normalizeDateString, toLocaleDateString } from '../helpers/dateHelpers';
 import { pathPropType } from '../helpers/pathHelpers';
 import styles from '../../styles/cspace-input/LineInput.css';
 
@@ -56,7 +56,7 @@ function BaseDateInput(props) {
         aria-labelledby={ariaLabelledby}
         id={id}
         asText={asText}
-        value={value}
+        value={toLocaleDateString(value)}
         embedded={embedded}
         readOnly={readOnly}
       />
