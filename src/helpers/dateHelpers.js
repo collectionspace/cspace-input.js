@@ -7,6 +7,23 @@ import 'sugar-date/locales';
 const normalizedDateFormat = 'YYYY-MM-DD';
 
 /**
+ * Convert a dateString, which should be in YYYY-MM-DD format from the DateInput component, to a
+ * locale formatted string. e.g. for en-US, 2022-10-11 becomes 10/11/2022
+
+ * @param {string} dateString - The date string
+ * @returns {string} The locale date format, or null if the input string could not be interpreted
+ * as a date.
+ */
+export const toLocaleDateString = (dateString, locale) => {
+  if (!dateString) {
+    return null;
+  }
+
+  const date = Sugar.Date.create(dateString);
+  return Sugar.Date.isValid(date) ? date.toLocaleDateString(locale) : null;
+};
+
+/**
  * Normalizes an ISO 8601 date string, removing any time and time zone parts, if present.
  * CollectionSpace dates should be considered time zone-less, but they are returned from the REST
  * API as ISO 8601 datetimes with a time portion of T00:00:00Z (UTC). This function may be used to

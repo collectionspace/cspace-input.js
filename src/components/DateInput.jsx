@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import LineInput from './LineInput';
 import changeable from '../enhancers/changeable';
 import committable from '../enhancers/committable';
-import { normalizeDateString } from '../helpers/dateHelpers';
+import { normalizeDateString, toLocaleDateString } from '../helpers/dateHelpers';
 import { pathPropType } from '../helpers/pathHelpers';
 import styles from '../../styles/cspace-input/LineInput.css';
 
@@ -16,6 +16,7 @@ const propTypes = {
   asText: PropTypes.bool,
   readOnly: PropTypes.bool,
   embedded: PropTypes.bool,
+  locale: PropTypes.string,
 };
 
 const defaultProps = {
@@ -27,6 +28,7 @@ const defaultProps = {
   asText: undefined,
   readOnly: undefined,
   embedded: undefined,
+  locale: undefined,
 };
 
 function BaseDateInput(props) {
@@ -39,6 +41,7 @@ function BaseDateInput(props) {
     readOnly,
     parentPath,
     subpath,
+    locale,
     ...remainingProps
   } = props;
 
@@ -56,7 +59,7 @@ function BaseDateInput(props) {
         aria-labelledby={ariaLabelledby}
         id={id}
         asText={asText}
-        value={value}
+        value={toLocaleDateString(value, locale)}
         embedded={embedded}
         readOnly={readOnly}
       />
@@ -107,6 +110,7 @@ export default function DateInput(props) {
     <EnhancedDateInput
       // eslint-disable-next-line react/jsx-props-no-spreading
       {...remainingProps}
+      locale={locale}
       value={normalizeDateString(value, locale) || ''}
     />
   );
