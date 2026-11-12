@@ -16,7 +16,6 @@ const propTypes = {
   asText: PropTypes.bool,
   readOnly: PropTypes.bool,
   embedded: PropTypes.bool,
-  locale: PropTypes.string,
 };
 
 const defaultProps = {
@@ -28,7 +27,6 @@ const defaultProps = {
   asText: undefined,
   readOnly: undefined,
   embedded: undefined,
-  locale: undefined,
 };
 
 function BaseDateInput(props) {
@@ -41,7 +39,6 @@ function BaseDateInput(props) {
     readOnly,
     parentPath,
     subpath,
-    locale,
     ...remainingProps
   } = props;
 
@@ -59,7 +56,7 @@ function BaseDateInput(props) {
         aria-labelledby={ariaLabelledby}
         id={id}
         asText={asText}
-        value={toLocaleDateString(value, locale)}
+        value={toLocaleDateString(value)}
         embedded={embedded}
         readOnly={readOnly}
       />
@@ -110,7 +107,6 @@ export default function DateInput(props) {
     <EnhancedDateInput
       // eslint-disable-next-line react/jsx-props-no-spreading
       {...remainingProps}
-      locale={locale}
       value={normalizeDateString(value, locale) || ''}
     />
   );
