@@ -46,10 +46,14 @@ function BaseDateInput(props) {
   if (asText || readOnly) {
     const {
       id,
+      'aria-label': ariaLabel,
+      'aria-labelledby': ariaLabelledby,
     } = remainingProps;
 
     return (
       <LineInput
+        aria-label={ariaLabel}
+        aria-labelledby={ariaLabelledby}
         id={id}
         asText={asText}
         value={value}

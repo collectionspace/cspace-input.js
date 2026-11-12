@@ -556,6 +556,24 @@ describe('AutocompleteInput', () => {
     input.value.should.equal('David Bowie');
   });
 
+  it('should forward aria-label and aria-labelledby to the LineInput when readOnly is true', function test() {
+    const value = 'urn:cspace:core.collectionspace.org:personauthorities:name(person):item:name(DavidBowie1489220916785)\'David Bowie\'';
+
+    render(
+      <AutocompleteInput
+        value={value}
+        readOnly
+        aria-label="My label"
+        aria-labelledby="myField-label"
+      />, this.container,
+    );
+
+    const input = this.container.firstElementChild;
+
+    input.getAttribute('aria-label').should.equal('My label');
+    input.getAttribute('aria-labelledby').should.equal('myField-label');
+  });
+
   it('should update options when new matches are supplied', function test() {
     render(
       <AutocompleteInput
