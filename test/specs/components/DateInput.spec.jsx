@@ -5,6 +5,7 @@ import { Simulate } from 'react-dom/test-utils';
 import DateInput from '../../../src/components/DateInput';
 import createTestContainer from '../../helpers/createTestContainer';
 import { render } from '../../helpers/renderHelpers';
+import { toLocaleDateString, normalizeDateString } from '../../../src/helpers/dateHelpers';
 import { isInput } from '../../../src/helpers/inputHelpers';
 
 const { expect } = chai;
@@ -154,13 +155,19 @@ describe('DateInput', function suite() {
   });
 
   it('should render a disabled LineInput if readOnly is true', function test() {
-    render(<DateInput value="2017-03-11T00:00:00.000Z" readOnly />, this.container);
+    const value = '2017-03-11T00:00:00.000Z';
+
+    // The DateInput receives a normalized version of an ISO-8601 string so we need to
+    // normalize here as well
+    const localeFormattedValue = toLocaleDateString(normalizeDateString(value));
+
+    render(<DateInput value={value} readOnly />, this.container);
 
     const input = this.container.firstElementChild;
 
     input.className.should.contain('cspace-input-LineInput--normal');
     input.disabled.should.equal(true);
-    input.value.should.equal('2017-03-11');
+    input.value.should.equal(localeFormattedValue);
   });
 
   it('should forward aria-label and aria-labelledby to the LineInput when readOnly is true', function test() {
@@ -180,11 +187,17 @@ describe('DateInput', function suite() {
   });
 
   it('should render a LineInput if asText is true', function test() {
-    render(<DateInput value="2017-03-11T00:00:00.000Z" asText />, this.container);
+    const value = '2017-03-11T00:00:00.000Z';
+
+    // The DateInput receives a normalized version of an ISO-8601 string so we need to
+    // normalize here as well
+    const localeFormattedValue = toLocaleDateString(normalizeDateString(value));
+
+    render(<DateInput value={value} asText />, this.container);
 
     const div = this.container.firstElementChild;
 
     div.className.should.contain('cspace-input-LineInput--normal');
-    div.textContent.should.equal('2017-03-11');
+    div.textContent.should.equal(localeFormattedValue);
   });
 });
